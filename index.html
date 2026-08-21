@@ -93,7 +93,7 @@
       <svg class="mark"><use href="#adastra-mark"></use></svg>
       <h1>AdAstra</h1>
       <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
-      <input id="loginInput" type="text" placeholder="Введите имя" autocomplete="off">
+      <input id="loginInput" type="text" placeholder="Введите имя или код доступа" autocomplete="off">
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
     </div>
   </div>
@@ -235,7 +235,6 @@
     const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
     const demoWallets={USDT:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488',BTC:'bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz',ETH:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488'};
     
-    // Изначально пустые массивы, данные придут с сервера
     let state = {
       role: null, user: '', bill: 20, income: 0, optin: 0, noConsent: 0, invited: 0,
       clients: [], 
@@ -247,23 +246,23 @@
     function toast(m){const e=$('#toast');e.innerHTML=m;e.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.add('hidden'),2800);}
     function today(){return new Date().toLocaleDateString('ru-RU');}
 
-    // === API ФУНКЦИИ (СВЯЗЬ С СЕРВЕРОМ) ===
+    // === API ФУНКЦИИ (СВЯЗЬ С JSONBIN) ===
     async function fetchServerData() {
       try {
         const res = await fetch('/api/admin');
         const data = await res.json();
         if(data.posts) {
-          // Разделяем на рекламу и клиентов
           state.ads = data.posts.filter(p => p.type !== 'client_lead').map(p => ({
             id: p.id, owner: p.owner || 'Клиент', format: p.format || '🖼',
-            title: p.title || 'Без названия', text: p.content || '',
+            title: p.title || 'Без названия', text: p.text || '',
             cta: p.cta || 'Подробнее', contact: p.contact || '',
             langs: p.langs || 7,
             status: p.status === 'approved' ? 'Одобрено' : 
-                    p.status === 'rejected' ? 'Отклонено' : 'На модерации'
+                    p.status === 'rejected' ? 'Отклонено' : 
+                    p.status === 'paid' ? 'Платный' : 'На модерации'
           }));
           
-          state.clients = data.posts.filter(p => p.type === 'client_lead').map(p => ({
+          state.clients = data.posts.filter(p => p.type === 'client_lead' || p.status === 'paid' || p.status === 'free').map(p => ({
             id: p.id,
             name: p.owner || 'Аноним',
             status: p.status === 'paid' ? 'Платный' : 'Бесплатно',
@@ -271,11 +270,10 @@
             date: new Date(p.created_at).toLocaleDateString('ru-RU')
           }));
           
-          // Считаем доход
           state.income = state.clients.reduce((sum, c) => sum + (c.paid || 0), 0);
         }
         renderAll();
-      } catch(e) { console.error(e); }
+      } catch(e) { console.error(e); toast('Ошибка загрузки базы'); }
     }
 
     async function sendAction(action, id, payload = {}) {
@@ -287,7 +285,7 @@
         });
         const result = await res.json();
         if(result.success) {
-          await fetchServerData(); // Обновляем данные с сервера
+          await fetchServerData();
           return true;
         } else {
           toast('Ошибка: ' + (result.error || 'Unknown'));
@@ -304,12 +302,11 @@
       if(v==='584462'){
         state.role='creator'; state.user='Создатель';
         $('#adminTabBtn').classList.remove('hidden');
-        fetchServerData(); // Админ загружает реальные данные
+        fetchServerData();
       } else {
         state.role='client'; state.user=v;
         $('#adminTabBtn').classList.add('hidden');
-        // Клиент тоже может загрузить данные, чтобы видеть ленту
-        fetchServerData(); 
+        fetchServerData();
       }
       
       $('#loginScreen').classList.add('hidden');$('#app').classList.remove('hidden');
@@ -336,9 +333,7 @@
     function renderMyAds(){
       const el=$('#myAds');
       let list = state.ads;
-      // Если клиент - показываем только его (по имени владельца, упрощенно)
       if(state.role !== 'creator') list = list.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
-      
       if(!list.length){el.innerHTML='<div class="empty">Пока пусто. Создай первую рекламу в Студии.</div>';return;}
       el.innerHTML=list.map(adCard).join('');drawMiniQR();
     }
@@ -422,7 +417,6 @@
     // === ДЕЙСТВИЯ ===
     async function markPaid(){
       if(state.role==='client'){
-        // Отправляем на сервер инфо о оплате
         await sendAction('pay', null, { user: state.user, amount: state.bill });
         toast('💳 Оплата зафиксирована!');
       }
@@ -442,7 +436,6 @@
       }
     }
 
-    // Глобальные функции для кнопок в HTML
     window.handleApprove = (id) => sendAction('approve', id);
     window.handleReject = (id) => sendAction('reject', id);
     window.handleMakePaid = (id) => sendAction('make_paid', id);
@@ -478,7 +471,6 @@
     $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
 
     $('#adminTabBtn').classList.add('hidden');
-    // При старте грузим данные (для ленты)
     fetchServerData();
   </script>
 </body>
