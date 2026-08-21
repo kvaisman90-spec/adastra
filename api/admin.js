@@ -1,6 +1,6 @@
-// === ТВОИ НАСТРОЙКИ ===
+// === ТВОИ НАСТРОЙКИ (УЖЕ ВСТАВЛЕНЫ) ===
 const API_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
-const BIN_ID = 'ВСТАВЬ_СЮДА_BIN_ID_ИЗ_ШАГА_1'; // Например: 66c123abc...
+const BIN_ID = '6a87c78ff5f4af5e292f9a29';
 
 export default async function handler(req, res) {
   // Разрешаем доступ с любых телефонов (CORS)
