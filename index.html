@@ -6,8 +6,7 @@
   <title>AdAstra — реклама, которая достаёт до звёзд</title>
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
-    *{box-sizing:border-box;}
-    body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
+    *{box-sizing:border-box;} body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
     button{cursor:pointer;}.hidden{display:none !important;}
     .login-screen{position:relative;min-height:100vh;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;}
     .scatter-field{position:absolute;inset:0;pointer-events:none;}
@@ -21,10 +20,8 @@
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
     .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
     .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
-    .brand-mark{width:46px;height:46px;flex:0 0 auto;}
-    .brand-name{font-size:26px;font-weight:800;letter-spacing:1px;color:#f1df9d;}
-    .brand-sub{font-size:12px;color:#c9b25f;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;} .brand-mark{width:46px;height:46px;flex:0 0 auto;}
+    .brand-name{font-size:26px;font-weight:800;letter-spacing:1px;color:#f1df9d;} .brand-sub{font-size:12px;color:#c9b25f;}
     .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
     .role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08);}
     .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px 13px;border-bottom:1px solid rgba(212,175,55,.18);}
@@ -33,8 +30,7 @@
     main{flex:1;width:min(1220px,calc(100% - 28px));margin:18px auto;}
     .section{display:none;}.section.active{display:block;}
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(120,90,10,.06);margin-bottom:18px;}
-    .card h2{margin:0 0 8px;font-size:28px;color:#211a08;}
-    .card h3{margin:18px 0 10px;font-size:20px;}
+    .card h2{margin:0 0 8px;font-size:28px;color:#211a08;} .card h3{margin:18px 0 10px;font-size:20px;}
     .sub{margin:0 0 16px;color:#7d6c47;line-height:1.45;}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;}
     label{display:block;margin:11px 0 6px;font-weight:700;color:#3c2f12;}
@@ -54,16 +50,12 @@
     .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
     .small-mark{width:58px;height:58px;opacity:.9;}
     .preview-content{padding:14px;display:grid;gap:9px;}
-    .prev-title{font-size:22px;font-weight:800;line-height:1.2;}
-    .prev-text{color:#5f5130;line-height:1.4;}
-    .prev-contact{color:#846d31;font-size:13px;font-weight:700;}
+    .prev-title{font-size:22px;font-weight:800;line-height:1.2;} .prev-text{color:#5f5130;line-height:1.4;} .prev-contact{color:#846d31;font-size:13px;font-weight:700;}
     .banner{min-height:250px;}.post{max-width:430px;margin:0 auto;}.story{max-width:270px;margin:0 auto;min-height:430px;}.story .preview-media{height:230px;}
     .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);}
     .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 25% 20%,rgba(246,226,122,.6),transparent 28%),linear-gradient(135deg,rgba(212,175,55,.32),rgba(18,16,14,.10));font-size:30px;font-weight:800;color:#2c230c;}
-    .ad-body{padding:14px;display:grid;gap:9px;}
-    .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-    .contact{color:#7c6832;font-size:13px;font-weight:700;}
-    .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
+    .ad-body{padding:14px;display:grid;gap:9px;} .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .contact{color:#7c6832;font-size:13px;font-weight:700;} .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
     .stat{padding:15px 14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
     .stat b{display:block;font-size:28px;color:#211a08;margin-bottom:4px;}
@@ -80,19 +72,7 @@
   </style>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f9e79f"></stop><stop offset="55%" stop-color="#d4af37"></stop><stop offset="100%" stop-color="#9c7c0d"></stop></linearGradient>
-      <symbol id="adastra-mark" viewBox="0 0 120 120">
-        <ellipse cx="60" cy="70" rx="48" ry="18" fill="none" stroke="url(#goldGrad)" stroke-width="4" transform="rotate(-22 60 70)"></ellipse>
-        <path d="M60 10 C70 26 76 44 74 66 L60 58 L46 66 C44 44 50 26 60 10 Z" fill="url(#goldGrad)"></path>
-        <path d="M46 60 L32 82 L46 76 Z" fill="url(#goldGrad)"></path>
-        <path d="M74 60 L88 82 L74 76 Z" fill="url(#goldGrad)"></path>
-        <circle cx="60" cy="40" r="6" fill="#ffffff" opacity="0.9"></circle>
-        <path d="M96 20 l3.5 8.5 8.5 3.5 -8.5 3.5 -3.5 8.5 -3.5-8.5 -8.5-3.5 8.5-3.5 z" fill="url(#goldGrad)"></path>
-      </symbol>
-    </defs>
-  </svg>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f9e79f"></stop><stop offset="55%" stop-color="#d4af37"></stop><stop offset="100%" stop-color="#9c7c0d"></stop></linearGradient><symbol id="adastra-mark" viewBox="0 0 120 120"><ellipse cx="60" cy="70" rx="48" ry="18" fill="none" stroke="url(#goldGrad)" stroke-width="4" transform="rotate(-22 60 70)"></ellipse><path d="M60 10 C70 26 76 44 74 66 L60 58 L46 66 C44 44 50 26 60 10 Z" fill="url(#goldGrad)"></path><path d="M46 60 L32 82 L46 76 Z" fill="url(#goldGrad)"></path><path d="M74 60 L88 82 L74 76 Z" fill="url(#goldGrad)"></path><circle cx="60" cy="40" r="6" fill="#ffffff" opacity="0.9"></circle><path d="M96 20 l3.5 8.5 8.5 3.5 -8.5 3.5 -3.5 8.5 -3.5-8.5 -8.5-3.5 8.5-3.5 z" fill="url(#goldGrad)"></path></symbol></defs></svg>
 
   <div id="loginScreen" class="login-screen">
     <div class="scatter-field" aria-hidden="true">
@@ -113,7 +93,7 @@
       <svg class="mark"><use href="#adastra-mark"></use></svg>
       <h1>AdAstra</h1>
       <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
-      <input id="loginInput" type="text" placeholder="Введите имя" autocomplete="off">
+      <input id="loginInput" type="text" placeholder="Введите имя или код админа (584462)" autocomplete="off">
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
     </div>
   </div>
@@ -129,7 +109,7 @@
       <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
       <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
       <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
-      <button class="tab-btn" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
+      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
       <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
     </nav>
     <main>
@@ -215,7 +195,6 @@
               </div>
               <div id="payPaypal" class="pay-box hidden">
                 <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-                <!-- РЕАЛЬНАЯ ССЫЛКА PAYPAL -->
                 <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;">🅿️ Оплатить через PayPal</a>
               </div>
             </div>
@@ -224,20 +203,27 @@
       </section>
       <section id="sites" class="section"><div class="card"><h2>🌐 Площадки</h2><p class="sub">Автопоиск бесплатных мест по всему миру.</p><label>Что рекламируем?</label><input id="siteSearch" type="text" placeholder="Израиль, ремонт, косметика..."><button id="btnFindSites" class="gold-btn" type="button">🔍 Автопоиск</button><h3>Найденные площадки</h3><div id="sitesList" class="grid"></div></div></section>
       <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button">📣 Разослать приглашения</button></div></section>
+      
+      <!-- АДМИН ПАНЕЛЬ -->
       <section id="admin" class="section">
         <div class="card">
           <h2>👑 Панель создателя</h2>
           <div class="stats"><div class="stat"><b id="statClients">0</b>клиентов</div><div class="stat"><b id="statPaid">0</b>платных</div><div class="stat"><b id="statFree">0</b>бесплатных</div><div class="stat"><b id="statIncome">$0</b>доход</div></div>
+          
+          <h3>📥 Новые заявки (Модерация)</h3>
+          <div id="moderationList"></div>
+
           <h3>💰 Кошельки</h3>
           <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
+          
           <h3>Все клиенты</h3>
           <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Заплатил</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
-          <h3>Модерация</h3><div id="moderationList"></div>
         </div>
       </section>
+      
       <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
     </main>
     <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
@@ -248,33 +234,94 @@
     const $=(s,r=document)=>r.querySelector(s);
     const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
     const demoWallets={USDT:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488',BTC:'bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz',ETH:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488'};
-    const state={role:null,user:'',bill:20,income:49,optin:0,noConsent:0,invited:0,
-      clients:[{name:'Demo Client TLV',status:'Платный',paid:49,date:'08.08.2026'},{name:'Best Coffee Haifa',status:'Бесплатно',paid:0,date:'07.08.2026'},{name:'Sunset Beauty',status:'Бесплатно',paid:0,date:'05.08.2026'}],
-      ads:[{id:1,owner:'Demo Client TLV',format:'🖼 Картинка',title:'Скидка 30% на ремонт',text:'Быстро, гарантия.',cta:'Смета',contact:'+972-50-000-00-00',langs:7,status:'Одобрено'},{id:2,owner:'Best Coffee',format:'📝 Карточка',title:'Кофе Эфиопия',text:'Свежая обжарка.',cta:'Заказать',contact:'coffee@ex.com',langs:7,status:'Одобрено'}]
+    
+    // Изначально пустые массивы, данные придут с сервера
+    let state = {
+      role: null, user: '', bill: 20, income: 0, optin: 0, noConsent: 0, invited: 0,
+      clients: [], 
+      ads: []
     };
+
     let toastTimer=null;
     function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function toast(m){const e=$('#toast');e.innerHTML=m;e.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.add('hidden'),2800);}
     function today(){return new Date().toLocaleDateString('ru-RU');}
 
+    // === API ФУНКЦИИ (СВЯЗЬ С СЕРВЕРОМ) ===
+    async function fetchServerData() {
+      try {
+        const res = await fetch('/api/admin');
+        const data = await res.json();
+        if(data.posts) {
+          // Разделяем на рекламу и клиентов
+          state.ads = data.posts.filter(p => p.type !== 'client_lead').map(p => ({
+            id: p.id, owner: p.owner || 'Клиент', format: p.format || '🖼',
+            title: p.title || 'Без названия', text: p.content || '',
+            cta: p.cta || 'Подробнее', contact: p.contact || '',
+            langs: p.langs || 7,
+            status: p.status === 'approved' ? 'Одобрено' : 
+                    p.status === 'rejected' ? 'Отклонено' : 'На модерации'
+          }));
+          
+          state.clients = data.posts.filter(p => p.type === 'client_lead').map(p => ({
+            id: p.id,
+            name: p.owner || 'Аноним',
+            status: p.status === 'paid' ? 'Платный' : 'Бесплатно',
+            paid: p.paid || 0,
+            date: new Date(p.created_at).toLocaleDateString('ru-RU')
+          }));
+          
+          // Считаем доход
+          state.income = state.clients.reduce((sum, c) => sum + (c.paid || 0), 0);
+        }
+        renderAll();
+      } catch(e) { console.error(e); }
+    }
+
+    async function sendAction(action, id, payload = {}) {
+      try {
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ action, id, ...payload })
+        });
+        const result = await res.json();
+        if(result.success) {
+          await fetchServerData(); // Обновляем данные с сервера
+          return true;
+        } else {
+          toast('Ошибка: ' + (result.error || 'Unknown'));
+          return false;
+        }
+      } catch(e) { toast('Ошибка сети'); return false; }
+    }
+
+    // === ЛОГИКА ВХОДА ===
     function enterApp(){
       const v=$('#loginInput').value.trim();
       if(!v){toast('Введите имя');return;}
+      
       if(v==='584462'){
-        state.role='creator';state.user='Создатель';$('#adminTabBtn').classList.remove('hidden');
-      }else{
-        state.role='client';state.user=v;$('#adminTabBtn').classList.add('hidden');
-        if(!state.clients.find(c=>c.name.toLowerCase()===v.toLowerCase())){
-          state.clients.push({name:v,status:'Бесплатно',paid:0,date:today()});
-        }
+        state.role='creator'; state.user='Создатель';
+        $('#adminTabBtn').classList.remove('hidden');
+        fetchServerData(); // Админ загружает реальные данные
+      } else {
+        state.role='client'; state.user=v;
+        $('#adminTabBtn').classList.add('hidden');
+        // Клиент тоже может загрузить данные, чтобы видеть ленту
+        fetchServerData(); 
       }
+      
       $('#loginScreen').classList.add('hidden');$('#app').classList.remove('hidden');
       $('#roleBadge').textContent=state.role==='creator'?'👑 Создатель':'👤 '+state.user;
-      renderAll();toast(state.role==='creator'?'👑 Добро пожаловать, Босс':'🚀 Привет, '+escapeHtml(state.user));
+      renderAll();
+      toast(state.role==='creator'?'👑 Добро пожаловать, Босс':'🚀 Привет, '+escapeHtml(state.user));
     }
 
     function logout(){$('#app').classList.add('hidden');$('#loginScreen').classList.remove('hidden');$('#loginInput').value='';state.role=null;state.user='';}
     function switchTab(t){if(t==='admin'&&state.role!=='creator')t='studio';$$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));$$('.section').forEach(s=>s.classList.toggle('active',s.id===t));}
+    
+    // === ОТРИСОВКА ===
     function updatePreview(){const t=$('#adTitle').value.trim()||'Ваш заголовок',x=$('#adText').value.trim()||'Яркий текст рекламы появится здесь.',c=$('#adCta').value.trim()||'Подробнее',k=$('#adContact').value.trim()||'Контакт';$$('.prev-title').forEach(e=>e.textContent=t);$$('.prev-text').forEach(e=>e.textContent=x);$$('.prev-cta').forEach(e=>e.textContent=c);$$('.prev-contact').forEach(e=>e.textContent=k);}
     function selectedLangsCount(){return $$('input[name="lang"]:checked').length;}
     function hashCode(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
@@ -283,12 +330,76 @@
     function drawFinder(ctx,fx,fy,c){ctx.fillStyle='#141210';ctx.fillRect(fx*c,fy*c,7*c,7*c);ctx.fillStyle='#fff';ctx.fillRect((fx+1)*c,(fy+1)*c,5*c,5*c);ctx.fillStyle='#141210';ctx.fillRect((fx+2)*c,(fy+2)*c,3*c,3*c);}
     function drawQR(text,canvas,cell=8){if(!canvas)return;const s=25;canvas.width=s*cell;canvas.height=s*cell;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);const rand=mulberry32(hashCode(text||'AdAstra'));ctx.fillStyle='#141210';for(let y=0;y<s;y++)for(let x=0;x<s;x++){if(inFinderZone(x,y,s))continue;if(rand()<0.44)ctx.fillRect(x*cell,y*cell,cell,cell);}drawFinder(ctx,0,0,cell);drawFinder(ctx,s-7,0,cell);drawFinder(ctx,0,s-7,cell);}
     function drawMiniQR(){$$('.qr-mini').forEach(c=>drawQR(c.dataset.qr||'AdAstra',c,3));}
+    
     function adCard(a){return `<div class="ad-card"><div class="ad-visual">${escapeHtml(a.format)}</div><div class="ad-body"><h3 style="margin:0">${escapeHtml(a.title)}</h3><p class="sub" style="margin:0">${escapeHtml(a.text||'')}</p><div class="ad-actions"><button class="gold-btn small" type="button">${escapeHtml(a.cta||'Подробнее')}</button><span class="contact">${escapeHtml(a.contact||'')}</span></div><div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">${escapeHtml(a.status)}</span></div><canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas></div></div>`;}
-    function renderMyAds(){const el=$('#myAds');let list=state.ads;if(state.role!=='creator')list=list.filter(a=>a.owner.toLowerCase()===state.user.toLowerCase());if(!list.length){el.innerHTML='<div class="empty">Пока пусто. Создай первую рекламу в Студии.</div>';return;}el.innerHTML=list.map(adCard).join('');drawMiniQR();}
-    function renderFeed(){const approved=state.ads.filter(a=>a.status==='Одобрено');const el=$('#feedList');if(!approved.length){el.innerHTML='<div class="empty">Пока нет одобренной рекламы.</div>';return;}el.innerHTML=approved.map(adCard).join('');drawMiniQR();$('#qrAds').innerHTML=approved.map(adCard).join('');drawMiniQR();}
-    function renderModeration(){const pending=state.ads.filter(a=>a.status==='На модерации');const el=$('#moderationList');if(!pending.length){el.innerHTML='<div class="empty">Нет заявок на модерацию.</div>';return;}el.innerHTML=pending.map(a=>`<div class="card" style="margin-bottom:12px"><h3 style="margin-top:0">${escapeHtml(a.title)}</h3><p class="sub">${escapeHtml(a.text||'')}</p><div class="chips"><span class="chip">От: ${escapeHtml(a.owner)}</span><span class="chip">${escapeHtml(a.format)}</span><span class="chip">🌍 ${escapeHtml(a.langs)} языков</span></div><div class="ad-actions"><button class="gold-btn small" data-approve="${a.id}" type="button">✅ Одобрить</button><button class="ghost-btn small" data-reject="${a.id}" type="button">❌ Отклонить</button></div></div>`).join('');}
-    function renderClients(){$('#clientsTableBody').innerHTML=state.clients.map(c=>`<tr><td>${escapeHtml(c.name)}</td><td>${escapeHtml(c.status)}</td><td><b>$${c.paid||0}</b></td><td>${escapeHtml(c.date)}</td><td>${c.status==='Бесплатно'?`<button class="gold-btn small" data-make-paid="${escapeHtml(c.name)}" type="button">Сделать платным</button>`:`<button class="ghost-btn small" data-make-free="${escapeHtml(c.name)}" type="button">Сделать бесплатным</button>`}</td></tr>`).join('');}
-    function updateAdminStats(){$('#statClients').textContent=state.clients.length;$('#statPaid').textContent=state.clients.filter(c=>c.status==='Платный').length;$('#statFree').textContent=state.clients.filter(c=>c.status!=='Платный').length;$('#statIncome').textContent='$'+state.income;}
+    
+    function renderMyAds(){
+      const el=$('#myAds');
+      let list = state.ads;
+      // Если клиент - показываем только его (по имени владельца, упрощенно)
+      if(state.role !== 'creator') list = list.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
+      
+      if(!list.length){el.innerHTML='<div class="empty">Пока пусто. Создай первую рекламу в Студии.</div>';return;}
+      el.innerHTML=list.map(adCard).join('');drawMiniQR();
+    }
+    
+    function renderFeed(){
+      const approved=state.ads.filter(a=>a.status==='Одобрено');
+      const el=$('#feedList');
+      if(!approved.length){el.innerHTML='<div class="empty">Пока нет одобренной рекламы.</div>';return;}
+      el.innerHTML=approved.map(adCard).join('');drawMiniQR();
+      $('#qrAds').innerHTML=approved.map(adCard).join('');drawMiniQR();
+    }
+
+    function renderModeration(){
+      const pending = state.ads.filter(a => a.status === 'На модерации');
+      const el = $('#moderationList');
+      if(!pending.length){ el.innerHTML = '<div class="empty">Нет заявок на модерацию.</div>'; return; }
+      
+      el.innerHTML = pending.map(a => `
+        <div class="card" style="margin-bottom:12px; border-left: 4px solid orange;">
+          <h3 style="margin-top:0">${escapeHtml(a.title)}</h3>
+          <p class="sub">${escapeHtml(a.text || '')}</p>
+          <div class="chips">
+            <span class="chip">От: ${escapeHtml(a.owner)}</span>
+            <span class="chip">${escapeHtml(a.format)}</span>
+          </div>
+          <div class="ad-actions">
+            <button class="gold-btn small" onclick="handleApprove(${a.id})" type="button">✅ Одобрить</button>
+            <button class="ghost-btn small" onclick="handleReject(${a.id})" type="button">❌ Отклонить</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderClients(){
+      const tbody = $('#clientsTableBody');
+      if(!state.clients.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Нет клиентов</td></tr>'; return; }
+      
+      tbody.innerHTML = state.clients.map(c => `
+        <tr>
+          <td>${escapeHtml(c.name)}</td>
+          <td>${escapeHtml(c.status)}</td>
+          <td><b>$${c.paid || 0}</b></td>
+          <td>${escapeHtml(c.date)}</td>
+          <td>
+            ${c.status === 'Бесплатно' 
+              ? `<button class="gold-btn small" onclick="handleMakePaid(${c.id})" type="button">Сделать платным</button>`
+              : `<button class="ghost-btn small" onclick="handleMakeFree(${c.id})" type="button">Сделать бесплатным</button>`
+            }
+            <button class="ghost-btn small" style="border-color:red; color:red; margin-left:5px;" onclick="handleDeleteClient(${c.id})" type="button">🗑 Удалить</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function updateAdminStats(){
+      $('#statClients').textContent = state.clients.length;
+      $('#statPaid').textContent = state.clients.filter(c => c.status === 'Платный').length;
+      $('#statFree').textContent = state.clients.filter(c => c.status !== 'Платный').length;
+      $('#statIncome').textContent = '$' + state.income;
+    }
+    
     function updateSubs(){$('#optinCount').textContent=state.optin;$('#noConsentCount').textContent=state.noConsent;$('#invitedCount').textContent=state.invited;}
     
     function calcBill(){
@@ -298,10 +409,7 @@
       const surcharge=qty>3?(qty-3)*0.02:0;
       const total=Math.round(base*(1+surcharge));
       state.bill=total;
-      
-      // Обновляем ссылку PayPal с реальной суммой
       $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
-      
       $('#calcResult').innerHTML=`Срок: <b>${days} дн.</b> · Объём: <b>${qty} шт</b><br>База: <b>$${base}</b> · Надбавка: <b>+${Math.round(surcharge*100)}%</b><br><span class="total">Итого: $${total}</span>`;
       return total;
     }
@@ -310,10 +418,42 @@
     function getWallet(c){const i=$('#wallet'+c);return i&&i.value.trim()?i.value.trim():demoWallets[c];}
     function fallbackCopy(t){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('📋 Скопировано');}catch(e){toast('Скопируй вручную');}a.remove();}
     function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>toast('📋 Скопировано')).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
-    function markPaid(){if(state.role==='client'){const c=state.clients.find(x=>x.name.toLowerCase()===state.user.toLowerCase());if(c){c.status='Платный';c.paid=(c.paid||0)+state.bill;}else state.clients.push({name:state.user,status:'Платный',paid:state.bill,date:today()});}state.income+=state.bill;updateAdminStats();renderClients();}
-    function publishAd(){const title=$('#adTitle').value.trim(),text=$('#adText').value.trim(),cta=$('#adCta').value.trim(),contact=$('#adContact').value.trim(),format=$('#adFormat').value,langs=selectedLangsCount();if(!title){toast('Добавь заголовок рекламы');return;}state.ads.unshift({id:Date.now(),owner:state.user||'Клиент',format,title,text,cta,contact,langs,status:'На модерации'});renderMyAds();renderModeration();toast('🚀 Реклама отправлена на модерацию');}
+    
+    // === ДЕЙСТВИЯ ===
+    async function markPaid(){
+      if(state.role==='client'){
+        // Отправляем на сервер инфо о оплате
+        await sendAction('pay', null, { user: state.user, amount: state.bill });
+        toast('💳 Оплата зафиксирована!');
+      }
+    }
+
+    async function publishAd(){
+      const title=$('#adTitle').value.trim(),text=$('#adText').value.trim(),cta=$('#adCta').value.trim(),contact=$('#adContact').value.trim(),format=$('#adFormat').value,langs=selectedLangsCount();
+      if(!title){toast('Добавь заголовок рекламы');return;}
+      
+      const success = await sendAction('publish', null, {
+        owner: state.user, format, title, text, cta, contact, langs
+      });
+      
+      if(success) {
+        toast('🚀 Реклама отправлена на модерацию');
+        $('#adTitle').value=''; $('#adText').value='';
+      }
+    }
+
+    // Глобальные функции для кнопок в HTML
+    window.handleApprove = (id) => sendAction('approve', id);
+    window.handleReject = (id) => sendAction('reject', id);
+    window.handleMakePaid = (id) => sendAction('make_paid', id);
+    window.handleMakeFree = (id) => sendAction('make_free', id);
+    window.handleDeleteClient = (id) => {
+      if(confirm('Удалить клиента?')) sendAction('delete', id);
+    };
+
     function renderAll(){updatePreview();renderMyAds();renderFeed();renderModeration();renderClients();updateAdminStats();updateSubs();calcBill();renderSites('');drawQR($('#qrText').value,$('#qrCanvas'),8);}
 
+    // === EVENT LISTENERS ===
     $('#btnEnter').addEventListener('click',enterApp);
     $('#loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterApp();});
     $('#btnLogout').addEventListener('click',logout);
@@ -327,27 +467,19 @@
     $('#daysInput').addEventListener('input',calcBill);$('#qtyInput').addEventListener('input',calcBill);
     $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт выставлен на $'+state.bill);});
     $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{$$('.pay-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#payCard').classList.toggle('hidden',b.dataset.pay!=='card');$('#payCrypto').classList.toggle('hidden',b.dataset.pay!=='crypto');$('#payPaypal').classList.toggle('hidden',b.dataset.pay!=='paypal');}));
-    $('#cryptoCoin').addEventListener('change',function(){
-      const coin=this.value.split(' ')[0];
-      $('#cryptoWallet').value=getWallet(coin);
-    });
-    $('#btnPayCard').addEventListener('click',()=>{markPaid();toast('💳 Карта → USDT. Сумма: $'+state.bill);});
-    $('#btnCryptoPaid').addEventListener('click',()=>{markPaid();toast('₿ Перевод получен. Сумма: $'+state.bill);});
-    
-    // PayPal кнопка теперь работает как ссылка, но мы можем добавить трекинг в админку при клике (опционально)
-    // Сама оплата происходит на стороне PayPal
-    
+    $('#cryptoCoin').addEventListener('change',function(){const coin=this.value.split(' ')[0];$('#cryptoWallet').value=getWallet(coin);});
+    $('#btnPayCard').addEventListener('click',()=>{markPaid();});
+    $('#btnCryptoPaid').addEventListener('click',()=>{markPaid();});
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
     $('#sitesList').addEventListener('click',e=>{const b=e.target.closest('[data-site]');if(!b)return;toast('🌐 Подготовка: '+escapeHtml(b.dataset.site));});
     $('#btnInvite').addEventListener('click',()=>{state.invited+=25;setTimeout(()=>{state.optin+=3;updateSubs();},800);updateSubs();toast('📣 Приглашения отправлены');});
-    $('#moderationList').addEventListener('click',e=>{const ap=e.target.closest('[data-approve]'),rj=e.target.closest('[data-reject]');if(ap){const id=Number(ap.dataset.approve),ad=state.ads.find(a=>a.id===id);if(ad){ad.status='Одобрено';renderAll();toast('✅ Реклама одобрена');}}if(rj){const id=Number(rj.dataset.reject);state.ads=state.ads.filter(a=>a.id!==id);renderAll();toast('❌ Реклама отклонена');}});
-    $('#clientsTableBody').addEventListener('click',e=>{const mp=e.target.closest('[data-make-paid]'),mf=e.target.closest('[data-make-free]');if(mp){const n=mp.dataset.makePaid,c=state.clients.find(x=>x.name===n);if(c){c.status='Платный';renderClients();updateAdminStats();toast('💰 '+n+' → Платный');}}if(mf){const n=mf.dataset.makeFree,c=state.clients.find(x=>x.name===n);if(c){c.status='Бесплатно';renderClients();updateAdminStats();toast('🎁 '+n+' → Бесплатно');}}});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
     $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
 
     $('#adminTabBtn').classList.add('hidden');
-    renderAll();
+    // При старте грузим данные (для ленты)
+    fetchServerData();
   </script>
 </body>
 </html>
