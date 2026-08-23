@@ -1,9 +1,9 @@
-const CACHE_NAME = 'adastra-app-v4';
+const CACHE_NAME = 'adastra-app-v5';
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon.png',
+  '/icon-v2.png',
   '/privacy.html',
   '/terms.html',
   '/payment.html'
@@ -27,7 +27,6 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   if (event.request.url.includes('/api/')) return;
-  
   event.respondWith(
     caches.match(event.request).then(response => response || fetch(event.request))
   );
