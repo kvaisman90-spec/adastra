@@ -299,6 +299,9 @@
           <div id="msgsList"></div>
 
           <h3>Модерация</h3><div id="moderationList"></div>
+
+          <h3>Все объявления (включая отклонённые)</h3>
+          <div id="allAdsAdminList"></div>
           
           <h3>Все клиенты</h3>
           <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Заплатил</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
@@ -392,7 +395,7 @@
           c.width=w;c.height=h;
           c.getContext('2d').drawImage(img,0,0,w,h);
           currentImageBase64=c.toDataURL('image/jpeg',0.65);
-          $$('.preview-media').forEach(b=>{b.innerHTML=`<img src="${currentImageBase64}" alt="Креатив">`;});
+          $$('.preview-media').forEach(b=>{b.innerHTML='<img src="'+currentImageBase64+'" alt="Креатив">';});
           toast('📁 Картинка загружена');
         };
         img.src=ev.target.result;
@@ -404,11 +407,11 @@
       const title=$('#adTitle').value.trim(),text=$('#adText').value.trim(),cta=$('#adCta').value.trim(),contact=$('#adContact').value.trim(),format=$('#adFormat').value;
       if(!title){toast('Добавь заголовок рекламы');return;}
       const btn=$('#btnPublish');btn.disabled=true;btn.textContent='⏳ Отправка...';
-      const ok=await sendAction('publish',null,{owner:state.user,title,text,contact,image:currentImageBase64,format});
+      const ok=await sendAction('publish',null,{owner:state.user,title,text,cta,contact,image:currentImageBase64,format});
       btn.disabled=false;btn.textContent='🚀 Опубликовать рекламу';
       if(ok){
         toast('🚀 Реклама отправлена на модерацию');
-        $('#adTitle').value='';$('#adText').value='';$('#adContact').value='';
+        $('#adTitle').value='';$('#adText').value='';$('#adCta').value='';$('#adContact').value='';
         currentImageBase64=null;
         $$('.preview-media').forEach(b=>{b.innerHTML='<svg class="small-mark"><use href="#adastra-mark"></use></svg>';});
         updatePreview();
@@ -437,7 +440,7 @@
       const total=Math.round(base*(1+surcharge));
       currentBill=total;
       $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
-      $('#calcResult').innerHTML=`Срок: <b>${days} дн.</b> · Объём: <b>${qty} шт</b><br>База: <b>$${base}</b> · Надбавка: <b>+${Math.round(surcharge*100)}%</b><br><span class="total">Итого: $${total}</span>`;
+      $('#calcResult').innerHTML='Срок: <b>'+days+' дн.</b> · Объём: <b>'+qty+' шт</b><br>База: <b>$'+base+'</b> · Надбавка: <b>+'+Math.round(surcharge*100)+'%</b><br><span class="total">Итого: $'+total+'</span>';
       return total;
     }
 
@@ -449,7 +452,8 @@
     function drawMiniQR(){$$('.qr-mini').forEach(c=>drawQR(c.dataset.qr||'AdAstra',c,3));}
 
     function adCard(a){
-      return `<div class="ad-card"><div class="ad-visual">${a.image?`<img src="${a.image}" style="width:100%;height:100%;object-fit:cover"/>`:escapeHtml(a.format||'📷')}</div><div class="ad-body"><h3 style="margin:0">${escapeHtml(a.title)}</h3><p class="sub" style="margin:0">${escapeHtml(a.text||'')}</p><div class="ad-actions"><button class="gold-btn small" type="button">${escapeHtml(a.cta||'Подробнее')}</button><span class="contact">${escapeHtml(a.contact||'')}</span></div><div class="chips"><span class="chip">🌍 7 языков</span>${statusBadge(a.status)}</div><canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas></div></div>`;
+      const imgHtml=a.image?'<img src="'+a.image+'" style="width:100%;height:100%;object-fit:cover"/>':escapeHtml(a.format||'📷');
+      return '<div class="ad-card"><div class="ad-visual">'+imgHtml+'</div><div class="ad-body"><h3 style="margin:0">'+escapeHtml(a.title)+'</h3><p class="sub" style="margin:0">'+escapeHtml(a.text||'')+'</p><div class="ad-actions"><button class="gold-btn small" type="button">'+escapeHtml(a.cta||'Подробнее')+'</button><span class="contact">'+escapeHtml(a.contact||'')+'</span></div><div class="chips"><span class="chip">🌍 7 языков</span>'+statusBadge(a.status)+'</div><canvas class="qr-mini" data-qr="'+escapeHtml(a.title||'AdAstra')+'"></canvas></div></div>';
     }
 
     function renderMyAds(){
@@ -475,35 +479,53 @@
       const pending=state.ads.filter(a=>a.status==='pending');
       const el=$('#moderationList');
       if(!pending.length){el.innerHTML='<div class="empty">Нет заявок на модерацию.</div>';return;}
-      el.innerHTML=pending.map(a=>`<div class="card" style="margin-bottom:12px"><h3 style="margin-top:0">${escapeHtml(a.title)}</h3><p class="sub">${escapeHtml(a.text||'')}</p><div class="chips"><span class="chip">От: ${escapeHtml(a.owner)}</span><span class="chip">${escapeHtml(a.format||'')}</span></div><div class="ad-actions"><button class="gold-btn small" onclick="approveAd(${a.id}, 'paid')" type="button">✅ Одобрить (Платно)</button><button class="ghost-btn small" onclick="approveAd(${a.id}, 'free')" type="button">✅ Одобрить (Бесплатно)</button><button class="red-btn small" onclick="rejectAd(${a.id})" type="button">❌ Отклонить</button></div></div>`).join('');
+      el.innerHTML=pending.map(function(a){
+        var imgBlock=a.image?'<div style="margin:8px 0"><img src="'+a.image+'" style="max-width:200px;max-height:150px;border-radius:12px;border:1px solid #ddd"/></div>':'';
+        return '<div class="card" style="margin-bottom:12px"><h3 style="margin-top:0">'+escapeHtml(a.title)+'</h3>'+imgBlock+'<p class="sub">'+escapeHtml(a.text||'')+'</p><p class="sub"><b>Кнопка:</b> '+escapeHtml(a.cta||'—')+' | <b>Контакт:</b> '+escapeHtml(a.contact||'—')+'</p><div class="chips"><span class="chip">От: '+escapeHtml(a.owner)+'</span><span class="chip">'+escapeHtml(a.format||'')+'</span></div><div class="ad-actions"><button class="gold-btn small" onclick="approveAd('+a.id+', \'paid\')" type="button">✅ Одобрить (Платно)</button><button class="ghost-btn small" onclick="approveAd('+a.id+', \'free\')" type="button">✅ Одобрить (Бесплатно)</button><button class="red-btn small" onclick="rejectAd('+a.id+')" type="button">❌ Отклонить</button></div></div>';
+      }).join('');
+    }
+
+    function renderAllAdsAdmin(){
+      var el=$('#allAdsAdminList');
+      if(!state.ads.length){el.innerHTML='<div class="empty">Нет объявлений.</div>';return;}
+      el.innerHTML=[].concat(state.ads).reverse().map(function(a){
+        var imgBlock=a.image?'<div style="margin:6px 0"><img src="'+a.image+'" style="max-width:120px;max-height:80px;border-radius:8px;border:1px solid #ddd"/></div>':'';
+        return '<div class="card" style="margin-bottom:10px;padding:12px"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><strong>'+escapeHtml(a.title)+'</strong> <span style="font-size:12px;color:#888">от '+escapeHtml(a.owner)+'</span></div>'+statusBadge(a.status)+'</div>'+imgBlock+'<p class="sub" style="margin:4px 0;font-size:13px">'+escapeHtml(a.text||'')+'</p><div class="ad-actions" style="margin-top:6px"><button class="gold-btn small" onclick="approveAd('+a.id+', \'paid\')" type="button">✅ Платно</button><button class="ghost-btn small" onclick="approveAd('+a.id+', \'free\')" type="button">✅ Бесплатно</button><button class="red-btn small" onclick="rejectAd('+a.id+')" type="button">❌ Отклонить</button><button class="red-btn small" onclick="deleteAd('+a.id+')" type="button">🗑 Удалить навсегда</button></div></div>';
+      }).join('');
     }
 
     function renderClients(){
-      const clientsMap = {};
-      state.ads.forEach(a => {
+      var clientsMap = {};
+      state.ads.forEach(function(a) {
         if(!clientsMap[a.owner]) clientsMap[a.owner] = {name:a.owner, status:'Бесплатно', paid:0, date:a.created_at?new Date(a.created_at).toLocaleDateString('ru-RU'):today()};
         if(a.status==='paid') {clientsMap[a.owner].status='Платный'; clientsMap[a.owner].paid+=49;}
+        else if(a.status==='approved_paid') {clientsMap[a.owner].status='Ожидает оплаты';}
+        else if(a.status==='rejected') {clientsMap[a.owner].status='Отклонено';}
       });
-      const clients = Object.values(clientsMap);
+      var clients = Object.values(clientsMap);
       
-      $('#clientsTableBody').innerHTML=clients.map(c=>`<tr><td>${escapeHtml(c.name)}</td><td>${statusBadge(c.status==='Платный'?'paid':'approved_free')}</td><td><b>$${c.paid||0}</b></td><td>${escapeHtml(c.date)}</td><td><button class="ghost-btn small" type="button">Управление</button></td></tr>`).join('');
+      $('#clientsTableBody').innerHTML=clients.map(function(c){
+        var st=c.status==='Платный'?'paid':c.status==='Ожидает оплаты'?'approved_paid':c.status==='Отклонено'?'rejected':'approved_free';
+        return '<tr><td>'+escapeHtml(c.name)+'</td><td>'+statusBadge(st)+'</td><td><b>$'+(c.paid||0)+'</b></td><td>'+escapeHtml(c.date)+'</td><td><button class="ghost-btn small" type="button">Управление</button></td></tr>';
+      }).join('');
     }
 
     function updateAdminStats(){
-      const pending=state.ads.filter(a=>a.status==='pending').length;
-      const paid=state.ads.filter(a=>a.status==='paid').length;
-      const free=state.ads.filter(a=>a.status==='approved_free').length;
-      const unread=state.messages.filter(m=>!m.read).length;
+      var pending=state.ads.filter(function(a){return a.status==='pending'}).length;
+      var paid=state.ads.filter(function(a){return a.status==='paid'}).length;
+      var free=state.ads.filter(function(a){return a.status==='approved_free'}).length;
+      var rejected=state.ads.filter(function(a){return a.status==='rejected'}).length;
+      var unread=state.messages.filter(function(m){return !m.read}).length;
       
-      $('#statClients').textContent=new Set(state.ads.map(a=>a.owner)).size;
+      $('#statClients').textContent=new Set(state.ads.map(function(a){return a.owner})).size;
       $('#statPaid').textContent=paid;
       $('#statFree').textContent=free;
       $('#statIncome').textContent='$'+(paid*49);
       $('#statPending').textContent=pending;
-      $('#statMsgs').textContent=state.messages.length;
+      $('#statMsgs').textContent=unread;
       
-      const badge=$('#adminBadge');
-      const total=pending+unread;
+      var badge=$('#adminBadge');
+      var total=pending+unread;
       if(total>0){badge.textContent=total;badge.classList.remove('hidden')}else{badge.classList.add('hidden')}
     }
 
@@ -512,16 +534,21 @@
     }
 
     function renderMessages(){
-      const el=$('#msgsList');
+      var el=$('#msgsList');
       if(!state.messages.length){el.innerHTML='<div class="empty">Нет сообщений</div>';return;}
-      el.innerHTML=[...state.messages].reverse().map(m=>`<div class="row-item ${m.read?'msg-read':'msg-unread'}"><div style="flex:1"><strong>${escapeHtml(m.from)}</strong> <span style="font-size:12px;color:#888">${new Date(m.created_at).toLocaleString('ru-RU')}</span>${!m.read?' <span style="background:var(--gold);color:#000;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:800">НОВОЕ</span>':''}<p style="margin:5px 0 0;font-size:14px;color:#333">${escapeHtml(m.text)}</p></div><div style="display:flex;gap:6px">${!m.read?`<button class="gold-btn small" onclick="markRead(${m.id})" type="button">✅ Прочитано</button>`:''}<button class="red-btn small" onclick="deleteMsg(${m.id})" type="button">🗑</button></div></div>`).join('');
+      el.innerHTML=[].concat(state.messages).reverse().map(function(m){
+        var cls=m.read?'msg-read':'msg-unread';
+        var newBadge=!m.read?' <span style="background:var(--gold);color:#000;padding:2px 7px;border-radius:99px;font-size:10px;font-weight:800">НОВОЕ</span>':'';
+        var readBtn=!m.read?'<button class="gold-btn small" onclick="markRead('+m.id+')" type="button">✅ Прочитано</button>':'';
+        return '<div class="row-item '+cls+'"><div style="flex:1"><strong>'+escapeHtml(m.from)+'</strong> <span style="font-size:12px;color:#888">'+new Date(m.created_at).toLocaleString('ru-RU')+'</span>'+newBadge+'<p style="margin:5px 0 0;font-size:14px;color:#333">'+escapeHtml(m.text)+'</p></div><div style="display:flex;gap:6px">'+readBtn+'<button class="red-btn small" onclick="deleteMsg('+m.id+')" type="button">🗑</button></div></div>';
+      }).join('');
     }
 
     function renderSites(q){
-      const sites=['Google Business Profile','Pinterest Business','Quora Spaces','Reddit communities','Telegram catalogs','Yelp','Hotmaps Israel','Foursquare','Facebook Groups','Local directories'];
-      const el=$('#sitesList');
+      var sites=['Google Business Profile','Pinterest Business','Quora Spaces','Reddit communities','Telegram catalogs','Yelp','Hotmaps Israel','Foursquare','Facebook Groups','Local directories'];
+      var el=$('#sitesList');
       if(!q){el.innerHTML='<div class="empty">Нажми «Автопоиск», чтобы найти площадки.</div>';return;}
-      el.innerHTML=sites.map(s=>`<div class="card" style="margin-bottom:0"><h3 style="margin-top:0">${escapeHtml(s)}</h3><p class="sub">Бесплатно · подходит для: ${escapeHtml(q)}</p><button class="ghost-btn small" type="button">Подготовить размещение</button></div>`).join('');
+      el.innerHTML=sites.map(function(s){return '<div class="card" style="margin-bottom:0"><h3 style="margin-top:0">'+escapeHtml(s)+'</h3><p class="sub">Бесплатно · подходит для: '+escapeHtml(q)+'</p><button class="ghost-btn small" type="button">Подготовить размещение</button></div>';}).join('');
     }
 
     function renderAll(){
@@ -529,6 +556,7 @@
       renderMyAds();
       renderFeed();
       renderModeration();
+      renderAllAdsAdmin();
       renderClients();
       updateAdminStats();
       updateSubs();
@@ -537,41 +565,42 @@
       drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
-    window.approveAd=(id, type)=>sendAction(type === 'free' ? 'approve_free' : 'approve_paid', id);
-    window.rejectAd=(id)=>sendAction('reject',id);
-    window.makePaid=(id)=>sendAction('make_paid',id);
-    window.makeFree=(id)=>sendAction('make_free',id);
-    window.deleteMsg=(id)=>sendAction('delete_msg',id);
-    window.markRead=(id)=>sendAction('mark_read',id);
+    window.approveAd=function(id, type){sendAction(type === 'free' ? 'approve_free' : 'approve_paid', id)};
+    window.rejectAd=function(id){sendAction('reject',id)};
+    window.deleteAd=function(id){sendAction('delete',id)};
+    window.makePaid=function(id){sendAction('make_paid',id)};
+    window.makeFree=function(id){sendAction('make_free',id)};
+    window.deleteMsg=function(id){sendAction('delete_msg',id)};
+    window.markRead=function(id){sendAction('mark_read',id)};
 
     $('#btnEnter').addEventListener('click',enterApp);
-    $('#loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterApp();});
+    $('#loginInput').addEventListener('keydown',function(e){if(e.key==='Enter')enterApp();});
     $('#btnLogout').addEventListener('click',logout);
-    $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-    ['adTitle','adText','adCta','adContact','adFormat'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
-    $$('.preview-tab-btn').forEach(b=>b.addEventListener('click',()=>{$$('.preview-tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.preview-box').forEach(x=>x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview));}));
-    $('#btnTranslate').addEventListener('click',()=>{const c=$$('input[name="lang"]:checked').length;if(!c){toast('Выбери хотя бы один язык');return;}toast('🌐 Переведено на '+c+' языков');});
+    $$('.tab-btn').forEach(function(b){b.addEventListener('click',function(){switchTab(b.dataset.tab)})});
+    ['adTitle','adText','adCta','adContact','adFormat'].forEach(function(id){$('#'+id).addEventListener('input',updatePreview)});
+    $$('.preview-tab-btn').forEach(function(b){b.addEventListener('click',function(){$$('.preview-tab-btn').forEach(function(x){x.classList.remove('active')});b.classList.add('active');$$('.preview-box').forEach(function(x){x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview)})})});
+    $('#btnTranslate').addEventListener('click',function(){var c=$$('input[name="lang"]:checked').length;if(!c){toast('Выбери хотя бы один язык');return;}toast('🌐 Переведено на '+c+' языков');});
     $('#btnPublish').addEventListener('click',publishAd);
-    $$('.term').forEach(b=>b.addEventListener('click',()=>{$$('.term').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#daysInput').value=b.dataset.days;$('#qtyInput').value=b.dataset.qty||1;calcBill();}));
+    $$('.term').forEach(function(b){b.addEventListener('click',function(){$$('.term').forEach(function(x){x.classList.remove('active')});b.classList.add('active');$('#daysInput').value=b.dataset.days;$('#qtyInput').value=b.dataset.qty||1;calcBill();})});
     $('#daysInput').addEventListener('input',calcBill);$('#qtyInput').addEventListener('input',calcBill);
-    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт выставлен на $'+currentBill);});
-    $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{$$('.pay-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#payCard').classList.toggle('hidden',b.dataset.pay!=='card');$('#payCrypto').classList.toggle('hidden',b.dataset.pay!=='crypto');$('#payPaypal').classList.toggle('hidden',b.dataset.pay!=='paypal');}));
-    $('#btnPayCard').addEventListener('click',()=>{toast('💳 Оплата картой обрабатывается...');});
-    $('#btnCryptoPaid').addEventListener('click',()=>{toast('✅ Заявка отправлена админу. Ожидайте подтверждения.');});
-    $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t){navigator.clipboard.writeText(t.value).then(()=>toast('📋 Скопировано')).catch(()=>toast('Ошибка копирования'));}}));
-    $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены');});
+    $('#btnCalc').addEventListener('click',function(){calcBill();toast('🧾 Счёт выставлен на $'+currentBill);});
+    $$('.pay-tab').forEach(function(b){b.addEventListener('click',function(){$$('.pay-tab').forEach(function(x){x.classList.remove('active')});b.classList.add('active');$('#payCard').classList.toggle('hidden',b.dataset.pay!=='card');$('#payCrypto').classList.toggle('hidden',b.dataset.pay!=='crypto');$('#payPaypal').classList.toggle('hidden',b.dataset.pay!=='paypal');})});
+    $('#btnPayCard').addEventListener('click',function(){toast('💳 Оплата картой обрабатывается...');});
+    $('#btnCryptoPaid').addEventListener('click',function(){toast('✅ Заявка отправлена админу. Ожидайте подтверждения.');});
+    $$('.copy-btn').forEach(function(b){b.addEventListener('click',function(){var t=$(b.dataset.copyTarget);if(t){navigator.clipboard.writeText(t.value).then(function(){toast('📋 Скопировано')}).catch(function(){toast('Ошибка копирования')});}})});
+    $('#btnFindSites').addEventListener('click',function(){var q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
+    $('#btnInvite').addEventListener('click',function(){toast('📣 Приглашения отправлены');});
     $('#btnSub').addEventListener('click',subscribe);
     $('#btnSupport').addEventListener('click',sendSupport);
-    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
+    $('#btnQR').addEventListener('click',function(){drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
+    $('#btnDownloadQR').addEventListener('click',function(){var c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
 
     $('#adminTabBtn').classList.add('hidden');
     fetchData();
     
     if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').catch(e => console.log('SW fail:', e));
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').catch(function(e){ console.log('SW fail:', e) });
         });
     }
   </script>
