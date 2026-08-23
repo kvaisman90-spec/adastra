@@ -42,13 +42,13 @@ export default async function handler(req, res) {
         });
       }
       
-      // 2. АДМИН: Одобрить как ПЛАТНОЕ (Клиент должен оплатить)
+      // 2. АДМИН: Одобрить как ПЛАТНОЕ
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_paid'; item.paid = false; }
       }
 
-      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ (Сразу в ленту)
+      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         if (item) item.status = 'rejected';
       }
 
-      // 5. КЛИЕНТ: Подтверждение оплаты (Статус меняется на 'paid' -> видно в ленте)
+      // 5. КЛИЕНТ: Подтверждение оплаты
       else if (action === 'confirm_payment') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
