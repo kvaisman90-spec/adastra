@@ -2,21 +2,22 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>AdAstra — реклама, которая достаёт до звёзд</title>
   <meta name="theme-color" content="#0b0b0d"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar" content="black-translucent"/>
+  
+  <!-- Icons matching sw.js cache list -->
   <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png"/>
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="/icon-v2.png"/>
-  <link rel="shortcut icon" type="image/png" href="/icon-v2.png"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png"/>
   <link rel="manifest" href="/manifest.json"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=2"/>
+
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
     *{box-sizing:border-box;}
-    body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
+    body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-tap-highlight-color:transparent;}
     button{cursor:pointer;}.hidden{display:none !important;}
     
     /* LOGIN */
@@ -41,13 +42,15 @@
     .role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08);}
     
     /* TABS */
-    .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px 13px;border-bottom:1px solid rgba(212,175,55,.18);}
-    .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700;}
+    .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px 13px;border-bottom:1px solid rgba(212,175,55,.18);scrollbar-width:none;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700;transition:.2s;}
     .tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
     .badge-count{background:red;color:#fff;border-radius:99px;padding:2px 7px;font-size:11px;margin-left:5px}
     
     main{flex:1;width:min(1220px,calc(100% - 28px));margin:18px auto;}
-    .section{display:none;}.section.active{display:block;}
+    .section{display:none;animation:fadeIn .3s ease;}.section.active{display:block;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
     
     /* CARDS & FORMS */
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(120,90,10,.06);margin-bottom:18px;}
@@ -56,28 +59,26 @@
     .sub{margin:0 0 16px;color:#7d6c47;line-height:1.45;}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;}
     label{display:block;margin:11px 0 6px;font-weight:700;color:#3c2f12;}
-    input,select,textarea{width:100%;padding:12px 13px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none;}
+    input,select,textarea{width:100%;padding:12px 13px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none;transition:.2s;}
+    input:focus,textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.15);}
     textarea{min-height:96px;resize:vertical;}
     
     /* BUTTONS */
-    .gold-btn{border:none;border-radius:15px;padding:13px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:15px;font-weight:800;box-shadow:0 8px 18px rgba(212,175,55,.24);margin-top:10px;text-decoration:none;display:inline-block;text-align:center;}
+    .gold-btn{border:none;border-radius:15px;padding:13px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:15px;font-weight:800;box-shadow:0 8px 18px rgba(212,175,55,.24);margin-top:10px;text-decoration:none;display:inline-block;text-align:center;transition:transform .1s;}
+    .gold-btn:active{transform:scale(.98);}
     .ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:15px;padding:12px 15px;font-size:15px;font-weight:700;margin-top:10px;}
     .red-btn{border:1.5px solid #dc3545;background:transparent;color:#dc3545;border-radius:15px;padding:12px 15px;font-size:15px;font-weight:700;margin-top:10px;}
-    .light{color:#f4e8b5;border-color:rgba(212,175,55,.55);background:rgba(212,175,55,.08);padding:9px 12px;border-radius:12px;}
     .small{padding:9px 12px;border-radius:12px;font-size:13px;margin-top:6px;}
     
     /* CHIPS */
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
-    .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700;user-select:none;cursor:pointer;}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700;user-select:none;cursor:pointer;transition:.2s;}
     .chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
-    .lang-chip input{width:auto;margin:0;accent-color:#b8860b;}
     
     /* PREVIEW */
-    .preview-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-    .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;}
+    .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;position:relative;}
     .preview-media{height:140px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
     .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
-    .small-mark{width:58px;height:58px;opacity:.9;}
     .preview-content{padding:14px;display:grid;gap:9px;}
     .prev-title{font-size:22px;font-weight:800;line-height:1.2;}
     .prev-text{color:#5f5130;line-height:1.4;}
@@ -85,12 +86,10 @@
     .banner{min-height:250px;}.post{max-width:430px;margin:0 auto;}.story{max-width:270px;margin:0 auto;min-height:430px;}.story .preview-media{height:230px;}
     
     /* AD CARD LIST */
-    .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);margin-bottom:16px;}
+    .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);margin-bottom:16px;transition:.2s;}
     .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 25% 20%,rgba(246,226,122,.6),transparent 28%),linear-gradient(135deg,rgba(212,175,55,.32),rgba(18,16,14,.10));font-size:30px;font-weight:800;color:#2c230c;}
     .ad-body{padding:14px;display:grid;gap:9px;}
-    .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-    .contact{color:#7c6832;font-size:13px;font-weight:700;}
-    .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
+    .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px;}
     
     /* STATS & TABLE */
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
@@ -100,26 +99,23 @@
     .table th,.table td{padding:11px 10px;border-bottom:1px solid #eee1b8;text-align:left;font-size:14px;}
     .table th{background:#fff4cf;color:#4d3d12;}
     .pay-box{border:1px solid var(--line);background:#fffdf6;border-radius:18px;padding:14px;margin-top:12px;}
-    .result{margin-top:14px;padding:14px;border-radius:17px;background:#fff7dd;border:1px solid rgba(212,175,55,.32);line-height:1.6;}
-    .total{font-size:26px;font-weight:900;color:#201804;}
-    .empty{padding:18px;border-radius:17px;border:1.5px dashed rgba(160,125,35,.42);color:#83704a;text-align:center;background:#fffdf4;}
     
     /* FOOTER & TOAST */
     .footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px;}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:15px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;transition:opacity 0.3s;}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:15px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;transition:opacity 0.3s;pointer-events:none;}
     
     /* STATUS BADGES */
     .sb{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700}
     .sb-pending{background:#fff3cd;color:#856404;border:1px solid #ffc107}
-    .sb-approved{background:#d4edda;color:#155724;border:1px solid #28a745}
+    .sb-approved_paid,.sb-approved_free{background:#d4edda;color:#155724;border:1px solid #28a745}
     .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
     .sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
-    .sb-free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d}
     
     /* MESSAGES */
     .row-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap}
     .msg-unread{background:#fffde7;border-left:4px solid var(--gold)}
     .msg-read{background:#f9f9f9;border-left:4px solid #ccc}
+    .empty-state{text-align:center;padding:30px;color:#999;font-style:italic;}
     
     @media(max-width:640px){.brand-name{font-size:21px;}.brand-sub{display:none;}.card{padding:14px;}.card h2{font-size:23px;}.table{font-size:12px;}.table th,.table td{padding:8px 6px;}}
   </style>
@@ -130,7 +126,6 @@
   <div id="loginScreen" class="login-screen">
     <div class="scatter-field" id="scatterField"></div>
     <div class="login-card">
-      <!-- SVG Logo Placeholder -->
       <svg class="mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="50" cy="50" r="48" stroke="#d4af37" stroke-width="2"/>
         <path d="M50 15L60 40H85L65 55L75 80L50 65L25 80L35 55L15 40H40L50 15Z" fill="url(#grad1)"/>
@@ -162,8 +157,8 @@
     <nav class="tabs">
       <button class="tab-btn active" onclick="switchTab('dashboard')">Дашборд</button>
       <button class="tab-btn" onclick="switchTab('create')">Создать рекламу</button>
-      <button class="tab-btn" onclick="switchTab('myads')">Мои кампании <span class="badge-count" id="adsCount">3</span></button>
-      <button class="tab-btn" onclick="switchTab('messages')">Сообщения <span class="badge-count">1</span></button>
+      <button class="tab-btn" onclick="switchTab('myads')">Мои кампании <span class="badge-count" id="adsCount">0</span></button>
+      <button class="tab-btn" onclick="switchTab('messages')">Сообщения <span class="badge-count" id="msgCount">0</span></button>
       <button class="tab-btn" onclick="switchTab('billing')">Биллинг</button>
     </nav>
 
@@ -172,7 +167,7 @@
       <section id="dashboard" class="section active">
         <div class="card">
           <h2>Обзор эффективности</h2>
-          <p class="sub">Статистика ваших активных кампаний за последние 30 дней.</p>
+          <p class="sub">Статистика ваших активных кампаний (демо-данные).</p>
           <div class="stats">
             <div class="stat"><b>12.4K</b>Показы</div>
             <div class="stat"><b>843</b>Клики</div>
@@ -185,10 +180,8 @@
           <h3>Последняя активность</h3>
           <table class="table">
             <thead><tr><th>Кампания</th><th>Статус</th><th>Дата</th><th>Расход</th></tr></thead>
-            <tbody>
-              <tr><td>Summer Sale Banner</td><td><span class="sb sb-approved">Active</span></td><td>24 авг</td><td>$45.00</td></tr>
-              <tr><td>Telegram Post Crypto</td><td><span class="sb sb-pending">Moderation</span></td><td>23 авг</td><td>$0.00</td></tr>
-              <tr><td>Story Lifestyle</td><td><span class="sb sb-paid">Completed</span></td><td>20 авг</td><td>$120.00</td></tr>
+            <tbody id="dashActivity">
+              <tr><td colspan="4" class="empty-state">Загрузка данных...</td></tr>
             </tbody>
           </table>
         </div>
@@ -206,36 +199,34 @@
               <label>Тип размещения</label>
               <div class="chips" id="formatChips">
                 <div class="chip active" onclick="selectFormat(this, 'banner')">Баннер</div>
-                <div class="chip" onclick="selectFormat(this, 'post')">Пост в ленте</div>
+                <div class="chip" onclick="selectFormat(this, 'post')">Пост</div>
                 <div class="chip" onclick="selectFormat(this, 'story')">Стори</div>
               </div>
               <input type="hidden" id="adFormat" value="banner">
 
-              <label>Заголовок / Текст</label>
+              <label>Текст объявления</label>
               <textarea id="adText" placeholder="Ваше рекламное сообщение..." required></textarea>
 
-              <label>Ссылка на медиа (URL изображения)</label>
+              <label>Ссылка на изображение (URL)</label>
               <input type="url" id="adMedia" placeholder="https://example.com/image.jpg">
 
-              <label>Контактная информация / CTA</label>
+              <label>Контакт / CTA</label>
               <input type="text" id="adContact" placeholder="@username или ссылка" required>
 
               <label>Бюджет ($)</label>
               <input type="number" id="adBudget" min="10" value="50" required>
 
-              <button type="submit" class="gold-btn" style="width:100%">Отправить на модерацию</button>
+              <button type="submit" class="gold-btn" style="width:100%" id="submitAdBtn">Отправить на модерацию</button>
             </form>
           </div>
 
           <div class="card">
             <h3>Предпросмотр</h3>
             <div class="preview-tabs">
-               <span style="font-size:13px;color:#888;">Живое обновление при заполнении формы</span>
+               <span style="font-size:13px;color:#888;">Живое обновление</span>
             </div>
             <div id="previewContainer" class="preview-box banner">
-              <div class="preview-media" id="prevMedia">
-                <span>🖼️</span>
-              </div>
+              <div class="preview-media" id="prevMedia"><span>🖼️</span></div>
               <div class="preview-content">
                 <div class="prev-title" id="prevTitle">Заголовок...</div>
                 <div class="prev-text" id="prevText">Текст объявления появится здесь...</div>
@@ -251,35 +242,7 @@
         <div class="card">
           <h2>Ваши объявления</h2>
           <div id="adsList">
-            <!-- JS will populate this -->
-            <div class="ad-card">
-              <div class="ad-visual">SALE</div>
-              <div class="ad-body">
-                <div style="display:flex;justify-content:space-between;align-items:start;">
-                  <h3 style="margin:0;">Summer Sale Banner</h3>
-                  <span class="sb sb-approved">Active</span>
-                </div>
-                <p class="sub" style="margin-bottom:8px;">Лучшие скидки сезона уже здесь!</p>
-                <div class="ad-actions">
-                  <button class="ghost-btn small">Статистика</button>
-                  <button class="red-btn small">Остановить</button>
-                </div>
-              </div>
-            </div>
-            
-            <div class="ad-card">
-              <div class="ad-visual">CRYPTO</div>
-              <div class="ad-body">
-                <div style="display:flex;justify-content:space-between;align-items:start;">
-                  <h3 style="margin:0;">Telegram Post Crypto</h3>
-                  <span class="sb sb-pending">Moderation</span>
-                </div>
-                <p class="sub" style="margin-bottom:8px;">Инвестируй в будущее с нами.</p>
-                <div class="ad-actions">
-                  <button class="ghost-btn small">Редактировать</button>
-                </div>
-              </div>
-            </div>
+            <div class="empty-state">Загрузка объявлений...</div>
           </div>
         </div>
       </section>
@@ -288,19 +251,8 @@
       <section id="messages" class="section">
         <div class="card">
           <h2>Центр уведомлений</h2>
-          <div class="row-item msg-unread">
-            <div>
-              <strong>Модерация AdAstra</strong><br>
-              <span style="font-size:13px;color:#555;">Ваше объявление "Story Lifestyle" одобрено и запущено.</span>
-            </div>
-            <span style="font-size:12px;color:#888;">2ч назад</span>
-          </div>
-          <div class="row-item msg-read">
-            <div>
-              <strong>Система биллинга</strong><br>
-              <span style="font-size:13px;color:#555;">Пополнение баланса на $200 успешно выполнено.</span>
-            </div>
-            <span style="font-size:12px;color:#888;">Вчера</span>
+          <div id="messagesList">
+             <div class="empty-state">Нет новых сообщений</div>
           </div>
         </div>
       </section>
@@ -310,8 +262,8 @@
         <div class="card">
           <h2>Финансы</h2>
           <div class="stats">
-            <div class="stat"><b>$1,240</b>Текущий баланс</div>
-            <div class="stat"><b>$420</b>Потрачено в этом месяце</div>
+            <div class="stat"><b>$1,240</b>Баланс</div>
+            <div class="stat"><b>$420</b>Расходы</div>
           </div>
           
           <div class="pay-box">
@@ -322,75 +274,112 @@
                 <input type="number" value="100" min="10">
               </div>
               <div>
-                <label>Метод оплаты</label>
+                <label>Метод</label>
                 <select>
-                  <option>Bank Card (Visa/MC)</option>
-                  <option>Crypto (USDT/BTC)</option>
-                  <option>PayPal</option>
+                  <option>Bank Card</option>
+                  <option>Crypto (USDT)</option>
                 </select>
               </div>
             </div>
-            <button class="gold-btn" onclick="showToast('Переход к платежному шлюзу...')">Оплатить</button>
+            <button class="gold-btn" onclick="showToast('Переход к шлюзу...')">Оплатить</button>
           </div>
-
-          <h3>История транзакций</h3>
-          <table class="table">
-            <thead><tr><th>ID</th><th>Тип</th><th>Сумма</th><th>Дата</th><th>Статус</th></tr></thead>
-            <tbody>
-              <tr><td>#TX-8821</td><td>Пополнение</td><td>+$200.00</td><td>22 авг</td><td><span class="sb sb-approved">Success</span></td></tr>
-              <tr><td>#TX-8804</td><td>Списание (Реклама)</td><td>-$45.00</td><td>21 авг</td><td><span class="sb sb-paid">Paid</span></td></tr>
-              <tr><td>#TX-8799</td><td>Бонус регистрации</td><td>+$10.00</td><td>01 авг</td><td><span class="sb sb-free">Free</span></td></tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
     </main>
 
     <footer class="footer">
-      © 2026 AdAstra Inc. Все права защищены.<br>
-      Support | Terms | Privacy Policy
+      © 2026 AdAstra Inc. | <a href="/privacy.html" style="color:inherit">Privacy</a> | <a href="/terms.html" style="color:inherit">Terms</a>
     </footer>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
   <div id="toast" class="toast hidden"></div>
 
   <script>
-    // --- LOGIN LOGIC ---
+    // --- CONFIG & STATE ---
+    // Укажите URL вашего deployed admin.js endpoint здесь
+    const API_URL = '/api/admin'; 
+    let currentUser = null;
+    let appData = { ads: [], subscribers: [], messages: [] };
+
+    // --- SERVICE WORKER REGISTRATION ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.error('SW registration failed:', err));
+      });
+    }
+
+    // --- API COMMUNICATION ---
+    async function apiRequest(action, payload = {}) {
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, ...payload })
+        });
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+        return await res.json();
+      } catch (e) {
+        console.error('API Request Failed:', e);
+        showToast('Ошибка соединения с сервером');
+        return null;
+      }
+    }
+
+    async function loadData() {
+      // В реальном приложении здесь был бы GET запрос с фильтром по пользователю
+      // Для демо загружаем всё через POST или предполагаем, что GET возвращает всё
+      try {
+        const res = await fetch(API_URL); 
+        if(res.ok) {
+          appData = await res.json();
+          renderAds();
+          renderMessages();
+          updateBadges();
+        }
+      } catch(e) {
+        console.warn("Initial load failed, using empty state");
+      }
+    }
+
+    // --- AUTH LOGIC ---
     function doLogin() {
       const input = document.getElementById('loginInput');
       if(input.value.trim().length > 0) {
+        currentUser = input.value.trim();
         document.getElementById('loginScreen').classList.add('hidden');
         document.getElementById('appScreen').classList.remove('hidden');
-        showToast('Добро пожаловать в AdAstra!');
+        showToast('Добро пожаловать!');
+        loadData();
       } else {
-        showToast('Введите любой текст для входа (демо)');
+        showToast('Введите любой текст для входа');
       }
     }
 
     function doLogout() {
+      currentUser = null;
       document.getElementById('appScreen').classList.add('hidden');
       document.getElementById('loginScreen').classList.remove('hidden');
       document.getElementById('loginInput').value = '';
     }
 
-    // --- TABS LOGIC ---
+    // --- NAVIGATION ---
     function switchTab(tabId) {
-      // Hide all sections
       document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-      // Deactivate all buttons
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
       
-      // Show target
       document.getElementById(tabId).classList.add('active');
-      // Activate button (find by onclick attribute match roughly)
       const btns = Array.from(document.querySelectorAll('.tab-btn'));
       const targetBtn = btns.find(b => b.getAttribute('onclick').includes(tabId));
       if(targetBtn) targetBtn.classList.add('active');
+
+      if(tabId === 'myads') renderAds();
+      if(tabId === 'messages') renderMessages();
     }
 
-    // --- CREATE AD PREVIEW LOGIC ---
+    // --- CREATE AD LOGIC ---
     const titleIn = document.getElementById('adTitle');
     const textIn = document.getElementById('adText');
     const mediaIn = document.getElementById('adMedia');
@@ -409,7 +398,7 @@
       prevContact.textContent = contactIn.value || 'Подробнее →';
       
       if(mediaIn.value) {
-        prevMedia.innerHTML = `<img src="${mediaIn.value}" onerror="this.style.display='none';this.parentNode.innerHTML='<span>⚠️ Ошибка URL</span>'">`;
+        prevMedia.innerHTML = `<img src="${mediaIn.value}" onerror="this.style.display='none';this.parentNode.innerHTML='<span>⚠️</span>'">`;
       } else {
         prevMedia.innerHTML = '<span>🖼️</span>';
       }
@@ -421,19 +410,123 @@
       document.querySelectorAll('#formatChips .chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
       formatHidden.value = format;
-      
-      // Reset classes
-      prevContainer.classList.remove('banner', 'post', 'story');
-      prevContainer.classList.add(format);
+      prevContainer.className = `preview-box ${format}`;
     }
 
-    function handleCreateAd(e) {
+    async function handleCreateAd(e) {
       e.preventDefault();
-      showToast('Кампания успешно создана и отправлена на модерацию!');
-      // Reset form visually
-      e.target.reset();
-      updatePreview();
-      switchTab('myads');
+      const btn = document.getElementById('submitAdBtn');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Отправка...';
+
+      const payload = {
+        owner: currentUser,
+        title: titleIn.value,
+        text: textIn.value,
+        image: mediaIn.value,
+        contact: contactIn.value,
+        format: formatHidden.value
+      };
+
+      const result = await apiRequest('publish', payload);
+
+      btn.disabled = false;
+      btn.textContent = originalText;
+
+      if(result && result.success) {
+        showToast('Объявление отправлено на модерацию!');
+        e.target.reset();
+        updatePreview();
+        loadData(); // Refresh list
+        switchTab('myads');
+      } else {
+        showToast('Ошибка при создании объявления');
+      }
+    }
+
+    // --- RENDERERS ---
+    function getStatusBadge(status) {
+      const map = {
+        'pending': ['Модерация', 'sb-pending'],
+        'approved_paid': ['Активно (Paid)', 'sb-approved_paid'],
+        'approved_free': ['Активно (Free)', 'sb-approved_free'],
+        'paid': ['Оплачено', 'sb-paid'],
+        'rejected': ['Отклонено', 'sb-rejected']
+      };
+      const [text, cls] = map[status] || [status, 'sb-pending'];
+      return `<span class="sb ${cls}">${text}</span>`;
+    }
+
+    function renderAds() {
+      const container = document.getElementById('adsList');
+      // Фильтруем только объявления текущего пользователя (для демо берем все, если owner совпадает или для простоты все)
+      // В реальном проекте нужна фильтрация на бэкенде
+      const myAds = appData.ads.filter(ad => ad.owner === currentUser || !currentUser); 
+      
+      if(myAds.length === 0) {
+        container.innerHTML = '<div class="empty-state">У вас пока нет объявлений. Создайте первое!</div>';
+        document.getElementById('adsCount').textContent = '0';
+        return;
+      }
+
+      document.getElementById('adsCount').textContent = myAds.length;
+      
+      container.innerHTML = myAds.map(ad => `
+        <div class="ad-card">
+          <div class="ad-visual">${ad.image ? `<img src="${ad.image}" style="width:100%;height:100%;object-fit:cover">` : (ad.title.substring(0,3).toUpperCase())}</div>
+          <div class="ad-body">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <h3 style="margin:0;">${ad.title}</h3>
+              ${getStatusBadge(ad.status)}
+            </div>
+            <p class="sub" style="margin-bottom:8px;">${ad.text}</p>
+            <div style="font-size:12px;color:#888;">Формат: ${ad.format || 'banner'} | ID: ${ad.id}</div>
+            <div class="ad-actions">
+              <button class="ghost-btn small" onclick="showToast('Статистика в разработке')">Статистика</button>
+              ${ad.status === 'pending' ? '<button class="red-btn small" disabled>Ожидание</button>' : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Update dashboard activity table too
+      const dashBody = document.getElementById('dashActivity');
+      dashBody.innerHTML = myAds.slice(0, 3).map(ad => `
+        <tr>
+          <td>${ad.title}</td>
+          <td>${getStatusBadge(ad.status)}</td>
+          <td>${new Date(ad.created_at).toLocaleDateString()}</td>
+          <td>${ad.paid ? '$50.00' : '$0.00'}</td>
+        </tr>
+      `).join('') || '<tr><td colspan="4" class="empty-state">Нет активности</td></tr>';
+    }
+
+    function renderMessages() {
+      const container = document.getElementById('messagesList');
+      // Фильтруем сообщения (в демо берем все)
+      const msgs = appData.messages || [];
+      
+      document.getElementById('msgCount').textContent = msgs.filter(m => !m.read).length;
+
+      if(msgs.length === 0) {
+        container.innerHTML = '<div class="empty-state">Нет сообщений</div>';
+        return;
+      }
+
+      container.innerHTML = msgs.sort((a,b) => b.id - a.id).map(m => `
+        <div class="row-item ${m.read ? 'msg-read' : 'msg-unread'}">
+          <div>
+            <strong>${m.from || 'System'}</strong><br>
+            <span style="font-size:13px;color:#555;">${m.text}</span>
+          </div>
+          <span style="font-size:12px;color:#888;">${new Date(m.created_at).toLocaleTimeString()}</span>
+        </div>
+      `).join('');
+    }
+
+    function updateBadges() {
+      // Already handled in render functions mostly
     }
 
     // --- UTILS ---
@@ -444,7 +537,7 @@
       setTimeout(() => t.classList.add('hidden'), 3000);
     }
 
-    // Scatter effect for login background
+    // Scatter effect init
     (function initScatter(){
       const field = document.getElementById('scatterField');
       for(let i=0; i<15; i++){
