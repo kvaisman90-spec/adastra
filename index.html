@@ -4,11 +4,15 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <title>AdAstra - Реклама</title>
+<!-- PWA Meta Tags -->
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b0b0d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- Иконка для установки на телефон/ПК -->
 <link rel="apple-touch-icon" href="/icon.png">
+<link rel="icon" type="image/png" href="/icon.png">
+
 <style>
 :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--paper:#fffdf7;--line:rgba(212,175,55,.3);--bg:#0b0b0d}
 *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
@@ -16,26 +20,21 @@ body{margin:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 button{cursor:pointer; font-family: inherit;}
 .hidden{display:none!important}
 
-/* --- LOGIN SCREEN WITH PATTERN BACKGROUND --- */
+/* --- LOGIN SCREEN (Твой дизайн: Белый фон + Ракеты) --- */
 .login-screen{
   min-height:100vh;
-  background-color: var(--paper); /* Белый фон */
-  /* Паттерн из ракет (SVG encoded) */
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.15' fill-rule='evenodd'%3E%3Cpath d='M20 20 L25 10 L30 20 L25 30 Z M22 22 L15 25 M28 22 L35 25' stroke='%23d4af37' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 150px 150px;
+  background-color: var(--paper);
+  /* Паттерн из ракет на фоне */
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M20 20 L25 10 L30 20 L25 30 Z M22 22 L15 25 M28 22 L35 25' stroke='%23d4af37' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
   display:flex;align-items:center;justify-content:center;padding:20px; 
   position:fixed; top:0; left:0; width:100%; z-index:1000;
 }
-
-/* Дополнительные случайные ракеты для объема */
-.login-screen::before {
-  content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 40px; opacity: 0.1; transform: rotate(-15deg);
-}
-.login-screen::after {
-  content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 60px; opacity: 0.1; transform: rotate(25deg);
-}
-.bg-rocket-1 { position: absolute; top: 40%; right: 20%; font-size: 30px; opacity: 0.1; transform: rotate(90deg); }
-.bg-rocket-2 { position: absolute; bottom: 30%; left: 15%; font-size: 50px; opacity: 0.1; transform: rotate(-45deg); }
+/* Дополнительные большие ракеты на фоне */
+.login-screen::before { content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 50px; opacity: 0.15; transform: rotate(-15deg); }
+.login-screen::after { content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 70px; opacity: 0.15; transform: rotate(25deg); }
+.bg-rocket-1 { position: absolute; top: 40%; right: 20%; font-size: 40px; opacity: 0.15; transform: rotate(90deg); pointer-events: none;}
+.bg-rocket-2 { position: absolute; bottom: 30%; left: 15%; font-size: 60px; opacity: 0.15; transform: rotate(-45deg); pointer-events: none;}
 
 .login-card{
   width:min(400px,90vw);
@@ -44,10 +43,12 @@ button{cursor:pointer; font-family: inherit;}
   border-radius:24px;
   padding:30px;
   text-align:center;
-  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  box-shadow:0 20px 50px rgba(0,0,0,0.4);
   position: relative;
   z-index: 2;
 }
+/* Твой SVG Логотип внутри окна */
+.login-logo-svg { width: 80px; height: 80px; margin: 0 auto 10px; display: block; }
 .login-card h1{margin:10px 0;color:var(--gold);font-size:32px;letter-spacing:1px; text-shadow: 0 0 10px rgba(212,175,55,0.3);}
 .login-card input{width:100%;margin:15px 0;padding:14px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;font-size:16px;text-align:center;}
 .enter-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(45deg, var(--gold-light), var(--gold));color:#000;font-weight:bold;font-size:16px; box-shadow: 0 4px 15px rgba(212,175,55,0.4);}
@@ -55,7 +56,9 @@ button{cursor:pointer; font-family: inherit;}
 /* --- APP LAYOUT --- */
 .app{display:none; flex-direction:column; min-height:100vh;}
 .topbar{position:sticky;top:0;z-index:100;background:var(--bg);color:var(--gold);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;}
-.brand{font-weight:900;font-size:20px;letter-spacing:1px;}
+.brand{display:flex; align-items:center; gap:10px;}
+.brand svg { width: 30px; height: 30px; }
+.brand-name{font-weight:900;font-size:20px;letter-spacing:1px;}
 .role-badge{font-size:12px;background:#222;padding:4px 8px;border-radius:4px;color:#aaa;border:1px solid #333;}
 
 /* Tabs */
@@ -72,8 +75,6 @@ main{padding:16px;max-width:800px;margin:0 auto;width:100%;}
 
 .card{background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);border:1px solid #eee;}
 .card h2{margin-top:0;font-size:18px;color:#333;border-bottom:2px solid var(--gold);padding-bottom:8px;display:inline-block;}
-.grid{display:grid;grid-template-columns:1fr;gap:12px;}
-@media(min-width:600px){.grid{grid-template-columns:1fr 1fr;}}
 
 label{display:block;font-size:12px;font-weight:bold;color:#666;margin-bottom:4px;margin-top:10px;}
 input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;background:#fafafa;}
@@ -117,6 +118,23 @@ textarea{resize:vertical;min-height:80px;}
 </head>
 <body>
 
+<!-- SVG Symbol Definition (Твой логотип) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0%" stop-color="#f9e79f"/><stop offset="55%" stop-color="#d4af37"/><stop offset="100%" stop-color="#9c7c0d"/>
+</linearGradient>
+<symbol id="adastra-mark" viewBox="0 0 120 120">
+<ellipse cx="60" cy="70" rx="48" ry="18" fill="none" stroke="url(#goldGrad)" stroke-width="4" transform="rotate(-22 60 70)"/>
+<path d="M60 10 C70 26 76 44 74 66 L60 58 L46 66 C44 44 50 26 60 10 Z" fill="url(#goldGrad)"/>
+<path d="M46 60 L32 82 L46 76 Z" fill="url(#goldGrad)"/>
+<path d="M74 60 L88 82 L74 76 Z" fill="url(#goldGrad)"/>
+<circle cx="60" cy="40" r="6" fill="#fff" opacity=".9"/>
+<path d="M96 20 l3.5 8.5 8.5 3.5 -8.5 3.5 -3.5 8.5 -3.5-8.5 -8.5-3.5 8.5-3.5 z" fill="url(#goldGrad)"/>
+</symbol>
+</defs>
+</svg>
+
 <!-- Background Rockets for Login -->
 <div class="bg-rocket-1"></div>
 <div class="bg-rocket-2"></div>
@@ -127,17 +145,22 @@ textarea{resize:vertical;min-height:80px;}
 <!-- Login -->
 <div id="loginScreen" class="login-screen">
 <div class="login-card">
-<h1>AD ASTRA</h1>
-<p style="color:#666;font-size:12px;">Вход в систему рекламы</p>
-<input id="loginInput" type="text" placeholder="Код доступа или Имя" autocomplete="off"/>
-<button id="btnEnter" class="enter-btn">ВОЙТИ</button>
+  <!-- Твой Логотип -->
+  <svg class="login-logo-svg"><use href="#adastra-mark"/></svg>
+  <h1>AD ASTRA</h1>
+  <p style="color:#666;font-size:12px;">Вход в систему рекламы</p>
+  <input id="loginInput" type="text" placeholder="Код доступа или Имя" autocomplete="off"/>
+  <button id="btnEnter" class="enter-btn">ВОЙТИ</button>
 </div>
 </div>
 
 <!-- App -->
 <div id="app" class="app">
 <header class="topbar">
-<div class="brand">AD ASTRA</div>
+<div class="brand">
+  <svg><use href="#adastra-mark"/></svg>
+  <div class="brand-name">AD ASTRA</div>
+</div>
 <div style="display:flex;gap:10px;align-items:center;">
 <span id="roleBadge" class="role-badge">Гость</span>
 <button onclick="logout()" style="background:none;border:none;color:#666;font-size:18px;">⏻</button>
