@@ -4,14 +4,21 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>AdAstra</title>
-<!-- PWA Meta Tags (Для иконки приложения) -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#0b0b0d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="apple-touch-icon" href="/icon.png">
-<link rel="icon" type="image/png" href="/icon.png">
-
+<!-- PWA Meta Tags для установки на телефон и ПК -->
+<meta name="theme-color" content="#0b0b0d"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="AdAstra"/>
+<link rel="manifest" href="/manifest.json"/>
+<link rel="apple-touch-icon" href="/icon-192.png"/>
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png"/>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(e => console.log('SW fail:', e));
+    });
+}
+</script>
 <style>
 :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--paper:#fffdf7;--line:rgba(212,175,55,.3)}
 *{box-sizing:border-box}
@@ -74,10 +81,10 @@ textarea{min-height:90px;resize:vertical}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:14px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;font-size:14px}
 .sb{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700}
 .sb-pending{background:#fff3cd;color:#856404;border:1px solid #ffc107}
-.sb-approved_paid{background:#cce5ff;color:#004085;border:1px solid #007bff} /* Ждет оплаты */
-.sb-approved_free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d} /* Бесплатно одобрено */
-.sb-paid{background:#d4edda;color:#155724;border:1px solid #28a745} /* В ленте */
+.sb-approved{background:#d4edda;color:#155724;border:1px solid #28a745}
 .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
+.sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
+.sb-free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d}
 .row-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap}
 .msg-unread{background:#fffde7;border-left:4px solid var(--gold)}
 .msg-read{background:#f9f9f9;border-left:4px solid #ccc}
@@ -260,31 +267,16 @@ let state={role:null,user:'',ads:[],subscribers:[],messages:[]};
 let currentImageBase64=null;
 let currentPrice=20;
 let refreshTimer=null;
-
-// PWA Install Logic
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  // Можно добавить кнопку установки, если нужно
-});
-
 function toast(m){const e=$('#toast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),3000)}
 function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-
-// Обновленная логика статусов
 function statusBadge(s){
 if(s==='pending') return '<span class="sb sb-pending">⏳ На модерации</span>';
-if(s==='approved_paid') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
-if(s==='approved_free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
-if(s==='paid') return '<span class="sb sb-paid">🔥 В ЛЕНТЕ</span>';
+if(s==='approved') return '<span class="sb sb-approved">✅ Одобрено</span>';
 if(s==='rejected') return '<span class="sb sb-rejected">❌ Отклонено</span>';
-// Старые статусы для совместимости
-if(s==='approved') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
-if(s==='free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
+if(s==='paid') return '<span class="sb sb-paid">💰 Платное</span>';
+if(s==='free') return '<span class="sb sb-free">🆓 Бесплатное</span>';
 return '<span class="sb sb-pending">'+esc(s)+'</span>';
 }
-
 async function fetchData(){
 try{
 const res=await fetch('/api/admin');
@@ -295,7 +287,6 @@ state.messages=data.messages||[];
 renderAll();
 }catch(e){console.error(e);toast('Ошибка загрузки базы')}
 }
-
 async function sendAction(action,id,payload={}){
 try{
 const res=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id,...payload})});
@@ -304,7 +295,6 @@ if(r.success){await fetchData();return true}
 else{toast('Ошибка: '+(r.error||'неизвестно'));return false}
 }catch(e){toast('Ошибка сети');return false}
 }
-
 function enterApp(){
 const v=$('#loginInput').value.trim();
 if(!v) return toast('Введите имя или код');
@@ -317,19 +307,16 @@ startAutoRefresh();
 fetchData();
 toast(state.role==='admin'?'👑 Добро пожаловать, Босс':'🚀 Привет, '+v);
 }
-
 function logout(){if(refreshTimer)clearInterval(refreshTimer);location.reload()}
 function startAutoRefresh(){
 if(refreshTimer) clearInterval(refreshTimer);
 refreshTimer=setInterval(fetchData,5000);
 }
-
 function switchTab(t){
 if(t==='admin'&&state.role!=='admin') t='studio';
 $$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
 $$('.section').forEach(s=>s.classList.toggle('active',s.id===t));
 }
-
 $('#imageUpload').addEventListener('change',function(e){
 const file=e.target.files[0];if(!file)return;
 const reader=new FileReader();
@@ -349,7 +336,6 @@ img.src=ev.target.result;
 };
 reader.readAsDataURL(file);
 });
-
 ['adTitle','adText','adContact'].forEach(id=>{
 $('#'+id).addEventListener('input',()=>{
 $('#prevTitle').textContent=$('#adTitle').value||'Ваш заголовок';
@@ -357,7 +343,6 @@ $('#prevText').textContent=$('#adText').value||'Текст...';
 $('#prevContact').textContent=$('#adContact').value||'Контакт';
 });
 });
-
 async function publishAd(){
 const title=$('#adTitle').value.trim();
 const text=$('#adText').value.trim();
@@ -377,36 +362,26 @@ $('#prevText').textContent='Текст...';
 $('#prevContact').textContent='Контакт';
 }
 }
-
 async function subscribe(){
 const val=$('#subEmail').value.trim();
 if(!val) return toast('Введите Email или Telegram');
 const ok=await sendAction('subscribe',null,{contact:val});
 if(ok){$('#subMsg').style.display='block';$('#subEmail').value='';toast('✅ Подписка оформлена!')}
 }
-
 async function sendSupport(){
 const txt=$('#supportText').value.trim();
 if(!txt) return toast('Напишите сообщение');
 const ok=await sendAction('support',null,{from:state.user,text:txt});
 if(ok){$('#supportMsg').style.display='block';$('#supportText').value='';toast('✅ Сообщение отправлено!')}
 }
-
-// --- НОВАЯ ЛОГИКА АДМИНКИ ---
-window.approvePaid=(id)=>sendAction('approve_paid',id); // Админ жмет "Платно"
-window.approveFree=(id)=>sendAction('approve_free',id); // Админ жмет "Бесплатно"
+window.approveAd=(id)=>sendAction('approve',id);
 window.rejectAd=(id)=>sendAction('reject',id);
-window.confirmPayment=(id)=>sendAction('confirm_payment',id); // Клиент жмет "Я оплатил"
-
-// Старые функции для совместимости, если где-то остались
-window.makePaid=(id)=>sendAction('approve_paid',id);
-window.makeFree=(id)=>sendAction('approve_free',id);
-
+window.makePaid=(id)=>sendAction('make_paid',id);
+window.makeFree=(id)=>sendAction('make_free',id);
 window.deleteAd=(id)=>{if(confirm('Удалить объявление?'))sendAction('delete',id)};
 window.deleteSub=(id)=>{if(confirm('Удалить подписчика?'))sendAction('delete_sub',id)};
 window.deleteMsg=(id)=>{if(confirm('Удалить сообщение?'))sendAction('delete_msg',id)};
 window.markRead=(id)=>sendAction('mark_read',id);
-
 window.prepareDistribution=(id)=>{
 const ad=state.ads.find(a=>a.id==id);if(!ad)return;
 $('#distributionTool').style.display='block';
@@ -425,7 +400,6 @@ const links=[
 $('#distLinks').innerHTML=links.map(l=>'<a href="'+l.url+'" target="_blank" class="dist-link">'+l.name+'</a>').join('');
 $('#distributionTool').scrollIntoView({behavior:'smooth'});
 };
-
 function adCardHtml(a){
 return '<div class="ad-card"><div class="ad-visual">'+(a.image?'<img src="'+a.image+'"/>':'📷')+'</div>'+
 '<div class="ad-body"><strong style="font-size:16px">'+esc(a.title)+'</strong>'+
@@ -434,41 +408,27 @@ return '<div class="ad-card"><div class="ad-visual">'+(a.image?'<img src="'+a.im
 '<div style="margin-top:8px">'+statusBadge(a.status)+'</div>'+
 '</div></div>';
 }
-
-function myAdRow(a) {
-  let actionBtn = '';
-  // Если админ одобрил как платное, клиент видит кнопку оплаты
-  if (a.status === 'approved_paid' || a.status === 'approved') {
-    actionBtn = `<button class="gold-btn small" onclick="confirmPayment(${a.id})" style="width:100%; margin-top:8px;">💳 Я ОПЛАТИЛ ($20)</button>`;
-  }
-  return `<div class="row-item" style="flex-direction:column; align-items:flex-start; border:1px solid #eee; border-radius:12px; padding:12px; margin-bottom:8px;">
-    <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
-        <strong>${esc(a.title)}</strong> ${statusBadge(a.status)}
-    </div>
-    <div style="font-size:12px; color:#666; margin:5px 0;">${esc(a.text).substring(0,60)}...</div>
-    ${actionBtn}
-  </div>`;
-}
-
 function adminAdRow(a){
-// Кнопки для админа: Платно / Бесплатно / Отклонить
+const canMakePaid=a.status==='approved'||a.status==='free';
+const canMakeFree=a.status==='approved'||a.status==='paid';
 return '<div class="row-item">'+
 '<div style="flex:1;min-width:0">'+
 '<strong>'+esc(a.title)+'</strong> '+statusBadge(a.status)+
 '<div style="font-size:12px;color:#888;margin-top:3px">От: '+esc(a.owner)+' · '+esc(a.contact||'')+'</div>'+
 '</div>'+
 '<div style="display:flex;gap:6px;flex-wrap:wrap">'+
-(a.status==='pending'?'<button class="gold-btn small" onclick="approvePaid('+a.id+')" type="button">💰 Платно</button><button class="ghost-btn small" onclick="approveFree('+a.id+')" type="button">🆓 Бесплатно</button><button class="red-btn small" onclick="rejectAd('+a.id+')" type="button">❌</button>':'')+
-((a.status==='approved_paid'||a.status==='approved_free'||a.status==='paid'||a.status==='free')?'<button class="ghost-btn small" onclick="prepareDistribution('+a.id+')" type="button">🚀 Постинг</button>':'')+
+(a.status==='pending'?'<button class="gold-btn small" onclick="approveAd('+a.id+')" type="button">✅ Одобрить</button><button class="red-btn small" onclick="rejectAd('+a.id+')" type="button">❌ Отклонить</button>':'')+
+(canMakePaid?'<button class="gold-btn small" onclick="makePaid('+a.id+')" type="button">💰 Платное</button>':'')+
+(canMakeFree?'<button class="ghost-btn small" onclick="makeFree('+a.id+')" type="button">🆓 Бесплатное</button>':'')+
+((a.status==='approved'||a.status==='paid'||a.status==='free')?'<button class="ghost-btn small" onclick="prepareDistribution('+a.id+')" type="button">🚀 Постинг</button>':'')+
 '<button class="red-btn small" onclick="deleteAd('+a.id+')" type="button">🗑</button>'+
 '</div></div>';
 }
-
 function renderAll(){
 const pending=state.ads.filter(a=>a.status==='pending');
-const approved=state.ads.filter(a=>a.status==='approved_paid' || a.status==='approved_free' || a.status==='approved' || a.status==='free');
+const approved=state.ads.filter(a=>a.status==='approved');
 const paid=state.ads.filter(a=>a.status==='paid');
-const free=state.ads.filter(a=>a.status==='approved_free' || a.status==='free');
+const free=state.ads.filter(a=>a.status==='free');
 const rejected=state.ads.filter(a=>a.status==='rejected');
 const unreadMsgs=state.messages.filter(m=>!m.read);
 const total=pending.length+unreadMsgs.length;
@@ -481,18 +441,12 @@ $('#statFree').textContent=free.length;
 $('#statRejected').textContent=rejected.length;
 $('#statSubs').textContent=state.subscribers.length;
 $('#statMsgs').textContent=state.messages.length;
-
-// Мои заявки (Клиент)
 if(state.role!=='admin'){
 const myAds=state.ads.filter(a=>a.owner.toLowerCase()===state.user.toLowerCase());
-$('#myAds').innerHTML=myAds.length?myAds.map(myAdRow).join(''):'<div class="empty">Пока нет заявок. Создайте первую рекламу!</div>';
+$('#myAds').innerHTML=myAds.length?'<div class="grid">'+myAds.map(adCardHtml).join('')+'</div>':'<div class="empty">Пока нет заявок. Создайте первую рекламу!</div>';
 }
-
-// Лента (Публичная) - Только оплаченные или бесплатно одобренные
-const feedAds=state.ads.filter(a=>a.status==='paid' || a.status==='approved_free' || a.status==='free');
+const feedAds=state.ads.filter(a=>a.status==='approved'||a.status==='paid'||a.status==='free');
 $('#feedList').innerHTML=feedAds.length?feedAds.map(adCardHtml).join(''):'<div class="empty">Пока нет одобренной рекламы.</div>';
-
-// Админка
 if(state.role==='admin'){
 const msgsEl=$('#msgsList');
 if(!state.messages.length){msgsEl.innerHTML='<div class="empty">Нет сообщений</div>'}
@@ -520,7 +474,6 @@ subsEl.innerHTML=[...state.subscribers].reverse().map(s=>
 }
 }
 }
-
 $$('.term').forEach(b=>b.addEventListener('click',()=>{
 $$('.term').forEach(x=>x.classList.remove('active'));
 b.classList.add('active');
@@ -529,13 +482,11 @@ $('#calcResult').innerHTML='Итого: <b>$'+currentPrice+'</b>';
 $('#paypalLink').href='https://www.paypal.me/kvaisman90/'+currentPrice;
 $('#paypalLink').textContent='Оплатить $'+currentPrice;
 }));
-
 $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{
 const t=b.dataset.copy;
 if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>toast('📋 Адрес скопирован'))}
 else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('📋 Адрес скопирован')}
 }));
-
 $('#btnCryptoPaid').addEventListener('click',()=>toast('✅ Заявка отправлена админу. Ожидайте подтверждения.'));
 $('#btnCopyDist').addEventListener('click',()=>{const t=$('#distText');t.select();document.execCommand('copy');toast('📋 Текст скопирован!')});
 $('#btnEnter').addEventListener('click',enterApp);
@@ -545,12 +496,6 @@ $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab
 $('#btnPublish').addEventListener('click',publishAd);
 $('#btnSub').addEventListener('click',subscribe);
 $('#btnSupport').addEventListener('click',sendSupport);
-
-// PWA Service Worker Registration
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
-}
-
 fetchData();
 </script>
 </body>
