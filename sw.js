@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v3';
+const CACHE_NAME = 'adastra-app-v4';
 const ASSETS = [
   '/',
   '/index.html',
@@ -26,10 +26,8 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // API запросы (база данных) всегда из сети
   if (event.request.url.includes('/api/')) return;
   
-  // Остальное из кэша для скорости
   event.respondWith(
     caches.match(event.request).then(response => response || fetch(event.request))
   );
