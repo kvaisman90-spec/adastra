@@ -2,9 +2,9 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>AdAstra - Реклама</title>
-<!-- PWA Meta Tags -->
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AdAstra</title>
+<!-- PWA Meta Tags (Для иконки приложения) -->
 <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b0b0d">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,42 +13,18 @@
 <link rel="icon" type="image/png" href="/icon.png">
 
 <style>
-:root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--paper:#fffdf7;--line:rgba(212,175,55,.3);--bg:#0b0b0d}
-*{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-body{margin:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;background:var(--paper);color:#222;padding-bottom: 80px; overflow-x: hidden;}
-button{cursor:pointer; font-family: inherit;}
+:root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--paper:#fffdf7;--line:rgba(212,175,55,.3)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--paper);color:var(--ink)}
+button{cursor:pointer}
 .hidden{display:none!important}
-
-/* --- LOGIN SCREEN (Твой дизайн) --- */
-.login-screen{
-  min-height:100vh;
-  background-color: var(--paper);
-  /* Паттерн ракет */
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M20 20 L25 10 L30 20 L25 30 Z M22 22 L15 25 M28 22 L35 25' stroke='%23d4af37' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 120px 120px;
-  display:flex;align-items:center;justify-content:center;padding:20px; 
-  position:fixed; top:0; left:0; width:100%; z-index:1000;
-}
-.login-screen::before { content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 50px; opacity: 0.15; transform: rotate(-15deg); pointer-events:none;}
-.login-screen::after { content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 70px; opacity: 0.15; transform: rotate(25deg); pointer-events:none;}
-
-.login-card{
-  width:min(430px,94vw);
-  background:#0b0b0d;
-  border:2px solid var(--gold);
-  border-radius:24px;
-  padding:34px 26px;
-  text-align:center;
-  box-shadow:0 22px 60px rgba(0,0,0,.35);
-  position: relative; z-index: 2;
-}
+.login-screen{min-height:100vh;background:#fff;display:flex;align-items:center;justify-content:center;padding:20px}
+.login-card{width:min(430px,94vw);background:#0b0b0d;border:2px solid var(--gold);border-radius:24px;padding:34px 26px;text-align:center;box-shadow:0 22px 60px rgba(0,0,0,.35)}
 .login-card .mark{width:88px;height:88px;margin:0 auto 8px;display:block}
 .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
 .login-card .tag{color:#e8d9a0;font-size:13px;margin-bottom:18px}
 .login-card input{width:100%;margin:12px 0;padding:16px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center}
 .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800}
-
-/* --- APP LAYOUT --- */
 .app{min-height:100vh;display:flex;flex-direction:column}
 .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,.22)}
 .brand{display:flex;align-items:center;gap:12px}
@@ -58,12 +34,10 @@ button{cursor:pointer; font-family: inherit;}
 .top-actions{display:flex;align-items:center;gap:10px}
 .role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08)}
 .light{color:#f4e8b5;border:1px solid rgba(212,175,55,.55);background:rgba(212,175,55,.08);padding:9px 12px;border-radius:12px;font-size:14px}
-
 .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px;border-bottom:1px solid rgba(212,175,55,.18)}
 .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700}
 .tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent}
 .badge-count{background:red;color:#fff;border-radius:99px;padding:2px 7px;font-size:11px;margin-left:5px}
-
 main{flex:1;width:min(1200px,calc(100% - 28px));margin:18px auto}
 .section{display:none}
 .section.active{display:block}
@@ -72,61 +46,46 @@ main{flex:1;width:min(1200px,calc(100% - 28px));margin:18px auto}
 .card h3{margin:18px 0 10px;font-size:19px}
 .sub{margin:0 0 14px;color:#7d6c47;line-height:1.45;font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
-
 label{display:block;margin:10px 0 5px;font-weight:700;color:#3c2f12;font-size:14px}
 input,select,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none}
 textarea{min-height:90px;resize:vertical}
-
-.gold-btn{border:none;border-radius:14px;padding:12px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:14px;font-weight:800;display:inline-block;text-align:center;text-decoration:none;margin-top:8px; cursor:pointer;}
-.ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px; cursor:pointer;}
-.red-btn{border:1.5px solid #dc3545;background:transparent;color:#dc3545;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px; cursor:pointer;}
+.gold-btn{border:none;border-radius:14px;padding:12px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:14px;font-weight:800;display:inline-block;text-align:center;text-decoration:none;margin-top:8px}
+.ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px}
+.red-btn{border:1.5px solid #dc3545;background:transparent;color:#dc3545;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px}
 .small{padding:8px 12px;border-radius:11px;font-size:13px;margin-top:6px}
-
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-.chip{padding:8px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700; cursor:pointer;}
+.chip{padding:8px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700}
 .chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent}
-
 .preview-box{border:1px solid var(--line);border-radius:22px;overflow:hidden}
 .preview-media{height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(212,175,55,.25),rgba(20,18,16,.1));overflow:hidden}
 .preview-media img{width:100%;height:100%;object-fit:cover}
 .preview-body{padding:14px}
-
 .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 8px 20px rgba(120,90,10,.07)}
 .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:#f5f0e0;font-size:38px;overflow:hidden}
 .ad-visual img{width:100%;height:100%;object-fit:cover}
 .ad-body{padding:13px}
-
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
 .stat{padding:14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center}
 .stat b{display:block;font-size:26px;color:#211a08;margin-bottom:3px}
-
 .pay-box{border:1px solid var(--line);background:#fffdf6;border-radius:18px;padding:14px;margin-top:12px}
 .result{margin-top:12px;padding:14px;border-radius:16px;background:#fff7dd;border:1px solid rgba(212,175,55,.32);line-height:1.6}
 .empty{padding:18px;border-radius:16px;border:1.5px dashed rgba(160,125,35,.4);color:#83704a;text-align:center;background:#fffdf4}
 .footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px}
 .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:14px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;font-size:14px}
-
-/* Status Badges */
 .sb{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700}
 .sb-pending{background:#fff3cd;color:#856404;border:1px solid #ffc107}
 .sb-approved_paid{background:#cce5ff;color:#004085;border:1px solid #007bff} /* Ждет оплаты */
 .sb-approved_free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d} /* Бесплатно одобрено */
 .sb-paid{background:#d4edda;color:#155724;border:1px solid #28a745} /* В ленте */
 .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
-
 .row-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap}
 .msg-unread{background:#fffde7;border-left:4px solid var(--gold)}
 .msg-read{background:#f9f9f9;border-left:4px solid #ccc}
 .dist-link{display:block;padding:10px 12px;margin:5px 0;background:#f9f4e4;border:1px solid #e8d88a;border-radius:10px;text-decoration:none;color:#3c2f12;font-size:14px;font-weight:600}
 .refresh-note{font-size:12px;color:#999;margin-left:8px}
-
-/* Install Banner */
-.install-banner{background:var(--gold);color:#000;padding:10px;text-align:center;font-size:13px;font-weight:bold;cursor:pointer;display:none; position:fixed; top:0; width:100%; z-index:2000;}
 </style>
 </head>
 <body>
-
-<!-- SVG Symbol Definition -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
 <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
@@ -142,9 +101,6 @@ textarea{min-height:90px;resize:vertical}
 </symbol>
 </defs>
 </svg>
-
-<div id="installBanner" class="install-banner" onclick="installApp()">📲 Установить AdAstra как приложение</div>
-
 <div id="loginScreen" class="login-screen">
 <div class="login-card">
 <svg class="mark"><use href="#adastra-mark"/></svg>
@@ -154,7 +110,6 @@ textarea{min-height:90px;resize:vertical}
 <button id="btnEnter" class="enter-btn" type="button">Войти</button>
 </div>
 </div>
-
 <div id="app" class="app hidden">
 <header class="topbar">
 <div class="brand">
@@ -166,377 +121,436 @@ textarea{min-height:90px;resize:vertical}
 <button id="btnLogout" class="light" type="button">Выйти</button>
 </div>
 </header>
-
 <nav class="tabs">
 <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
 <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
-<button class="tab-btn" data-tab="my" type="button">👤 Мои заявки</button>
+<button class="tab-btn" data-tab="bill" type="button">🧮 Оплата</button>
+<button class="tab-btn" data-tab="subs" type="button">👥 Подписка</button>
 <button class="tab-btn" data-tab="support" type="button">✉️ Поддержка</button>
 <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ <span id="adminBadge" class="badge-count hidden">0</span></button>
 </nav>
-
 <main>
-  <!-- STUDIO -->
-  <section id="studio" class="section active">
-    <div class="card">
-      <h2>🎨 Студия рекламы</h2>
-      <p class="sub">Загрузите фото, напишите текст → отправьте на модерацию.</p>
-      <div class="grid">
-        <div>
-          <label>Фото</label><input id="imageUpload" type="file" accept="image/*"/>
-          <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Ремонт квартир"/>
-          <label>Текст</label><textarea id="adText" placeholder="Коротко и ярко"></textarea>
-          <label>Контакт</label><input id="adContact" type="text" placeholder="+972 50 000 0000"/>
-          <label>Срок размещения</label>
-          <select id="adDuration">
-            <option value="1 day">1 День - $5</option>
-            <option value="7 days" selected>7 Дней - $20</option>
-            <option value="30 days">30 Дней - $49</option>
-          </select>
-          <button id="btnPublish" class="gold-btn" type="button" style="width:100%">🚀 Отправить на модерацию</button>
-        </div>
-        <div>
-          <h3>Предпросмотр</h3>
-          <div class="preview-box">
-            <div class="preview-media" id="previewMedia"><svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg></div>
-            <div class="preview-body">
-              <div id="prevTitle" style="font-weight:800;font-size:18px;margin-bottom:5px">Ваш заголовок</div>
-              <div id="prevText" style="color:#555;font-size:14px">Текст...</div>
-              <div id="prevContact" style="margin-top:8px;font-weight:bold;color:#b8860b">Контакт</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEED -->
-  <section id="feed" class="section">
-    <div class="card">
-      <h2>📰 Активная реклама</h2>
-      <div id="feedList" class="grid"></div>
-    </div>
-  </section>
-
-  <!-- MY ADS -->
-  <section id="my" class="section">
-    <div class="card">
-      <h2>👤 Мои заявки</h2>
-      <div id="myAdsList"></div>
-    </div>
-  </section>
-
-  <!-- SUPPORT -->
-  <section id="support" class="section">
-    <div class="card">
-      <h2>✉️ Служба поддержки</h2>
-      <p class="sub">Напишите нам — ответим как можно скорее.</p>
-      <div style="max-width:520px">
-        <label>Ваше сообщение</label>
-        <textarea id="supportText" placeholder="Опишите вопрос, пожелание или проблему..." style="min-height:130px"></textarea>
-        <button id="btnSupport" class="gold-btn" type="button" style="width:100%">📨 Отправить в поддержку</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ADMIN -->
-  <section id="admin" class="section">
-    <div class="card">
-      <h2>👑 Панель администратора <span class="refresh-note">⟳ автообновление каждые 5 сек</span></h2>
-      <div class="stats">
-        <div class="stat"><b id="statPending">0</b>На модерации</div>
-        <div class="stat"><b id="statActive">0</b>В ленте</div>
-        <div class="stat"><b id="statMsgs">0</b>Сообщений</div>
-      </div>
-
-      <h3>✉️ Сообщения поддержки</h3>
-      <div id="msgsList"></div>
-
-      <h3 style="margin-top:28px">📥 Заявки на модерацию</h3>
-      <div id="moderationList"></div>
-
-      <h3 style="margin-top:28px">📋 Все объявления</h3>
-      <div id="allAdsList"></div>
-      
-      <h3 style="margin-top:28px">🚀 Авто-постинг (Реклама себя)</h3>
-      <div class="pay-box">
-         <p class="sub">Сгенерируйте текст и разместите на бесплатных площадках.</p>
-         <button class="gold-btn" onclick="generatePromo()" type="button">Сгенерировать промо-текст</button>
-         <textarea id="promoText" style="width:100%; height:100px; margin-top:10px; font-size:12px;" readonly></textarea>
-         <button class="ghost-btn" onclick="copyPromo()" type="button">📋 Копировать текст</button>
-         <div style="margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
-            <a href="https://www.facebook.com/marketplace/create/item" target="_blank" class="dist-link" style="margin:0; text-align:center;">Facebook</a>
-            <a href="https://craigslist.org/sites/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Craigslist</a>
-            <a href="https://www.yad2.co.il/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Yad2</a>
-            <a href="https://www.locanto.com/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Locanto</a>
-         </div>
-      </div>
-    </div>
-  </section>
+<section id="studio" class="section active">
+<div class="card">
+<h2>🎨 Студия рекламы</h2>
+<p class="sub">Загрузите фото, напишите текст → отправьте на модерацию.</p>
+<div class="grid">
+<div>
+<label>Фото</label><input id="imageUpload" type="file" accept="image/*"/>
+<label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Ремонт квартир"/>
+<label>Текст</label><textarea id="adText" placeholder="Коротко и ярко"></textarea>
+<label>Контакт</label><input id="adContact" type="text" placeholder="+972 50 000 0000"/>
+<button id="btnPublish" class="gold-btn" type="button">🚀 Отправить на модерацию</button>
+</div>
+<div>
+<h3>Предпросмотр</h3>
+<div class="preview-box">
+<div class="preview-media" id="previewMedia"><svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg></div>
+<div class="preview-body">
+<div id="prevTitle" style="font-weight:800;font-size:18px;margin-bottom:5px">Ваш заголовок</div>
+<div id="prevText" style="color:#555;font-size:14px">Текст...</div>
+<div id="prevContact" style="margin-top:8px;font-weight:bold;color:#b8860b">Контакт</div>
+</div>
+</div>
+<h3>Мои заявки</h3>
+<div id="myAds"></div>
+</div>
+</div>
+</div>
+</section>
+<section id="feed" class="section">
+<div class="card">
+<h2>📰 Одобренная реклама</h2>
+<div id="feedList" class="grid"></div>
+</div>
+</section>
+<section id="bill" class="section">
+<div class="card">
+<h2>🧮 Оплата</h2>
+<p class="sub">$20/неделя · $49/месяц</p>
+<div class="grid">
+<div>
+<div class="chips">
+<button class="chip term active" data-val="20" type="button">Неделя $20</button>
+<button class="chip term" data-val="49" type="button">Месяц $49</button>
+</div>
+<div class="result" id="calcResult">Итого: <b>$20</b></div>
+</div>
+<div>
+<div class="pay-box">
+<h3 style="margin-top:0">💳 PayPal</h3>
+<a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%">Оплатить $20</a>
+</div>
+<div class="pay-box">
+<h3 style="margin-top:0">₿ USDT BEP20</h3>
+<input type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488"/>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+<button class="ghost-btn small copy-btn" data-copy="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488" type="button">📋 Копировать</button>
+<button id="btnCryptoPaid" class="gold-btn small" type="button">✅ Я перевёл</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="subs" class="section">
+<div class="card">
+<h2>👥 Бесплатная подписка</h2>
+<p class="sub">Уведомления о новых площадках.</p>
+<div style="max-width:420px">
+<label>Email или Telegram</label>
+<input id="subEmail" type="text" placeholder="mail@example.com или @username"/>
+<button id="btnSub" class="gold-btn" type="button">Подписаться</button>
+<div id="subMsg" style="margin-top:10px;color:green;font-weight:700;display:none">✅ Вы подписаны!</div>
+</div>
+</div>
+</section>
+<section id="support" class="section">
+<div class="card">
+<h2>✉️ Служба поддержки</h2>
+<p class="sub">Напишите нам — ответим как можно скорее.</p>
+<div style="max-width:520px">
+<label>Ваше сообщение</label>
+<textarea id="supportText" placeholder="Опишите вопрос, пожелание или проблему..." style="min-height:130px"></textarea>
+<button id="btnSupport" class="gold-btn" type="button">📨 Отправить в поддержку</button>
+<div id="supportMsg" style="margin-top:10px;color:green;font-weight:700;display:none">✅ Сообщение отправлено!</div>
+</div>
+</div>
+</section>
+<section id="admin" class="section">
+<div class="card">
+<h2>👑 Панель администратора <span class="refresh-note">⟳ автообновление каждые 5 сек</span></h2>
+<div class="stats">
+<div class="stat"><b id="statPending">0</b>На модерации</div>
+<div class="stat"><b id="statApproved">0</b>Одобрено</div>
+<div class="stat"><b id="statPaid">0</b>Платных</div>
+<div class="stat"><b id="statFree">0</b>Бесплатных</div>
+<div class="stat"><b id="statRejected">0</b>Отклонено</div>
+<div class="stat"><b id="statSubs">0</b>Подписчиков</div>
+<div class="stat"><b id="statMsgs">0</b>Сообщений</div>
+</div>
+<h3>✉️ Сообщения поддержки</h3>
+<div id="msgsList"></div>
+<h3 style="margin-top:28px">📥 Заявки на модерацию</h3>
+<div id="moderationList"></div>
+<h3 style="margin-top:28px">📋 Все объявления</h3>
+<div id="allAdsList"></div>
+<h3 style="margin-top:28px">👥 Подписчики</h3>
+<div id="subsAdminList"></div>
+<h3 style="margin-top:28px">🚀 Авто-постинг</h3>
+<p class="sub">Нажмите «Постинг» у одобренного объявления → получите текст и ссылки на бесплатные площадки.</p>
+<div id="distributionTool" class="pay-box" style="display:none">
+<h4 id="distTitle" style="margin-top:0">—</h4>
+<textarea id="distText" style="height:110px;margin-bottom:10px"></textarea>
+<button class="ghost-btn small" id="btnCopyDist" type="button">📋 Копировать текст</button>
+<hr style="border:0;border-top:1px solid #e8d88a;margin:16px 0"/>
+<p style="font-weight:700;margin-bottom:8px">Бесплатные площадки:</p>
+<div id="distLinks"></div>
+</div>
+</div>
+</section>
 </main>
 <footer class="footer">AdAstra © 2026 — реклама, которая достаёт до звёзд 👑</footer>
 </div>
-
 <div id="toast" class="toast hidden"></div>
-
 <script>
-// --- CONFIG ---
-const ADMIN_CODE = '584462';
-let state = { role: null, user: '', ads: [], subscribers: [], messages: [] };
-let currentImageBase64 = null;
-let refreshTimer = null;
-let deferredPrompt;
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+let state={role:null,user:'',ads:[],subscribers:[],messages:[]};
+let currentImageBase64=null;
+let currentPrice=20;
+let refreshTimer=null;
 
-// --- PWA LOGIC ---
+// PWA Install Logic
+let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('installBanner').style.display = 'block';
-});
-function installApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
-      deferredPrompt = null;
-    });
-  }
-}
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
-
-// --- HELPERS ---
-const $ = (s, r = document) => r.querySelector(s);
-const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-function toast(m) { const e = $('#toast'); e.textContent = m; e.classList.remove('hidden'); setTimeout(() => e.classList.add('hidden'), 3000); }
-function esc(v) { return String(v || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-
-function statusBadge(s) {
-  if (s === 'pending') return '<span class="sb sb-pending">⏳ На модерации</span>';
-  if (s === 'approved_paid') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
-  if (s === 'approved_free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
-  if (s === 'paid') return '<span class="sb sb-paid">🔥 В ЛЕНТЕ</span>';
-  if (s === 'rejected') return '<span class="sb sb-rejected">❌ Отклонено</span>';
-  return '<span class="sb sb-pending">' + esc(s) + '</span>';
-}
-
-// --- DATA ---
-async function fetchData() {
-  try {
-    const res = await fetch('/api/admin');
-    const data = await res.json();
-    state.ads = data.ads || [];
-    state.subscribers = data.subscribers || [];
-    state.messages = data.messages || [];
-    renderAll();
-  } catch (e) { console.error(e); }
-}
-
-async function sendAction(action, id, payload = {}) {
-  try {
-    const res = await fetch('/api/admin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, id, ...payload }) });
-    const r = await res.json();
-    if (r.success) { await fetchData(); return true; }
-    else { toast('Ошибка: ' + (r.error || 'неизвестно')); return false; }
-  } catch (e) { toast('Ошибка сети'); return false; }
-}
-
-// --- AUTH ---
-function enterApp() {
-  const v = $('#loginInput').value.trim();
-  if (!v) return toast('Введите имя или код');
-  if (v === ADMIN_CODE) {
-    state.role = 'admin'; state.user = 'Admin';
-    $('#adminTabBtn').classList.remove('hidden');
-  } else {
-    state.role = 'client'; state.user = v;
-    $('#adminTabBtn').classList.add('hidden');
-  }
-  $('#loginScreen').classList.add('hidden');
-  $('#app').classList.remove('hidden');
-  $('#roleBadge').textContent = state.role === 'admin' ? '👑 Администратор' : '👤 ' + state.user;
-  startAutoRefresh();
-  fetchData();
-  toast(state.role === 'admin' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, ' + v);
-}
-
-function logout() { if (refreshTimer) clearInterval(refreshTimer); location.reload(); }
-function startAutoRefresh() { if (refreshTimer) clearInterval(refreshTimer); refreshTimer = setInterval(fetchData, 5000); }
-function switchTab(t) {
-  if (t === 'admin' && state.role !== 'admin') t = 'studio';
-  $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
-  $$('.section').forEach(s => s.classList.toggle('active', s.id === t));
-}
-
-// --- CLIENT ACTIONS ---
-$('#imageUpload').addEventListener('change', function(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev) {
-    const img = new Image();
-    img.onload = function() {
-      const c = document.createElement('canvas');
-      let w = img.width, h = img.height;
-      if (w > 600) { h *= 600 / w; w = 600; }
-      c.width = w; c.height = h;
-      c.getContext('2d').drawImage(img, 0, 0, w, h);
-      currentImageBase64 = c.toDataURL('image/jpeg', 0.65);
-      $('#previewMedia').innerHTML = '<img src="' + currentImageBase64 + '"/>';
-      toast('📷 Фото готово');
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
+  // Можно добавить кнопку установки, если нужно
 });
 
-['adTitle', 'adText', 'adContact'].forEach(id => {
-  $('#' + id).addEventListener('input', () => {
-    $('#prevTitle').textContent = $('#adTitle').value || 'Ваш заголовок';
-    $('#prevText').textContent = $('#adText').value || 'Текст...';
-    $('#prevContact').textContent = $('#adContact').value || 'Контакт';
-  });
+function toast(m){const e=$('#toast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),3000)}
+function esc(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// Обновленная логика статусов
+function statusBadge(s){
+if(s==='pending') return '<span class="sb sb-pending">⏳ На модерации</span>';
+if(s==='approved_paid') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
+if(s==='approved_free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
+if(s==='paid') return '<span class="sb sb-paid">🔥 В ЛЕНТЕ</span>';
+if(s==='rejected') return '<span class="sb sb-rejected">❌ Отклонено</span>';
+// Старые статусы для совместимости
+if(s==='approved') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
+if(s==='free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
+return '<span class="sb sb-pending">'+esc(s)+'</span>';
+}
+
+async function fetchData(){
+try{
+const res=await fetch('/api/admin');
+const data=await res.json();
+state.ads=data.ads||[];
+state.subscribers=data.subscribers||[];
+state.messages=data.messages||[];
+renderAll();
+}catch(e){console.error(e);toast('Ошибка загрузки базы')}
+}
+
+async function sendAction(action,id,payload={}){
+try{
+const res=await fetch('/api/admin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,id,...payload})});
+const r=await res.json();
+if(r.success){await fetchData();return true}
+else{toast('Ошибка: '+(r.error||'неизвестно'));return false}
+}catch(e){toast('Ошибка сети');return false}
+}
+
+function enterApp(){
+const v=$('#loginInput').value.trim();
+if(!v) return toast('Введите имя или код');
+if(v==='584462'){state.role='admin';state.user='Admin';$('#adminTabBtn').classList.remove('hidden')}
+else{state.role='client';state.user=v;$('#adminTabBtn').classList.add('hidden')}
+$('#loginScreen').classList.add('hidden');
+$('#app').classList.remove('hidden');
+$('#roleBadge').textContent=state.role==='admin'?'👑 Администратор':'👤 '+state.user;
+startAutoRefresh();
+fetchData();
+toast(state.role==='admin'?'👑 Добро пожаловать, Босс':'🚀 Привет, '+v);
+}
+
+function logout(){if(refreshTimer)clearInterval(refreshTimer);location.reload()}
+function startAutoRefresh(){
+if(refreshTimer) clearInterval(refreshTimer);
+refreshTimer=setInterval(fetchData,5000);
+}
+
+function switchTab(t){
+if(t==='admin'&&state.role!=='admin') t='studio';
+$$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+$$('.section').forEach(s=>s.classList.toggle('active',s.id===t));
+}
+
+$('#imageUpload').addEventListener('change',function(e){
+const file=e.target.files[0];if(!file)return;
+const reader=new FileReader();
+reader.onload=function(ev){
+const img=new Image();
+img.onload=function(){
+const c=document.createElement('canvas');
+let w=img.width,h=img.height;
+if(w>600){h*=600/w;w=600}
+c.width=w;c.height=h;
+c.getContext('2d').drawImage(img,0,0,w,h);
+currentImageBase64=c.toDataURL('image/jpeg',0.65);
+$('#previewMedia').innerHTML='<img src="'+currentImageBase64+'"/>';
+toast('📷 Фото готово');
+};
+img.src=ev.target.result;
+};
+reader.readAsDataURL(file);
 });
 
-async function publishAd() {
-  const title = $('#adTitle').value.trim();
-  const text = $('#adText').value.trim();
-  const contact = $('#adContact').value.trim();
-  const duration = $('#adDuration').value;
-  if (!title) return toast('Добавьте заголовок');
-  
-  const btn = $('#btnPublish'); btn.disabled = true; btn.textContent = '⏳ Отправка...';
-  const ok = await sendAction('publish', null, { owner: state.user, title, text, contact, duration, image: currentImageBase64 });
-  btn.disabled = false; btn.textContent = '🚀 Отправить на модерацию';
-  
-  if (ok) {
-    toast('✅ Отправлено на модерацию!');
-    $('#adTitle').value = ''; $('#adText').value = ''; $('#adContact').value = '';
-    currentImageBase64 = null;
-    $('#previewMedia').innerHTML = '<svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg>';
-    switchTab('my');
-  }
+['adTitle','adText','adContact'].forEach(id=>{
+$('#'+id).addEventListener('input',()=>{
+$('#prevTitle').textContent=$('#adTitle').value||'Ваш заголовок';
+$('#prevText').textContent=$('#adText').value||'Текст...';
+$('#prevContact').textContent=$('#adContact').value||'Контакт';
+});
+});
+
+async function publishAd(){
+const title=$('#adTitle').value.trim();
+const text=$('#adText').value.trim();
+const contact=$('#adContact').value.trim();
+if(!title) return toast('Добавьте заголовок');
+if(currentImageBase64&&currentImageBase64.length>250000) return toast('Фото слишком большое');
+const btn=$('#btnPublish');btn.disabled=true;btn.textContent='⏳ Отправка...';
+const ok=await sendAction('publish',null,{owner:state.user,title,text,contact,image:currentImageBase64});
+btn.disabled=false;btn.textContent='🚀 Отправить на модерацию';
+if(ok){
+toast('✅ Отправлено на модерацию!');
+$('#adTitle').value='';$('#adText').value='';$('#adContact').value='';
+currentImageBase64=null;
+$('#previewMedia').innerHTML='<svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg>';
+$('#prevTitle').textContent='Ваш заголовок';
+$('#prevText').textContent='Текст...';
+$('#prevContact').textContent='Контакт';
+}
 }
 
-async function sendSupport() {
-  const txt = $('#supportText').value.trim();
-  if (!txt) return toast('Напишите сообщение');
-  const ok = await sendAction('support', null, { from: state.user, text: txt });
-  if (ok) { toast('✅ Сообщение отправлено!'); $('#supportText').value = ''; }
+async function subscribe(){
+const val=$('#subEmail').value.trim();
+if(!val) return toast('Введите Email или Telegram');
+const ok=await sendAction('subscribe',null,{contact:val});
+if(ok){$('#subMsg').style.display='block';$('#subEmail').value='';toast('✅ Подписка оформлена!')}
 }
 
-async function confirmPayment(id) {
-  if(confirm("Вы уверены, что оплатили? Администратор проверит оплату и активирует рекламу.")) {
-     const ok = await sendAction('confirm_payment', id);
-     if(ok) toast("Оплата принята! Реклама активирована.");
-  }
+async function sendSupport(){
+const txt=$('#supportText').value.trim();
+if(!txt) return toast('Напишите сообщение');
+const ok=await sendAction('support',null,{from:state.user,text:txt});
+if(ok){$('#supportMsg').style.display='block';$('#supportText').value='';toast('✅ Сообщение отправлено!')}
 }
 
-// --- ADMIN ACTIONS ---
-window.approvePaid = (id) => sendAction('approve_paid', id);
-window.approveFree = (id) => sendAction('approve_free', id);
-window.rejectAd = (id) => sendAction('reject', id);
-window.deleteAd = (id) => { if (confirm('Удалить?')) sendAction('delete', id); };
-window.deleteMsg = (id) => { if (confirm('Удалить?')) sendAction('delete_msg', id); };
-window.markRead = (id) => sendAction('mark_read', id);
+// --- НОВАЯ ЛОГИКА АДМИНКИ ---
+window.approvePaid=(id)=>sendAction('approve_paid',id); // Админ жмет "Платно"
+window.approveFree=(id)=>sendAction('approve_free',id); // Админ жмет "Бесплатно"
+window.rejectAd=(id)=>sendAction('reject',id);
+window.confirmPayment=(id)=>sendAction('confirm_payment',id); // Клиент жмет "Я оплатил"
 
-function generatePromo() {
-  const txt = `🔥 AD ASTRA - Твоя реклама улетит в космос! 🚀\n\nХочешь продать быстро? Размести объявление на AdAstra.\n✅ Быстрая модерация\n✅ Низкие цены\n✅ Работает как приложение на телефоне\n\n👉 Заходи сейчас: ${window.location.href}\n\n#AdAstra #Реклама #Объявления`;
-  $('#promoText').value = txt;
-  toast('Текст сгенерирован!');
-}
-function copyPromo() {
-  const t = $('#promoText'); t.select(); document.execCommand('copy'); toast('Скопировано!');
-}
+// Старые функции для совместимости, если где-то остались
+window.makePaid=(id)=>sendAction('approve_paid',id);
+window.makeFree=(id)=>sendAction('approve_free',id);
 
-// --- RENDERING ---
-function adCardHtml(a) {
-  return '<div class="ad-card"><div class="ad-visual">' + (a.image ? '<img src="' + a.image + '"/>' : '📷') + '</div>' +
-    '<div class="ad-body"><strong style="font-size:16px">' + esc(a.title) + '</strong>' +
-    '<p class="sub" style="margin:4px 0">' + esc(a.text || '') + '</p>' +
-    '<div style="font-size:13px;color:#7c6832;font-weight:700">📞 ' + esc(a.contact || '') + '</div>' +
-    '</div></div>';
+window.deleteAd=(id)=>{if(confirm('Удалить объявление?'))sendAction('delete',id)};
+window.deleteSub=(id)=>{if(confirm('Удалить подписчика?'))sendAction('delete_sub',id)};
+window.deleteMsg=(id)=>{if(confirm('Удалить сообщение?'))sendAction('delete_msg',id)};
+window.markRead=(id)=>sendAction('mark_read',id);
+
+window.prepareDistribution=(id)=>{
+const ad=state.ads.find(a=>a.id==id);if(!ad)return;
+$('#distributionTool').style.display='block';
+$('#distTitle').textContent=ad.title;
+$('#distText').value=ad.title+'\n'+(ad.text||'')+'\n📞 Контакт: '+(ad.contact||'')+'\n#AdAstra #Реклама';
+const links=[
+{name:'🌐 Craigslist',url:'https://craigslist.org/sites/'},
+{name:'🌐 Locanto',url:'https://www.locanto.com/'},
+{name:'📘 Facebook Marketplace',url:'https://www.facebook.com/marketplace/create/item'},
+{name:'🌐 Hoobly',url:'https://www.hoobly.com/'},
+{name:'🌐 Oodle',url:'https://www.oodle.com/'},
+{name:'🌐 Adpost',url:'https://www.adpost.com/'},
+{name:'🇮🇱 Yad2 (Израиль)',url:'https://www.yad2.co.il/'},
+{name:'🌐 Gumtree',url:'https://www.gumtree.com/'}
+];
+$('#distLinks').innerHTML=links.map(l=>'<a href="'+l.url+'" target="_blank" class="dist-link">'+l.name+'</a>').join('');
+$('#distributionTool').scrollIntoView({behavior:'smooth'});
+};
+
+function adCardHtml(a){
+return '<div class="ad-card"><div class="ad-visual">'+(a.image?'<img src="'+a.image+'"/>':'📷')+'</div>'+
+'<div class="ad-body"><strong style="font-size:16px">'+esc(a.title)+'</strong>'+
+'<p class="sub" style="margin:4px 0">'+esc(a.text||'')+'</p>'+
+'<div style="font-size:13px;color:#7c6832;font-weight:700">📞 '+esc(a.contact||'')+'</div>'+
+'<div style="margin-top:8px">'+statusBadge(a.status)+'</div>'+
+'</div></div>';
 }
 
 function myAdRow(a) {
   let actionBtn = '';
-  if (a.status === 'approved_paid') {
-    actionBtn = `<button class="gold-btn small" onclick="confirmPayment(${a.id})" style="width:100%">💳 Я ОПЛАТИЛ ($20)</button>`;
+  // Если админ одобрил как платное, клиент видит кнопку оплаты
+  if (a.status === 'approved_paid' || a.status === 'approved') {
+    actionBtn = `<button class="gold-btn small" onclick="confirmPayment(${a.id})" style="width:100%; margin-top:8px;">💳 Я ОПЛАТИЛ ($20)</button>`;
   }
-  return `<div class="row-item" style="flex-direction:column; align-items:flex-start;">
-    <div style="width:100%; display:flex; justify-content:space-between;">
+  return `<div class="row-item" style="flex-direction:column; align-items:flex-start; border:1px solid #eee; border-radius:12px; padding:12px; margin-bottom:8px;">
+    <div style="width:100%; display:flex; justify-content:space-between; align-items:center;">
         <strong>${esc(a.title)}</strong> ${statusBadge(a.status)}
     </div>
-    <div style="font-size:12px; color:#666; margin:5px 0;">${esc(a.text).substring(0,50)}...</div>
+    <div style="font-size:12px; color:#666; margin:5px 0;">${esc(a.text).substring(0,60)}...</div>
     ${actionBtn}
   </div>`;
 }
 
-function adminAdRow(a) {
-  return '<div class="row-item">' +
-    '<div style="flex:1;min-width:0">' +
-    '<strong>' + esc(a.title) + '</strong> ' + statusBadge(a.status) +
-    '<div style="font-size:12px;color:#888;margin-top:3px">От: ' + esc(a.owner) + ' · ' + esc(a.duration || '') + '</div>' +
-    '</div>' +
-    '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
-    (a.status === 'pending' ? 
-        '<button class="gold-btn small" onclick="approvePaid(' + a.id + ')" type="button">💰 Платно</button>' +
-        '<button class="ghost-btn small" onclick="approveFree(' + a.id + ')" type="button">🆓 Бесплатно</button>' +
-        '<button class="red-btn small" onclick="rejectAd(' + a.id + ')" type="button">❌</button>' 
-        : '') +
-    '<button class="red-btn small" onclick="deleteAd(' + a.id + ')" type="button">🗑</button>' +
-    '</div></div>';
+function adminAdRow(a){
+// Кнопки для админа: Платно / Бесплатно / Отклонить
+return '<div class="row-item">'+
+'<div style="flex:1;min-width:0">'+
+'<strong>'+esc(a.title)+'</strong> '+statusBadge(a.status)+
+'<div style="font-size:12px;color:#888;margin-top:3px">От: '+esc(a.owner)+' · '+esc(a.contact||'')+'</div>'+
+'</div>'+
+'<div style="display:flex;gap:6px;flex-wrap:wrap">'+
+(a.status==='pending'?'<button class="gold-btn small" onclick="approvePaid('+a.id+')" type="button">💰 Платно</button><button class="ghost-btn small" onclick="approveFree('+a.id+')" type="button">🆓 Бесплатно</button><button class="red-btn small" onclick="rejectAd('+a.id+')" type="button">❌</button>':'')+
+((a.status==='approved_paid'||a.status==='approved_free'||a.status==='paid'||a.status==='free')?'<button class="ghost-btn small" onclick="prepareDistribution('+a.id+')" type="button">🚀 Постинг</button>':'')+
+'<button class="red-btn small" onclick="deleteAd('+a.id+')" type="button">🗑</button>'+
+'</div></div>';
 }
 
-function renderAll() {
-  // Stats
-  const pending = state.ads.filter(a => a.status === 'pending');
-  const active = state.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
-  $('#statPending').textContent = pending.length;
-  $('#statActive').textContent = active.length;
-  $('#statMsgs').textContent = state.messages.length;
+function renderAll(){
+const pending=state.ads.filter(a=>a.status==='pending');
+const approved=state.ads.filter(a=>a.status==='approved_paid' || a.status==='approved_free' || a.status==='approved' || a.status==='free');
+const paid=state.ads.filter(a=>a.status==='paid');
+const free=state.ads.filter(a=>a.status==='approved_free' || a.status==='free');
+const rejected=state.ads.filter(a=>a.status==='rejected');
+const unreadMsgs=state.messages.filter(m=>!m.read);
+const total=pending.length+unreadMsgs.length;
+const badge=$('#adminBadge');
+if(total>0){badge.textContent=total;badge.classList.remove('hidden')}else{badge.classList.add('hidden')}
+$('#statPending').textContent=pending.length;
+$('#statApproved').textContent=approved.length;
+$('#statPaid').textContent=paid.length;
+$('#statFree').textContent=free.length;
+$('#statRejected').textContent=rejected.length;
+$('#statSubs').textContent=state.subscribers.length;
+$('#statMsgs').textContent=state.messages.length;
 
-  // Feed (Public)
-  const feedAds = state.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
-  $('#feedList').innerHTML = feedAds.length ? feedAds.map(adCardHtml).join('') : '<div class="empty">Пока нет активной рекламы.</div>';
-
-  // My Ads (Client)
-  if (state.role !== 'admin') {
-    const myAds = state.ads.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
-    $('#myAdsList').innerHTML = myAds.length ? myAds.map(myAdRow).join('') : '<div class="empty">У вас нет заявок.</div>';
-  }
-
-  // Admin Panel
-  if (state.role === 'admin') {
-    // Messages
-    const msgsEl = $('#msgsList');
-    if (!state.messages.length) { msgsEl.innerHTML = '<div class="empty">Нет сообщений</div>'; }
-    else {
-      msgsEl.innerHTML = [...state.messages].reverse().map(m =>
-        '<div class="row-item ' + (m.read ? 'msg-read' : 'msg-unread') + '">' +
-        '<div style="flex:1"><strong>' + esc(m.from) + '</strong> <span style="font-size:12px;color:#888">' + new Date(m.created_at).toLocaleString('ru-RU') + '</span>' +
-        (!m.read ? ' <span style="font-size:11px;background:var(--gold);color:#000;padding:2px 7px;border-radius:99px;font-weight:700">НОВОЕ</span>' : '') +
-        '<p style="margin:5px 0 0;font-size:14px;color:#333">' + esc(m.text) + '</p></div>' +
-        '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
-        (!m.read ? '<button class="gold-btn small" onclick="markRead(' + m.id + ')" type="button">✅ Прочитано</button>' : '') +
-        '<button class="red-btn small" onclick="deleteMsg(' + m.id + ')" type="button">🗑</button>' +
-        '</div></div>'
-      ).join('');
-    }
-
-    // Moderation
-    $('#moderationList').innerHTML = pending.length ? pending.map(adminAdRow).join('') : '<div class="empty">Нет заявок на модерацию ✅</div>';
-    
-    // All Ads
-    $('#allAdsList').innerHTML = state.ads.length ? [...state.ads].reverse().map(adminAdRow).join('') : '<div class="empty">Нет объявлений</div>';
-  }
+// Мои заявки (Клиент)
+if(state.role!=='admin'){
+const myAds=state.ads.filter(a=>a.owner.toLowerCase()===state.user.toLowerCase());
+$('#myAds').innerHTML=myAds.length?myAds.map(myAdRow).join(''):'<div class="empty">Пока нет заявок. Создайте первую рекламу!</div>';
 }
 
-// --- INIT ---
-$('#btnEnter').addEventListener('click', enterApp);
-$('#loginInput').addEventListener('keydown', e => { if (e.key === 'Enter') enterApp(); });
-$('#btnLogout').addEventListener('click', logout);
-$$('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
-$('#btnPublish').addEventListener('click', publishAd);
-$('#btnSupport').addEventListener('click', sendSupport);
+// Лента (Публичная) - Только оплаченные или бесплатно одобренные
+const feedAds=state.ads.filter(a=>a.status==='paid' || a.status==='approved_free' || a.status==='free');
+$('#feedList').innerHTML=feedAds.length?feedAds.map(adCardHtml).join(''):'<div class="empty">Пока нет одобренной рекламы.</div>';
+
+// Админка
+if(state.role==='admin'){
+const msgsEl=$('#msgsList');
+if(!state.messages.length){msgsEl.innerHTML='<div class="empty">Нет сообщений</div>'}
+else{
+msgsEl.innerHTML=[...state.messages].reverse().map(m=>
+'<div class="row-item '+(m.read?'msg-read':'msg-unread')+'">'+
+'<div style="flex:1"><strong>'+esc(m.from)+'</strong> <span style="font-size:12px;color:#888">'+new Date(m.created_at).toLocaleString('ru-RU')+'</span>'+
+(!m.read?' <span style="font-size:11px;background:var(--gold);color:#000;padding:2px 7px;border-radius:99px;font-weight:700">НОВОЕ</span>':'')+
+'<p style="margin:5px 0 0;font-size:14px;color:#333">'+esc(m.text)+'</p></div>'+
+'<div style="display:flex;gap:6px;flex-wrap:wrap">'+
+(!m.read?'<button class="gold-btn small" onclick="markRead('+m.id+')" type="button">✅ Прочитано</button>':'')+
+'<button class="red-btn small" onclick="deleteMsg('+m.id+')" type="button">🗑</button>'+
+'</div></div>'
+).join('');
+}
+$('#moderationList').innerHTML=pending.length?pending.map(adminAdRow).join(''):'<div class="empty">Нет заявок на модерацию ✅</div>';
+$('#allAdsList').innerHTML=state.ads.length?[...state.ads].reverse().map(adminAdRow).join(''):'<div class="empty">Нет объявлений</div>';
+const subsEl=$('#subsAdminList');
+if(!state.subscribers.length){subsEl.innerHTML='<div class="empty">Нет подписчиков</div>'}
+else{
+subsEl.innerHTML=[...state.subscribers].reverse().map(s=>
+'<div class="row-item"><div><strong>'+esc(s.contact)+'</strong><div style="font-size:12px;color:#888;margin-top:3px">📅 '+new Date(s.date).toLocaleDateString('ru-RU')+'</div></div>'+
+'<button class="red-btn small" onclick="deleteSub('+s.id+')" type="button">🗑 Удалить</button></div>'
+).join('');
+}
+}
+}
+
+$$('.term').forEach(b=>b.addEventListener('click',()=>{
+$$('.term').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');
+currentPrice=parseInt(b.dataset.val);
+$('#calcResult').innerHTML='Итого: <b>$'+currentPrice+'</b>';
+$('#paypalLink').href='https://www.paypal.me/kvaisman90/'+currentPrice;
+$('#paypalLink').textContent='Оплатить $'+currentPrice;
+}));
+
+$$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{
+const t=b.dataset.copy;
+if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>toast('📋 Адрес скопирован'))}
+else{const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('📋 Адрес скопирован')}
+}));
+
+$('#btnCryptoPaid').addEventListener('click',()=>toast('✅ Заявка отправлена админу. Ожидайте подтверждения.'));
+$('#btnCopyDist').addEventListener('click',()=>{const t=$('#distText');t.select();document.execCommand('copy');toast('📋 Текст скопирован!')});
+$('#btnEnter').addEventListener('click',enterApp);
+$('#loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterApp()});
+$('#btnLogout').addEventListener('click',logout);
+$$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+$('#btnPublish').addEventListener('click',publishAd);
+$('#btnSub').addEventListener('click',subscribe);
+$('#btnSupport').addEventListener('click',sendSupport);
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
 fetchData();
 </script>
 </body>
