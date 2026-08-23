@@ -9,7 +9,6 @@
 <meta name="theme-color" content="#0b0b0d">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<!-- Иконка для установки на телефон/ПК -->
 <link rel="apple-touch-icon" href="/icon.png">
 <link rel="icon" type="image/png" href="/icon.png">
 
@@ -20,105 +19,114 @@ body{margin:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
 button{cursor:pointer; font-family: inherit;}
 .hidden{display:none!important}
 
-/* --- LOGIN SCREEN (Твой дизайн: Белый фон + Ракеты) --- */
+/* --- LOGIN SCREEN (Твой дизайн) --- */
 .login-screen{
   min-height:100vh;
   background-color: var(--paper);
-  /* Паттерн из ракет на фоне */
+  /* Паттерн ракет */
   background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M20 20 L25 10 L30 20 L25 30 Z M22 22 L15 25 M28 22 L35 25' stroke='%23d4af37' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
   background-size: 120px 120px;
   display:flex;align-items:center;justify-content:center;padding:20px; 
   position:fixed; top:0; left:0; width:100%; z-index:1000;
 }
-/* Дополнительные большие ракеты на фоне */
-.login-screen::before { content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 50px; opacity: 0.15; transform: rotate(-15deg); }
-.login-screen::after { content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 70px; opacity: 0.15; transform: rotate(25deg); }
-.bg-rocket-1 { position: absolute; top: 40%; right: 20%; font-size: 40px; opacity: 0.15; transform: rotate(90deg); pointer-events: none;}
-.bg-rocket-2 { position: absolute; bottom: 30%; left: 15%; font-size: 60px; opacity: 0.15; transform: rotate(-45deg); pointer-events: none;}
+.login-screen::before { content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 50px; opacity: 0.15; transform: rotate(-15deg); pointer-events:none;}
+.login-screen::after { content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 70px; opacity: 0.15; transform: rotate(25deg); pointer-events:none;}
 
 .login-card{
-  width:min(400px,90vw);
-  background:#141414; /* Чёрное окно */
+  width:min(430px,94vw);
+  background:#0b0b0d;
   border:2px solid var(--gold);
   border-radius:24px;
-  padding:30px;
+  padding:34px 26px;
   text-align:center;
-  box-shadow:0 20px 50px rgba(0,0,0,0.4);
-  position: relative;
-  z-index: 2;
+  box-shadow:0 22px 60px rgba(0,0,0,.35);
+  position: relative; z-index: 2;
 }
-/* Твой SVG Логотип внутри окна */
-.login-logo-svg { width: 80px; height: 80px; margin: 0 auto 10px; display: block; }
-.login-card h1{margin:10px 0;color:var(--gold);font-size:32px;letter-spacing:1px; text-shadow: 0 0 10px rgba(212,175,55,0.3);}
-.login-card input{width:100%;margin:15px 0;padding:14px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;font-size:16px;text-align:center;}
-.enter-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(45deg, var(--gold-light), var(--gold));color:#000;font-weight:bold;font-size:16px; box-shadow: 0 4px 15px rgba(212,175,55,0.4);}
+.login-card .mark{width:88px;height:88px;margin:0 auto 8px;display:block}
+.login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent}
+.login-card .tag{color:#e8d9a0;font-size:13px;margin-bottom:18px}
+.login-card input{width:100%;margin:12px 0;padding:16px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center}
+.enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800}
 
 /* --- APP LAYOUT --- */
-.app{display:none; flex-direction:column; min-height:100vh;}
-.topbar{position:sticky;top:0;z-index:100;background:var(--bg);color:var(--gold);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;}
-.brand{display:flex; align-items:center; gap:10px;}
-.brand svg { width: 30px; height: 30px; }
-.brand-name{font-weight:900;font-size:20px;letter-spacing:1px;}
-.role-badge{font-size:12px;background:#222;padding:4px 8px;border-radius:4px;color:#aaa;border:1px solid #333;}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(212,175,55,.22)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-mark{width:46px;height:46px}
+.brand-name{font-size:24px;font-weight:800;color:#f1df9d}
+.brand-sub{font-size:11px;color:#c9b25f}
+.top-actions{display:flex;align-items:center;gap:10px}
+.role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08)}
+.light{color:#f4e8b5;border:1px solid rgba(212,175,55,.55);background:rgba(212,175,55,.08);padding:9px 12px;border-radius:12px;font-size:14px}
 
-/* Tabs */
-.tabs{display:flex;overflow-x:auto;background:#111;padding:10px;gap:8px;position:sticky;top:53px;z-index:90;border-bottom:1px solid #222;}
-.tabs::-webkit-scrollbar{display:none;}
-.tab-btn{flex:0 0 auto;padding:8px 16px;border-radius:20px;border:1px solid #333;background:transparent;color:#888;font-size:13px;font-weight:600;transition:0.2s;}
-.tab-btn.active{background:var(--gold);color:#000;border-color:var(--gold);}
+.tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px;border-bottom:1px solid rgba(212,175,55,.18)}
+.tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700}
+.tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent}
+.badge-count{background:red;color:#fff;border-radius:99px;padding:2px 7px;font-size:11px;margin-left:5px}
 
-/* Content */
-main{padding:16px;max-width:800px;margin:0 auto;width:100%;}
-.section{display:none; animation: fadeIn 0.3s;}
-.section.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+main{flex:1;width:min(1200px,calc(100% - 28px));margin:18px auto}
+.section{display:none}
+.section.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(120,90,10,.06);margin-bottom:18px}
+.card h2{margin:0 0 8px;font-size:26px;color:#211a08}
+.card h3{margin:18px 0 10px;font-size:19px}
+.sub{margin:0 0 14px;color:#7d6c47;line-height:1.45;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
 
-.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 4px 12px rgba(0,0,0,0.05);border:1px solid #eee;}
-.card h2{margin-top:0;font-size:18px;color:#333;border-bottom:2px solid var(--gold);padding-bottom:8px;display:inline-block;}
+label{display:block;margin:10px 0 5px;font-weight:700;color:#3c2f12;font-size:14px}
+input,select,textarea{width:100%;padding:12px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none}
+textarea{min-height:90px;resize:vertical}
 
-label{display:block;font-size:12px;font-weight:bold;color:#666;margin-bottom:4px;margin-top:10px;}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:14px;background:#fafafa;}
-textarea{resize:vertical;min-height:80px;}
+.gold-btn{border:none;border-radius:14px;padding:12px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:14px;font-weight:800;display:inline-block;text-align:center;text-decoration:none;margin-top:8px; cursor:pointer;}
+.ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px; cursor:pointer;}
+.red-btn{border:1.5px solid #dc3545;background:transparent;color:#dc3545;border-radius:14px;padding:11px 14px;font-size:14px;font-weight:700;margin-top:8px; cursor:pointer;}
+.small{padding:8px 12px;border-radius:11px;font-size:13px;margin-top:6px}
 
-.btn{display:block;width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;font-size:14px;margin-top:12px;text-align:center;text-decoration:none;}
-.btn-gold{background:linear-gradient(45deg, var(--gold-light), var(--gold));color:#000;}
-.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold-dark);}
-.btn-red{background:#ffebee;color:#c62828;border:1px solid #ffcdd2;}
-.btn-green{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;}
-.btn-sm{padding:6px 12px;font-size:12px;width:auto;display:inline-block;margin:2px;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{padding:8px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700; cursor:pointer;}
+.chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent}
+
+.preview-box{border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.preview-media{height:150px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,rgba(212,175,55,.25),rgba(20,18,16,.1));overflow:hidden}
+.preview-media img{width:100%;height:100%;object-fit:cover}
+.preview-body{padding:14px}
+
+.ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 8px 20px rgba(120,90,10,.07)}
+.ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:#f5f0e0;font-size:38px;overflow:hidden}
+.ad-visual img{width:100%;height:100%;object-fit:cover}
+.ad-body{padding:13px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
+.stat{padding:14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center}
+.stat b{display:block;font-size:26px;color:#211a08;margin-bottom:3px}
+
+.pay-box{border:1px solid var(--line);background:#fffdf6;border-radius:18px;padding:14px;margin-top:12px}
+.result{margin-top:12px;padding:14px;border-radius:16px;background:#fff7dd;border:1px solid rgba(212,175,55,.32);line-height:1.6}
+.empty{padding:18px;border-radius:16px;border:1.5px dashed rgba(160,125,35,.4);color:#83704a;text-align:center;background:#fffdf4}
+.footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:14px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;font-size:14px}
 
 /* Status Badges */
-.badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:bold;text-transform:uppercase;}
-.b-pending{background:#fff3cd;color:#856404;}
-.b-approved_paid{background:#cce5ff;color:#004085;} 
-.b-approved_free{background:#e2e3e5;color:#383d41;} 
-.b-paid{background:#d4edda;color:#155724;} 
-.b-rejected{background:#f8d7da;color:#721c24;}
+.sb{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.sb-pending{background:#fff3cd;color:#856404;border:1px solid #ffc107}
+.sb-approved_paid{background:#cce5ff;color:#004085;border:1px solid #007bff} /* Ждет оплаты */
+.sb-approved_free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d} /* Бесплатно одобрено */
+.sb-paid{background:#d4edda;color:#155724;border:1px solid #28a745} /* В ленте */
+.sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
 
-/* Ad Card in Feed */
-.ad-item{border:1px solid #eee;border-radius:12px;overflow:hidden;margin-bottom:12px;background:#fff;}
-.ad-img{width:100%;height:180px;object-fit:cover;background:#f0f0f0;}
-.ad-content{padding:12px;}
-.ad-title{font-weight:bold;font-size:16px;margin-bottom:4px;}
-.ad-text{font-size:14px;color:#555;margin-bottom:8px;}
-.ad-contact{font-size:13px;color:var(--gold-dark);font-weight:bold;}
-
-/* Admin List Item */
-.admin-item{border:1px solid #eee;padding:12px;border-radius:8px;margin-bottom:8px;background:#fafafa;}
-.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.admin-actions{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;border-top:1px solid #eee;padding-top:8px;}
-
-/* Toast */
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:10px 20px;border-radius:20px;font-size:14px;z-index:2000;opacity:0;transition:0.3s;pointer-events:none;}
-.toast.show{opacity:1;bottom:30px;}
+.row-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap}
+.msg-unread{background:#fffde7;border-left:4px solid var(--gold)}
+.msg-read{background:#f9f9f9;border-left:4px solid #ccc}
+.dist-link{display:block;padding:10px 12px;margin:5px 0;background:#f9f4e4;border:1px solid #e8d88a;border-radius:10px;text-decoration:none;color:#3c2f12;font-size:14px;font-weight:600}
+.refresh-note{font-size:12px;color:#999;margin-left:8px}
 
 /* Install Banner */
-.install-banner{background:var(--gold);color:#000;padding:10px;text-align:center;font-size:13px;font-weight:bold;cursor:pointer;display:none;}
+.install-banner{background:var(--gold);color:#000;padding:10px;text-align:center;font-size:13px;font-weight:bold;cursor:pointer;display:none; position:fixed; top:0; width:100%; z-index:2000;}
 </style>
 </head>
 <body>
 
-<!-- SVG Symbol Definition (Твой логотип) -->
+<!-- SVG Symbol Definition -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
 <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
@@ -135,155 +143,148 @@ textarea{resize:vertical;min-height:80px;}
 </defs>
 </svg>
 
-<!-- Background Rockets for Login -->
-<div class="bg-rocket-1"></div>
-<div class="bg-rocket-2"></div>
-
-<!-- PWA Install Prompt -->
 <div id="installBanner" class="install-banner" onclick="installApp()">📲 Установить AdAstra как приложение</div>
 
-<!-- Login -->
 <div id="loginScreen" class="login-screen">
 <div class="login-card">
-  <!-- Твой Логотип -->
-  <svg class="login-logo-svg"><use href="#adastra-mark"/></svg>
-  <h1>AD ASTRA</h1>
-  <p style="color:#666;font-size:12px;">Вход в систему рекламы</p>
-  <input id="loginInput" type="text" placeholder="Код доступа или Имя" autocomplete="off"/>
-  <button id="btnEnter" class="enter-btn">ВОЙТИ</button>
+<svg class="mark"><use href="#adastra-mark"/></svg>
+<h1>AdAstra</h1>
+<div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
+<input id="loginInput" type="text" placeholder="Имя или код доступа" autocomplete="off"/>
+<button id="btnEnter" class="enter-btn" type="button">Войти</button>
 </div>
 </div>
 
-<!-- App -->
-<div id="app" class="app">
+<div id="app" class="app hidden">
 <header class="topbar">
 <div class="brand">
-  <svg><use href="#adastra-mark"/></svg>
-  <div class="brand-name">AD ASTRA</div>
+<svg class="brand-mark"><use href="#adastra-mark"/></svg>
+<div><div class="brand-name">AdAstra</div><div class="brand-sub">к звёздам через рекламу</div></div>
 </div>
-<div style="display:flex;gap:10px;align-items:center;">
+<div class="top-actions">
 <span id="roleBadge" class="role-badge">Гость</span>
-<button onclick="logout()" style="background:none;border:none;color:#666;font-size:18px;">⏻</button>
+<button id="btnLogout" class="light" type="button">Выйти</button>
 </div>
 </header>
 
 <nav class="tabs">
-<button class="tab-btn active" onclick="switchTab('studio')">🎨 Студия</button>
-<button class="tab-btn" onclick="switchTab('feed')">🔥 Лента</button>
-<button class="tab-btn" onclick="switchTab('my')">👤 Мои</button>
-<button class="tab-btn" onclick="switchTab('support')">✉️ Поддержка</button>
-<button class="tab-btn hidden" id="adminTab" onclick="switchTab('admin')">👑 Админ</button>
+<button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
+<button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
+<button class="tab-btn" data-tab="my" type="button">👤 Мои заявки</button>
+<button class="tab-btn" data-tab="support" type="button">✉️ Поддержка</button>
+<button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ <span id="adminBadge" class="badge-count hidden">0</span></button>
 </nav>
 
 <main>
   <!-- STUDIO -->
   <section id="studio" class="section active">
     <div class="card">
-      <h2>Создать рекламу</h2>
-      <p style="font-size:12px;color:#888;">Заполните данные. После отправки администратор проверит объявление.</p>
-      
-      <label>Фото объявления</label>
-      <input type="file" id="adImage" accept="image/*" style="padding:8px;">
-      
-      <label>Заголовок</label>
-      <input type="text" id="adTitle" placeholder="Например: Продажа авто">
-      
-      <label>Текст объявления</label>
-      <textarea id="adText" placeholder="Опишите подробно..."></textarea>
-      
-      <label>Контакты (Тел/Telegram)</label>
-      <input type="text" id="adContact" placeholder="+1 234 567 89 00">
-      
-      <label>Срок размещения</label>
-      <select id="adDuration">
-        <option value="1 day">1 День - $5</option>
-        <option value="7 days" selected>7 Дней - $20</option>
-        <option value="30 days">30 Дней - $49</option>
-      </select>
-
-      <button class="btn btn-gold" onclick="submitAd()">🚀 Отправить на модерацию</button>
+      <h2>🎨 Студия рекламы</h2>
+      <p class="sub">Загрузите фото, напишите текст → отправьте на модерацию.</p>
+      <div class="grid">
+        <div>
+          <label>Фото</label><input id="imageUpload" type="file" accept="image/*"/>
+          <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Ремонт квартир"/>
+          <label>Текст</label><textarea id="adText" placeholder="Коротко и ярко"></textarea>
+          <label>Контакт</label><input id="adContact" type="text" placeholder="+972 50 000 0000"/>
+          <label>Срок размещения</label>
+          <select id="adDuration">
+            <option value="1 day">1 День - $5</option>
+            <option value="7 days" selected>7 Дней - $20</option>
+            <option value="30 days">30 Дней - $49</option>
+          </select>
+          <button id="btnPublish" class="gold-btn" type="button" style="width:100%">🚀 Отправить на модерацию</button>
+        </div>
+        <div>
+          <h3>Предпросмотр</h3>
+          <div class="preview-box">
+            <div class="preview-media" id="previewMedia"><svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg></div>
+            <div class="preview-body">
+              <div id="prevTitle" style="font-weight:800;font-size:18px;margin-bottom:5px">Ваш заголовок</div>
+              <div id="prevText" style="color:#555;font-size:14px">Текст...</div>
+              <div id="prevContact" style="margin-top:8px;font-weight:bold;color:#b8860b">Контакт</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- FEED -->
   <section id="feed" class="section">
-    <div class="card" style="background:transparent;box-shadow:none;border:none;padding:0;">
-      <h2 style="color:#333;margin-bottom:16px;">Активная реклама</h2>
-      <div id="feedList"></div>
+    <div class="card">
+      <h2>📰 Активная реклама</h2>
+      <div id="feedList" class="grid"></div>
     </div>
   </section>
 
   <!-- MY ADS -->
   <section id="my" class="section">
     <div class="card">
-      <h2>Мои заявки</h2>
-      <div id="myAdsList"><p style="color:#888;text-align:center;">Загрузка...</p></div>
+      <h2>👤 Мои заявки</h2>
+      <div id="myAdsList"></div>
     </div>
   </section>
 
   <!-- SUPPORT -->
   <section id="support" class="section">
     <div class="card">
-      <h2>Поддержка</h2>
-      <p style="font-size:13px;color:#666;">Напишите нам, если есть вопросы по оплате или размещению.</p>
-      <textarea id="supportMsg" placeholder="Ваше сообщение..."></textarea>
-      <button class="btn btn-outline" onclick="sendSupport()">Отправить сообщение</button>
+      <h2>✉️ Служба поддержки</h2>
+      <p class="sub">Напишите нам — ответим как можно скорее.</p>
+      <div style="max-width:520px">
+        <label>Ваше сообщение</label>
+        <textarea id="supportText" placeholder="Опишите вопрос, пожелание или проблему..." style="min-height:130px"></textarea>
+        <button id="btnSupport" class="gold-btn" type="button" style="width:100%">📨 Отправить в поддержку</button>
+      </div>
     </div>
   </section>
 
   <!-- ADMIN -->
   <section id="admin" class="section">
     <div class="card">
-      <h2>👑 Панель управления</h2>
-      <div style="display:flex;gap:10px;margin-bottom:15px;overflow-x:auto;">
-        <div style="background:#fff3cd;padding:8px;border-radius:8px;text-align:center;min-width:80px;">
-          <div style="font-weight:bold;font-size:18px;" id="statPending">0</div>
-          <div style="font-size:10px;">На модерации</div>
-        </div>
-        <div style="background:#d4edda;padding:8px;border-radius:8px;text-align:center;min-width:80px;">
-          <div style="font-weight:bold;font-size:18px;" id="statActive">0</div>
-          <div style="font-size:10px;">В ленте</div>
-        </div>
+      <h2>👑 Панель администратора <span class="refresh-note">⟳ автообновление каждые 5 сек</span></h2>
+      <div class="stats">
+        <div class="stat"><b id="statPending">0</b>На модерации</div>
+        <div class="stat"><b id="statActive">0</b>В ленте</div>
+        <div class="stat"><b id="statMsgs">0</b>Сообщений</div>
       </div>
 
-      <h3 style="font-size:14px;color:#666;margin-top:20px;">📥 Заявки на модерацию</h3>
-      <div id="adminModerationList"></div>
+      <h3>✉️ Сообщения поддержки</h3>
+      <div id="msgsList"></div>
 
-      <h3 style="font-size:14px;color:#666;margin-top:20px;">📢 Активные и История</h3>
-      <div id="adminAllList"></div>
+      <h3 style="margin-top:28px">📥 Заявки на модерацию</h3>
+      <div id="moderationList"></div>
+
+      <h3 style="margin-top:28px">📋 Все объявления</h3>
+      <div id="allAdsList"></div>
       
-      <h3 style="font-size:14px;color:#666;margin-top:20px;">✉️ Сообщения поддержки</h3>
-      <div id="adminMsgsList"></div>
-    </div>
-    
-    <!-- Auto Distribution Tool -->
-    <div class="card" style="border:2px dashed var(--gold);">
-      <h2>🚀 Авто-Дистрибьюция</h2>
-      <p style="font-size:12px;color:#666;">Рекламируйте AdAstra или объявления клиентов на внешних площадках бесплатно.</p>
-      <button class="btn btn-gold" onclick="generatePromo()">Сгенерировать промо-текст</button>
-      <textarea id="promoText" style="margin-top:10px;height:100px;font-size:12px;" readonly></textarea>
-      <button class="btn btn-outline" onclick="copyPromo()">📋 Копировать текст</button>
-      
-      <div style="margin-top:15px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <a href="https://www.facebook.com/marketplace/create/item" target="_blank" class="btn btn-sm btn-outline" style="margin:0;text-align:center;">Facebook</a>
-        <a href="https://craigslist.org/sites/" target="_blank" class="btn btn-sm btn-outline" style="margin:0;text-align:center;">Craigslist</a>
-        <a href="https://www.yad2.co.il/" target="_blank" class="btn btn-sm btn-outline" style="margin:0;text-align:center;">Yad2</a>
-        <a href="https://www.locanto.com/" target="_blank" class="btn btn-sm btn-outline" style="margin:0;text-align:center;">Locanto</a>
+      <h3 style="margin-top:28px">🚀 Авто-постинг (Реклама себя)</h3>
+      <div class="pay-box">
+         <p class="sub">Сгенерируйте текст и разместите на бесплатных площадках.</p>
+         <button class="gold-btn" onclick="generatePromo()" type="button">Сгенерировать промо-текст</button>
+         <textarea id="promoText" style="width:100%; height:100px; margin-top:10px; font-size:12px;" readonly></textarea>
+         <button class="ghost-btn" onclick="copyPromo()" type="button">📋 Копировать текст</button>
+         <div style="margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+            <a href="https://www.facebook.com/marketplace/create/item" target="_blank" class="dist-link" style="margin:0; text-align:center;">Facebook</a>
+            <a href="https://craigslist.org/sites/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Craigslist</a>
+            <a href="https://www.yad2.co.il/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Yad2</a>
+            <a href="https://www.locanto.com/" target="_blank" class="dist-link" style="margin:0; text-align:center;">Locanto</a>
+         </div>
       </div>
     </div>
   </section>
-
 </main>
+<footer class="footer">AdAstra © 2026 — реклама, которая достаёт до звёзд 👑</footer>
 </div>
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast hidden"></div>
 
 <script>
 // --- CONFIG ---
 const ADMIN_CODE = '584462';
-let currentUser = null;
-let isAdmin = false;
-let allData = { ads: [], subscribers: [], messages: [] };
+let state = { role: null, user: '', ads: [], subscribers: [], messages: [] };
+let currentImageBase64 = null;
+let refreshTimer = null;
 let deferredPrompt;
 
 // --- PWA LOGIC ---
@@ -292,149 +293,134 @@ window.addEventListener('beforeinstallprompt', (e) => {
   deferredPrompt = e;
   document.getElementById('installBanner').style.display = 'block';
 });
-
 function installApp() {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        document.getElementById('installBanner').style.display = 'none';
-      }
+      if (choiceResult.outcome === 'accepted') document.getElementById('installBanner').style.display = 'none';
       deferredPrompt = null;
     });
   }
 }
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js');
+// --- HELPERS ---
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+function toast(m) { const e = $('#toast'); e.textContent = m; e.classList.remove('hidden'); setTimeout(() => e.classList.add('hidden'), 3000); }
+function esc(v) { return String(v || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+
+function statusBadge(s) {
+  if (s === 'pending') return '<span class="sb sb-pending">⏳ На модерации</span>';
+  if (s === 'approved_paid') return '<span class="sb sb-approved_paid">💳 Ждет оплаты</span>';
+  if (s === 'approved_free') return '<span class="sb sb-approved_free">✅ Одобрено (Бесплатно)</span>';
+  if (s === 'paid') return '<span class="sb sb-paid">🔥 В ЛЕНТЕ</span>';
+  if (s === 'rejected') return '<span class="sb sb-rejected">❌ Отклонено</span>';
+  return '<span class="sb sb-pending">' + esc(s) + '</span>';
 }
 
-// --- CORE FUNCTIONS ---
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-function switchTab(tabId) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(tabId).classList.add('active');
-  
-  const btns = document.querySelectorAll('.tab-btn');
-  btns.forEach(b => {
-    if(b.getAttribute('onclick').includes(tabId)) b.classList.add('active');
-  });
-}
-
-function logout() {
-  location.reload();
-}
-
-// --- DATA FETCHING ---
+// --- DATA ---
 async function fetchData() {
   try {
     const res = await fetch('/api/admin');
     const data = await res.json();
-    allData = data;
+    state.ads = data.ads || [];
+    state.subscribers = data.subscribers || [];
+    state.messages = data.messages || [];
     renderAll();
-  } catch (e) {
-    console.error(e);
-  }
+  } catch (e) { console.error(e); }
 }
 
-async function sendAction(action, id = null, payload = {}) {
+async function sendAction(action, id, payload = {}) {
   try {
-    const res = await fetch('/api/admin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, id, ...payload })
-    });
-    const data = await res.json();
-    if (data.success) {
-      allData = data; 
-      renderAll();
-      return true;
-    } else {
-      toast('Ошибка: ' + data.error);
-      return false;
-    }
-  } catch (e) {
-    toast('Ошибка сети');
-    return false;
-  }
+    const res = await fetch('/api/admin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, id, ...payload }) });
+    const r = await res.json();
+    if (r.success) { await fetchData(); return true; }
+    else { toast('Ошибка: ' + (r.error || 'неизвестно')); return false; }
+  } catch (e) { toast('Ошибка сети'); return false; }
 }
 
 // --- AUTH ---
-document.getElementById('btnEnter').addEventListener('click', () => {
-  const val = document.getElementById('loginInput').value.trim();
-  if (!val) return toast('Введите код или имя');
-  
-  if (val === ADMIN_CODE) {
-    isAdmin = true;
-    currentUser = 'Admin';
-    document.getElementById('adminTab').classList.remove('hidden');
-    document.getElementById('roleBadge').textContent = '👑 ADMIN';
-    document.getElementById('roleBadge').style.color = 'var(--gold)';
-    document.getElementById('roleBadge').style.borderColor = 'var(--gold)';
+function enterApp() {
+  const v = $('#loginInput').value.trim();
+  if (!v) return toast('Введите имя или код');
+  if (v === ADMIN_CODE) {
+    state.role = 'admin'; state.user = 'Admin';
+    $('#adminTabBtn').classList.remove('hidden');
   } else {
-    isAdmin = false;
-    currentUser = val;
-    document.getElementById('roleBadge').textContent = '👤 ' + val;
+    state.role = 'client'; state.user = v;
+    $('#adminTabBtn').classList.add('hidden');
   }
-  
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
+  $('#loginScreen').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  $('#roleBadge').textContent = state.role === 'admin' ? '👑 Администратор' : '👤 ' + state.user;
+  startAutoRefresh();
   fetchData();
-  setInterval(fetchData, 5000); // Автообновление каждые 5 сек
-  toast(isAdmin ? 'Добро пожаловать, Босс!' : 'Добро пожаловать!');
-});
+  toast(state.role === 'admin' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, ' + v);
+}
+
+function logout() { if (refreshTimer) clearInterval(refreshTimer); location.reload(); }
+function startAutoRefresh() { if (refreshTimer) clearInterval(refreshTimer); refreshTimer = setInterval(fetchData, 5000); }
+function switchTab(t) {
+  if (t === 'admin' && state.role !== 'admin') t = 'studio';
+  $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+  $$('.section').forEach(s => s.classList.toggle('active', s.id === t));
+}
 
 // --- CLIENT ACTIONS ---
-async function submitAd() {
-  const title = document.getElementById('adTitle').value;
-  const text = document.getElementById('adText').value;
-  const contact = document.getElementById('adContact').value;
-  const duration = document.getElementById('adDuration').value;
-  const fileInput = document.getElementById('adImage');
-  
-  if (!title || !text) return toast('Заполните заголовок и текст');
-  
-  let imageBase64 = null;
-  if (fileInput.files[0]) {
-    const reader = new FileReader();
-    imageBase64 = await new Promise(resolve => {
-      reader.onload = e => resolve(e.target.result);
-      reader.readAsDataURL(fileInput.files[0]);
-    });
-  }
+$('#imageUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = new Image();
+    img.onload = function() {
+      const c = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > 600) { h *= 600 / w; w = 600; }
+      c.width = w; c.height = h;
+      c.getContext('2d').drawImage(img, 0, 0, w, h);
+      currentImageBase64 = c.toDataURL('image/jpeg', 0.65);
+      $('#previewMedia').innerHTML = '<img src="' + currentImageBase64 + '"/>';
+      toast('📷 Фото готово');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
 
-  const btn = document.querySelector('#studio .btn-gold');
-  btn.disabled = true; btn.textContent = 'Отправка...';
-  
-  const ok = await sendAction('publish', null, {
-    owner: currentUser, title, text, contact, duration, image: imageBase64
+['adTitle', 'adText', 'adContact'].forEach(id => {
+  $('#' + id).addEventListener('input', () => {
+    $('#prevTitle').textContent = $('#adTitle').value || 'Ваш заголовок';
+    $('#prevText').textContent = $('#adText').value || 'Текст...';
+    $('#prevContact').textContent = $('#adContact').value || 'Контакт';
   });
+});
+
+async function publishAd() {
+  const title = $('#adTitle').value.trim();
+  const text = $('#adText').value.trim();
+  const contact = $('#adContact').value.trim();
+  const duration = $('#adDuration').value;
+  if (!title) return toast('Добавьте заголовок');
   
+  const btn = $('#btnPublish'); btn.disabled = true; btn.textContent = '⏳ Отправка...';
+  const ok = await sendAction('publish', null, { owner: state.user, title, text, contact, duration, image: currentImageBase64 });
   btn.disabled = false; btn.textContent = '🚀 Отправить на модерацию';
+  
   if (ok) {
-    toast('Отправлено на модерацию!');
-    document.getElementById('adTitle').value = '';
-    document.getElementById('adText').value = '';
-    document.getElementById('adContact').value = '';
+    toast('✅ Отправлено на модерацию!');
+    $('#adTitle').value = ''; $('#adText').value = ''; $('#adContact').value = '';
+    currentImageBase64 = null;
+    $('#previewMedia').innerHTML = '<svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg>';
     switchTab('my');
   }
 }
 
 async function sendSupport() {
-  const txt = document.getElementById('supportMsg').value;
+  const txt = $('#supportText').value.trim();
   if (!txt) return toast('Напишите сообщение');
-  const ok = await sendAction('support', null, { from: currentUser, text: txt });
-  if (ok) {
-    toast('Сообщение отправлено');
-    document.getElementById('supportMsg').value = '';
-  }
+  const ok = await sendAction('support', null, { from: state.user, text: txt });
+  if (ok) { toast('✅ Сообщение отправлено!'); $('#supportText').value = ''; }
 }
 
 async function confirmPayment(id) {
@@ -444,125 +430,114 @@ async function confirmPayment(id) {
   }
 }
 
+// --- ADMIN ACTIONS ---
+window.approvePaid = (id) => sendAction('approve_paid', id);
+window.approveFree = (id) => sendAction('approve_free', id);
+window.rejectAd = (id) => sendAction('reject', id);
+window.deleteAd = (id) => { if (confirm('Удалить?')) sendAction('delete', id); };
+window.deleteMsg = (id) => { if (confirm('Удалить?')) sendAction('delete_msg', id); };
+window.markRead = (id) => sendAction('mark_read', id);
+
+function generatePromo() {
+  const txt = `🔥 AD ASTRA - Твоя реклама улетит в космос! 🚀\n\nХочешь продать быстро? Размести объявление на AdAstra.\n✅ Быстрая модерация\n✅ Низкие цены\n✅ Работает как приложение на телефоне\n\n👉 Заходи сейчас: ${window.location.href}\n\n#AdAstra #Реклама #Объявления`;
+  $('#promoText').value = txt;
+  toast('Текст сгенерирован!');
+}
+function copyPromo() {
+  const t = $('#promoText'); t.select(); document.execCommand('copy'); toast('Скопировано!');
+}
+
 // --- RENDERING ---
-function getStatusBadge(status) {
-  const map = {
-    'pending': '<span class="badge b-pending">⏳ На модерации</span>',
-    'approved_paid': '<span class="badge b-approved_paid">💳 Ждет оплаты</span>',
-    'approved_free': '<span class="badge b-approved_free">✅ Одобрено (Бесплатно)</span>',
-    'paid': '<span class="badge b-paid">🔥 В ЛЕНТЕ</span>',
-    'rejected': '<span class="badge b-rejected">❌ Отклонено</span>'
-  };
-  return map[status] || status;
+function adCardHtml(a) {
+  return '<div class="ad-card"><div class="ad-visual">' + (a.image ? '<img src="' + a.image + '"/>' : '📷') + '</div>' +
+    '<div class="ad-body"><strong style="font-size:16px">' + esc(a.title) + '</strong>' +
+    '<p class="sub" style="margin:4px 0">' + esc(a.text || '') + '</p>' +
+    '<div style="font-size:13px;color:#7c6832;font-weight:700">📞 ' + esc(a.contact || '') + '</div>' +
+    '</div></div>';
+}
+
+function myAdRow(a) {
+  let actionBtn = '';
+  if (a.status === 'approved_paid') {
+    actionBtn = `<button class="gold-btn small" onclick="confirmPayment(${a.id})" style="width:100%">💳 Я ОПЛАТИЛ ($20)</button>`;
+  }
+  return `<div class="row-item" style="flex-direction:column; align-items:flex-start;">
+    <div style="width:100%; display:flex; justify-content:space-between;">
+        <strong>${esc(a.title)}</strong> ${statusBadge(a.status)}
+    </div>
+    <div style="font-size:12px; color:#666; margin:5px 0;">${esc(a.text).substring(0,50)}...</div>
+    ${actionBtn}
+  </div>`;
+}
+
+function adminAdRow(a) {
+  return '<div class="row-item">' +
+    '<div style="flex:1;min-width:0">' +
+    '<strong>' + esc(a.title) + '</strong> ' + statusBadge(a.status) +
+    '<div style="font-size:12px;color:#888;margin-top:3px">От: ' + esc(a.owner) + ' · ' + esc(a.duration || '') + '</div>' +
+    '</div>' +
+    '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+    (a.status === 'pending' ? 
+        '<button class="gold-btn small" onclick="approvePaid(' + a.id + ')" type="button">💰 Платно</button>' +
+        '<button class="ghost-btn small" onclick="approveFree(' + a.id + ')" type="button">🆓 Бесплатно</button>' +
+        '<button class="red-btn small" onclick="rejectAd(' + a.id + ')" type="button">❌</button>' 
+        : '') +
+    '<button class="red-btn small" onclick="deleteAd(' + a.id + ')" type="button">🗑</button>' +
+    '</div></div>';
 }
 
 function renderAll() {
-  // 1. Feed (Only 'paid' or 'approved_free')
-  const activeAds = allData.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
-  const feedHtml = activeAds.map(a => `
-    <div class="ad-item">
-      ${a.image ? `<img src="${a.image}" class="ad-img">` : ''}
-      <div class="ad-content">
-        <div class="ad-title">${a.title}</div>
-        <div class="ad-text">${a.text}</div>
-        <div class="ad-contact">📞 ${a.contact}</div>
-      </div>
-    </div>
-  `).join('');
-  document.getElementById('feedList').innerHTML = feedHtml || '<p style="text-align:center;color:#999">Пока нет активной рекламы</p>';
+  // Stats
+  const pending = state.ads.filter(a => a.status === 'pending');
+  const active = state.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
+  $('#statPending').textContent = pending.length;
+  $('#statActive').textContent = active.length;
+  $('#statMsgs').textContent = state.messages.length;
 
-  // 2. My Ads
-  if (!isAdmin) {
-    const myAds = allData.ads.filter(a => a.owner === currentUser);
-    const myHtml = myAds.map(a => {
-      let actionBtn = '';
-      if (a.status === 'approved_paid') {
-        actionBtn = `<button class="btn btn-gold btn-sm" onclick="confirmPayment(${a.id})">💳 Я ОПЛАТИЛ ($20)</button>`;
-      }
-      return `
-      <div class="admin-item">
-        <div class="admin-header">
-          <strong>${a.title}</strong>
-          ${getStatusBadge(a.status)}
-        </div>
-        <div style="font-size:12px;color:#666">${a.text.substring(0,50)}...</div>
-        ${actionBtn}
-      </div>`;
-    }).join('');
-    document.getElementById('myAdsList').innerHTML = myHtml || '<p style="text-align:center;color:#999">У вас нет заявок</p>';
+  // Feed (Public)
+  const feedAds = state.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
+  $('#feedList').innerHTML = feedAds.length ? feedAds.map(adCardHtml).join('') : '<div class="empty">Пока нет активной рекламы.</div>';
+
+  // My Ads (Client)
+  if (state.role !== 'admin') {
+    const myAds = state.ads.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
+    $('#myAdsList').innerHTML = myAds.length ? myAds.map(myAdRow).join('') : '<div class="empty">У вас нет заявок.</div>';
   }
 
-  // 3. Admin Panel
-  if (isAdmin) {
-    const pending = allData.ads.filter(a => a.status === 'pending');
-    const active = allData.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
-    
-    document.getElementById('statPending').textContent = pending.length;
-    document.getElementById('statActive').textContent = active.length;
-
-    // Moderation List
-    const modHtml = pending.map(a => `
-      <div class="admin-item" style="border-left:4px solid orange;">
-        <div class="admin-header">
-          <strong>${a.title}</strong>
-          <span class="badge b-pending">NEW</span>
-        </div>
-        <div style="font-size:12px;margin:5px 0;"><b>От:</b> ${a.owner} | <b>Срок:</b> ${a.duration}</div>
-        <div style="font-size:13px;background:#fff;padding:8px;border-radius:4px;margin-bottom:8px;">${a.text}</div>
-        ${a.image ? `<img src="${a.image}" style="max-height:100px;border-radius:4px;margin-bottom:8px;">` : ''}
-        <div class="admin-actions">
-          <button class="btn btn-gold btn-sm" onclick="sendAction('approve_paid', ${a.id})">💰 Одобрить (Платно)</button>
-          <button class="btn btn-green btn-sm" onclick="sendAction('approve_free', ${a.id})">🎁 Одобрить (Бесплатно)</button>
-          <button class="btn btn-red btn-sm" onclick="sendAction('reject', ${a.id})">❌ Отклонить</button>
-        </div>
-      </div>
-    `).join('');
-    document.getElementById('adminModerationList').innerHTML = modHtml || '<p style="color:#999;font-size:12px;">Нет новых заявок</p>';
-
-    // All Ads List
-    const allHtml = [...allData.ads].reverse().map(a => `
-      <div class="admin-item">
-        <div class="admin-header">
-          <strong>${a.title}</strong>
-          ${getStatusBadge(a.status)}
-        </div>
-        <div style="font-size:11px;color:#888;">ID: ${a.id} | Owner: ${a.owner}</div>
-        <div class="admin-actions">
-           <button class="btn btn-red btn-sm" onclick="sendAction('delete', ${a.id})">🗑 Удалить</button>
-        </div>
-      </div>
-    `).join('');
-    document.getElementById('adminAllList').innerHTML = allHtml;
-
+  // Admin Panel
+  if (state.role === 'admin') {
     // Messages
-    const msgsHtml = [...allData.messages].reverse().map(m => `
-      <div class="admin-item" style="${!m.read ? 'background:#fffde7;' : ''}">
-        <div style="font-size:12px;color:#888;">${m.from} • ${new Date(m.created_at).toLocaleString()}</div>
-        <div style="font-size:14px;margin:4px 0;">${m.text}</div>
-        <div class="admin-actions">
-          ${!m.read ? `<button class="btn btn-outline btn-sm" onclick="sendAction('mark_read', ${m.id})">✅ Прочитано</button>` : ''}
-          <button class="btn btn-red btn-sm" onclick="sendAction('delete_msg', ${m.id})">🗑</button>
-        </div>
-      </div>
-    `).join('');
-    document.getElementById('adminMsgsList').innerHTML = msgsHtml || '<p style="color:#999;font-size:12px;">Нет сообщений</p>';
+    const msgsEl = $('#msgsList');
+    if (!state.messages.length) { msgsEl.innerHTML = '<div class="empty">Нет сообщений</div>'; }
+    else {
+      msgsEl.innerHTML = [...state.messages].reverse().map(m =>
+        '<div class="row-item ' + (m.read ? 'msg-read' : 'msg-unread') + '">' +
+        '<div style="flex:1"><strong>' + esc(m.from) + '</strong> <span style="font-size:12px;color:#888">' + new Date(m.created_at).toLocaleString('ru-RU') + '</span>' +
+        (!m.read ? ' <span style="font-size:11px;background:var(--gold);color:#000;padding:2px 7px;border-radius:99px;font-weight:700">НОВОЕ</span>' : '') +
+        '<p style="margin:5px 0 0;font-size:14px;color:#333">' + esc(m.text) + '</p></div>' +
+        '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+        (!m.read ? '<button class="gold-btn small" onclick="markRead(' + m.id + ')" type="button">✅ Прочитано</button>' : '') +
+        '<button class="red-btn small" onclick="deleteMsg(' + m.id + ')" type="button">🗑</button>' +
+        '</div></div>'
+      ).join('');
+    }
+
+    // Moderation
+    $('#moderationList').innerHTML = pending.length ? pending.map(adminAdRow).join('') : '<div class="empty">Нет заявок на модерацию ✅</div>';
+    
+    // All Ads
+    $('#allAdsList').innerHTML = state.ads.length ? [...state.ads].reverse().map(adminAdRow).join('') : '<div class="empty">Нет объявлений</div>';
   }
 }
 
-// --- PROMO TOOL ---
-function generatePromo() {
-  const txt = `🔥 AD ASTRA - Твоя реклама улетит в космос! 🚀\n\nХочешь продать быстро? Размести объявление на AdAstra.\n✅ Быстрая модерация\n✅ Низкие цены\n✅ Работает как приложение на телефоне\n\n👉 Заходи сейчас: ${window.location.href}\n\n#AdAstra #Реклама #Объявления #КупитьПродать`;
-  document.getElementById('promoText').value = txt;
-  toast('Текст сгенерирован!');
-}
-
-function copyPromo() {
-  const copyText = document.getElementById("promoText");
-  copyText.select();
-  document.execCommand("copy");
-  toast('Скопировано в буфер обмена!');
-}
-
+// --- INIT ---
+$('#btnEnter').addEventListener('click', enterApp);
+$('#loginInput').addEventListener('keydown', e => { if (e.key === 'Enter') enterApp(); });
+$('#btnLogout').addEventListener('click', logout);
+$$('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+$('#btnPublish').addEventListener('click', publishAd);
+$('#btnSupport').addEventListener('click', sendSupport);
+fetchData();
 </script>
 </body>
 </html>
