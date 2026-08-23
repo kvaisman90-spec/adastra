@@ -8,11 +8,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar" content="black-translucent"/>
   
-  <!-- Иконки и Манифест строго по твоим файлам -->
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png"/>
-  <link rel="manifest" href="/manifest.json"/>
+  <!-- Иконки и Манифест (защита от кэша ?v=5) -->
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=5"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=5"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=5"/>
+  <link rel="manifest" href="/manifest.json?v=5"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -301,30 +301,40 @@
 
   <script>
     // --- КОНФИГУРАЦИЯ ---
-    const API_URL = '/api/admin'; // Путь к твоему admin.js.txt на Vercel/Netlify
-    const ADMIN_PASS = '584462'; // ТВОЙ ПАРОЛЬ АДМИНА
+    const API_URL = '/api/admin'; // Путь к твоему admin.js на Vercel
+    const ADMIN_PASS = '584462'; // ТВОЙ ПАРОЛЬ
     
-    let state = {
-      role: null, user: '', bill: 20, income: 0,
-      ads: [], subscribers: [], messages: []
-    };
+    let state = { role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [] };
 
-    // --- SERVICE WORKER & CACHE BUSTING ---
+    // --- SERVICE WORKER: ЖЕСТКАЯ ОЧИСТКА КЭША ---
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(reg => {
-          // Принудительно проверяем обновления при каждом запуске
+      window.addEventListener('load', async () => {
+        try {
+          // 1. Удаляем ВСЕ старые кэши вручную
+          const keys = await caches.keys();
+          await Promise.all(keys.map(key => caches.delete(key)));
+          
+          // 2. Регистрируем SW заново
+          const reg = await navigator.serviceWorker.register('/sw.js');
+          
+          // 3. Если есть старый воркер - убиваем его
+          if (reg.waiting) {
+            reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+          }
+          
+          // 4. Обновляем при каждом запуске
           reg.update();
+          
+          // 5. Если пришла новая версия - перезагружаем страницу
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                // Если вышла новая версия - перезагружаем страницу, чтобы обновить иконки и код
                 window.location.reload();
               }
             });
           });
-        }).catch(err => console.error('SW Error:', err));
+        } catch (e) { console.error('SW Error', e); }
       });
     }
 
@@ -353,15 +363,10 @@
           state.ads = data.ads || [];
           state.subscribers = data.subscribers || [];
           state.messages = data.messages || [];
-          
-          // Считаем статистику из БД
-          state.income = state.ads.filter(a => a.paid).length * 49; // Примерная логика дохода
-          
+          state.income = state.ads.filter(a => a.paid).length * 49;
           renderAll();
         }
-      } catch (e) {
-        console.warn("Load failed", e);
-      }
+      } catch (e) { console.warn("Load failed", e); }
     }
 
     // --- UI HELPERS ---
@@ -393,7 +398,6 @@
       } else {
         state.role='client'; state.user=v;
         $('#adminTabBtn').classList.add('hidden');
-        // Регистрируем клиента в БД если его нет (через subscribe action для простоты, или можно отдельный)
         api('subscribe', { contact: v }); 
       }
       
@@ -401,7 +405,7 @@
       $('#app').classList.remove('hidden');
       $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+state.user;
       
-      loadData(); // Загружаем реальные данные с сервера
+      loadData();
       toast(state.role==='creator' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, '+escapeHtml(state.user));
     }
 
@@ -441,15 +445,14 @@
       
       toast('⏳ Отправка на сервер...');
       const res = await api('publish', {
-        owner: state.user, title, text, cta, contact, format, langs,
-        image: null // В реальном проекте тут нужна загрузка файла на S3/Cloudinary
+        owner: state.user, title, text, cta, contact, format, langs, image: null
       });
       
       if(res && res.success) {
         toast('🚀 Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value='';
         updatePreview();
-        loadData(); // Обновляем список
+        loadData();
       }
     }
 
@@ -530,8 +533,6 @@
     }
 
     function renderClients(){
-      // В твоем admin.js нет отдельной сущности "клиенты с балансом", есть только subscribers.
-      // Выводим подписчиков как клиентов для демонстрации
       const tbody = $('#clientsTableBody');
       if(!state.subscribers.length) {
         tbody.innerHTML = '<tr><td colspan="5" class="empty">Нет зарегистрированных пользователей</td></tr>';
@@ -656,7 +657,6 @@
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
     $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
 
-    // Initial render
     renderAll();
   </script>
 </body>
