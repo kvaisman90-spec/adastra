@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    let db = { ads: [], subscribers: [] };
+    let db = { ads: [], subscribers: [], messages: [] };
 
     const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       headers: { 'X-Master-Key': API_KEY }
@@ -19,6 +19,7 @@ export default async function handler(req, res) {
       const rec = data.record || {};
       db.ads = Array.isArray(rec.ads) ? rec.ads : [];
       db.subscribers = Array.isArray(rec.subscribers) ? rec.subscribers : [];
+      db.messages = Array.isArray(rec.messages) ? rec.messages : [];
     }
 
     if (req.method === 'GET') {
@@ -32,7 +33,7 @@ export default async function handler(req, res) {
 
       if (action === 'publish') {
         db.ads.push({
-          id: now, type: 'ad', status: 'pending',
+          id: now, type: 'ad', status: 'pending', paid: false,
           owner: payload.owner, title: payload.title,
           text: payload.text, contact: payload.contact,
           image: payload.image || null,
@@ -44,6 +45,12 @@ export default async function handler(req, res) {
           db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString() });
         }
       }
+      else if (action === 'support') {
+        db.messages.push({
+          id: now, from: payload.from, text: payload.text,
+          read: false, created_at: new Date().toISOString()
+        });
+      }
       else if (action === 'approve') {
         const item = db.ads.find(p => p.id == id);
         if (item) item.status = 'approved';
@@ -52,11 +59,26 @@ export default async function handler(req, res) {
         const item = db.ads.find(p => p.id == id);
         if (item) item.status = 'rejected';
       }
+      else if (action === 'make_paid') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) { item.paid = true; item.status = 'paid'; }
+      }
+      else if (action === 'make_free') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) { item.paid = false; item.status = 'free'; }
+      }
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
       else if (action === 'delete_sub') {
         db.subscribers = db.subscribers.filter(s => s.id != id);
+      }
+      else if (action === 'delete_msg') {
+        db.messages = db.messages.filter(m => m.id != id);
+      }
+      else if (action === 'mark_read') {
+        const item = db.messages.find(m => m.id == id);
+        if (item) item.read = true;
       }
 
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
