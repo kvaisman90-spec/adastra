@@ -1,12 +1,10 @@
 {
-  "name": "AdAstra — реклама до звёзд",
+  "name": "AdAstra Реклама",
   "short_name": "AdAstra",
-  "description": "Весь мир · все языки · только с согласия людей",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0b0b0d",
   "theme_color": "#0b0b0d",
-  "orientation": "any",
   "icons": [
     {
       "src": "/icon.png",
