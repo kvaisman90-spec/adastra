@@ -35,20 +35,20 @@ export default async function handler(req, res) {
       if (action === 'publish') {
         db.ads.push({
           id: now, type: 'ad', status: 'pending', paid: false,
-          owner: payload.owner, title: payload.title, text: payload.text,
-          contact: payload.contact, image: payload.image || null,
-          duration: payload.duration || '7 days',
+          owner: payload.owner, title: payload.title,
+          text: payload.text, contact: payload.contact,
+          image: payload.image || null,
           created_at: new Date().toISOString()
         });
       }
       
-      // 2. АДМИН: Одобрить как ПЛАТНОЕ
+      // 2. АДМИН: Одобрить как ПЛАТНОЕ (Клиент должен оплатить)
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_paid'; item.paid = false; }
       }
 
-      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ
+      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ (Сразу в ленту)
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         if (item) item.status = 'rejected';
       }
 
-      // 5. КЛИЕНТ: Подтверждение оплаты
+      // 5. КЛИЕНТ: Подтверждение оплаты (Статус меняется на 'paid' -> видно в ленте)
       else if (action === 'confirm_payment') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
@@ -69,7 +69,21 @@ export default async function handler(req, res) {
         }
       }
 
-      // 6. Удаление и прочее
+      // Старые действия для совместимости
+      else if (action === 'approve') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'approved_paid'; // По умолчанию платно
+      }
+      else if (action === 'make_paid') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) { item.paid = true; item.status = 'paid'; }
+      }
+      else if (action === 'make_free') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) { item.paid = false; item.status = 'approved_free'; }
+      }
+
+      // Удаление и прочее
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
