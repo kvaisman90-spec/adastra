@@ -60,9 +60,9 @@ textarea{resize:vertical;min-height:80px;}
 /* Status Badges */
 .badge{display:inline-block;padding:4px 8px;border-radius:4px;font-size:11px;font-weight:bold;text-transform:uppercase;}
 .b-pending{background:#fff3cd;color:#856404;}
-.b-approved_paid{background:#cce5ff;color:#004085;} /* Ждет оплаты */
-.b-approved_free{background:#e2e3e5;color:#383d41;} /* Бесплатно одобрено */
-.b-paid{background:#d4edda;color:#155724;} /* Оплачено и в ленте */
+.b-approved_paid{background:#cce5ff;color:#004085;} 
+.b-approved_free{background:#e2e3e5;color:#383d41;} 
+.b-paid{background:#d4edda;color:#155724;} 
 .b-rejected{background:#f8d7da;color:#721c24;}
 
 /* Ad Card in Feed */
@@ -266,7 +266,6 @@ function switchTab(tabId) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   
-  // Find button that calls this tab
   const btns = document.querySelectorAll('.tab-btn');
   btns.forEach(b => {
     if(b.getAttribute('onclick').includes(tabId)) b.classList.add('active');
@@ -298,7 +297,7 @@ async function sendAction(action, id = null, payload = {}) {
     });
     const data = await res.json();
     if (data.success) {
-      allData = data; // Update local state immediately
+      allData = data; 
       renderAll();
       return true;
     } else {
@@ -332,7 +331,7 @@ document.getElementById('btnEnter').addEventListener('click', () => {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'flex';
   fetchData();
-  setInterval(fetchData, 5000); // Auto-refresh 5 sec
+  setInterval(fetchData, 5000); // Автообновление каждые 5 сек
   toast(isAdmin ? 'Добро пожаловать, Босс!' : 'Добро пожаловать!');
 });
 
@@ -353,11 +352,6 @@ async function submitAd() {
       reader.onload = e => resolve(e.target.result);
       reader.readAsDataURL(fileInput.files[0]);
     });
-    // Simple compression check (limit size)
-    if(imageBase64.length > 500000) {
-       toast('Фото слишком большое, попробуйте меньше');
-       // In real app, compress here. For now, warn.
-    }
   }
 
   const btn = document.querySelector('#studio .btn-gold');
@@ -388,17 +382,7 @@ async function sendSupport() {
 }
 
 async function confirmPayment(id) {
-  // In a real app, verify transaction hash here. 
-  // For now, we trust the user click or admin verifies manually.
-  // But per request: "Client pays -> then it appears".
-  // We simulate payment confirmation request.
   if(confirm("Вы уверены, что оплатили? Администратор проверит оплату и активирует рекламу.")) {
-     // Actually, let's just mark it as 'payment_pending_check' or simply keep 'approved_paid' 
-     // and let Admin click "Activate". 
-     // OR, simpler flow for MVP: User clicks "I Paid", Admin sees "Paid?" button.
-     // Let's stick to the prompt: "If he pays, it should go to feed".
-     // Since we can't auto-verify crypto easily in frontend, we assume Admin checks.
-     // BUT, to make it feel instant:
      const ok = await sendAction('confirm_payment', id);
      if(ok) toast("Оплата принята! Реклама активирована.");
   }
@@ -417,12 +401,7 @@ function getStatusBadge(status) {
 }
 
 function renderAll() {
-  // 1. Feed (Only 'paid' or 'approved_free' which implies active)
-  // Note: 'approved_free' needs to be treated as active in feed logic too.
-  // Let's normalize: Active = status === 'paid' OR status === 'approved_free' (if we auto-activate free)
-  // Wait, logic: Admin clicks "Free" -> status becomes 'approved_free'. Should it be in feed? Yes.
-  // Admin clicks "Paid" -> status 'approved_paid'. User pays -> status 'paid'.
-  
+  // 1. Feed (Only 'paid' or 'approved_free')
   const activeAds = allData.ads.filter(a => a.status === 'paid' || a.status === 'approved_free');
   const feedHtml = activeAds.map(a => `
     <div class="ad-item">
