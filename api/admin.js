@@ -8,10 +8,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    // Структура базы данных
     let db = { ads: [], subscribers: [], messages: [] };
 
-    // Чтение текущих данных
     const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       headers: { 'X-Master-Key': API_KEY }
     });
@@ -36,27 +34,21 @@ export default async function handler(req, res) {
       // 1. КЛИЕНТ: Отправка на модерацию
       if (action === 'publish') {
         db.ads.push({
-          id: now,
-          type: 'ad',
-          status: 'pending', // pending, approved_paid, approved_free, paid, rejected
-          paid: false,
-          owner: payload.owner,
-          title: payload.title,
-          text: payload.text,
-          contact: payload.contact,
-          image: payload.image || null,
+          id: now, type: 'ad', status: 'pending', paid: false,
+          owner: payload.owner, title: payload.title, text: payload.text,
+          contact: payload.contact, image: payload.image || null,
           duration: payload.duration || '7 days',
           created_at: new Date().toISOString()
         });
       }
       
-      // 2. АДМИН: Одобрить как ПЛАТНОЕ
+      // 2. АДМИН: Одобрить как ПЛАТНОЕ (Клиент должен оплатить)
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_paid'; item.paid = false; }
       }
 
-      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ
+      // 3. АДМИН: Одобрить как БЕСПЛАТНОЕ (Сразу в ленту)
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
@@ -68,7 +60,7 @@ export default async function handler(req, res) {
         if (item) item.status = 'rejected';
       }
 
-      // 5. КЛИЕНТ: Подтверждение оплаты (статус меняется на 'paid' -> видно в ленте)
+      // 5. КЛИЕНТ: Подтверждение оплаты (Статус меняется на 'paid' -> видно в ленте)
       else if (action === 'confirm_payment') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
@@ -77,7 +69,7 @@ export default async function handler(req, res) {
         }
       }
 
-      // 6. Удаление
+      // 6. Удаление и прочее
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
@@ -87,8 +79,6 @@ export default async function handler(req, res) {
       else if (action === 'delete_msg') {
         db.messages = db.messages.filter(m => m.id != id);
       }
-
-      // 7. Подписка и Поддержка
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
           db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString() });
@@ -105,7 +95,6 @@ export default async function handler(req, res) {
         if (item) item.read = true;
       }
 
-      // Сохранение в JSONBin
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
@@ -114,7 +103,6 @@ export default async function handler(req, res) {
 
       return res.status(200).json({ success: true, ...db });
     }
-
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (e) {
     console.error(e);
