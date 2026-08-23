@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AdAstra — реклама, которая достаёт до звёзд</title>
+  <title>AdAstra — реклама до звёзд</title>
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
     *{box-sizing:border-box;} body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
@@ -16,7 +16,6 @@
     .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;}
     .login-card .tag{color:#e8d9a0;font-size:13px;line-height:1.4;margin-bottom:18px;}
     .login-card input{width:100%;margin:12px 0;padding:16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
-    .login-card input::placeholder{color:#9d8c53;}
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
     .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
     .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
@@ -43,19 +42,14 @@
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
     .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700;user-select:none;}
     .chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
-    .lang-chip{cursor:pointer;}.lang-chip input{width:auto;margin:0;accent-color:#b8860b;}
-    .preview-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
     .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;}
     .preview-media{height:140px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
     .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
-    .small-mark{width:58px;height:58px;opacity:.9;}
-    .preview-content{padding:14px;display:grid;gap:9px;}
-    .prev-title{font-size:22px;font-weight:800;line-height:1.2;} .prev-text{color:#5f5130;line-height:1.4;} .prev-contact{color:#846d31;font-size:13px;font-weight:700;}
-    .banner{min-height:250px;}.post{max-width:430px;margin:0 auto;}.story{max-width:270px;margin:0 auto;min-height:430px;}.story .preview-media{height:230px;}
     .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);}
-    .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 25% 20%,rgba(246,226,122,.6),transparent 28%),linear-gradient(135deg,rgba(212,175,55,.32),rgba(18,16,14,.10));font-size:30px;font-weight:800;color:#2c230c;}
+    .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:#eee;font-size:30px;font-weight:800;color:#2c230c; overflow:hidden;}
+    .ad-visual img{width:100%;height:100%;object-fit:cover;}
     .ad-body{padding:14px;display:grid;gap:9px;} .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-    .contact{color:#7c6832;font-size:13px;font-weight:700;} .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
+    .contact{color:#7c6832;font-size:13px;font-weight:700;}
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
     .stat{padding:15px 14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
     .stat b{display:block;font-size:28px;color:#211a08;margin-bottom:4px;}
@@ -68,7 +62,8 @@
     .empty{padding:18px;border-radius:17px;border:1.5px dashed rgba(160,125,35,.42);color:#83704a;text-align:center;background:#fffdf4;}
     .footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px;}
     .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:15px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;}
-    @media(max-width:640px){.brand-name{font-size:21px;}.brand-sub{display:none;}.card{padding:14px;}.card h2{font-size:23px;}.table{font-size:12px;}.table th,.table td{padding:8px 6px;}}
+    .dist-link{display:block; padding:8px; margin:4px 0; background:#f0f0f0; border-radius:8px; text-decoration:none; color:#333; font-size:14px;}
+    .dist-link:hover{background:#e0e0e0;}
   </style>
 </head>
 <body>
@@ -100,180 +95,146 @@
 
   <div id="app" class="app hidden">
     <header class="topbar">
-      <div class="brand"><svg class="brand-mark"><use href="#adastra-mark"></use></svg><div><div class="brand-name">AdAstra</div><div class="brand-sub">к звёздам через рекламу · Израиль → весь мир</div></div></div>
+      <div class="brand"><svg class="brand-mark"><use href="#adastra-mark"></use></svg><div><div class="brand-name">AdAstra</div><div class="brand-sub">к звёздам через рекламу</div></div></div>
       <div class="top-actions"><span id="roleBadge" class="role-badge">Гость</span><button id="btnLogout" class="light" type="button">Выйти</button></div>
     </header>
     <nav class="tabs" id="tabs">
       <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
       <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
-      <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
       <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
       <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
-      <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
     </nav>
     <main>
+      <!-- СТУДИЯ -->
       <section id="studio" class="section active">
         <div class="card">
           <h2>🎨 Студия рекламы</h2>
-          <p class="sub">Креатив + автоперевод на языки стран, где его покажут.</p>
+          <p class="sub">Загрузите фото, напишите текст. Мы сожмем фото и отправим на модерацию.</p>
           <div class="grid">
             <div>
-              <label>Формат креатива</label>
-              <select id="adFormat"><option>🖼 Картинка</option><option>🎬 Мини-ролик</option><option>📝 Карточка</option></select>
-              <label>Картинка: загрузите свою или используйте демо-фон</label>
+              <label>Фото объявления (макс 500KB)</label>
               <input id="imageUpload" type="file" accept="image/*">
-              <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Скидка 30% на ремонт квартир">
-              <label>Текст рекламы</label><textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
-              <label>Кнопка действия</label><input id="adCta" type="text" placeholder="Заказать / Получить смету / Написать">
-              <label>Контакт</label><input id="adContact" type="text" placeholder="WhatsApp, телефон, сайт или email">
-              <label>🌍 Языки стран показа (автоперевод)</label>
-              <div class="chips" id="langChips">
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="EN" checked> EN</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="HE" checked> HE</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="AR" checked> AR</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="ES" checked> ES</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="FR" checked> FR</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="RU" checked> RU</label>
-                <label class="chip lang-chip"><input type="checkbox" name="lang" value="ZH" checked> ZH</label>
-              </div>
-              <button id="btnTranslate" class="ghost-btn" type="button">🌐 Перевести рекламу на выбранные</button>
-              <button id="btnPublish" class="gold-btn" type="button">🚀 Опубликовать рекламу</button>
-              <div class="chips"><span class="chip">✓ баннер</span><span class="chip">✓ пост</span><span class="chip">✓ сторис</span><span class="chip">✓ QR</span><span class="chip">✓ 7 языков</span></div>
+              <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Ремонт квартир">
+              <label>Текст</label><textarea id="adText" placeholder="Коротко и ясно"></textarea>
+              <label>Контакт (WhatsApp/Site)</label><input id="adContact" type="text" placeholder="+972...">
+              <button id="btnPublish" class="gold-btn" type="button">🚀 Отправить на модерацию</button>
             </div>
             <div>
               <h3>Предпросмотр</h3>
-              <div class="preview-tabs">
-                <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
-                <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
-                <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
+              <div class="preview-box">
+                <div class="preview-media" id="previewMedia"><svg style="width:60px;height:60px;opacity:0.5"><use href="#adastra-mark"></use></svg></div>
+                <div style="padding:14px">
+                    <div class="prev-title" style="font-weight:bold; font-size:18px; margin-bottom:5px;">Ваш заголовок</div>
+                    <div class="prev-text" style="color:#555; font-size:14px;">Текст...</div>
+                    <div class="prev-contact" style="margin-top:10px; font-weight:bold; color:#b8860b;">Контакт</div>
+                </div>
               </div>
-              <div class="preview-box banner" data-preview="banner"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
-              <div class="preview-box post hidden" data-preview="post"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
-              <div class="preview-box story hidden" data-preview="story"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
-              <h3>Мои объявления</h3><div id="myAds" class="grid"></div>
+              <h3>Мои заявки</h3><div id="myAds" class="grid"></div>
             </div>
           </div>
         </div>
       </section>
-      <section id="feed" class="section"><div class="card"><h2>📰 Лента рекламы AdAstra</h2><p class="sub">Яркие мультиязычные креативы с QR-кодами.</p><div id="feedList" class="grid"></div></div></section>
+
+      <!-- ЛЕНТА -->
+      <section id="feed" class="section"><div class="card"><h2>📰 Одобренная реклама</h2><div id="feedList" class="grid"></div></div></section>
+
+      <!-- СЧЕТ -->
       <section id="bill" class="section">
         <div class="card">
-          <h2>🧮 Калькулятор счёта</h2>
-          <p class="sub">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
+          <h2>🧮 Оплата</h2>
+          <p class="sub">$20/неделя · $49/месяц. Оплата картой (PayPal) или Криптой.</p>
           <div class="grid">
             <div>
-              <div class="chips">
-                <button class="chip term active" data-days="7" data-qty="1" type="button">Неделя ≈ $20</button>
-                <button class="chip term" data-days="10" data-qty="1" type="button">1,5 недели ~ $30</button>
-                <button class="chip term" data-days="30" data-qty="1" type="button">Месяц $49</button>
-                <button class="chip term" data-days="30" data-qty="10" type="button">Месяц + 10 шт $56</button>
-              </div>
-              <label>Срок (дней)</label><input id="daysInput" type="number" min="1" value="7">
-              <label>Объём (макс 10 шт)</label><input id="qtyInput" type="number" min="1" max="10" value="1">
-              <button id="btnCalc" class="gold-btn" type="button">🧾 Выставить счёт</button>
-              <div id="calcResult" class="result"></div>
+                <div class="chips">
+                    <button class="chip term active" data-val="20" type="button">Неделя $20</button>
+                    <button class="chip term" data-val="49" type="button">Месяц $49</button>
+                </div>
+                <div id="calcResult" class="result">Итого: <b>$20</b></div>
             </div>
             <div>
-              <h3>Оплата</h3>
-              <div class="chips">
-                <button class="chip pay-tab active" data-pay="card" type="button">💳 Карта</button>
-                <button class="chip pay-tab" data-pay="crypto" type="button">₿ Крипта</button>
-                <button class="chip pay-tab" data-pay="paypal" type="button">🅿️ PayPal</button>
+              <div class="pay-box">
+                <h3 style="margin-top:0">💳 Карта / PayPal</h3>
+                <p class="sub">Нажмите кнопку, перейдите на защищенную страницу PayPal.</p>
+                <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;">Оплатить $20</a>
               </div>
-              <div id="payCard" class="pay-box">
-                <label>Email для чека (опционально)</label><input id="payEmail" type="email" placeholder="mail@example.com">
-                <label>Номер карты</label><input type="text" placeholder="0000 0000 0000 0000">
-                <div class="grid"><div><label>Срок</label><input type="text" placeholder="MM/YY"></div><div><label>CVC</label><input type="password" placeholder="123"></div></div>
-                <button id="btnPayCard" class="gold-btn" type="button">💵 Оплатить картой → USDT</button>
-              </div>
-              <div id="payCrypto" class="pay-box hidden">
-                <label>Монета</label><select id="cryptoCoin"><option>USDT (BEP20)</option><option>BTC</option><option>ETH</option></select>
-                <label>Адрес кошелька AdAstra</label><input id="cryptoWallet" type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-                <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button">📋 Скопировать</button>
-                <button id="btnCryptoPaid" class="gold-btn" type="button">✅ Я перевёл</button>
-              </div>
-              <div id="payPaypal" class="pay-box hidden">
-                <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-                <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;">🅿️ Оплатить через PayPal</a>
+              <div class="pay-box">
+                <h3 style="margin-top:0">₿ Криптовалюта</h3>
+                <label>USDT (BEP20)</label>
+                <input type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
+                <button class="ghost-btn small copy-btn" data-copy="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488" type="button">Копировать адрес</button>
+                <button id="btnCryptoPaid" class="gold-btn small" type="button" style="margin-left:5px">Я перевел</button>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section id="sites" class="section"><div class="card"><h2>🌐 Площадки</h2><p class="sub">Автопоиск бесплатных мест по всему миру.</p><label>Что рекламируем?</label><input id="siteSearch" type="text" placeholder="Израиль, ремонт, косметика..."><button id="btnFindSites" class="gold-btn" type="button">🔍 Автопоиск</button><h3>Найденные площадки</h3><div id="sitesList" class="grid"></div></div></section>
-      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button">📣 Разослать приглашения</button></div></section>
-      
-      <!-- АДМИН ПАНЕЛЬ -->
-      <section id="admin" class="section">
-        <div class="card">
-          <h2>👑 Панель создателя</h2>
-          <div class="stats"><div class="stat"><b id="statClients">0</b>клиентов</div><div class="stat"><b id="statPaid">0</b>платных</div><div class="stat"><b id="statFree">0</b>бесплатных</div><div class="stat"><b id="statIncome">$0</b>доход</div></div>
-          
-          <h3>📥 Новые заявки (Модерация)</h3>
-          <div id="moderationList"></div>
 
-          <h3>💰 Кошельки</h3>
-          <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-          <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
-          <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-          <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
-          
-          <h3>Все клиенты</h3>
-          <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Заплатил</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
+      <!-- ПОДПИСЧИКИ -->
+      <section id="subs" class="section">
+        <div class="card">
+          <h2>👥 Подписка на рассылку</h2>
+          <p class="sub">Получайте уведомления о новых площадках бесплатно.</p>
+          <div style="max-width:400px">
+              <input id="subEmail" type="text" placeholder="Ваш Email или Telegram">
+              <button id="btnSub" class="gold-btn" type="button">Подписаться</button>
+          </div>
+          <div id="subMsg" style="margin-top:10px; color:green; display:none;">Вы подписаны!</div>
         </div>
       </section>
       
-      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
+      <!-- АДМИНКА -->
+      <section id="admin" class="section">
+        <div class="card">
+          <h2>👑 Панель управления</h2>
+          <div class="stats">
+              <div class="stat"><b id="statPending">0</b>На модерации</div>
+              <div class="stat"><b id="statApproved">0</b>Одобрено</div>
+              <div class="stat"><b id="statSubs">0</b>Подписчиков</div>
+          </div>
+          
+          <h3>📥 Заявки на модерацию</h3>
+          <div id="moderationList"></div>
+
+          <h3>🚀 Авто-постинг (Инструмент)</h3>
+          <p class="sub">Выберите одобренное объявление ниже, чтобы сгенерировать ссылки и текст для ручного постинга на бесплатные доски.</p>
+          <div id="distributionTool" class="pay-box" style="display:none;">
+              <h4 id="distTitle" style="margin-top:0">Заголовок</h4>
+              <textarea id="distText" style="height:100px; margin-bottom:10px;"></textarea>
+              <button class="ghost-btn small" onclick="copyDistText()" type="button">📋 Копировать текст</button>
+              <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
+              <p><b>Куда постить (бесплатно):</b></p>
+              <div id="distLinks"></div>
+          </div>
+
+          <h3>Все объявления</h3>
+          <div id="allAdsList"></div>
+        </div>
+      </section>
     </main>
-    <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
+    <footer class="footer">AdAstra © 2026</footer>
   </div>
   <div id="toast" class="toast hidden"></div>
 
   <script>
     const $=(s,r=document)=>r.querySelector(s);
     const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-    const demoWallets={USDT:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488',BTC:'bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz',ETH:'0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488'};
     
-    let state = {
-      role: null, user: '', bill: 20, income: 0, optin: 0, noConsent: 0, invited: 0,
-      clients: [], 
-      ads: []
-    };
+    let state = { role: null, user: '', ads: [], subscribers: [] };
+    let currentImageBase64 = null;
 
-    let toastTimer=null;
+    function toast(m){const e=$('#toast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),3000);}
     function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-    function toast(m){const e=$('#toast');e.innerHTML=m;e.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.add('hidden'),2800);}
-    function today(){return new Date().toLocaleDateString('ru-RU');}
 
-    // === API ФУНКЦИИ (СВЯЗЬ С JSONBIN) ===
-    async function fetchServerData() {
+    // --- API ---
+    async function fetchData() {
       try {
         const res = await fetch('/api/admin');
         const data = await res.json();
-        if(data.posts) {
-          state.ads = data.posts.filter(p => p.type !== 'client_lead').map(p => ({
-            id: p.id, owner: p.owner || 'Клиент', format: p.format || '🖼',
-            title: p.title || 'Без названия', text: p.text || '',
-            cta: p.cta || 'Подробнее', contact: p.contact || '',
-            langs: p.langs || 7,
-            status: p.status === 'approved' ? 'Одобрено' : 
-                    p.status === 'rejected' ? 'Отклонено' : 
-                    p.status === 'paid' ? 'Платный' : 'На модерации'
-          }));
-          
-          state.clients = data.posts.filter(p => p.type === 'client_lead' || p.status === 'paid' || p.status === 'free').map(p => ({
-            id: p.id,
-            name: p.owner || 'Аноним',
-            status: p.status === 'paid' ? 'Платный' : 'Бесплатно',
-            paid: p.paid || 0,
-            date: new Date(p.created_at).toLocaleDateString('ru-RU')
-          }));
-          
-          state.income = state.clients.reduce((sum, c) => sum + (c.paid || 0), 0);
-        }
+        state.ads = data.ads || [];
+        state.subscribers = data.subscribers || [];
         renderAll();
-      } catch(e) { console.error(e); toast('Ошибка загрузки базы'); }
+      } catch(e) { console.error(e); toast('Ошибка базы'); }
     }
 
     async function sendAction(action, id, payload = {}) {
@@ -285,193 +246,253 @@
         });
         const result = await res.json();
         if(result.success) {
-          await fetchServerData();
+          await fetchData();
           return true;
-        } else {
-          toast('Ошибка: ' + (result.error || 'Unknown'));
-          return false;
-        }
+        } else { toast('Ошибка: ' + result.error); return false; }
       } catch(e) { toast('Ошибка сети'); return false; }
     }
 
-    // === ЛОГИКА ВХОДА ===
+    // --- LOGIC ---
     function enterApp(){
       const v=$('#loginInput').value.trim();
-      if(!v){toast('Введите имя');return;}
-      
+      if(!v) return toast('Введите имя');
       if(v==='584462'){
-        state.role='creator'; state.user='Создатель';
+        state.role='admin'; state.user='Admin';
         $('#adminTabBtn').classList.remove('hidden');
-        fetchServerData();
       } else {
         state.role='client'; state.user=v;
         $('#adminTabBtn').classList.add('hidden');
-        fetchServerData();
       }
-      
       $('#loginScreen').classList.add('hidden');$('#app').classList.remove('hidden');
-      $('#roleBadge').textContent=state.role==='creator'?'👑 Создатель':'👤 '+state.user;
-      renderAll();
-      toast(state.role==='creator'?'👑 Добро пожаловать, Босс':'🚀 Привет, '+escapeHtml(state.user));
+      $('#roleBadge').textContent = state.role==='admin' ? '👑 Admin' : '👤 '+state.user;
+      fetchData();
     }
 
-    function logout(){$('#app').classList.add('hidden');$('#loginScreen').classList.remove('hidden');$('#loginInput').value='';state.role=null;state.user='';}
-    function switchTab(t){if(t==='admin'&&state.role!=='creator')t='studio';$$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));$$('.section').forEach(s=>s.classList.toggle('active',s.id===t));}
-    
-    // === ОТРИСОВКА ===
-    function updatePreview(){const t=$('#adTitle').value.trim()||'Ваш заголовок',x=$('#adText').value.trim()||'Яркий текст рекламы появится здесь.',c=$('#adCta').value.trim()||'Подробнее',k=$('#adContact').value.trim()||'Контакт';$$('.prev-title').forEach(e=>e.textContent=t);$$('.prev-text').forEach(e=>e.textContent=x);$$('.prev-cta').forEach(e=>e.textContent=c);$$('.prev-contact').forEach(e=>e.textContent=k);}
-    function selectedLangsCount(){return $$('input[name="lang"]:checked').length;}
-    function hashCode(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
-    function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
-    function inFinderZone(x,y,s){return(x<7&&y<7)||(x>=s-7&&y<7)||(x<7&&y>=s-7);}
-    function drawFinder(ctx,fx,fy,c){ctx.fillStyle='#141210';ctx.fillRect(fx*c,fy*c,7*c,7*c);ctx.fillStyle='#fff';ctx.fillRect((fx+1)*c,(fy+1)*c,5*c,5*c);ctx.fillStyle='#141210';ctx.fillRect((fx+2)*c,(fy+2)*c,3*c,3*c);}
-    function drawQR(text,canvas,cell=8){if(!canvas)return;const s=25;canvas.width=s*cell;canvas.height=s*cell;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);const rand=mulberry32(hashCode(text||'AdAstra'));ctx.fillStyle='#141210';for(let y=0;y<s;y++)for(let x=0;x<s;x++){if(inFinderZone(x,y,s))continue;if(rand()<0.44)ctx.fillRect(x*cell,y*cell,cell,cell);}drawFinder(ctx,0,0,cell);drawFinder(ctx,s-7,0,cell);drawFinder(ctx,0,s-7,cell);}
-    function drawMiniQR(){$$('.qr-mini').forEach(c=>drawQR(c.dataset.qr||'AdAstra',c,3));}
-    
-    function adCard(a){return `<div class="ad-card"><div class="ad-visual">${escapeHtml(a.format)}</div><div class="ad-body"><h3 style="margin:0">${escapeHtml(a.title)}</h3><p class="sub" style="margin:0">${escapeHtml(a.text||'')}</p><div class="ad-actions"><button class="gold-btn small" type="button">${escapeHtml(a.cta||'Подробнее')}</button><span class="contact">${escapeHtml(a.contact||'')}</span></div><div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">${escapeHtml(a.status)}</span></div><canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas></div></div>`;}
-    
-    function renderMyAds(){
-      const el=$('#myAds');
-      let list = state.ads;
-      if(state.role !== 'creator') list = list.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
-      if(!list.length){el.innerHTML='<div class="empty">Пока пусто. Создай первую рекламу в Студии.</div>';return;}
-      el.innerHTML=list.map(adCard).join('');drawMiniQR();
-    }
-    
-    function renderFeed(){
-      const approved=state.ads.filter(a=>a.status==='Одобрено');
-      const el=$('#feedList');
-      if(!approved.length){el.innerHTML='<div class="empty">Пока нет одобренной рекламы.</div>';return;}
-      el.innerHTML=approved.map(adCard).join('');drawMiniQR();
-      $('#qrAds').innerHTML=approved.map(adCard).join('');drawMiniQR();
+    function logout(){ location.reload(); }
+
+    function switchTab(t){
+      if(t==='admin' && state.role!=='admin') t='studio';
+      $$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
+      $$('.section').forEach(s=>s.classList.toggle('active',s.id===t));
     }
 
-    function renderModeration(){
-      const pending = state.ads.filter(a => a.status === 'На модерации');
-      const el = $('#moderationList');
-      if(!pending.length){ el.innerHTML = '<div class="empty">Нет заявок на модерацию.</div>'; return; }
-      
-      el.innerHTML = pending.map(a => `
-        <div class="card" style="margin-bottom:12px; border-left: 4px solid orange;">
-          <h3 style="margin-top:0">${escapeHtml(a.title)}</h3>
-          <p class="sub">${escapeHtml(a.text || '')}</p>
-          <div class="chips">
-            <span class="chip">От: ${escapeHtml(a.owner)}</span>
-            <span class="chip">${escapeHtml(a.format)}</span>
-          </div>
-          <div class="ad-actions">
-            <button class="gold-btn small" onclick="handleApprove(${a.id})" type="button">✅ Одобрить</button>
-            <button class="ghost-btn small" onclick="handleReject(${a.id})" type="button">❌ Отклонить</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function renderClients(){
-      const tbody = $('#clientsTableBody');
-      if(!state.clients.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">Нет клиентов</td></tr>'; return; }
-      
-      tbody.innerHTML = state.clients.map(c => `
-        <tr>
-          <td>${escapeHtml(c.name)}</td>
-          <td>${escapeHtml(c.status)}</td>
-          <td><b>$${c.paid || 0}</b></td>
-          <td>${escapeHtml(c.date)}</td>
-          <td>
-            ${c.status === 'Бесплатно' 
-              ? `<button class="gold-btn small" onclick="handleMakePaid(${c.id})" type="button">Сделать платным</button>`
-              : `<button class="ghost-btn small" onclick="handleMakeFree(${c.id})" type="button">Сделать бесплатным</button>`
+    // --- IMAGE COMPRESSION (Чтобы влезло в JSONBin) ---
+    $('#imageUpload').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                // Сжимаем до 600px ширины
+                const MAX_WIDTH = 600;
+                let width = img.width;
+                let height = img.height;
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // Конвертируем в JPEG (легче чем PNG)
+                currentImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                
+                // Обновляем превью
+                $('#previewMedia').innerHTML = `<img src="${currentImageBase64}">`;
+                toast('Фото готово к отправке');
             }
-            <button class="ghost-btn small" style="border-color:red; color:red; margin-left:5px;" onclick="handleDeleteClient(${c.id})" type="button">🗑 Удалить</button>
-          </td>
-        </tr>
-      `).join('');
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    });
+
+    // --- PUBLISH ---
+    async function publishAd() {
+        const title = $('#adTitle').value.trim();
+        const text = $('#adText').value.trim();
+        const contact = $('#adContact').value.trim();
+        
+        if(!title) return toast('Нужен заголовок');
+        
+        // Проверка размера (JSONBin free limit ~100kb per request ideally for speed)
+        if(currentImageBase64 && currentImageBase64.length > 200000) {
+            return toast('Фото слишком большое! Выберите другое.');
+        }
+
+        const btn = $('#btnPublish');
+        btn.disabled = true; btn.textContent = 'Отправка...';
+        
+        const success = await sendAction('publish', null, {
+            owner: state.user, title, text, contact, image: currentImageBase64
+        });
+        
+        btn.disabled = false; btn.textContent = '🚀 Отправить на модерацию';
+        if(success) {
+            toast('Отправлено!');
+            $('#adTitle').value=''; $('#adText').value=''; $('#adContact').value='';
+            currentImageBase64 = null;
+            $('#previewMedia').innerHTML = '<svg style="width:60px;height:60px;opacity:0.5"><use href="#adastra-mark"></use></svg>';
+        }
     }
 
-    function updateAdminStats(){
-      $('#statClients').textContent = state.clients.length;
-      $('#statPaid').textContent = state.clients.filter(c => c.status === 'Платный').length;
-      $('#statFree').textContent = state.clients.filter(c => c.status !== 'Платный').length;
-      $('#statIncome').textContent = '$' + state.income;
-    }
-    
-    function updateSubs(){$('#optinCount').textContent=state.optin;$('#noConsentCount').textContent=state.noConsent;$('#invitedCount').textContent=state.invited;}
-    
-    function calcBill(){
-      const days=Math.max(1,parseInt($('#daysInput').value,10)||1);
-      const qty=Math.min(10,Math.max(1,parseInt($('#qtyInput').value,10)||1));
-      let base=days*3;if(days===7)base=20;if(days===10)base=30;if(days>=30)base=Math.ceil(days/30)*49;
-      const surcharge=qty>3?(qty-3)*0.02:0;
-      const total=Math.round(base*(1+surcharge));
-      state.bill=total;
-      $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
-      $('#calcResult').innerHTML=`Срок: <b>${days} дн.</b> · Объём: <b>${qty} шт</b><br>База: <b>$${base}</b> · Надбавка: <b>+${Math.round(surcharge*100)}%</b><br><span class="total">Итого: $${total}</span>`;
-      return total;
-    }
-    
-    function renderSites(q){const sites=['Google Business Profile','Pinterest Business','Quora Spaces','Reddit communities','Telegram catalogs','Yelp','Hotmaps Israel','Foursquare','Facebook Groups','Local directories'];const el=$('#sitesList');if(!q){el.innerHTML='<div class="empty">Нажми «Автопоиск», чтобы найти площадки.</div>';return;}el.innerHTML=sites.map(s=>`<div class="card" style="margin-bottom:0"><h3 style="margin-top:0">${escapeHtml(s)}</h3><p class="sub">Бесплатно · подходит для: ${escapeHtml(q)}</p><button class="ghost-btn small" data-site="${escapeHtml(s)}" type="button">Подготовить размещение</button></div>`).join('');}
-    function getWallet(c){const i=$('#wallet'+c);return i&&i.value.trim()?i.value.trim():demoWallets[c];}
-    function fallbackCopy(t){const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');toast('📋 Скопировано');}catch(e){toast('Скопируй вручную');}a.remove();}
-    function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>toast('📋 Скопировано')).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
-    
-    // === ДЕЙСТВИЯ ===
-    async function markPaid(){
-      if(state.role==='client'){
-        await sendAction('pay', null, { user: state.user, amount: state.bill });
-        toast('💳 Оплата зафиксирована!');
-      }
-    }
+    // --- SUBSCRIBE ---
+    $('#btnSub').addEventListener('click', async () => {
+        const val = $('#subEmail').value.trim();
+        if(!val) return toast('Введите контакт');
+        const ok = await sendAction('subscribe', null, { contact: val });
+        if(ok) {
+            $('#subMsg').style.display = 'block';
+            $('#subEmail').value = '';
+            toast('Подписка оформлена');
+        }
+    });
 
-    async function publishAd(){
-      const title=$('#adTitle').value.trim(),text=$('#adText').value.trim(),cta=$('#adCta').value.trim(),contact=$('#adContact').value.trim(),format=$('#adFormat').value,langs=selectedLangsCount();
-      if(!title){toast('Добавь заголовок рекламы');return;}
-      
-      const success = await sendAction('publish', null, {
-        owner: state.user, format, title, text, cta, contact, langs
-      });
-      
-      if(success) {
-        toast('🚀 Реклама отправлена на модерацию');
-        $('#adTitle').value=''; $('#adText').value='';
-      }
-    }
+    // --- ADMIN TOOLS ---
+    window.approveAd = (id) => sendAction('approve', id);
+    window.rejectAd = (id) => sendAction('reject', id);
+    window.deleteAd = (id) => { if(confirm('Удалить?')) sendAction('delete', id); };
 
-    window.handleApprove = (id) => sendAction('approve', id);
-    window.handleReject = (id) => sendAction('reject', id);
-    window.handleMakePaid = (id) => sendAction('make_paid', id);
-    window.handleMakeFree = (id) => sendAction('make_free', id);
-    window.handleDeleteClient = (id) => {
-      if(confirm('Удалить клиента?')) sendAction('delete', id);
+    window.prepareDistribution = (id) => {
+        const ad = state.ads.find(a => a.id == id);
+        if(!ad) return;
+        
+        const tool = $('#distributionTool');
+        tool.style.display = 'block';
+        $('#distTitle').textContent = ad.title;
+        $('#distText').value = `${ad.title}\n\n${ad.text}\n\nКонтакт: ${ad.contact}\n\n#AdAstra #Ads`;
+        
+        // Генерируем ссылки на бесплатные доски
+        const links = [
+            { name: 'Craigslist (World)', url: 'https://craigslist.org/sites/' },
+            { name: 'Locanto', url: 'https://www.locanto.com/' },
+            { name: 'Facebook Marketplace', url: 'https://www.facebook.com/marketplace/create/item' },
+            { name: 'OLX (если есть в регионе)', url: 'https://www.olx.com/' },
+            { name: 'Hoobly', url: 'https://www.hoobly.com/' }
+        ];
+        
+        $('#distLinks').innerHTML = links.map(l => 
+            `<a href="${l.url}" target="_blank" class="dist-link">🔗 ${l.name}</a>`
+        ).join('');
+        
+        tool.scrollIntoView({behavior: 'smooth'});
     };
 
-    function renderAll(){updatePreview();renderMyAds();renderFeed();renderModeration();renderClients();updateAdminStats();updateSubs();calcBill();renderSites('');drawQR($('#qrText').value,$('#qrCanvas'),8);}
+    window.copyDistText = () => {
+        const txt = $('#distText');
+        txt.select();
+        document.execCommand('copy');
+        toast('Текст скопирован!');
+    };
 
-    // === EVENT LISTENERS ===
-    $('#btnEnter').addEventListener('click',enterApp);
-    $('#loginInput').addEventListener('keydown',e=>{if(e.key==='Enter')enterApp();});
-    $('#btnLogout').addEventListener('click',logout);
+    // --- RENDER ---
+    function renderAll() {
+        // Stats
+        $('#statPending').textContent = state.ads.filter(a=>a.status==='pending').length;
+        $('#statApproved').textContent = state.ads.filter(a=>a.status==='approved').length;
+        $('#statSubs').textContent = state.subscribers.length;
+
+        // My Ads (Client)
+        const myAds = state.ads.filter(a => a.owner === state.user);
+        $('#myAds').innerHTML = myAds.length ? myAds.map(adCard).join('') : '<div class="empty">Нет заявок</div>';
+
+        // Feed (Public - Approved only)
+        const approved = state.ads.filter(a => a.status === 'approved');
+        $('#feedList').innerHTML = approved.length ? approved.map(adCard).join('') : '<div class="empty">Пока пусто</div>';
+
+        // Admin List
+        if(state.role === 'admin') {
+            const pending = state.ads.filter(a => a.status === 'pending');
+            $('#moderationList').innerHTML = pending.length ? pending.map(adminCard).join('') : '<div class="empty">Нет новых заявок</div>';
+            
+            $('#allAdsList').innerHTML = state.ads.map(a => `
+                <div style="border-bottom:1px solid #eee; padding:10px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <b>${escapeHtml(a.title)}</b> <span style="color:#888; font-size:12px;">(${a.status})</span>
+                        ${a.image ? '<br><span style="color:green; font-size:12px;">📷 Есть фото</span>' : ''}
+                    </div>
+                    <div>
+                        ${a.status==='approved' ? `<button class="ghost-btn small" onclick="prepareDistribution(${a.id})">🚀 Постинг</button>` : ''}
+                        <button class="ghost-btn small" style="border-color:red; color:red" onclick="deleteAd(${a.id})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    function adCard(a) {
+        return `
+        <div class="ad-card">
+            <div class="ad-visual">
+                ${a.image ? `<img src="${a.image}">` : '📷 Нет фото'}
+            </div>
+            <div class="ad-body">
+                <h3 style="margin:0">${escapeHtml(a.title)}</h3>
+                <p class="sub" style="margin:0">${escapeHtml(a.text)}</p>
+                <div class="contact">📞 ${escapeHtml(a.contact)}</div>
+                <div class="chips"><span class="chip">${a.status==='approved'?'✅ Одобрено':'⏳ Модерация'}</span></div>
+            </div>
+        </div>`;
+    }
+
+    function adminCard(a) {
+        return `
+        <div class="card" style="border-left:4px solid orange; margin-bottom:10px;">
+            <div style="display:flex; gap:15px;">
+                <div style="width:80px; height:80px; background:#eee; flex-shrink:0;">
+                    ${a.image ? `<img src="${a.image}" style="width:100%;height:100%;object-fit:cover;">` : 'No Img'}
+                </div>
+                <div style="flex:1">
+                    <h3 style="margin:0 0 5px">${escapeHtml(a.title)}</h3>
+                    <p style="margin:0 0 5px; font-size:14px; color:#555;">${escapeHtml(a.text)}</p>
+                    <div style="font-size:12px; color:#888;">От: ${escapeHtml(a.owner)} | ${escapeHtml(a.contact)}</div>
+                </div>
+            </div>
+            <div style="margin-top:10px; text-align:right;">
+                <button class="gold-btn small" onclick="approveAd(${a.id})">✅ Одобрить</button>
+                <button class="ghost-btn small" onclick="rejectAd(${a.id})">❌ Отклонить</button>
+            </div>
+        </div>`;
+    }
+
+    // --- INIT ---
+    $('#btnEnter').addEventListener('click', enterApp);
+    $('#loginInput').addEventListener('keydown', e=>{if(e.key==='Enter')enterApp();});
+    $('#btnLogout').addEventListener('click', logout);
     $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-    ['adTitle','adText','adCta','adContact','adFormat'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
-    $('#imageUpload').addEventListener('change',function(){const f=this.files&&this.files[0];if(!f)return;const u=URL.createObjectURL(f);$$('.preview-media').forEach(b=>{b.innerHTML=`<img src="${u}" alt="Креатив">`;});toast('📁 Картинка загружена');});
-    $$('.preview-tab-btn').forEach(b=>b.addEventListener('click',()=>{$$('.preview-tab-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');$$('.preview-box').forEach(x=>x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview));}));
-    $('#btnTranslate').addEventListener('click',()=>{const c=selectedLangsCount();if(!c){toast('Выбери хотя бы один язык');return;}toast('🌐 Переведено на '+c+' языков');});
-    $('#btnPublish').addEventListener('click',publishAd);
-    $$('.term').forEach(b=>b.addEventListener('click',()=>{$$('.term').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#daysInput').value=b.dataset.days;$('#qtyInput').value=b.dataset.qty||1;calcBill();}));
-    $('#daysInput').addEventListener('input',calcBill);$('#qtyInput').addEventListener('input',calcBill);
-    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт выставлен на $'+state.bill);});
-    $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{$$('.pay-tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#payCard').classList.toggle('hidden',b.dataset.pay!=='card');$('#payCrypto').classList.toggle('hidden',b.dataset.pay!=='crypto');$('#payPaypal').classList.toggle('hidden',b.dataset.pay!=='paypal');}));
-    $('#cryptoCoin').addEventListener('change',function(){const coin=this.value.split(' ')[0];$('#cryptoWallet').value=getWallet(coin);});
-    $('#btnPayCard').addEventListener('click',()=>{markPaid();});
-    $('#btnCryptoPaid').addEventListener('click',()=>{markPaid();});
-    $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
-    $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#sitesList').addEventListener('click',e=>{const b=e.target.closest('[data-site]');if(!b)return;toast('🌐 Подготовка: '+escapeHtml(b.dataset.site));});
-    $('#btnInvite').addEventListener('click',()=>{state.invited+=25;setTimeout(()=>{state.optin+=3;updateSubs();},800);updateSubs();toast('📣 Приглашения отправлены');});
-    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
+    ['adTitle','adText','adContact'].forEach(id=>$('#'+id).addEventListener('input', ()=>{
+        $('.prev-title').textContent = $('#adTitle').value || 'Заголовок';
+        $('.prev-text').textContent = $('#adText').value || 'Текст...';
+        $('.prev-contact').textContent = $('#adContact').value || 'Контакт';
+    }));
+    $('#btnPublish').addEventListener('click', publishAd);
+    
+    // Payment logic
+    let currentPrice = 20;
+    $$('.term').forEach(b=>b.addEventListener('click', ()=>{
+        $$('.term').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        currentPrice = b.dataset.val;
+        $('#calcResult').innerHTML = `Итого: <b>$${currentPrice}</b>`;
+        $('#paypalLink').href = `https://www.paypal.me/kvaisman90/${currentPrice}`;
+        $('#paypalLink').textContent = `Оплатить $${currentPrice}`;
+    }));
+    
+    $$('.copy-btn').forEach(b=>b.addEventListener('click', ()=>{
+        navigator.clipboard.writeText(b.dataset.copy);
+        toast('Адрес скопирован');
+    }));
+    
+    $('#btnCryptoPaid').addEventListener('click', ()=>{
+        toast('Заявка отправлена админу. Ожидайте подтверждения.');
+        // Можно добавить sendAction('pay_notify', ...) если нужно
+    });
 
-    $('#adminTabBtn').classList.add('hidden');
-    fetchServerData();
+    fetchData();
   </script>
 </body>
 </html>
