@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AdAstra — реклама, которая достаёт до звёзд</title>
-  <!-- PWA для установки на телефон -->
+  <!-- PWA для установки на телефон и ПК -->
   <meta name="theme-color" content="#0b0b0d"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <link rel="manifest" href="/manifest.json"/>
@@ -14,7 +14,7 @@
     body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
     button{cursor:pointer;}.hidden{display:none !important;}
     
-    /* LOGIN SCREEN - ТОЧНО КАК В ОРИГИНАЛЕ */
+    /* === ДИЗАЙН ВХОДА (ТОЧНО КАК В ОРИГИНАЛЕ) === */
     .login-screen{position:relative;min-height:100vh;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;}
     .scatter-field{position:absolute;inset:0;pointer-events:none;}
     .scatter-logo{position:absolute;opacity:.48;filter:drop-shadow(0 4px 8px rgba(180,140,20,.16));}
@@ -26,7 +26,7 @@
     .login-card input::placeholder{color:#9d8c53;}
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
     
-    /* APP SHELL */
+    /* === ОСНОВНОЙ ДИЗАЙН === */
     .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
     .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
     .brand{display:flex;align-items:center;gap:12px;min-width:0;}
