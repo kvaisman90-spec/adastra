@@ -8,7 +8,6 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    // Всегда начинаем с правильной структурой
     let db = { ads: [], subscribers: [] };
 
     const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
