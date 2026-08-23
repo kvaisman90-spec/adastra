@@ -1,464 +1,569 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AdAstra — реклама, которая достаёт до звёзд</title>
-  <meta name="theme-color" content="#0b0b0d"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar" content="black-translucent"/>
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png"/>
-  <link rel="icon" type="image/png" sizes="32x32" href="/icon-v2.png"/>
-  <link rel="shortcut icon" type="image/png" href="/icon-v2.png"/>
-  <link rel="manifest" href="/manifest.json"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=2"/>
-  <style>
-    :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
-    *{box-sizing:border-box;}
-    body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
-    button{cursor:pointer;}.hidden{display:none !important;}
-    
-    /* LOGIN */
-    .login-screen{position:relative;min-height:100vh;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;}
-    .scatter-field{position:absolute;inset:0;pointer-events:none;}
-    .scatter-logo{position:absolute;opacity:.48;filter:drop-shadow(0 4px 8px rgba(180,140,20,.16));}
-    .login-card{position:relative;z-index:2;width:min(430px,94vw);background:#0b0b0d;border:2px solid var(--gold);border-radius:24px;padding:34px 26px;text-align:center;box-shadow:0 22px 60px rgba(0,0,0,.35),0 0 0 7px rgba(212,175,55,.10);}
-    .login-card .mark{width:88px;height:88px;margin:0 auto 8px;display:block;}
-    .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;}
-    .login-card .tag{color:#e8d9a0;font-size:13px;line-height:1.4;margin-bottom:18px;}
-    .login-card input{width:100%;margin:12px 0;padding:16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
-    .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
-    
-    /* APP LAYOUT */
-    .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
-    .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
-    .brand-mark{width:46px;height:46px;flex:0 0 auto;}
-    .brand-name{font-size:26px;font-weight:800;letter-spacing:1px;color:#f1df9d;}
-    .brand-sub{font-size:12px;color:#c9b25f;}
-    .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
-    .role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08);}
-    
-    /* TABS */
-    .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px 13px;border-bottom:1px solid rgba(212,175,55,.18);}
-    .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700;}
-    .tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
-    .badge-count{background:red;color:#fff;border-radius:99px;padding:2px 7px;font-size:11px;margin-left:5px}
-    
-    main{flex:1;width:min(1220px,calc(100% - 28px));margin:18px auto;}
-    .section{display:none;}.section.active{display:block;}
-    
-    /* CARDS & FORMS */
-    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(120,90,10,.06);margin-bottom:18px;}
-    .card h2{margin:0 0 8px;font-size:28px;color:#211a08;}
-    .card h3{margin:18px 0 10px;font-size:20px;}
-    .sub{margin:0 0 16px;color:#7d6c47;line-height:1.45;}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;}
-    label{display:block;margin:11px 0 6px;font-weight:700;color:#3c2f12;}
-    input,select,textarea{width:100%;padding:12px 13px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none;}
-    textarea{min-height:96px;resize:vertical;}
-    
-    /* BUTTONS */
-    .gold-btn{border:none;border-radius:15px;padding:13px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:15px;font-weight:800;box-shadow:0 8px 18px rgba(212,175,55,.24);margin-top:10px;text-decoration:none;display:inline-block;text-align:center;}
-    .ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:15px;padding:12px 15px;font-size:15px;font-weight:700;margin-top:10px;}
-    .red-btn{border:1.5px solid #dc3545;background:transparent;color:#dc3545;border-radius:15px;padding:12px 15px;font-size:15px;font-weight:700;margin-top:10px;}
-    .light{color:#f4e8b5;border-color:rgba(212,175,55,.55);background:rgba(212,175,55,.08);padding:9px 12px;border-radius:12px;}
-    .small{padding:9px 12px;border-radius:12px;font-size:13px;margin-top:6px;}
-    
-    /* CHIPS */
-    .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
-    .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700;user-select:none;cursor:pointer;}
-    .chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
-    .lang-chip input{width:auto;margin:0;accent-color:#b8860b;}
-    
-    /* PREVIEW */
-    .preview-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-    .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;}
-    .preview-media{height:140px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
-    .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
-    .small-mark{width:58px;height:58px;opacity:.9;}
-    .preview-content{padding:14px;display:grid;gap:9px;}
-    .prev-title{font-size:22px;font-weight:800;line-height:1.2;}
-    .prev-text{color:#5f5130;line-height:1.4;}
-    .prev-contact{color:#846d31;font-size:13px;font-weight:700;}
-    .banner{min-height:250px;}.post{max-width:430px;margin:0 auto;}.story{max-width:270px;margin:0 auto;min-height:430px;}.story .preview-media{height:230px;}
-    
-    /* AD CARD LIST */
-    .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);margin-bottom:16px;}
-    .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 25% 20%,rgba(246,226,122,.6),transparent 28%),linear-gradient(135deg,rgba(212,175,55,.32),rgba(18,16,14,.10));font-size:30px;font-weight:800;color:#2c230c;}
-    .ad-body{padding:14px;display:grid;gap:9px;}
-    .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
-    .contact{color:#7c6832;font-size:13px;font-weight:700;}
-    .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
-    
-    /* STATS & TABLE */
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
-    .stat{padding:15px 14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
-    .stat b{display:block;font-size:28px;color:#211a08;margin-bottom:4px;}
-    .table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;}
-    .table th,.table td{padding:11px 10px;border-bottom:1px solid #eee1b8;text-align:left;font-size:14px;}
-    .table th{background:#fff4cf;color:#4d3d12;}
-    .pay-box{border:1px solid var(--line);background:#fffdf6;border-radius:18px;padding:14px;margin-top:12px;}
-    .result{margin-top:14px;padding:14px;border-radius:17px;background:#fff7dd;border:1px solid rgba(212,175,55,.32);line-height:1.6;}
-    .total{font-size:26px;font-weight:900;color:#201804;}
-    .empty{padding:18px;border-radius:17px;border:1.5px dashed rgba(160,125,35,.42);color:#83704a;text-align:center;background:#fffdf4;}
-    
-    /* FOOTER & TOAST */
-    .footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px;}
-    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:15px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;transition:opacity 0.3s;}
-    
-    /* STATUS BADGES */
-    .sb{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700}
-    .sb-pending{background:#fff3cd;color:#856404;border:1px solid #ffc107}
-    .sb-approved{background:#d4edda;color:#155724;border:1px solid #28a745}
-    .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
-    .sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
-    .sb-free{background:#e2e3e5;color:#383d41;border:1px solid #6c757d}
-    
-    /* MESSAGES */
-    .row-item{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap}
-    .msg-unread{background:#fffde7;border-left:4px solid var(--gold)}
-    .msg-read{background:#f9f9f9;border-left:4px solid #ccc}
-    
-    @media(max-width:640px){.brand-name{font-size:21px;}.brand-sub{display:none;}.card{padding:14px;}.card h2{font-size:23px;}.table{font-size:12px;}.table th,.table td{padding:8px 6px;}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AdAstra System v2.0</title>
+    <style>
+        :root {
+            --bg: #050507;
+            --surface: #121214;
+            --surface-hover: #1c1c1f;
+            --gold: #d4af37;
+            --gold-dim: #8a7020;
+            --text: #eaeaea;
+            --text-muted: #777;
+            --border: rgba(212, 175, 55, 0.15);
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --radius: 12px;
+            --shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100vh; overflow-x: hidden; }
+        
+        /* UI Components */
+        .hidden { display: none !important; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .btn { cursor: pointer; border: none; font-weight: 600; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-gold { background: linear-gradient(135deg, var(--gold), #b8962e); color: #000; padding: 12px 24px; border-radius: var(--radius); font-size: 14px; }
+        .btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-outline { border: 1px solid var(--border); color: var(--gold); background: transparent; padding: 8px 16px; border-radius: var(--radius); font-size: 13px; }
+        .btn-outline:hover { background: rgba(212, 175, 55, 0.05); border-color: var(--gold); }
+        .btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 8px; }
+        .btn-danger { border: 1px solid var(--danger); color: var(--danger); background: transparent; }
+        .btn-success { border: 1px solid var(--success); color: var(--success); background: transparent; }
+
+        /* Login */
+        #login-screen { height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 20px; }
+        .logo-big { font-size: 42px; font-weight: 800; background: linear-gradient(to right, #fff, var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; letter-spacing: 1px; }
+        .login-box { background: var(--surface); padding: 40px; border-radius: 24px; border: 1px solid var(--border); width: 100%; max-width: 420px; box-shadow: var(--shadow); }
+        .login-box input { width: 100%; padding: 16px; margin: 20px 0; background: #000; border: 1px solid var(--border); border-radius: var(--radius); color: #fff; font-size: 16px; text-align: center; }
+        .login-hint { font-size: 12px; color: var(--text-muted); margin-top: 15px; opacity: 0.7; }
+
+        /* Layout */
+        header { background: rgba(5, 5, 7, 0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; padding: 12px 0; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; }
+        .brand { font-size: 22px; font-weight: 700; color: var(--gold); display: flex; align-items: center; gap: 10px; }
+        .role-badge { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-muted); margin-left: 10px; }
+        
+        nav { display: flex; gap: 4px; overflow-x: auto; padding: 10px 0; margin-top: 5px; scrollbar-width: none; }
+        nav::-webkit-scrollbar { display: none; }
+        .nav-tab { padding: 10px 18px; color: var(--text-muted); cursor: pointer; white-space: nowrap; border-radius: 8px; font-size: 14px; font-weight: 500; transition: 0.2s; }
+        .nav-tab.active { color: var(--gold); background: rgba(212, 175, 55, 0.08); }
+        
+        main { padding: 25px 0 80px; }
+        .section { animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        @media(max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+        
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .card h2 { font-size: 20px; color: #fff; font-weight: 600; }
+        .card h3 { font-size: 16px; color: var(--gold); margin-bottom: 15px; }
+        
+        /* Forms */
+        label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 14px; background: #000; border: 1px solid var(--border); border-radius: var(--radius); color: #fff; margin-bottom: 16px; font-family: inherit; font-size: 14px; transition: 0.2s; }
+        input:focus, textarea:focus { border-color: var(--gold); }
+        textarea { resize: vertical; min-height: 120px; }
+        
+        /* Preview */
+        .preview-frame { border: 1px dashed var(--gold-dim); background: #08080a; border-radius: 16px; overflow: hidden; min-height: 350px; display: flex; flex-direction: column; position: sticky; top: 100px; }
+        .preview-header { padding: 8px; background: #1a1a1a; font-size: 11px; color: var(--text-muted); text-align: center; border-bottom: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1px; }
+        .preview-body { padding: 25px; flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .preview-img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; margin-bottom: 20px; background: #111; }
+        
+        /* Stats & Tables */
+        .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 25px; }
+        .stat-card { background: var(--surface); padding: 18px; border-radius: 12px; text-align: center; border: 1px solid var(--border); }
+        .stat-val { font-size: 26px; font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 14px 10px; text-align: left; border-bottom: 1px solid var(--border); font-size: 14px; }
+        th { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        
+        .status { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; }
+        .st-active { background: rgba(40, 167, 69, 0.15); color: var(--success); border: 1px solid rgba(40, 167, 69, 0.3); }
+        .st-pending { background: rgba(255, 193, 7, 0.15); color: var(--warning); border: 1px solid rgba(255, 193, 7, 0.3); }
+        .st-rejected { background: rgba(220, 53, 69, 0.15); color: var(--danger); border: 1px solid rgba(220, 53, 69, 0.3); }
+
+        /* Toast */
+        #toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #fff; color: #000; padding: 14px 30px; border-radius: 30px; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); font-size: 14px; }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Admin Specific */
+        .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .user-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    </style>
 </head>
 <body>
 
-  <!-- LOGIN SCREEN -->
-  <div id="loginScreen" class="login-screen">
-    <div class="scatter-field" id="scatterField"></div>
-    <div class="login-card">
-      <!-- SVG Logo Placeholder -->
-      <svg class="mark" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="50" cy="50" r="48" stroke="#d4af37" stroke-width="2"/>
-        <path d="M50 15L60 40H85L65 55L75 80L50 65L25 80L35 55L15 40H40L50 15Z" fill="url(#grad1)"/>
-        <defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f6e27a"/><stop offset="100%" style="stop-color:#b8860b"/></linearGradient></defs>
-      </svg>
-      <h1>AdAstra</h1>
-      <p class="tag">Реклама, которая достаёт до звёзд.<br>Войдите, чтобы управлять кампаниями.</p>
-      <input type="text" id="loginInput" placeholder="Введите код доступа или email" autocomplete="off">
-      <button class="enter-btn" onclick="doLogin()">ВОЙТИ В СИСТЕМУ</button>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen">
+        <div class="logo-big">✦ AdAstra</div>
+        <p style="color:var(--text-muted); margin-bottom:30px; font-size:14px;">Единая платформа управления рекламой</p>
+        <div class="login-box">
+            <input type="text" id="login-input" placeholder="Введите код доступа" autocomplete="off">
+            <button class="btn btn-gold" style="width:100%" onclick="sys.login()">ВОЙТИ В СИСТЕМУ</button>
+            <div class="login-hint">
+                Для администратора введите: <b>admin</b><br>
+                Для клиента: любой другой текст
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- MAIN APP -->
-  <div id="appScreen" class="app hidden">
-    <header class="topbar">
-      <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="48" stroke="#d4af37" stroke-width="2"/><path d="M50 15L60 40H85L65 55L75 80L50 65L25 80L35 55L15 40H40L50 15Z" fill="url(#grad2)"/><defs><linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f6e27a"/><stop offset="100%" style="stop-color:#b8860b"/></linearGradient></defs></svg>
-        <div>
-          <div class="brand-name">AdAstra</div>
-          <div class="brand-sub">Ads Management Platform</div>
-        </div>
-      </div>
-      <div class="top-actions">
-        <span class="role-badge">Advertiser</span>
-        <button class="ghost-btn small" onclick="doLogout()">Выход</button>
-      </div>
-    </header>
-
-    <nav class="tabs">
-      <button class="tab-btn active" onclick="switchTab('dashboard')">Дашборд</button>
-      <button class="tab-btn" onclick="switchTab('create')">Создать рекламу</button>
-      <button class="tab-btn" onclick="switchTab('myads')">Мои кампании <span class="badge-count" id="adsCount">3</span></button>
-      <button class="tab-btn" onclick="switchTab('messages')">Сообщения <span class="badge-count">1</span></button>
-      <button class="tab-btn" onclick="switchTab('billing')">Биллинг</button>
-    </nav>
-
-    <main>
-      <!-- DASHBOARD SECTION -->
-      <section id="dashboard" class="section active">
-        <div class="card">
-          <h2>Обзор эффективности</h2>
-          <p class="sub">Статистика ваших активных кампаний за последние 30 дней.</p>
-          <div class="stats">
-            <div class="stat"><b>12.4K</b>Показы</div>
-            <div class="stat"><b>843</b>Клики</div>
-            <div class="stat"><b>6.8%</b>CTR</div>
-            <div class="stat"><b>$420</b>Потрачено</div>
-          </div>
-        </div>
-        
-        <div class="card">
-          <h3>Последняя активность</h3>
-          <table class="table">
-            <thead><tr><th>Кампания</th><th>Статус</th><th>Дата</th><th>Расход</th></tr></thead>
-            <tbody>
-              <tr><td>Summer Sale Banner</td><td><span class="sb sb-approved">Active</span></td><td>24 авг</td><td>$45.00</td></tr>
-              <tr><td>Telegram Post Crypto</td><td><span class="sb sb-pending">Moderation</span></td><td>23 авг</td><td>$0.00</td></tr>
-              <tr><td>Story Lifestyle</td><td><span class="sb sb-paid">Completed</span></td><td>20 авг</td><td>$120.00</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- CREATE AD SECTION -->
-      <section id="create" class="section">
-        <div class="grid">
-          <div class="card">
-            <h2>Новая кампания</h2>
-            <form id="adForm" onsubmit="handleCreateAd(event)">
-              <label>Название кампании</label>
-              <input type="text" id="adTitle" placeholder="Например: Распродажа кроссовок" required>
-              
-              <label>Тип размещения</label>
-              <div class="chips" id="formatChips">
-                <div class="chip active" onclick="selectFormat(this, 'banner')">Баннер</div>
-                <div class="chip" onclick="selectFormat(this, 'post')">Пост в ленте</div>
-                <div class="chip" onclick="selectFormat(this, 'story')">Стори</div>
-              </div>
-              <input type="hidden" id="adFormat" value="banner">
-
-              <label>Заголовок / Текст</label>
-              <textarea id="adText" placeholder="Ваше рекламное сообщение..." required></textarea>
-
-              <label>Ссылка на медиа (URL изображения)</label>
-              <input type="url" id="adMedia" placeholder="https://example.com/image.jpg">
-
-              <label>Контактная информация / CTA</label>
-              <input type="text" id="adContact" placeholder="@username или ссылка" required>
-
-              <label>Бюджет ($)</label>
-              <input type="number" id="adBudget" min="10" value="50" required>
-
-              <button type="submit" class="gold-btn" style="width:100%">Отправить на модерацию</button>
-            </form>
-          </div>
-
-          <div class="card">
-            <h3>Предпросмотр</h3>
-            <div class="preview-tabs">
-               <span style="font-size:13px;color:#888;">Живое обновление при заполнении формы</span>
-            </div>
-            <div id="previewContainer" class="preview-box banner">
-              <div class="preview-media" id="prevMedia">
-                <span>🖼️</span>
-              </div>
-              <div class="preview-content">
-                <div class="prev-title" id="prevTitle">Заголовок...</div>
-                <div class="prev-text" id="prevText">Текст объявления появится здесь...</div>
-                <div class="prev-contact" id="prevContact">Подробнее →</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- MY ADS SECTION -->
-      <section id="myads" class="section">
-        <div class="card">
-          <h2>Ваши объявления</h2>
-          <div id="adsList">
-            <!-- JS will populate this -->
-            <div class="ad-card">
-              <div class="ad-visual">SALE</div>
-              <div class="ad-body">
-                <div style="display:flex;justify-content:space-between;align-items:start;">
-                  <h3 style="margin:0;">Summer Sale Banner</h3>
-                  <span class="sb sb-approved">Active</span>
+    <!-- MAIN APP -->
+    <div id="app-screen" class="hidden">
+        <header>
+            <div class="container header-inner">
+                <div class="brand">
+                    ✦ AdAstra
+                    <span id="role-display" class="role-badge">Client</span>
                 </div>
-                <p class="sub" style="margin-bottom:8px;">Лучшие скидки сезона уже здесь!</p>
-                <div class="ad-actions">
-                  <button class="ghost-btn small">Статистика</button>
-                  <button class="red-btn small">Остановить</button>
-                </div>
-              </div>
+                <button class="btn btn-outline" onclick="sys.logout()">Выход</button>
             </div>
+            <div class="container">
+                <nav id="main-nav">
+                    <!-- Tabs injected by JS based on role -->
+                </nav>
+            </div>
+        </header>
+
+        <main class="container">
             
-            <div class="ad-card">
-              <div class="ad-visual">CRYPTO</div>
-              <div class="ad-body">
-                <div style="display:flex;justify-content:space-between;align-items:start;">
-                  <h3 style="margin:0;">Telegram Post Crypto</h3>
-                  <span class="sb sb-pending">Moderation</span>
+            <!-- === CLIENT SECTIONS === -->
+            
+            <!-- Dashboard -->
+            <div id="dashboard" class="section client-view">
+                <div class="stats-row">
+                    <div class="stat-card"><span class="stat-val" id="cl-impressions">0</span><span class="stat-label">Показы</span></div>
+                    <div class="stat-card"><span class="stat-val" id="cl-clicks">0</span><span class="stat-label">Клики</span></div>
+                    <div class="stat-card"><span class="stat-val" id="cl-ctr">0%</span><span class="stat-label">CTR</span></div>
+                    <div class="stat-card"><span class="stat-val" id="cl-spent">$0</span><span class="stat-label">Расход</span></div>
                 </div>
-                <p class="sub" style="margin-bottom:8px;">Инвестируй в будущее с нами.</p>
-                <div class="ad-actions">
-                  <button class="ghost-btn small">Редактировать</button>
+                <div class="card">
+                    <div class="card-header"><h2>Активные кампании</h2></div>
+                    <table>
+                        <thead><tr><th>Название</th><th>Статус</th><th>Бюджет</th><th>Дата</th></tr></thead>
+                        <tbody id="cl-campaigns-table"></tbody>
+                    </table>
                 </div>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <!-- MESSAGES SECTION -->
-      <section id="messages" class="section">
-        <div class="card">
-          <h2>Центр уведомлений</h2>
-          <div class="row-item msg-unread">
-            <div>
-              <strong>Модерация AdAstra</strong><br>
-              <span style="font-size:13px;color:#555;">Ваше объявление "Story Lifestyle" одобрено и запущено.</span>
+            <!-- Create Ad -->
+            <div id="create" class="section client-view hidden">
+                <div class="grid-2">
+                    <div class="card">
+                        <h2>Новая кампания</h2>
+                        <form id="ad-form" onsubmit="return client.createAd(event)">
+                            <label>Название кампании</label>
+                            <input type="text" id="f-title" required placeholder="Например: Summer Sale 2026">
+                            
+                            <label>Формат размещения</label>
+                            <select id="f-format" onchange="client.updatePreview()">
+                                <option value="banner">Баннер (Горизонтальный)</option>
+                                <option value="post">Пост в ленте (Квадрат)</option>
+                                <option value="story">Стори (Вертикальный)</option>
+                            </select>
+
+                            <label>Текст объявления</label>
+                            <textarea id="f-text" required placeholder="Ваш рекламный текст..." oninput="client.updatePreview()"></textarea>
+
+                            <label>URL изображения</label>
+                            <input type="url" id="f-img" placeholder="https://..." oninput="client.updatePreview()">
+
+                            <label>Бюджет ($)</label>
+                            <input type="number" id="f-budget" min="50" value="100" required>
+
+                            <button type="submit" class="btn btn-gold" style="width:100%; margin-top:10px;">ОТПРАВИТЬ НА МОДЕРАЦИЮ</button>
+                        </form>
+                    </div>
+                    <div>
+                        <div class="preview-frame" id="preview-box">
+                            <div class="preview-header">Live Preview • <span id="prev-format">Banner</span></div>
+                            <div class="preview-body">
+                                <img id="prev-img" class="preview-img hidden" src="" alt="">
+                                <div id="prev-placeholder" style="font-size:48px; margin-bottom:20px; opacity:0.2;">🖼️</div>
+                                <h3 id="prev-title" style="margin-bottom:12px; color:#fff; font-size:20px;">Заголовок...</h3>
+                                <p id="prev-text" style="color:#aaa; font-size:14px; line-height:1.6;">Текст объявления появится здесь...</p>
+                                <button class="btn btn-gold" style="margin-top:25px; padding:10px 24px; font-size:12px;">ПОДРОБНЕЕ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <span style="font-size:12px;color:#888;">2ч назад</span>
-          </div>
-          <div class="row-item msg-read">
-            <div>
-              <strong>Система биллинга</strong><br>
-              <span style="font-size:13px;color:#555;">Пополнение баланса на $200 успешно выполнено.</span>
+
+            <!-- Billing -->
+            <div id="billing" class="section client-view hidden">
+                <div class="grid-2">
+                    <div class="card">
+                        <h2>Ваш баланс</h2>
+                        <div style="font-size:48px; font-weight:800; color:var(--gold); margin:25px 0;">$<span id="cl-balance">0</span></div>
+                        <button class="btn btn-gold" onclick="sys.toast('Переход к платежному шлюзу...')">Пополнить баланс</button>
+                    </div>
+                    <div class="card">
+                        <h2>История операций</h2>
+                        <table>
+                            <thead><tr><th>ID</th><th>Тип</th><th>Сумма</th><th>Статус</th></tr></thead>
+                            <tbody id="cl-transactions"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <span style="font-size:12px;color:#888;">Вчера</span>
-          </div>
-        </div>
-      </section>
 
-      <!-- BILLING SECTION -->
-      <section id="billing" class="section">
-        <div class="card">
-          <h2>Финансы</h2>
-          <div class="stats">
-            <div class="stat"><b>$1,240</b>Текущий баланс</div>
-            <div class="stat"><b>$420</b>Потрачено в этом месяце</div>
-          </div>
-          
-          <div class="pay-box">
-            <h3>Пополнить баланс</h3>
-            <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top:10px;">
-              <div>
-                <label>Сумма ($)</label>
-                <input type="number" value="100" min="10">
-              </div>
-              <div>
-                <label>Метод оплаты</label>
-                <select>
-                  <option>Bank Card (Visa/MC)</option>
-                  <option>Crypto (USDT/BTC)</option>
-                  <option>PayPal</option>
-                </select>
-              </div>
+            <!-- === ADMIN SECTIONS === -->
+
+            <!-- Admin Dashboard -->
+            <div id="admin-dash" class="section admin-view hidden">
+                <div class="stats-row">
+                    <div class="stat-card"><span class="stat-val" id="adm-total-ads">0</span><span class="stat-label">Всего кампаний</span></div>
+                    <div class="stat-card"><span class="stat-val" id="adm-pending">0</span><span class="stat-label">На модерации</span></div>
+                    <div class="stat-card"><span class="stat-val" id="adm-revenue">$0</span><span class="stat-label">Общий доход</span></div>
+                    <div class="stat-card"><span class="stat-val" id="adm-users">0</span><span class="stat-label">Пользователей</span></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><h2>Системные уведомления</h2></div>
+                    <div id="adm-notifications" style="color:var(--text-muted); font-size:14px;">Нет новых уведомлений</div>
+                </div>
             </div>
-            <button class="gold-btn" onclick="showToast('Переход к платежному шлюзу...')">Оплатить</button>
-          </div>
 
-          <h3>История транзакций</h3>
-          <table class="table">
-            <thead><tr><th>ID</th><th>Тип</th><th>Сумма</th><th>Дата</th><th>Статус</th></tr></thead>
-            <tbody>
-              <tr><td>#TX-8821</td><td>Пополнение</td><td>+$200.00</td><td>22 авг</td><td><span class="sb sb-approved">Success</span></td></tr>
-              <tr><td>#TX-8804</td><td>Списание (Реклама)</td><td>-$45.00</td><td>21 авг</td><td><span class="sb sb-paid">Paid</span></td></tr>
-              <tr><td>#TX-8799</td><td>Бонус регистрации</td><td>+$10.00</td><td>01 авг</td><td><span class="sb sb-free">Free</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+            <!-- Moderation -->
+            <div id="moderation" class="section admin-view hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Модерация объявлений</h2>
+                        <span class="status st-pending" id="mod-count">0 заявок</span>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table>
+                            <thead><tr><th>Клиент</th><th>Кампания</th><th>Формат</th><th>Бюджет</th><th>Дата</th><th>Действия</th></tr></thead>
+                            <tbody id="adm-moderation-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-    </main>
+            <!-- Users Management -->
+            <div id="users" class="section admin-view hidden">
+                <div class="card">
+                    <div class="card-header"><h2>Управление клиентами</h2></div>
+                    <div id="adm-users-list"></div>
+                </div>
+            </div>
 
-    <footer class="footer">
-      © 2026 AdAstra Inc. Все права защищены.<br>
-      Support | Terms | Privacy Policy
-    </footer>
-  </div>
+        </main>
+    </div>
 
-  <!-- TOAST NOTIFICATION -->
-  <div id="toast" class="toast hidden"></div>
+    <div id="toast">Уведомление</div>
 
-  <script>
-    // --- LOGIN LOGIC ---
-    function doLogin() {
-      const input = document.getElementById('loginInput');
-      if(input.value.trim().length > 0) {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('appScreen').classList.remove('hidden');
-        showToast('Добро пожаловать в AdAstra!');
-      } else {
-        showToast('Введите любой текст для входа (демо)');
-      }
-    }
+    <script>
+        /**
+         * CORE SYSTEM & DATABASE SIMULATION
+         * Используем localStorage для сохранения данных между сессиями и ролями
+         */
+        const DB_KEY = 'adastra_db_v2';
+        
+        const db = {
+            data: {
+                users: [
+                    { id: 'u1', name: 'Demo Client', balance: 1240, spent: 420 },
+                    { id: 'u2', name: 'Crypto Corp', balance: 5000, spent: 1200 }
+                ],
+                ads: [
+                    { id: 1, userId: 'u1', title: 'Summer Sale Banner', format: 'banner', status: 'active', budget: 45, date: '24 авг', text: 'Лучшие скидки сезона!' },
+                    { id: 2, userId: 'u1', title: 'TG Post Crypto', format: 'post', status: 'pending', budget: 100, date: '23 авг', text: 'Инвестируй в будущее' },
+                    { id: 3, userId: 'u2', title: 'Story Lifestyle', format: 'story', status: 'rejected', budget: 200, date: '20 авг', text: 'Живи ярко' }
+                ],
+                transactions: [
+                    { id: '#TX-8821', userId: 'u1', type: 'Пополнение', amount: 200, status: 'Success' },
+                    { id: '#TX-8804', userId: 'u1', type: 'Списание', amount: -45, status: 'Paid' }
+                ]
+            },
+            
+            load() {
+                const stored = localStorage.getItem(DB_KEY);
+                if (stored) this.data = JSON.parse(stored);
+            },
+            
+            save() {
+                localStorage.setItem(DB_KEY, JSON.stringify(this.data));
+                // Триггерим обновление UI если нужно
+                if(sys.currentUser) sys.refreshUI();
+            },
 
-    function doLogout() {
-      document.getElementById('appScreen').classList.add('hidden');
-      document.getElementById('loginScreen').classList.remove('hidden');
-      document.getElementById('loginInput').value = '';
-    }
+            getAds(userId = null) {
+                return userId ? this.data.ads.filter(a => a.userId === userId) : this.data.ads;
+            },
 
-    // --- TABS LOGIC ---
-    function switchTab(tabId) {
-      // Hide all sections
-      document.querySelectorAll('.section').forEach(el => el.classList.remove('active'));
-      // Deactivate all buttons
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      
-      // Show target
-      document.getElementById(tabId).classList.add('active');
-      // Activate button (find by onclick attribute match roughly)
-      const btns = Array.from(document.querySelectorAll('.tab-btn'));
-      const targetBtn = btns.find(b => b.getAttribute('onclick').includes(tabId));
-      if(targetBtn) targetBtn.classList.add('active');
-    }
+            addAd(ad) {
+                this.data.ads.unshift(ad);
+                this.save();
+            },
 
-    // --- CREATE AD PREVIEW LOGIC ---
-    const titleIn = document.getElementById('adTitle');
-    const textIn = document.getElementById('adText');
-    const mediaIn = document.getElementById('adMedia');
-    const contactIn = document.getElementById('adContact');
-    const formatHidden = document.getElementById('adFormat');
-    
-    const prevContainer = document.getElementById('previewContainer');
-    const prevTitle = document.getElementById('prevTitle');
-    const prevText = document.getElementById('prevText');
-    const prevMedia = document.getElementById('prevMedia');
-    const prevContact = document.getElementById('prevContact');
+            updateAdStatus(id, status) {
+                const ad = this.data.ads.find(a => a.id === id);
+                if(ad) {
+                    ad.status = status;
+                    this.save();
+                }
+            }
+        };
 
-    function updatePreview() {
-      prevTitle.textContent = titleIn.value || 'Заголовок...';
-      prevText.textContent = textIn.value || 'Текст объявления...';
-      prevContact.textContent = contactIn.value || 'Подробнее →';
-      
-      if(mediaIn.value) {
-        prevMedia.innerHTML = `<img src="${mediaIn.value}" onerror="this.style.display='none';this.parentNode.innerHTML='<span>⚠️ Ошибка URL</span>'">`;
-      } else {
-        prevMedia.innerHTML = '<span>🖼️</span>';
-      }
-    }
+        /**
+         * SYSTEM CONTROLLER
+         */
+        const sys = {
+            currentUser: null,
+            isAdmin: false,
 
-    [titleIn, textIn, mediaIn, contactIn].forEach(el => el.addEventListener('input', updatePreview));
+            init() {
+                db.load();
+                
+                // Enter key login
+                document.getElementById('login-input').addEventListener('keypress', (e) => {
+                    if(e.key === 'Enter') this.login();
+                });
+            },
 
-    function selectFormat(chip, format) {
-      document.querySelectorAll('#formatChips .chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      formatHidden.value = format;
-      
-      // Reset classes
-      prevContainer.classList.remove('banner', 'post', 'story');
-      prevContainer.classList.add(format);
-    }
+            login() {
+                const input = document.getElementById('login-input');
+                const val = input.value.trim().toLowerCase();
+                
+                if(!val) return this.toast('Введите код доступа');
 
-    function handleCreateAd(e) {
-      e.preventDefault();
-      showToast('Кампания успешно создана и отправлена на модерацию!');
-      // Reset form visually
-      e.target.reset();
-      updatePreview();
-      switchTab('myads');
-    }
+                this.isAdmin = (val === 'admin');
+                this.currentUser = this.isAdmin ? { id: 'admin', name: 'Administrator' } : db.data.users[0]; // Для демо берем первого юзера
+                
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('app-screen').classList.remove('hidden');
+                document.getElementById('role-display').innerText = this.isAdmin ? 'ADMINISTRATOR' : 'CLIENT';
+                
+                this.setupNav();
+                this.refreshUI();
+                this.toast(`Добро пожаловать, ${this.isAdmin ? 'Администратор' : 'Клиент'}`);
+            },
 
-    // --- UTILS ---
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.remove('hidden');
-      setTimeout(() => t.classList.add('hidden'), 3000);
-    }
+            logout() {
+                this.currentUser = null;
+                this.isAdmin = false;
+                document.getElementById('app-screen').classList.add('hidden');
+                document.getElementById('login-screen').classList.remove('hidden');
+                document.getElementById('login-input').value = '';
+            },
 
-    // Scatter effect for login background
-    (function initScatter(){
-      const field = document.getElementById('scatterField');
-      for(let i=0; i<15; i++){
-        const el = document.createElement('div');
-        el.className = 'scatter-logo';
-        el.innerHTML = '★';
-        el.style.left = Math.random()*100 + '%';
-        el.style.top = Math.random()*100 + '%';
-        el.style.fontSize = (Math.random()*40 + 20) + 'px';
-        el.style.color = '#d4af37';
-        el.style.transform = `rotate(${Math.random()*360}deg)`;
-        field.appendChild(el);
-      }
-    })();
-  </script>
+            setupNav() {
+                const nav = document.getElementById('main-nav');
+                nav.innerHTML = '';
+                
+                const tabs = this.isAdmin 
+                    ? [
+                        { id: 'admin-dash', label: 'Обзор' },
+                        { id: 'moderation', label: 'Модерация' },
+                        { id: 'users', label: 'Клиенты' }
+                      ]
+                    : [
+                        { id: 'dashboard', label: 'Дашборд' },
+                        { id: 'create', label: 'Создать рекламу' },
+                        { id: 'billing', label: 'Биллинг' }
+                      ];
+
+                tabs.forEach((t, i) => {
+                    const el = document.createElement('div');
+                    el.className = `nav-tab ${i===0?'active':''}`;
+                    el.innerText = t.label;
+                    el.dataset.target = t.id;
+                    el.onclick = () => this.switchTab(t.id);
+                    nav.appendChild(el);
+                });
+
+                // Show first section
+                document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+                document.getElementById(tabs[0].id).classList.remove('hidden');
+            },
+
+            switchTab(tabId) {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelector(`.nav-tab[data-target="${tabId}"]`).classList.add('active');
+                
+                document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+                document.getElementById(tabId).classList.remove('hidden');
+                
+                this.refreshUI();
+            },
+
+            refreshUI() {
+                if(!this.currentUser) return;
+                
+                if(this.isAdmin) {
+                    admin.render();
+                } else {
+                    client.render();
+                }
+            },
+
+            toast(msg) {
+                const t = document.getElementById('toast');
+                t.innerText = msg;
+                t.classList.add('show');
+                setTimeout(() => t.classList.remove('show'), 3000);
+            }
+        };
+
+        /**
+         * CLIENT LOGIC
+         */
+        const client = {
+            render() {
+                const user = sys.currentUser;
+                const ads = db.getAds(user.id);
+                
+                // Stats
+                document.getElementById('cl-balance').innerText = user.balance.toLocaleString();
+                document.getElementById('cl-spent').innerText = '$' + user.spent;
+                document.getElementById('cl-impressions').innerText = '12.4K'; // Demo static
+                document.getElementById('cl-clicks').innerText = '843';
+                document.getElementById('cl-ctr').innerText = '6.8%';
+
+                // Campaigns Table
+                const tbody = document.getElementById('cl-campaigns-table');
+                tbody.innerHTML = ads.length ? ads.map(ad => `
+                    <tr>
+                        <td><strong>${ad.title}</strong></td>
+                        <td><span class="status st-${ad.status}">${ad.status}</span></td>
+                        <td>$${ad.budget}</td>
+                        <td>${ad.date}</td>
+                    </tr>
+                `).join('') : '<tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Нет кампаний</td></tr>';
+
+                // Transactions
+                const txBody = document.getElementById('cl-transactions');
+                const txs = db.data.transactions.filter(t => t.userId === user.id);
+                txBody.innerHTML = txs.map(t => `
+                    <tr>
+                        <td>${t.id}</td>
+                        <td>${t.type}</td>
+                        <td style="color:${t.amount > 0 ? 'var(--success)' : '#fff'}">${t.amount > 0 ? '+' : ''}$${Math.abs(t.amount)}</td>
+                        <td><span class="status st-active">${t.status}</span></td>
+                    </tr>
+                `).join('');
+            },
+
+            updatePreview() {
+                const title = document.getElementById('f-title').value || "Заголовок...";
+                const text = document.getElementById('f-text').value || "Текст объявления...";
+                const img = document.getElementById('f-img').value;
+                const format = document.getElementById('f-format').options[document.getElementById('f-format').selectedIndex].text;
+
+                document.getElementById('prev-title').innerText = title;
+                document.getElementById('prev-text').innerText = text;
+                document.getElementById('prev-format').innerText = format;
+
+                const imgEl = document.getElementById('prev-img');
+                const phEl = document.getElementById('prev-placeholder');
+                
+                if(img) {
+                    imgEl.src = img;
+                    imgEl.classList.remove('hidden');
+                    phEl.classList.add('hidden');
+                    imgEl.onerror = () => { imgEl.classList.add('hidden'); phEl.classList.remove('hidden'); };
+                } else {
+                    imgEl.classList.add('hidden');
+                    phEl.classList.remove('hidden');
+                }
+            },
+
+            createAd(e) {
+                e.preventDefault();
+                const newAd = {
+                    id: Date.now(),
+                    userId: sys.currentUser.id,
+                    title: document.getElementById('f-title').value,
+                    format: document.getElementById('f-format').value,
+                    text: document.getElementById('f-text').value,
+                    budget: parseInt(document.getElementById('f-budget').value),
+                    status: 'pending',
+                    date: new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
+                };
+
+                db.addAd(newAd);
+                sys.toast('Кампания создана и отправлена на модерацию!');
+                document.getElementById('ad-form').reset();
+                this.updatePreview();
+                sys.switchTab('dashboard');
+                return false;
+            }
+        };
+
+        /**
+         * ADMIN LOGIC
+         */
+        const admin = {
+            render() {
+                const allAds = db.getAds();
+                const pendingAds = allAds.filter(a => a.status === 'pending');
+                
+                // Global Stats
+                document.getElementById('adm-total-ads').innerText = allAds.length;
+                document.getElementById('adm-pending').innerText = pendingAds.length;
+                document.getElementById('adm-revenue').innerText = '$' + db.data.users.reduce((sum, u) => sum + u.spent, 0).toLocaleString();
+                document.getElementById('adm-users').innerText = db.data.users.length;
+                document.getElementById('mod-count').innerText = `${pendingAds.length} заявок`;
+
+                // Moderation List
+                const modList = document.getElementById('adm-moderation-list');
+                modList.innerHTML = pendingAds.length ? pendingAds.map(ad => {
+                    const user = db.data.users.find(u => u.id === ad.userId) || { name: 'Unknown' };
+                    return `
+                    <tr>
+                        <td>${user.name}</td>
+                        <td><strong>${ad.title}</strong><br><small style="color:var(--text-muted)">${ad.text.substring(0,30)}...</small></td>
+                        <td>${ad.format}</td>
+                        <td>$${ad.budget}</td>
+                        <td>${ad.date}</td>
+                        <td>
+                            <div class="admin-actions">
+                                <button class="btn btn-sm btn-success" onclick="admin.moderate(${ad.id}, 'active')">✓</button>
+                                <button class="btn btn-sm btn-danger" onclick="admin.moderate(${ad.id}, 'rejected')">✕</button>
+                            </div>
+                        </td>
+                    </tr>
+                `}).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:30px;">Нет заявок на модерацию</td></tr>';
+
+                // Users List
+                const userList = document.getElementById('adm-users-list');
+                userList.innerHTML = db.data.users.map(u => `
+                    <div class="user-row">
+                        <div>
+                            <strong>${u.name}</strong>
+                            <div style="font-size:12px; color:var(--text-muted);">ID: ${u.id}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="color:var(--gold); font-weight:700;">$${u.balance}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">Spent: $${u.spent}</div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            moderate(adId, status) {
+                db.updateAdStatus(adId, status);
+                sys.toast(`Статус изменен на: ${status.toUpperCase()}`);
+                this.render();
+            }
+        };
+
+        // Initialize System
+        window.onload = () => sys.init();
+
+    </script>
 </body>
 </html>
