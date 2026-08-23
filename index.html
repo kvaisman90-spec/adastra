@@ -12,18 +12,47 @@
 <style>
 :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--paper:#fffdf7;--line:rgba(212,175,55,.3);--bg:#0b0b0d}
 *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-body{margin:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;background:var(--paper);color:#222;padding-bottom: 80px;}
+body{margin:0;font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;background:var(--paper);color:#222;padding-bottom: 80px; overflow-x: hidden;}
 button{cursor:pointer; font-family: inherit;}
 .hidden{display:none!important}
 
-/* Login */
-.login-screen{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px; position:fixed; top:0; left:0; width:100%; z-index:1000;}
-.login-card{width:min(400px,90vw);background:#141414;border:1px solid var(--gold);border-radius:24px;padding:30px;text-align:center;box-shadow:0 0 40px rgba(212,175,55,0.1)}
-.login-card h1{margin:10px 0;color:var(--gold);font-size:32px;letter-spacing:1px;}
-.login-card input{width:100%;margin:15px 0;padding:14px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;font-size:16px;text-align:center;}
-.enter-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--gold);color:#000;font-weight:bold;font-size:16px;}
+/* --- LOGIN SCREEN WITH PATTERN BACKGROUND --- */
+.login-screen{
+  min-height:100vh;
+  background-color: var(--paper); /* Белый фон */
+  /* Паттерн из ракет (SVG encoded) */
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.15' fill-rule='evenodd'%3E%3Cpath d='M20 20 L25 10 L30 20 L25 30 Z M22 22 L15 25 M28 22 L35 25' stroke='%23d4af37' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  display:flex;align-items:center;justify-content:center;padding:20px; 
+  position:fixed; top:0; left:0; width:100%; z-index:1000;
+}
 
-/* App Layout */
+/* Дополнительные случайные ракеты для объема */
+.login-screen::before {
+  content: "🚀"; position: absolute; top: 10%; left: 10%; font-size: 40px; opacity: 0.1; transform: rotate(-15deg);
+}
+.login-screen::after {
+  content: "🚀"; position: absolute; bottom: 15%; right: 10%; font-size: 60px; opacity: 0.1; transform: rotate(25deg);
+}
+.bg-rocket-1 { position: absolute; top: 40%; right: 20%; font-size: 30px; opacity: 0.1; transform: rotate(90deg); }
+.bg-rocket-2 { position: absolute; bottom: 30%; left: 15%; font-size: 50px; opacity: 0.1; transform: rotate(-45deg); }
+
+.login-card{
+  width:min(400px,90vw);
+  background:#141414; /* Чёрное окно */
+  border:2px solid var(--gold);
+  border-radius:24px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+}
+.login-card h1{margin:10px 0;color:var(--gold);font-size:32px;letter-spacing:1px; text-shadow: 0 0 10px rgba(212,175,55,0.3);}
+.login-card input{width:100%;margin:15px 0;padding:14px;border-radius:12px;border:1px solid #333;background:#000;color:#fff;font-size:16px;text-align:center;}
+.enter-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(45deg, var(--gold-light), var(--gold));color:#000;font-weight:bold;font-size:16px; box-shadow: 0 4px 15px rgba(212,175,55,0.4);}
+
+/* --- APP LAYOUT --- */
 .app{display:none; flex-direction:column; min-height:100vh;}
 .topbar{position:sticky;top:0;z-index:100;background:var(--bg);color:var(--gold);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #333;}
 .brand{font-weight:900;font-size:20px;letter-spacing:1px;}
@@ -51,7 +80,7 @@ input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radiu
 textarea{resize:vertical;min-height:80px;}
 
 .btn{display:block;width:100%;padding:12px;border:none;border-radius:8px;font-weight:bold;font-size:14px;margin-top:12px;text-align:center;text-decoration:none;}
-.btn-gold{background:var(--gold);color:#000;}
+.btn-gold{background:linear-gradient(45deg, var(--gold-light), var(--gold));color:#000;}
 .btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold-dark);}
 .btn-red{background:#ffebee;color:#c62828;border:1px solid #ffcdd2;}
 .btn-green{background:#e8f5e9;color:#2e7d32;border:1px solid #c8e6c9;}
@@ -87,6 +116,10 @@ textarea{resize:vertical;min-height:80px;}
 </style>
 </head>
 <body>
+
+<!-- Background Rockets for Login -->
+<div class="bg-rocket-1"></div>
+<div class="bg-rocket-2"></div>
 
 <!-- PWA Install Prompt -->
 <div id="installBanner" class="install-banner" onclick="installApp()">📲 Установить AdAstra как приложение</div>
