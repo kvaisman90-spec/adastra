@@ -6,8 +6,11 @@
   <title>AdAstra — реклама до звёзд</title>
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
-    *{box-sizing:border-box;} body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
-    button{cursor:pointer;}.hidden{display:none !important;}
+    *{box-sizing:border-box;}
+    body{margin:0;font-family:Arial,Helvetica,system-ui,sans-serif;background:var(--paper);color:var(--ink);}
+    button{cursor:pointer;}
+    .hidden{display:none !important;}
+
     .login-screen{position:relative;min-height:100vh;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;}
     .scatter-field{position:absolute;inset:0;pointer-events:none;}
     .scatter-logo{position:absolute;opacity:.48;filter:drop-shadow(0 4px 8px rgba(180,140,20,.16));}
@@ -16,483 +19,593 @@
     .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;}
     .login-card .tag{color:#e8d9a0;font-size:13px;line-height:1.4;margin-bottom:18px;}
     .login-card input{width:100%;margin:12px 0;padding:16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
+    .login-card input::placeholder{color:#9d8c53;}
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
+
     .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
     .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;} .brand-mark{width:46px;height:46px;flex:0 0 auto;}
-    .brand-name{font-size:26px;font-weight:800;letter-spacing:1px;color:#f1df9d;} .brand-sub{font-size:12px;color:#c9b25f;}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+    .brand-mark{width:46px;height:46px;flex:0 0 auto;}
+    .brand-name{font-size:26px;font-weight:800;letter-spacing:1px;color:#f1df9d;}
+    .brand-sub{font-size:12px;color:#c9b25f;}
     .top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
     .role-badge{padding:8px 11px;border-radius:999px;border:1px solid rgba(212,175,55,.45);color:#f3e7ad;font-size:13px;background:rgba(212,175,55,.08);}
+
     .tabs{display:flex;gap:8px;overflow:auto;background:#0b0b0d;padding:10px 14px 13px;border-bottom:1px solid rgba(212,175,55,.18);}
     .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700;}
     .tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
+
     main{flex:1;width:min(1220px,calc(100% - 28px));margin:18px auto;}
-    .section{display:none;}.section.active{display:block;}
+    .section{display:none;}
+    .section.active{display:block;}
+
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 12px 30px rgba(120,90,10,.06);margin-bottom:18px;}
-    .card h2{margin:0 0 8px;font-size:28px;color:#211a08;} .card h3{margin:18px 0 10px;font-size:20px;}
+    .card h2{margin:0 0 8px;font-size:28px;color:#211a08;}
+    .card h3{margin:18px 0 10px;font-size:20px;}
     .sub{margin:0 0 16px;color:#7d6c47;line-height:1.45;}
+
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;}
     label{display:block;margin:11px 0 6px;font-weight:700;color:#3c2f12;}
     input,select,textarea{width:100%;padding:12px 13px;border-radius:14px;border:1px solid #d8c580;background:#fffdf8;color:#191307;font-size:15px;outline:none;}
     textarea{min-height:96px;resize:vertical;}
-    .gold-btn{border:none;border-radius:15px;padding:13px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:15px;font-weight:800;box-shadow:0 8px 18px rgba(212,175,55,.24);margin-top:10px; text-decoration: none; display: inline-block; text-align: center;}
+
+    .gold-btn{border:none;border-radius:15px;padding:13px 16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:15px;font-weight:800;box-shadow:0 8px 18px rgba(212,175,55,.24);margin-top:10px;text-decoration:none;display:inline-block;text-align:center;}
     .ghost-btn{border:1.5px solid var(--gold);background:transparent;color:#6d5518;border-radius:15px;padding:12px 15px;font-size:15px;font-weight:700;margin-top:10px;}
     .light{color:#f4e8b5;border-color:rgba(212,175,55,.55);background:rgba(212,175,55,.08);padding:9px 12px;border-radius:12px;}
     .small{padding:9px 12px;border-radius:12px;font-size:13px;margin-top:6px;}
+
     .chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0;}
     .chip{display:inline-flex;align-items:center;gap:6px;padding:9px 11px;border-radius:999px;border:1px solid rgba(160,125,35,.38);background:#fff8df;color:#5d4a15;font-size:13px;font-weight:700;user-select:none;}
     .chip.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
+
     .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;}
-    .preview-media{height:140px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
+    .preview-media{height:160px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
     .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .preview-body{padding:14px;}
+    .prev-title{font-size:20px;font-weight:800;margin-bottom:6px;}
+    .prev-text{color:#5f5130;line-height:1.4;font-size:14px;}
+    .prev-contact{margin-top:10px;font-weight:bold;color:#b8860b;}
+
     .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);}
-    .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:#eee;font-size:30px;font-weight:800;color:#2c230c; overflow:hidden;}
-    .ad-visual img{width:100%;height:100%;object-fit:cover;}
-    .ad-body{padding:14px;display:grid;gap:9px;} .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    .ad-visual{min-height:120px;display:flex;align-items:center;justify-content:center;background:#f5f0e0;font-size:40px;overflow:hidden;}
+    .ad-visual img{width:100%;height:100%;object-fit:cover;display:block;}
+    .ad-body{padding:14px;display:grid;gap:8px;}
     .contact{color:#7c6832;font-size:13px;font-weight:700;}
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
+
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0;}
     .stat{padding:15px 14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
     .stat b{display:block;font-size:28px;color:#211a08;margin-bottom:4px;}
-    .table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;}
-    .table th,.table td{padding:11px 10px;border-bottom:1px solid #eee1b8;text-align:left;font-size:14px;}
-    .table th{background:#fff4cf;color:#4d3d12;}
+
     .pay-box{border:1px solid var(--line);background:#fffdf6;border-radius:18px;padding:14px;margin-top:12px;}
     .result{margin-top:14px;padding:14px;border-radius:17px;background:#fff7dd;border:1px solid rgba(212,175,55,.32);line-height:1.6;}
-    .total{font-size:26px;font-weight:900;color:#201804;}
+
     .empty{padding:18px;border-radius:17px;border:1.5px dashed rgba(160,125,35,.42);color:#83704a;text-align:center;background:#fffdf4;}
     .footer{padding:16px;text-align:center;color:#8b7a4f;font-size:13px;}
     .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:999;background:#141210;color:#f4e7ad;border:1px solid var(--gold);border-radius:15px;padding:13px 17px;box-shadow:0 14px 34px rgba(0,0,0,.24);max-width:calc(100vw - 30px);text-align:center;}
-    .dist-link{display:block; padding:8px; margin:4px 0; background:#f0f0f0; border-radius:8px; text-decoration:none; color:#333; font-size:14px;}
-    .dist-link:hover{background:#e0e0e0;}
+
+    .sub-row{display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid #eee;gap:10px;}
+    .dist-link{display:block;padding:10px 12px;margin:5px 0;background:#f9f4e4;border:1px solid #e8d88a;border-radius:10px;text-decoration:none;color:#3c2f12;font-size:14px;font-weight:600;}
+    .dist-link:hover{background:#f0e8c0;}
+
+    @media(max-width:640px){
+      .brand-name{font-size:20px;}
+      .brand-sub{display:none;}
+      .card{padding:14px;}
+      .card h2{font-size:22px;}
+    }
   </style>
 </head>
 <body>
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#f9e79f"></stop><stop offset="55%" stop-color="#d4af37"></stop><stop offset="100%" stop-color="#9c7c0d"></stop></linearGradient><symbol id="adastra-mark" viewBox="0 0 120 120"><ellipse cx="60" cy="70" rx="48" ry="18" fill="none" stroke="url(#goldGrad)" stroke-width="4" transform="rotate(-22 60 70)"></ellipse><path d="M60 10 C70 26 76 44 74 66 L60 58 L46 66 C44 44 50 26 60 10 Z" fill="url(#goldGrad)"></path><path d="M46 60 L32 82 L46 76 Z" fill="url(#goldGrad)"></path><path d="M74 60 L88 82 L74 76 Z" fill="url(#goldGrad)"></path><circle cx="60" cy="40" r="6" fill="#ffffff" opacity="0.9"></circle><path d="M96 20 l3.5 8.5 8.5 3.5 -8.5 3.5 -3.5 8.5 -3.5-8.5 -8.5-3.5 8.5-3.5 z" fill="url(#goldGrad)"></path></symbol></defs></svg>
 
-  <div id="loginScreen" class="login-screen">
-    <div class="scatter-field" aria-hidden="true">
-      <svg class="scatter-logo" style="top:4%;left:5%;width:92px;transform:rotate(-20deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:2%;left:40%;width:58px;transform:rotate(14deg);opacity:.38;"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:6%;left:84%;width:104px;transform:rotate(24deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:22%;left:13%;width:54px;transform:rotate(38deg);opacity:.42;"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:24%;left:82%;width:72px;transform:rotate(-30deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:46%;left:2%;width:78px;transform:rotate(12deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:48%;left:88%;width:58px;transform:rotate(-14deg);opacity:.5;"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:70%;left:9%;width:86px;transform:rotate(-26deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:72%;left:80%;width:66px;transform:rotate(30deg);opacity:.55;"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:88%;left:30%;width:56px;transform:rotate(16deg);opacity:.42;"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:86%;left:55%;width:90px;transform:rotate(-10deg);"><use href="#adastra-mark"></use></svg>
-      <svg class="scatter-logo" style="top:90%;left:2%;width:52px;transform:rotate(28deg);opacity:.36;"><use href="#adastra-mark"></use></svg>
-    </div>
-    <div class="login-card">
-      <svg class="mark"><use href="#adastra-mark"></use></svg>
-      <h1>AdAstra</h1>
-      <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
-      <input id="loginInput" type="text" placeholder="Введите имя или код доступа" autocomplete="off">
-      <button id="btnEnter" class="enter-btn" type="button">Войти</button>
-    </div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f9e79f"/>
+      <stop offset="55%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#9c7c0d"/>
+    </linearGradient>
+    <symbol id="adastra-mark" viewBox="0 0 120 120">
+      <ellipse cx="60" cy="70" rx="48" ry="18" fill="none" stroke="url(#goldGrad)" stroke-width="4" transform="rotate(-22 60 70)"/>
+      <path d="M60 10 C70 26 76 44 74 66 L60 58 L46 66 C44 44 50 26 60 10 Z" fill="url(#goldGrad)"/>
+      <path d="M46 60 L32 82 L46 76 Z" fill="url(#goldGrad)"/>
+      <path d="M74 60 L88 82 L74 76 Z" fill="url(#goldGrad)"/>
+      <circle cx="60" cy="40" r="6" fill="#ffffff" opacity="0.9"/>
+      <path d="M96 20 l3.5 8.5 8.5 3.5 -8.5 3.5 -3.5 8.5 -3.5-8.5 -8.5-3.5 8.5-3.5 z" fill="url(#goldGrad)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ЭКРАН ВХОДА -->
+<div id="loginScreen" class="login-screen">
+  <div class="scatter-field" aria-hidden="true">
+    <svg class="scatter-logo" style="top:4%;left:5%;width:92px;transform:rotate(-20deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:2%;left:40%;width:58px;transform:rotate(14deg);opacity:.38;"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:6%;left:84%;width:104px;transform:rotate(24deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:22%;left:13%;width:54px;transform:rotate(38deg);opacity:.42;"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:24%;left:82%;width:72px;transform:rotate(-30deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:46%;left:2%;width:78px;transform:rotate(12deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:48%;left:88%;width:58px;transform:rotate(-14deg);opacity:.5;"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:70%;left:9%;width:86px;transform:rotate(-26deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:72%;left:80%;width:66px;transform:rotate(30deg);opacity:.55;"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:88%;left:30%;width:56px;transform:rotate(16deg);opacity:.42;"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:86%;left:55%;width:90px;transform:rotate(-10deg);"><use href="#adastra-mark"/></svg>
+    <svg class="scatter-logo" style="top:90%;left:2%;width:52px;transform:rotate(28deg);opacity:.36;"><use href="#adastra-mark"/></svg>
   </div>
-
-  <div id="app" class="app hidden">
-    <header class="topbar">
-      <div class="brand"><svg class="brand-mark"><use href="#adastra-mark"></use></svg><div><div class="brand-name">AdAstra</div><div class="brand-sub">к звёздам через рекламу</div></div></div>
-      <div class="top-actions"><span id="roleBadge" class="role-badge">Гость</span><button id="btnLogout" class="light" type="button">Выйти</button></div>
-    </header>
-    <nav class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
-      <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
-      <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
-      <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
-      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
-    </nav>
-    <main>
-      <!-- СТУДИЯ -->
-      <section id="studio" class="section active">
-        <div class="card">
-          <h2>🎨 Студия рекламы</h2>
-          <p class="sub">Загрузите фото, напишите текст. Мы сожмем фото и отправим на модерацию.</p>
-          <div class="grid">
-            <div>
-              <label>Фото объявления (макс 500KB)</label>
-              <input id="imageUpload" type="file" accept="image/*">
-              <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Ремонт квартир">
-              <label>Текст</label><textarea id="adText" placeholder="Коротко и ясно"></textarea>
-              <label>Контакт (WhatsApp/Site)</label><input id="adContact" type="text" placeholder="+972...">
-              <button id="btnPublish" class="gold-btn" type="button">🚀 Отправить на модерацию</button>
-            </div>
-            <div>
-              <h3>Предпросмотр</h3>
-              <div class="preview-box">
-                <div class="preview-media" id="previewMedia"><svg style="width:60px;height:60px;opacity:0.5"><use href="#adastra-mark"></use></svg></div>
-                <div style="padding:14px">
-                    <div class="prev-title" style="font-weight:bold; font-size:18px; margin-bottom:5px;">Ваш заголовок</div>
-                    <div class="prev-text" style="color:#555; font-size:14px;">Текст...</div>
-                    <div class="prev-contact" style="margin-top:10px; font-weight:bold; color:#b8860b;">Контакт</div>
-                </div>
-              </div>
-              <h3>Мои заявки</h3><div id="myAds" class="grid"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ЛЕНТА -->
-      <section id="feed" class="section"><div class="card"><h2>📰 Одобренная реклама</h2><div id="feedList" class="grid"></div></div></section>
-
-      <!-- СЧЕТ -->
-      <section id="bill" class="section">
-        <div class="card">
-          <h2>🧮 Оплата</h2>
-          <p class="sub">$20/неделя · $49/месяц. Оплата картой (PayPal) или Криптой.</p>
-          <div class="grid">
-            <div>
-                <div class="chips">
-                    <button class="chip term active" data-val="20" type="button">Неделя $20</button>
-                    <button class="chip term" data-val="49" type="button">Месяц $49</button>
-                </div>
-                <div id="calcResult" class="result">Итого: <b>$20</b></div>
-            </div>
-            <div>
-              <div class="pay-box">
-                <h3 style="margin-top:0">💳 Карта / PayPal</h3>
-                <p class="sub">Нажмите кнопку, перейдите на защищенную страницу PayPal.</p>
-                <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;">Оплатить $20</a>
-              </div>
-              <div class="pay-box">
-                <h3 style="margin-top:0">₿ Криптовалюта</h3>
-                <label>USDT (BEP20)</label>
-                <input type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-                <button class="ghost-btn small copy-btn" data-copy="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488" type="button">Копировать адрес</button>
-                <button id="btnCryptoPaid" class="gold-btn small" type="button" style="margin-left:5px">Я перевел</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ПОДПИСЧИКИ -->
-      <section id="subs" class="section">
-        <div class="card">
-          <h2>👥 Подписка на рассылку</h2>
-          <p class="sub">Получайте уведомления о новых площадках бесплатно.</p>
-          <div style="max-width:400px">
-              <input id="subEmail" type="text" placeholder="Ваш Email или Telegram">
-              <button id="btnSub" class="gold-btn" type="button">Подписаться</button>
-          </div>
-          <div id="subMsg" style="margin-top:10px; color:green; display:none;">Вы подписаны!</div>
-        </div>
-      </section>
-      
-      <!-- АДМИНКА -->
-      <section id="admin" class="section">
-        <div class="card">
-          <h2>👑 Панель управления</h2>
-          <div class="stats">
-              <div class="stat"><b id="statPending">0</b>На модерации</div>
-              <div class="stat"><b id="statApproved">0</b>Одобрено</div>
-              <div class="stat"><b id="statSubs">0</b>Подписчиков</div>
-          </div>
-          
-          <h3>📥 Заявки на модерацию</h3>
-          <div id="moderationList"></div>
-
-          <h3>🚀 Авто-постинг (Инструмент)</h3>
-          <p class="sub">Выберите одобренное объявление ниже, чтобы сгенерировать ссылки и текст для ручного постинга на бесплатные доски.</p>
-          <div id="distributionTool" class="pay-box" style="display:none;">
-              <h4 id="distTitle" style="margin-top:0">Заголовок</h4>
-              <textarea id="distText" style="height:100px; margin-bottom:10px;"></textarea>
-              <button class="ghost-btn small" onclick="copyDistText()" type="button">📋 Копировать текст</button>
-              <hr style="border:0; border-top:1px solid #eee; margin:15px 0;">
-              <p><b>Куда постить (бесплатно):</b></p>
-              <div id="distLinks"></div>
-          </div>
-
-          <h3>Все объявления</h3>
-          <div id="allAdsList"></div>
-        </div>
-      </section>
-    </main>
-    <footer class="footer">AdAstra © 2026</footer>
+  <div class="login-card">
+    <svg class="mark"><use href="#adastra-mark"/></svg>
+    <h1>AdAstra</h1>
+    <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
+    <input id="loginInput" type="text" placeholder="Введите имя или код доступа" autocomplete="off"/>
+    <button id="btnEnter" class="enter-btn" type="button">Войти</button>
   </div>
-  <div id="toast" class="toast hidden"></div>
+</div>
 
-  <script>
-    const $=(s,r=document)=>r.querySelector(s);
-    const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-    
-    let state = { role: null, user: '', ads: [], subscribers: [] };
-    let currentImageBase64 = null;
+<!-- ОСНОВНОЕ ПРИЛОЖЕНИЕ -->
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark"><use href="#adastra-mark"/></svg>
+      <div>
+        <div class="brand-name">AdAstra</div>
+        <div class="brand-sub">к звёздам через рекламу</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span id="roleBadge" class="role-badge">Гость</span>
+      <button id="btnLogout" class="light" type="button">Выйти</button>
+    </div>
+  </header>
 
-    function toast(m){const e=$('#toast');e.textContent=m;e.classList.remove('hidden');setTimeout(()=>e.classList.add('hidden'),3000);}
-    function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
+    <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
+    <button class="tab-btn" data-tab="bill" type="button">🧮 Оплата</button>
+    <button class="tab-btn" data-tab="subs" type="button">👥 Подписка</button>
+    <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
+  </nav>
 
-    // --- API ---
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/admin');
-        const data = await res.json();
-        state.ads = data.ads || [];
-        state.subscribers = data.subscribers || [];
-        renderAll();
-      } catch(e) { console.error(e); toast('Ошибка базы'); }
+  <main>
+
+    <!-- СТУДИЯ -->
+    <section id="studio" class="section active">
+      <div class="card">
+        <h2>🎨 Студия рекламы</h2>
+        <p class="sub">Загрузите фото, напишите текст и отправьте на модерацию.</p>
+        <div class="grid">
+          <div>
+            <label>Фото объявления</label>
+            <input id="imageUpload" type="file" accept="image/*"/>
+            <label>Заголовок</label>
+            <input id="adTitle" type="text" placeholder="Например: Ремонт квартир в Тель-Авиве"/>
+            <label>Текст рекламы</label>
+            <textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
+            <label>Контакт (WhatsApp / сайт / телефон)</label>
+            <input id="adContact" type="text" placeholder="+972 50 000 0000"/>
+            <button id="btnPublish" class="gold-btn" type="button">🚀 Отправить на модерацию</button>
+          </div>
+          <div>
+            <h3>Предпросмотр</h3>
+            <div class="preview-box">
+              <div class="preview-media" id="previewMedia">
+                <svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg>
+              </div>
+              <div class="preview-body">
+                <div class="prev-title" id="prevTitle">Ваш заголовок</div>
+                <div class="prev-text" id="prevText">Текст рекламы появится здесь...</div>
+                <div class="prev-contact" id="prevContact">Контакт</div>
+              </div>
+            </div>
+            <h3>Мои заявки</h3>
+            <div id="myAds"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ЛЕНТА -->
+    <section id="feed" class="section">
+      <div class="card">
+        <h2>📰 Одобренная реклама</h2>
+        <p class="sub">Здесь публикуются одобренные админом объявления.</p>
+        <div id="feedList" class="grid"></div>
+      </div>
+    </section>
+
+    <!-- ОПЛАТА -->
+    <section id="bill" class="section">
+      <div class="card">
+        <h2>🧮 Оплата</h2>
+        <p class="sub">$20/неделя · $49/месяц. PayPal или криптовалюта.</p>
+        <div class="grid">
+          <div>
+            <div class="chips">
+              <button class="chip term active" data-val="20" type="button">Неделя $20</button>
+              <button class="chip term" data-val="49" type="button">Месяц $49</button>
+            </div>
+            <div class="result" id="calcResult">Итого: <b>$20</b></div>
+          </div>
+          <div>
+            <div class="pay-box">
+              <h3 style="margin-top:0">💳 PayPal / Карта</h3>
+              <p class="sub">Переход на защищённую страницу PayPal.</p>
+              <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%">Оплатить $20</a>
+            </div>
+            <div class="pay-box">
+              <h3 style="margin-top:0">₿ Криптовалюта (USDT BEP20)</h3>
+              <label>Адрес кошелька</label>
+              <input type="text" id="walletAddr" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488"/>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="ghost-btn small copy-btn" data-copy="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488" type="button">📋 Копировать</button>
+                <button id="btnCryptoPaid" class="gold-btn small" type="button">✅ Я перевёл</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПОДПИСКА ДЛЯ КЛИЕНТОВ -->
+    <section id="subs" class="section">
+      <div class="card">
+        <h2>👥 Бесплатная подписка</h2>
+        <p class="sub">Получайте уведомления о новых рекламных площадках.</p>
+        <div style="max-width:420px">
+          <label>Email или Telegram</label>
+          <input id="subEmail" type="text" placeholder="example@mail.com или @username"/>
+          <button id="btnSub" class="gold-btn" type="button"> Подписаться бесплатно</button>
+          <div id="subMsg" style="margin-top:12px;color:green;font-weight:700;display:none">✅ Вы подписаны!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- АДМИНКА -->
+    <section id="admin" class="section">
+      <div class="card">
+        <h2>👑 Панель администратора</h2>
+        <div class="stats">
+          <div class="stat"><b id="statPending">0</b>На модерации</div>
+          <div class="stat"><b id="statApproved">0</b>Одобрено</div>
+          <div class="stat"><b id="statRejected">0</b>Отклонено</div>
+          <div class="stat"><b id="statSubs">0</b>Подписчиков</div>
+        </div>
+
+        <h3>📥 Заявки на модерацию</h3>
+        <div id="moderationList"></div>
+
+        <h3 style="margin-top:32px">👥 Подписчики</h3>
+        <div id="subsAdminList"></div>
+
+        <h3 style="margin-top:32px">🚀 Авто-постинг</h3>
+        <p class="sub">Нажмите «Постинг» у одобренного объявления — получите готовый текст и ссылки на бесплатные площадки.</p>
+        <div id="distributionTool" class="pay-box" style="display:none">
+          <h4 id="distTitle" style="margin-top:0">—</h4>
+          <textarea id="distText" style="height:110px;margin-bottom:10px"></textarea>
+          <button class="ghost-btn small" id="btnCopyDist" type="button">📋 Копировать текст</button>
+          <hr style="border:0;border-top:1px solid #e8d88a;margin:16px 0"/>
+          <p style="font-weight:700;margin-bottom:8px">Бесплатные площадки для размещения:</p>
+          <div id="distLinks"></div>
+        </div>
+
+        <h3 style="margin-top:32px">📋 Все объявления</h3>
+        <div id="allAdsList"></div>
+      </div>
+    </section>
+
+  </main>
+  <footer class="footer">AdAstra © 2026 — реклама, которая достаёт до звёзд 👑</footer>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+
+  let state = { role: null, user: '', ads: [], subscribers: [] };
+  let currentImageBase64 = null;
+  let currentPrice = 20;
+
+  function toast(m) {
+    const e = $('#toast');
+    e.textContent = m;
+    e.classList.remove('hidden');
+    setTimeout(() => e.classList.add('hidden'), 3000);
+  }
+
+  function escapeHtml(v) {
+    return String(v || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+
+  // ===== API =====
+  async function fetchData() {
+    try {
+      const res = await fetch('/api/admin');
+      const data = await res.json();
+      state.ads = data.ads || [];
+      state.subscribers = data.subscribers || [];
+      renderAll();
+    } catch (e) {
+      console.error(e);
+      toast('Ошибка загрузки базы');
     }
+  }
 
-    async function sendAction(action, id, payload = {}) {
-      try {
-        const res = await fetch('/api/admin', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ action, id, ...payload })
-        });
-        const result = await res.json();
-        if(result.success) {
-          await fetchData();
-          return true;
-        } else { toast('Ошибка: ' + result.error); return false; }
-      } catch(e) { toast('Ошибка сети'); return false; }
-    }
-
-    // --- LOGIC ---
-    function enterApp(){
-      const v=$('#loginInput').value.trim();
-      if(!v) return toast('Введите имя');
-      if(v==='584462'){
-        state.role='admin'; state.user='Admin';
-        $('#adminTabBtn').classList.remove('hidden');
+  async function sendAction(action, id, payload = {}) {
+    try {
+      const res = await fetch('/api/admin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, id, ...payload })
+      });
+      const result = await res.json();
+      if (result.success) {
+        await fetchData();
+        return true;
       } else {
-        state.role='client'; state.user=v;
-        $('#adminTabBtn').classList.add('hidden');
+        toast('Ошибка: ' + (result.error || 'неизвестно'));
+        return false;
       }
-      $('#loginScreen').classList.add('hidden');$('#app').classList.remove('hidden');
-      $('#roleBadge').textContent = state.role==='admin' ? '👑 Admin' : '👤 '+state.user;
-      fetchData();
+    } catch (e) {
+      toast('Ошибка сети');
+      return false;
     }
+  }
 
-    function logout(){ location.reload(); }
-
-    function switchTab(t){
-      if(t==='admin' && state.role!=='admin') t='studio';
-      $$('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
-      $$('.section').forEach(s=>s.classList.toggle('active',s.id===t));
+  // ===== ВХОД / ВЫХОД =====
+  function enterApp() {
+    const v = $('#loginInput').value.trim();
+    if (!v) return toast('Введите имя или код');
+    if (v === '584462') {
+      state.role = 'admin';
+      state.user = 'Admin';
+      $('#adminTabBtn').classList.remove('hidden');
+    } else {
+      state.role = 'client';
+      state.user = v;
+      $('#adminTabBtn').classList.add('hidden');
     }
-
-    // --- IMAGE COMPRESSION (Чтобы влезло в JSONBin) ---
-    $('#imageUpload').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const img = new Image();
-            img.onload = function() {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                // Сжимаем до 600px ширины
-                const MAX_WIDTH = 600;
-                let width = img.width;
-                let height = img.height;
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                }
-                canvas.width = width;
-                canvas.height = height;
-                ctx.drawImage(img, 0, 0, width, height);
-                
-                // Конвертируем в JPEG (легче чем PNG)
-                currentImageBase64 = canvas.toDataURL('image/jpeg', 0.7);
-                
-                // Обновляем превью
-                $('#previewMedia').innerHTML = `<img src="${currentImageBase64}">`;
-                toast('Фото готово к отправке');
-            }
-            img.src = event.target.result;
-        }
-        reader.readAsDataURL(file);
-    });
-
-    // --- PUBLISH ---
-    async function publishAd() {
-        const title = $('#adTitle').value.trim();
-        const text = $('#adText').value.trim();
-        const contact = $('#adContact').value.trim();
-        
-        if(!title) return toast('Нужен заголовок');
-        
-        // Проверка размера (JSONBin free limit ~100kb per request ideally for speed)
-        if(currentImageBase64 && currentImageBase64.length > 200000) {
-            return toast('Фото слишком большое! Выберите другое.');
-        }
-
-        const btn = $('#btnPublish');
-        btn.disabled = true; btn.textContent = 'Отправка...';
-        
-        const success = await sendAction('publish', null, {
-            owner: state.user, title, text, contact, image: currentImageBase64
-        });
-        
-        btn.disabled = false; btn.textContent = '🚀 Отправить на модерацию';
-        if(success) {
-            toast('Отправлено!');
-            $('#adTitle').value=''; $('#adText').value=''; $('#adContact').value='';
-            currentImageBase64 = null;
-            $('#previewMedia').innerHTML = '<svg style="width:60px;height:60px;opacity:0.5"><use href="#adastra-mark"></use></svg>';
-        }
-    }
-
-    // --- SUBSCRIBE ---
-    $('#btnSub').addEventListener('click', async () => {
-        const val = $('#subEmail').value.trim();
-        if(!val) return toast('Введите контакт');
-        const ok = await sendAction('subscribe', null, { contact: val });
-        if(ok) {
-            $('#subMsg').style.display = 'block';
-            $('#subEmail').value = '';
-            toast('Подписка оформлена');
-        }
-    });
-
-    // --- ADMIN TOOLS ---
-    window.approveAd = (id) => sendAction('approve', id);
-    window.rejectAd = (id) => sendAction('reject', id);
-    window.deleteAd = (id) => { if(confirm('Удалить?')) sendAction('delete', id); };
-
-    window.prepareDistribution = (id) => {
-        const ad = state.ads.find(a => a.id == id);
-        if(!ad) return;
-        
-        const tool = $('#distributionTool');
-        tool.style.display = 'block';
-        $('#distTitle').textContent = ad.title;
-        $('#distText').value = `${ad.title}\n\n${ad.text}\n\nКонтакт: ${ad.contact}\n\n#AdAstra #Ads`;
-        
-        // Генерируем ссылки на бесплатные доски
-        const links = [
-            { name: 'Craigslist (World)', url: 'https://craigslist.org/sites/' },
-            { name: 'Locanto', url: 'https://www.locanto.com/' },
-            { name: 'Facebook Marketplace', url: 'https://www.facebook.com/marketplace/create/item' },
-            { name: 'OLX (если есть в регионе)', url: 'https://www.olx.com/' },
-            { name: 'Hoobly', url: 'https://www.hoobly.com/' }
-        ];
-        
-        $('#distLinks').innerHTML = links.map(l => 
-            `<a href="${l.url}" target="_blank" class="dist-link">🔗 ${l.name}</a>`
-        ).join('');
-        
-        tool.scrollIntoView({behavior: 'smooth'});
-    };
-
-    window.copyDistText = () => {
-        const txt = $('#distText');
-        txt.select();
-        document.execCommand('copy');
-        toast('Текст скопирован!');
-    };
-
-    // --- RENDER ---
-    function renderAll() {
-        // Stats
-        $('#statPending').textContent = state.ads.filter(a=>a.status==='pending').length;
-        $('#statApproved').textContent = state.ads.filter(a=>a.status==='approved').length;
-        $('#statSubs').textContent = state.subscribers.length;
-
-        // My Ads (Client)
-        const myAds = state.ads.filter(a => a.owner === state.user);
-        $('#myAds').innerHTML = myAds.length ? myAds.map(adCard).join('') : '<div class="empty">Нет заявок</div>';
-
-        // Feed (Public - Approved only)
-        const approved = state.ads.filter(a => a.status === 'approved');
-        $('#feedList').innerHTML = approved.length ? approved.map(adCard).join('') : '<div class="empty">Пока пусто</div>';
-
-        // Admin List
-        if(state.role === 'admin') {
-            const pending = state.ads.filter(a => a.status === 'pending');
-            $('#moderationList').innerHTML = pending.length ? pending.map(adminCard).join('') : '<div class="empty">Нет новых заявок</div>';
-            
-            $('#allAdsList').innerHTML = state.ads.map(a => `
-                <div style="border-bottom:1px solid #eee; padding:10px; display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <b>${escapeHtml(a.title)}</b> <span style="color:#888; font-size:12px;">(${a.status})</span>
-                        ${a.image ? '<br><span style="color:green; font-size:12px;">📷 Есть фото</span>' : ''}
-                    </div>
-                    <div>
-                        ${a.status==='approved' ? `<button class="ghost-btn small" onclick="prepareDistribution(${a.id})">🚀 Постинг</button>` : ''}
-                        <button class="ghost-btn small" style="border-color:red; color:red" onclick="deleteAd(${a.id})">✕</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-    }
-
-    function adCard(a) {
-        return `
-        <div class="ad-card">
-            <div class="ad-visual">
-                ${a.image ? `<img src="${a.image}">` : '📷 Нет фото'}
-            </div>
-            <div class="ad-body">
-                <h3 style="margin:0">${escapeHtml(a.title)}</h3>
-                <p class="sub" style="margin:0">${escapeHtml(a.text)}</p>
-                <div class="contact">📞 ${escapeHtml(a.contact)}</div>
-                <div class="chips"><span class="chip">${a.status==='approved'?'✅ Одобрено':'⏳ Модерация'}</span></div>
-            </div>
-        </div>`;
-    }
-
-    function adminCard(a) {
-        return `
-        <div class="card" style="border-left:4px solid orange; margin-bottom:10px;">
-            <div style="display:flex; gap:15px;">
-                <div style="width:80px; height:80px; background:#eee; flex-shrink:0;">
-                    ${a.image ? `<img src="${a.image}" style="width:100%;height:100%;object-fit:cover;">` : 'No Img'}
-                </div>
-                <div style="flex:1">
-                    <h3 style="margin:0 0 5px">${escapeHtml(a.title)}</h3>
-                    <p style="margin:0 0 5px; font-size:14px; color:#555;">${escapeHtml(a.text)}</p>
-                    <div style="font-size:12px; color:#888;">От: ${escapeHtml(a.owner)} | ${escapeHtml(a.contact)}</div>
-                </div>
-            </div>
-            <div style="margin-top:10px; text-align:right;">
-                <button class="gold-btn small" onclick="approveAd(${a.id})">✅ Одобрить</button>
-                <button class="ghost-btn small" onclick="rejectAd(${a.id})">❌ Отклонить</button>
-            </div>
-        </div>`;
-    }
-
-    // --- INIT ---
-    $('#btnEnter').addEventListener('click', enterApp);
-    $('#loginInput').addEventListener('keydown', e=>{if(e.key==='Enter')enterApp();});
-    $('#btnLogout').addEventListener('click', logout);
-    $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
-    ['adTitle','adText','adContact'].forEach(id=>$('#'+id).addEventListener('input', ()=>{
-        $('.prev-title').textContent = $('#adTitle').value || 'Заголовок';
-        $('.prev-text').textContent = $('#adText').value || 'Текст...';
-        $('.prev-contact').textContent = $('#adContact').value || 'Контакт';
-    }));
-    $('#btnPublish').addEventListener('click', publishAd);
-    
-    // Payment logic
-    let currentPrice = 20;
-    $$('.term').forEach(b=>b.addEventListener('click', ()=>{
-        $$('.term').forEach(x=>x.classList.remove('active'));
-        b.classList.add('active');
-        currentPrice = b.dataset.val;
-        $('#calcResult').innerHTML = `Итого: <b>$${currentPrice}</b>`;
-        $('#paypalLink').href = `https://www.paypal.me/kvaisman90/${currentPrice}`;
-        $('#paypalLink').textContent = `Оплатить $${currentPrice}`;
-    }));
-    
-    $$('.copy-btn').forEach(b=>b.addEventListener('click', ()=>{
-        navigator.clipboard.writeText(b.dataset.copy);
-        toast('Адрес скопирован');
-    }));
-    
-    $('#btnCryptoPaid').addEventListener('click', ()=>{
-        toast('Заявка отправлена админу. Ожидайте подтверждения.');
-        // Можно добавить sendAction('pay_notify', ...) если нужно
-    });
-
+    $('#loginScreen').classList.add('hidden');
+    $('#app').classList.remove('hidden');
+    $('#roleBadge').textContent = state.role === 'admin' ? '👑 Администратор' : '👤 ' + state.user;
     fetchData();
-  </script>
+    toast(state.role === 'admin' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, ' + v);
+  }
+
+  function logout() { location.reload(); }
+
+  function switchTab(t) {
+    if (t === 'admin' && state.role !== 'admin') t = 'studio';
+    $$('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+    $$('.section').forEach(s => s.classList.toggle('active', s.id === t));
+  }
+
+  // ===== ЗАГРУЗКА И СЖАТИЕ ФОТО =====
+  $('#imageUpload').addEventListener('change', function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function (ev) {
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement('canvas');
+        const MAX = 600;
+        let w = img.width, h = img.height;
+        if (w > MAX) { h *= MAX / w; w = MAX; }
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        currentImageBase64 = canvas.toDataURL('image/jpeg', 0.65);
+        $('#previewMedia').innerHTML = '<img src="' + currentImageBase64 + '" alt="preview"/>';
+        toast('📷 Фото готово');
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // ===== ПРЕВЬЮ В РЕАЛЬНОМ ВРЕМЕНИ =====
+  ['adTitle', 'adText', 'adContact'].forEach(id => {
+    $('#' + id).addEventListener('input', () => {
+      $('#prevTitle').textContent = $('#adTitle').value || 'Ваш заголовок';
+      $('#prevText').textContent = $('#adText').value || 'Текст рекламы появится здесь...';
+      $('#prevContact').textContent = $('#adContact').value || 'Контакт';
+    });
+  });
+
+  // ===== ОТПРАВКА ОБЪЯВЛЕНИЯ =====
+  async function publishAd() {
+    const title = $('#adTitle').value.trim();
+    const text = $('#adText').value.trim();
+    const contact = $('#adContact').value.trim();
+    if (!title) return toast('Добавьте заголовок');
+    if (currentImageBase64 && currentImageBase64.length > 250000) return toast('Фото слишком большое, выберите другое');
+
+    const btn = $('#btnPublish');
+    btn.disabled = true; btn.textContent = '⏳ Отправка...';
+    const ok = await sendAction('publish', null, {
+      owner: state.user, title, text, contact, image: currentImageBase64
+    });
+    btn.disabled = false; btn.textContent = '🚀 Отправить на модерацию';
+    if (ok) {
+      toast('✅ Отправлено на модерацию!');
+      $('#adTitle').value = ''; $('#adText').value = ''; $('#adContact').value = '';
+      currentImageBase64 = null;
+      $('#previewMedia').innerHTML = '<svg style="width:70px;height:70px;opacity:.4"><use href="#adastra-mark"/></svg>';
+      $('#prevTitle').textContent = 'Ваш заголовок';
+      $('#prevText').textContent = 'Текст рекламы появится здесь...';
+      $('#prevContact').textContent = 'Контакт';
+    }
+  }
+
+  // ===== ПОДПИСКА =====
+  async function subscribe() {
+    const val = $('#subEmail').value.trim();
+    if (!val) return toast('Введите Email или Telegram');
+    const ok = await sendAction('subscribe', null, { contact: val });
+    if (ok) {
+      $('#subMsg').style.display = 'block';
+      $('#subEmail').value = '';
+      toast('✅ Подписка оформлена!');
+    }
+  }
+
+  // ===== АДМИН ДЕЙСТВИЯ =====
+  window.approveAd = (id) => sendAction('approve', id);
+  window.rejectAd = (id) => sendAction('reject', id);
+  window.deleteAd = (id) => { if (confirm('Удалить объявление?')) sendAction('delete', id); };
+  window.deleteSub = (id) => { if (confirm('Удалить подписчика?')) sendAction('delete_sub', id); };
+
+  window.prepareDistribution = (id) => {
+    const ad = state.ads.find(a => a.id == id);
+    if (!ad) return;
+    $('#distributionTool').style.display = 'block';
+    $('#distTitle').textContent = ad.title;
+    $('#distText').value = ad.title + '\n\n' + (ad.text || '') + '\n\n📞 Контакт: ' + (ad.contact || '') + '\n\n#AdAstra #Реклама #Ads';
+    const links = [
+      { name: '🌐 Craigslist (выбрать город)', url: 'https://craigslist.org/sites/' },
+      { name: '🌐 Locanto Worldwide', url: 'https://www.locanto.com/' },
+      { name: '📘 Facebook Marketplace', url: 'https://www.facebook.com/marketplace/create/item' },
+      { name: '🌐 Hoobly Classifieds', url: 'https://www.hoobly.com/' },
+      { name: '🌐 Oodle Marketplace', url: 'https://www.oodle.com/' },
+      { name: '🌐 Adpost', url: 'https://www.adpost.com/' },
+      { name: '🇮🇱 Yad2 (Израиль)', url: 'https://www.yad2.co.il/' },
+      { name: '🌐 Kijiji / Gumtree', url: 'https://www.gumtree.com/' }
+    ];
+    $('#distLinks').innerHTML = links.map(l =>
+      '<a href="' + l.url + '" target="_blank" class="dist-link">' + l.name + '</a>'
+    ).join('');
+    $('#distributionTool').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // ===== РЕНДЕР =====
+  function adCardHtml(a) {
+    return '<div class="ad-card">' +
+      '<div class="ad-visual">' + (a.image ? '<img src="' + a.image + '" alt=""/>' : '📷') + '</div>' +
+      '<div class="ad-body">' +
+      '<strong style="font-size:17px">' + escapeHtml(a.title) + '</strong>' +
+      '<p class="sub" style="margin:0">' + escapeHtml(a.text || '') + '</p>' +
+      '<div class="contact">📞 ' + escapeHtml(a.contact || '') + '</div>' +
+      '<div class="chips"><span class="chip">' + (a.status === 'approved' ? '✅ Одобрено' : a.status === 'rejected' ? '❌ Отклонено' : '⏳ На модерации') + '</span></div>' +
+      '</div></div>';
+  }
+
+  function adminCardHtml(a) {
+    return '<div class="card" style="border-left:4px solid orange;margin-bottom:12px;padding:14px">' +
+      '<div style="display:flex;gap:14px;align-items:flex-start">' +
+      '<div style="width:80px;height:80px;background:#f0ead6;border-radius:12px;overflow:hidden;flex-shrink:0">' +
+      (a.image ? '<img src="' + a.image + '" style="width:100%;height:100%;object-fit:cover"/>' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:28px">📷</div>') +
+      '</div>' +
+      '<div style="flex:1">' +
+      '<strong style="font-size:16px">' + escapeHtml(a.title) + '</strong>' +
+      '<p style="margin:4px 0;font-size:14px;color:#555">' + escapeHtml(a.text || '') + '</p>' +
+      '<div style="font-size:12px;color:#888">От: ' + escapeHtml(a.owner) + ' · ' + escapeHtml(a.contact || '') + '</div>' +
+      '</div></div>' +
+      '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">' +
+      '<button class="gold-btn small" onclick="approveAd(' + a.id + ')" type="button">✅ Одобрить</button>' +
+      '<button class="ghost-btn small" onclick="rejectAd(' + a.id + ')" type="button">❌ Отклонить</button>' +
+      '<button class="ghost-btn small" style="border-color:red;color:red" onclick="deleteAd(' + a.id + ')" type="button">🗑 Удалить</button>' +
+      '</div></div>';
+  }
+
+  function renderAll() {
+    const pending = state.ads.filter(a => a.status === 'pending');
+    const approved = state.ads.filter(a => a.status === 'approved');
+    const rejected = state.ads.filter(a => a.status === 'rejected');
+
+    $('#statPending').textContent = pending.length;
+    $('#statApproved').textContent = approved.length;
+    $('#statRejected').textContent = rejected.length;
+    $('#statSubs').textContent = state.subscribers.length;
+
+    // Мои заявки (клиент)
+    const myAds = state.ads.filter(a => a.owner.toLowerCase() === state.user.toLowerCase());
+    $('#myAds').innerHTML = myAds.length
+      ? '<div class="grid">' + myAds.map(adCardHtml).join('') + '</div>'
+      : '<div class="empty">Пока нет заявок. Создайте первую рекламу!</div>';
+
+    // Лента (одобренные)
+    $('#feedList').innerHTML = approved.length
+      ? approved.map(adCardHtml).join('')
+      : '<div class="empty">Пока нет одобренной рекламы.</div>';
+
+    // Админка
+    if (state.role === 'admin') {
+      // Модерация
+      $('#moderationList').innerHTML = pending.length
+        ? pending.map(adminCardHtml).join('')
+        : '<div class="empty">Нет заявок на модерацию ✅</div>';
+
+      // Подписчики
+      const subsEl = $('#subsAdminList');
+      if (!state.subscribers.length) {
+        subsEl.innerHTML = '<div class="empty">Нет подписчиков</div>';
+      } else {
+        subsEl.innerHTML = state.subscribers.map(s =>
+          '<div class="sub-row">' +
+          '<div><strong style="font-size:15px">' + escapeHtml(s.contact) + '</strong>' +
+          '<div style="font-size:12px;color:#888;margin-top:3px">📅 ' + new Date(s.date).toLocaleDateString('ru-RU') + '</div></div>' +
+          '<button class="ghost-btn small" style="border-color:red;color:red;white-space:nowrap" onclick="deleteSub(' + s.id + ')" type="button">🗑 Удалить</button>' +
+          '</div>'
+        ).join('');
+      }
+
+      // Все объявления
+      $('#allAdsList').innerHTML = state.ads.length
+        ? state.ads.map(a =>
+          '<div style="display:flex;justify-content:space-between;align-items:center;padding:11px;border-bottom:1px solid #eee;gap:10px;flex-wrap:wrap">' +
+          '<div><strong>' + escapeHtml(a.title) + '</strong>' +
+          ' <span style="font-size:12px;color:#888">(' + a.status + ')</span>' +
+          (a.image ? ' <span style="font-size:12px;color:green">📷</span>' : '') +
+          '</div>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+          (a.status === 'approved' ? '<button class="gold-btn small" onclick="prepareDistribution(' + a.id + ')" type="button">🚀 Постинг</button>' : '') +
+          '<button class="ghost-btn small" style="border-color:red;color:red" onclick="deleteAd(' + a.id + ')" type="button">✕</button>' +
+          '</div></div>'
+        ).join('')
+        : '<div class="empty">Нет объявлений</div>';
+    }
+  }
+
+  // ===== ОПЛАТА =====
+  $$('.term').forEach(b => b.addEventListener('click', () => {
+    $$('.term').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    currentPrice = parseInt(b.dataset.val);
+    $('#calcResult').innerHTML = 'Итого: <b>$' + currentPrice + '</b>';
+    $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + currentPrice;
+    $('#paypalLink').textContent = 'Оплатить $' + currentPrice;
+  }));
+
+  $$('.copy-btn').forEach(b => b.addEventListener('click', () => {
+    const t = b.dataset.copy;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(t).then(() => toast('📋 Адрес скопирован'));
+    } else {
+      const ta = document.createElement('textarea'); ta.value = t;
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      toast('📋 Адрес скопирован');
+    }
+  }));
+
+  $('#btnCryptoPaid').addEventListener('click', () => {
+    toast('✅ Заявка отправлена админу. Ожидайте подтверждения.');
+  });
+
+  $('#btnCopyDist').addEventListener('click', () => {
+    const txt = $('#distText');
+    txt.select();
+    document.execCommand('copy');
+    toast('📋 Текст скопирован!');
+  });
+
+  // ===== INIT =====
+  $('#btnEnter').addEventListener('click', enterApp);
+  $('#loginInput').addEventListener('keydown', e => { if (e.key === 'Enter') enterApp(); });
+  $('#btnLogout').addEventListener('click', logout);
+  $$('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+  $('#btnPublish').addEventListener('click', publishAd);
+  $('#btnSub').addEventListener('click', subscribe);
+
+  fetchData();
+</script>
 </body>
 </html>
