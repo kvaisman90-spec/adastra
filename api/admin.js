@@ -9,7 +9,9 @@ export default async function handler(req, res) {
 
   try {
     let db = { ads: [], subscribers: [], messages: [], stats: { views: 0, clicks: 0 } };
-    const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { 'X-Master-Key': API_KEY } });
+    const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': API_KEY }
+    });
     if (binRes.ok) {
       const data = await binRes.json();
       const rec = data.record || {};
@@ -29,9 +31,10 @@ export default async function handler(req, res) {
       if (action === 'publish') {
         db.ads.push({
           id: now, type: 'ad', status: 'pending', paid: false,
-          owner: payload.owner, title: payload.title, text: payload.text,
-          cta: payload.cta || '', contact: payload.contact, image: payload.image || null,
-          format: payload.format || 'banner', country: payload.country || '', city: payload.city || '',
+          owner: payload.owner, title: payload.title,
+          text: payload.text, cta: payload.cta || '', contact: payload.contact,
+          image: payload.image || null, format: payload.format || 'banner',
+          country: payload.country || '', city: payload.city || '',
           languages: Array.isArray(payload.languages) ? payload.languages : ['ru'],
           views: 0, clicks: 0, created_at: new Date().toISOString()
         });
@@ -39,12 +42,16 @@ export default async function handler(req, res) {
       else if (action === 'approve_paid') { const i = db.ads.find(p => p.id == id); if(i){i.status='approved_paid'; i.paid=true;} }
       else if (action === 'approve_free') { const i = db.ads.find(p => p.id == id); if(i){i.status='approved_free'; i.paid=false;} }
       else if (action === 'reject' || action === 'delete') { db.ads = db.ads.filter(p => p.id != id); }
+      else if (action === 'make_paid') { const i = db.ads.find(p => p.id == id); if(i){i.paid=true; i.status='paid';} }
+      else if (action === 'make_free') { const i = db.ads.find(p => p.id == id); if(i){i.paid=false; i.status='approved_free';} }
+      else if (action === 'confirm_payment') { const i = db.ads.find(p => p.id == id); if(i){i.status='paid'; i.paid=true;} }
       else if (action === 'increment_view') { const i = db.ads.find(p => p.id == id); if(i) i.views=(i.views||0)+1; db.stats.views++; }
       else if (action === 'increment_click') { const i = db.ads.find(p => p.id == id); if(i) i.clicks=(i.clicks||0)+1; db.stats.clicks++; }
       else if (action === 'subscribe') { if(!db.subscribers.find(s=>s.contact===payload.contact)) db.subscribers.push({id:now, contact:payload.contact, lang:payload.lang||'ru', date:new Date().toISOString()}); }
       else if (action === 'delete_sub') { db.subscribers = db.subscribers.filter(s => s.id != id); }
       else if (action === 'support') { db.messages.push({ id: now, from: payload.from, text: payload.text, read: false, created_at: new Date().toISOString() }); }
       else if (action === 'delete_msg') { db.messages = db.messages.filter(m => m.id != id); }
+      else if (action === 'mark_read') { const i = db.messages.find(m => m.id == id); if(i) i.read=true; }
 
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: 'PUT', headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY }, body: JSON.stringify(db)
