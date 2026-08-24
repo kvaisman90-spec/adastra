@@ -38,10 +38,11 @@ export default async function handler(req, res) {
           owner: payload.owner, title: payload.title,
           text: payload.text, cta: payload.cta || '', contact: payload.contact,
           image: payload.image || null, format: payload.format || '',
-          languages: payload.languages || ['RU'],
-          region: payload.region || 'world',
+          langs: payload.langs || 7,
+          category: payload.category || 'other',
           country: payload.country || 'world',
           city: payload.city || 'all',
+          autopost: payload.autopost || {},
           created_at: new Date().toISOString()
         });
       }
@@ -53,10 +54,7 @@ export default async function handler(req, res) {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
       }
-      else if (action === 'reject') {
-        db.ads = db.ads.filter(p => p.id != id);
-      }
-      else if (action === 'delete') {
+      else if (action === 'reject' || action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
       else if (action === 'make_paid') {
