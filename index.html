@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0b0d">
-<meta name="description" content="AdAstra — реклама, которая достаёт до звёзд">
 <title>AdAstra — реклама, которая достаёт до звёзд</title>
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/png" href="/icon-v2.png">
-<link rel="apple-touch-icon" href="/icon-v2.png">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -520,12 +518,12 @@ body {
   
   <select class="lang-select" id="login-lang" onchange="changeLoginLang(this.value)">
     <option value="ru">🇷🇺 Русский</option>
-    <option value="en">🇧 English</option>
+    <option value="en">🇬🇧 English</option>
     <option value="he">🇮🇱 עברית</option>
     <option value="ar">🇸🇦 العربية</option>
-    <option value="es">🇪 Español</option>
+    <option value="es">🇸 Español</option>
     <option value="fr">🇫🇷 Français</option>
-    <option value="zh">🇨 中文</option>
+    <option value="zh">🇳 中文</option>
   </select>
 </div>
 
@@ -546,13 +544,13 @@ body {
     <select id="region-country" onchange="updateRegion()">
       <option value="world">Весь мир</option>
       <option value="RU">🇷🇺 Россия</option>
-      <option value="IL">🇮 Израиль</option>
-      <option value="US">🇺🇸 США</option>
+      <option value="IL">🇮🇱 Израиль</option>
+      <option value="US">🇺 США</option>
       <option value="GB">🇬🇧 Великобритания</option>
-      <option value="DE">🇩🇪 Германия</option>
-      <option value="FR">🇷 Франция</option>
-      <option value="ES">🇪🇸 Испания</option>
-      <option value="CN">🇳 Китай</option>
+      <option value="DE">🇩 Германия</option>
+      <option value="FR">🇫🇷 Франция</option>
+      <option value="ES">🇪 Испания</option>
+      <option value="CN">🇨🇳 Китай</option>
       <option value="UA">🇺🇦 Украина</option>
       <option value="KZ">🇰🇿 Казахстан</option>
     </select>
@@ -576,21 +574,21 @@ body {
     <div class="nav-item" data-section="calculator" onclick="showSection('calculator')">🧮 Счёт</div>
     <div class="nav-item" data-section="platforms" onclick="showSection('platforms')">🌐 Площадки</div>
     <div class="nav-item" data-section="subscribers" onclick="showSection('subscribers')">👥 Подписчики</div>
-    <div class="nav-item" data-section="admin" onclick="showSection('admin')" id="admin-nav" style="display:none;"> Админ</div>
+    <div class="nav-item" data-section="admin" onclick="showSection('admin')" id="admin-nav" style="display:none;">👑 Админ</div>
     <div class="nav-item" data-section="qr" onclick="showSection('qr')">🔳 QR</div>
-    <div class="nav-item" data-section="support" onclick="showSection('support')">💬 Поддержка</div>
+    <div class="nav-item" data-section="support" onclick="showSection('support')"> Поддержка</div>
   </div>
   
   <div class="content">
     
     <div class="section active" id="section-studio">
-      <h2 class="section-title">🎨 Студия рекламы</h2>
+      <h2 class="section-title"> Студия рекламы</h2>
       <p class="section-subtitle">Креатив + автоперевод на языки стран, где его покажут.</p>
       
       <div class="card">
         <div class="form-label">Формат креатива</div>
         <div class="format-selector">
-          <button class="format-btn active" data-format="banner" onclick="selectFormat('banner')"> Баннер</button>
+          <button class="format-btn active" data-format="banner" onclick="selectFormat('banner')">🖼 Баннер</button>
           <button class="format-btn" data-format="post" onclick="selectFormat('post')">📝 Пост</button>
           <button class="format-btn" data-format="stories" onclick="selectFormat('stories')">📲 Сторис</button>
         </div>
@@ -775,7 +773,7 @@ body {
           <div class="form-group">
             <label class="form-label">Адрес кошелька AdAstra</label>
             <input type="text" id="crypto-address" class="form-input" readonly>
-            <button class="btn btn-secondary btn-small" onclick="copyCryptoAddress()" style="margin-top:8px;"> Скопировать</button>
+            <button class="btn btn-secondary btn-small" onclick="copyCryptoAddress()" style="margin-top:8px;">📋 Скопировать</button>
           </div>
           <div class="form-group">
             <label class="form-label">Сумма к переводу</label>
@@ -789,7 +787,7 @@ body {
         
         <div id="payment-paypal" style="display:none;">
           <p style="color:#888;font-size:14px;margin-bottom:16px;">Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-          <a href="https://www.paypal.me/kvaisman90/20" target="_blank" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;">🅿️ Оплатить через PayPal</a>
+          <a href="https://www.paypal.me/kvaisman90/20" target="_blank" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;">️ Оплатить через PayPal</a>
         </div>
       </div>
     </div>
@@ -891,21 +889,21 @@ body {
       </div>
       
       <div class="admin-section">
-        <h3>💰 Кошельки</h3>
+        <h3> Кошельки</h3>
         <div class="form-group">
           <label class="form-label">USDT (BEP20 / BNB Smart Chain)</label>
           <input type="text" id="wallet-usdt" class="form-input" placeholder="Введите USDT адрес" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-usdt')" style="margin-top:6px;"> USDT</button>
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-usdt')" style="margin-top:6px;">📋 USDT</button>
         </div>
         <div class="form-group">
           <label class="form-label">BTC</label>
           <input type="text" id="wallet-btc" class="form-input" placeholder="Введите BTC адрес" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-btc')" style="margin-top:6px;"> BTC</button>
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-btc')" style="margin-top:6px;">📋 BTC</button>
         </div>
         <div class="form-group">
           <label class="form-label">ETH</label>
           <input type="text" id="wallet-eth" class="form-input" placeholder="Введите ETH адрес" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;"> ETH</button>
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;">📋 ETH</button>
         </div>
       </div>
       
@@ -930,14 +928,14 @@ body {
       </div>
       
       <div class="admin-section">
-        <h3>🔍 Модерация (из БД)</h3>
+        <h3> Модерация (из БД)</h3>
         <div id="admin-moderation-list">
           <div class="loading"><div class="spinner"></div>Загрузка...</div>
         </div>
       </div>
       
       <div class="admin-section">
-        <h3>💬 Сообщения поддержки</h3>
+        <h3> Сообщения поддержки</h3>
         <div id="admin-messages-list">
           <div class="loading"><div class="spinner"></div>Загрузка...</div>
         </div>
@@ -957,7 +955,7 @@ body {
         <div class="qr-result" id="qr-result" style="display:none;">
           <img id="qr-image" src="" alt="QR">
           <br>
-          <button class="btn btn-secondary btn-small" onclick="downloadQR()" style="margin-top:12px;"> Скачать</button>
+          <button class="btn btn-secondary btn-small" onclick="downloadQR()" style="margin-top:12px;">⬇ Скачать</button>
         </div>
       </div>
       
@@ -982,7 +980,7 @@ body {
           <label class="form-label">Сообщение</label>
           <textarea id="support-text" class="form-textarea" placeholder="Ваше сообщение, просьба или пожелание..."></textarea>
         </div>
-        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;">📤 Отправить</button>
+        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;"> Отправить</button>
       </div>
     </div>
     
@@ -1014,12 +1012,12 @@ let currentLang = 'ru';
 
 const translations = {
   ru: { studio: '🎨 Студия', feed: '📰 Лента', calculator: '🧮 Счёт', platforms: ' Площадки', subscribers: '👥 Подписчики', admin: '👑 Админ', qr: '🔳 QR', support: '💬 Поддержка', guest: 'Гость', admin_badge: 'Админ', logout: 'Выйти', login_guest: 'Войти как гость', login_admin: 'Войти как админ', publish: '🚀 Опубликовать рекламу', search: '🔍 Поиск по ленте...', all_categories: 'Все категории', tech: 'Технологии', food: 'Еда', fashion: 'Мода', auto: 'Авто', realestate: 'Недвижимость', services: 'Услуги', other: 'Другое' },
-  en: { studio: '🎨 Studio', feed: '📰 Feed', calculator: '🧮 Calculator', platforms: '🌐 Platforms', subscribers: '👥 Subscribers', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin', logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin', publish: '🚀 Publish Ad', search: '🔍 Search feed...', all_categories: 'All Categories', tech: 'Technology', food: 'Food', fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other' },
-  he: { studio: '🎨 סטודיו', feed: '📰 פיד', calculator: ' מחשבון', platforms: '🌐 פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל', qr: '🔳 QR', support: ' תמיכה', guest: 'אורח', admin_badge: 'מנהל', logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל', publish: ' פרסם מודעה', search: ' חיפוש בפיד...' },
-  ar: { studio: '🎨 استوديو', feed: '📰 تغذية', calculator: '🧮 حاسبة', platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: '👑 مسؤول', qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول', logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول', publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...' },
-  es: { studio: ' Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora', platforms: ' Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin', logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin', publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...' },
-  fr: { studio: '🎨 Studio', feed: '📰 Flux', calculator: '🧮 Calculatrice', platforms: '🌐 Plateformes', subscribers: ' Abonnés', admin: '👑 Admin', qr: '🔳 QR', support: ' Support', guest: 'Invité', admin_badge: 'Admin', logout: 'Déconnexion', login_guest: 'Connexion en tant qu\'invité', login_admin: 'Connexion en tant qu\'admin', publish: '🚀 Publier une annonce', search: '🔍 Rechercher dans le flux...' },
-  zh: { studio: ' 工作室', feed: '📰 动态', calculator: '🧮 计算器', platforms: '🌐 平台', subscribers: '👥 订阅者', admin: ' 管理员', qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员', logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录', publish: '🚀 发布广告', search: ' 搜索动态...' }
+  en: { studio: '🎨 Studio', feed: ' Feed', calculator: '🧮 Calculator', platforms: '🌐 Platforms', subscribers: ' Subscribers', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin', logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin', publish: '🚀 Publish Ad', search: '🔍 Search feed...', all_categories: 'All Categories', tech: 'Technology', food: 'Food', fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other' },
+  he: { studio: '🎨 סטודיו', feed: '📰 פיד', calculator: '🧮 מחשבון', platforms: '🌐 פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל', qr: '🔳 QR', support: '💬 תמיכה', guest: 'אורח', admin_badge: 'מנהל', logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל', publish: '🚀 פרסם מודעה', search: ' חיפוש בפיד...' },
+  ar: { studio: '🎨 استوديو', feed: '📰 تغذية', calculator: ' حاسبة', platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: '👑 مسؤول', qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول', logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول', publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...' },
+  es: { studio: '🎨 Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora', platforms: '🌐 Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin', logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin', publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...' },
+  fr: { studio: '🎨 Studio', feed: '📰 Flux', calculator: '🧮 Calculatrice', platforms: '🌐 Plateformes', subscribers: '👥 Abonnés', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Invité', admin_badge: 'Admin', logout: 'Déconnexion', login_guest: 'Connexion en tant qu\'invité', login_admin: 'Connexion en tant qu\'admin', publish: ' Publier une annonce', search: ' Rechercher dans le flux...' },
+  zh: { studio: '🎨 工作室', feed: '📰 动态', calculator: ' 计算器', platforms: '🌐 平台', subscribers: '👥 订阅者', admin: '👑 管理员', qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员', logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录', publish: '🚀 发布广告', search: '🔍 搜索动态...' }
 };
 
 window.addEventListener('load', () => {
@@ -1240,9 +1238,9 @@ function updatePreview() {
   if (selectedPreview === 'banner') {
     html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;">${imgFile ? '<div style="background:#333;height:120px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   } else if (selectedPreview === 'post') {
-    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;">${imgFile ? '<div style="background:#333;height:200px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
+    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;">${imgFile ? '<div style="background:#333;height:200px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   } else {
-    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">${imgFile ? '<div style="background:#333;height:400px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
+    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">${imgFile ? '<div style="background:#333;height:400px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   }
   document.getElementById('preview-content').innerHTML = html;
 }
@@ -1343,7 +1341,7 @@ async function loadFeed() {
         <strong>${ad.title}</strong>
         <span style="color:#888;font-size:12px;">${ad.owner}</span>
       </div>
-      ${ad.image ? `<div style="background:#333;height:150px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>` : ''}
+      ${ad.image ? `<div style="background:#333;height:150px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>` : ''}
       <p style="color:#ccc;font-size:14px;margin-bottom:12px;">${ad.text}</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         ${ad.cta ? `<button class="btn btn-secondary btn-small">${ad.cta}</button>` : ''}
@@ -1621,7 +1619,7 @@ function saveWallets() {
 
 function copyWallet(id) {
   const addr = document.getElementById(id).value;
-  navigator.clipboard.writeText(addr).then(() => showToast('📋 Скопировано'));
+  navigator.clipboard.writeText(addr).then(() => showToast(' Скопировано'));
 }
 
 function generateQR() {
@@ -1657,7 +1655,7 @@ async function loadApprovedQR() {
         <strong style="font-size:13px;">${ad.title}</strong>
         <p style="color:#888;font-size:11px;">${ad.owner}</p>
       </div>
-      <button class="btn btn-secondary btn-small" onclick="downloadAdQR('${ad.title}')">⬇</button>
+      <button class="btn btn-secondary btn-small" onclick="downloadAdQR('${ad.title}')"></button>
     </div>
   `).join('');
 }
