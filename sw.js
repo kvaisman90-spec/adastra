@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v6-fix';
+const CACHE_NAME = 'adastra-app-v5';
 const ASSETS = [
   '/',
   '/index.html',
@@ -11,14 +11,14 @@ const ASSETS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).catch(() => {})
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys =>
+    caches.keys().then(keys => 
       Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
     )
   );
@@ -26,13 +26,8 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  // API всегда из сети
-  if (event.request.url.includes('/api/')) {
-    event.respondWith(fetch(event.request));
-    return;
-  }
-  // Остальное: сначала сеть, если ошибка - кэш
+  if (event.request.url.includes('/api/')) return;
   event.respondWith(
-    fetch(event.request).catch(() => caches.match(event.request))
+    caches.match(event.request).then(response => response || fetch(event.request))
   );
 });
