@@ -34,22 +34,14 @@ export default async function handler(req, res) {
       
       if (action === 'publish') {
         db.ads.push({
-          id: now,
-          type: 'ad',
-          status: 'pending',
-          paid: false,
-          owner: payload.owner || 'Гость',
-          title: payload.title || '',
-          text: payload.text || '',
-          cta: payload.cta || '',
-          contact: payload.contact || '',
-          image: payload.image || null,
-          format: payload.format || 'banner',
+          id: now, type: 'ad', status: 'pending', paid: false,
+          owner: payload.owner, title: payload.title,
+          text: payload.text, cta: payload.cta || '', contact: payload.contact,
+          image: payload.image || null, format: payload.format || '',
           languages: payload.languages || ['RU'],
           region: payload.region || 'world',
           country: payload.country || 'world',
           city: payload.city || 'all',
-          category: payload.category || 'other',
           created_at: new Date().toISOString()
         });
       }
@@ -85,12 +77,7 @@ export default async function handler(req, res) {
       }
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
-          db.subscribers.push({
-            id: now,
-            contact: payload.contact,
-            date: new Date().toISOString(),
-            consent: true
-          });
+          db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString() });
         }
       }
       else if (action === 'delete_sub') {
@@ -98,11 +85,8 @@ export default async function handler(req, res) {
       }
       else if (action === 'support') {
         db.messages.push({
-          id: now,
-          from: payload.from || 'Аноним',
-          text: payload.text || '',
-          read: false,
-          created_at: new Date().toISOString()
+          id: now, from: payload.from, text: payload.text,
+          read: false, created_at: new Date().toISOString()
         });
       }
       else if (action === 'delete_msg') {
