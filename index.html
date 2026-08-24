@@ -7,11 +7,22 @@
   <meta name="description" content="AdAstra — реклама, которая достаёт до звёзд. Весь мир, все языки, только с согласия людей." />
   <meta name="theme-color" content="#0b0b0d" />
   <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/icon.svg" />
+  <link rel="icon" href="/icon-v2.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/icon-v2.png" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="AdAstra" />
+
+  <script>
+    window.addEventListener('error', function (e) {
+      var d = document.createElement('div');
+      d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:#7f1d1d;color:#fff;padding:10px;font-family:monospace;font-size:13px;';
+      d.textContent = 'JS ошибка: ' + (e.message || e.type);
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.appendChild(d);
+      });
+    });
+  </script>
 
   <style>
     :root {
@@ -637,8 +648,51 @@
   <div id="modal"></div>
 
   <script>
-    // Если admin.js лежит не в /api/admin.js, поменяй этот путь.
-    const API_URL = '/api/admin.js';
+    const API_BASE_CANDIDATES = ['/api/admin.js', '/admin.js'];
+
+    function apiCandidates() {
+      const saved = localStorage.getItem('aa_api_url');
+      const list = [];
+      if (saved) list.push(saved);
+      list.push(...API_BASE_CANDIDATES);
+      return [...new Set(list)];
+    }
+
+    async function api(payload) {
+      let lastError = '';
+
+      for (const url of apiCandidates()) {
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const text = await res.text();
+
+          try {
+            const data = JSON.parse(text);
+
+            if (
+              data &&
+              typeof data === 'object' &&
+              ('success' in data || 'ads' in data || 'publicAds' in data || 'settings' in data || 'user' in data || 'error' in data)
+            ) {
+              localStorage.setItem('aa_api_url', url);
+              return data;
+            }
+          } catch (parseError) {
+            lastError = 'Не серверный JSON: ' + url;
+            continue;
+          }
+        } catch (fetchError) {
+          lastError = fetchError.message;
+        }
+      }
+
+      return { success: false, error: lastError || 'API недоступен. Проверь путь к admin.js.' };
+    }
 
     const LANGS = [
       ['ru', 'Русский'],
@@ -948,15 +1002,6 @@
       const users = isAdmin() ? (db()?.users || []) : [];
       const u = users.find((x) => String(x.id) === String(id));
       return u?.name || id || 'Гость';
-    }
-
-    async function api(payload) {
-      const res = await fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      return res.json();
     }
 
     async function sync() {
@@ -1292,7 +1337,8 @@
 
         img.onload = () => {
           try {
-            let { width, height } = img;
+            let width = img.width;
+            let height = img.height;
 
             if (width > maxSize || height > maxSize) {
               if (width > height) {
@@ -1569,16 +1615,8 @@
     }
 
     function renderInvoiceTotal() {
-      const days = document.getElementById('invoiceDays').value;
-      const qty = document.getElementById('invoiceQty').value;
       const total = calcInvoice();
-
       document.getElementById('invoiceTotal').textContent = `Итого: $${total}`;
-
-      const hints = [];
-      hints.push(`Срок: ${days} дн.`);
-      hints.push(`Объём: ${qty} шт`);
-      document.getElementById('invoiceTotal').title = hints.join(' · ');
     }
 
     async function createInvoice() {
@@ -1639,8 +1677,8 @@
         }
 
         if (isAdmin() && p.status === 'sent') {
-          actions.push(`<button class="small ok" onclick="adminApi({action:'confirm_payment', paymentId:'${esc(p.id)'})">Подтвердить</button>`);
-          actions.push(`<button class="small danger" onclick="adminApi({action:'reject_payment', paymentId:'${esc(p.id)'})">Отклонить</button>`);
+          actions.push(`<button class="small ok" onclick="adminPaymentAction('confirm','${esc(p.id)}')">Подтвердить</button>`);
+          actions.push(`<button class="small danger" onclick="adminPaymentAction('reject','${esc(p.id)}')">Отклонить</button>`);
         }
 
         return `
@@ -1707,8 +1745,6 @@
 
       state.currentPaymentId = paymentId;
 
-      const s = settings();
-
       showModal(`
         <h3>Оплата $${esc(payment.amount)}</h3>
         <div class="muted">Счёт: ${esc(payment.id)}</div>
@@ -1734,6 +1770,7 @@
       state.payMethod = method;
       const s = settings();
       const area = document.getElementById('payMethodArea');
+      if (!area) return;
 
       if (method === 'card') {
         area.innerHTML = `
@@ -2131,7 +2168,7 @@
                   <td>${esc(u.status || 'active')}</td>
                   <td>${formatDate(u.created_at)}</td>
                   <td>
-                    <button class="small secondary" onclick="adminApi({action:'toggle_user_block', id:'${esc(u.id)'})">
+                    <button class="small secondary" onclick="adminUserAction('toggle_user_block','${esc(u.id)}')">
                       ${u.status === 'blocked' ? 'Разблок' : 'Блок'}
                     </button>
                     <button class="small danger" onclick="confirmDeleteUser('${esc(u.id)}')">Удалить</button>
@@ -2172,8 +2209,8 @@
                     ${p.txid ? `TXID: ${esc(p.txid)}<br>` : ''}
                   </td>
                   <td>
-                    ${p.status !== 'paid' ? `<button class="small ok" onclick="adminApi({action:'confirm_payment', paymentId:'${esc(p.id)'})">✔</button>` : ''}
-                    ${p.status !== 'rejected' ? `<button class="small danger" onclick="adminApi({action:'reject_payment', paymentId:'${esc(p.id)'})">✖</button>` : ''}
+                    ${p.status !== 'paid' ? `<button class="small ok" onclick="adminPaymentAction('confirm','${esc(p.id)}')">✔</button>` : ''}
+                    ${p.status !== 'rejected' ? `<button class="small danger" onclick="adminPaymentAction('reject','${esc(p.id)}')">✖</button>` : ''}
                   </td>
                 </tr>
               `).join('')}
@@ -2201,8 +2238,8 @@
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
               <input id="reply-${esc(ticket.id)}" placeholder="Ответ..." style="flex:1;min-width:180px;margin:0;" />
               <button class="small" onclick="sendReply('${esc(ticket.id)}')">Ответить</button>
-              <button class="small secondary" onclick="adminApi({action:'mark_read', id:'${esc(ticket.id)', viewer:'admin'})">Прочитано</button>
-              <button class="small danger" onclick="adminApi({action:'delete_ticket', id:'${esc(ticket.id)'})">Удалить</button>
+              <button class="small secondary" onclick="adminTicketRead('${esc(ticket.id)}')">Прочитано</button>
+              <button class="small danger" onclick="adminTicketDelete('${esc(ticket.id)}')">Удалить</button>
             </div>
           </div>
         `).join('') : '<div class="card muted">Нет сообщений.</div>';
@@ -2231,7 +2268,7 @@
                   <td>${esc(s.language || '')}</td>
                   <td>${esc([s.country, s.city].filter(Boolean).join(', '))}</td>
                   <td>${formatDate(s.created_at)}</td>
-                  <td><button class="small danger" onclick="adminApi({action:'delete_sub', id:'${esc(s.id)'})">Удалить</button></td>
+                  <td><button class="small danger" onclick="adminSubDelete('${esc(s.id)}')">Удалить</button></td>
                 </tr>
               `).join('')}
             </table>
@@ -2291,7 +2328,7 @@
         const active = document.activeElement;
         const form = document.getElementById('adminSettingsForm');
 
-        if (!form.contains(active)) {
+        if (form && !form.contains(active)) {
           const s = settings();
           document.getElementById('setUsdt').value = s.wallets?.usdt_bep20 || '';
           document.getElementById('setBtc').value = s.wallets?.btc || '';
@@ -2345,15 +2382,15 @@
           </div>
 
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;">
-            <button class="small ok" onclick="adminApi({action:'approve_paid', id:'${esc(ad.id)'})">Одобрить платно</button>
-            <button class="small ok" onclick="adminApi({action:'approve_free', id:'${esc(ad.id)'})">Одобрить бесплатно</button>
+            <button class="small ok" onclick="adminAdAction('approve_paid','${esc(ad.id)}')">Одобрить платно</button>
+            <button class="small ok" onclick="adminAdAction('approve_free','${esc(ad.id)}')">Одобрить бесплатно</button>
             <button class="small danger" onclick="rejectAd('${esc(ad.id)}')">Отказать</button>
-            <button class="small secondary" onclick="adminApi({action:'make_paid', id:'${esc(ad.id)'})">Сделать платным</button>
-            <button class="small secondary" onclick="adminApi({action:'make_free', id:'${esc(ad.id)'})">Сделать бесплатным</button>
+            <button class="small secondary" onclick="adminAdAction('make_paid','${esc(ad.id)}')">Сделать платным</button>
+            <button class="small secondary" onclick="adminAdAction('make_free','${esc(ad.id)}')">Сделать бесплатным</button>
 
             ${ad.archived
-              ? `<button class="small secondary" onclick="adminApi({action:'restore', id:'${esc(ad.id)'})">Восстановить</button>`
-              : `<button class="small secondary" onclick="adminApi({action:'archive', id:'${esc(ad.id)'})">Архив</button>`
+              ? `<button class="small secondary" onclick="adminAdAction('restore','${esc(ad.id)}')">Восстановить</button>`
+              : `<button class="small secondary" onclick="adminAdAction('archive','${esc(ad.id)}')">Архив</button>`
             }
 
             <button class="small danger" onclick="confirmDeleteAd('${esc(ad.id)}')">Удалить навсегда</button>
@@ -2362,7 +2399,7 @@
       `;
     }
 
-    async function adminApi(payload) {
+    async function adminAction(payload) {
       try {
         payload.adminCode = state.adminCode;
         const res = await api(payload);
@@ -2375,33 +2412,62 @@
       }
     }
 
+    function adminAdAction(action, id) {
+      adminAction({ action, id });
+    }
+
+    function adminUserAction(action, id) {
+      adminAction({ action, id });
+    }
+
+    function adminPaymentAction(action, id) {
+      if (action === 'confirm') {
+        adminAction({ action: 'confirm_payment', paymentId: id });
+      }
+      if (action === 'reject') {
+        adminAction({ action: 'reject_payment', paymentId: id });
+      }
+    }
+
+    function adminSubDelete(id) {
+      adminAction({ action: 'delete_sub', id });
+    }
+
+    function adminTicketRead(id) {
+      adminAction({ action: 'mark_read', id, viewer: 'admin' });
+    }
+
+    function adminTicketDelete(id) {
+      adminAction({ action: 'delete_ticket', id });
+    }
+
     async function rejectAd(id) {
       const reason = prompt('Причина отказа клиенту:');
       if (reason === null) return;
 
-      await adminApi({ action: 'reject', id, reason });
+      await adminAction({ action: 'reject', id, reason });
     }
 
     async function confirmDeleteAd(id) {
       if (confirm('Удалить объявление навсегда?')) {
-        await adminApi({ action: 'delete_forever', id });
+        await adminAction({ action: 'delete_forever', id });
       }
     }
 
     async function confirmDeleteUser(id) {
       if (confirm('Удалить клиента?')) {
-        await adminApi({ action: 'delete_user', id });
+        await adminAction({ action: 'delete_user', id });
       }
     }
 
     async function sendReply(ticketId) {
-      const input = document.getElementById(`reply-${ticketId}`);
-      const text = input.value.trim();
+      const input = document.getElementById('reply-' + ticketId);
+      if (!input) return;
 
+      const text = input.value.trim();
       if (!text) return;
 
-      await adminApi({ action: 'admin_reply', id: ticketId, text });
-      input.value = '';
+      await adminAction({ action: 'admin_reply', id: ticketId, text });
     }
 
     async function saveSettings() {
@@ -2418,7 +2484,7 @@
         categories: document.getElementById('setCategories').value
       };
 
-      await adminApi({ action: 'save_settings', settings: settingsPayload });
+      await adminAction({ action: 'save_settings', settings: settingsPayload });
       alert('Настройки сохранены.');
     }
 
@@ -2443,7 +2509,7 @@
         const text = await file.text();
         const backup = JSON.parse(text);
 
-        await adminApi({ action: 'restore_backup', backup });
+        await adminAction({ action: 'restore_backup', backup });
         alert('Бэкап восстановлен.');
       } catch (e) {
         alert('Ошибка бэкапа: ' + e.message);
@@ -2471,10 +2537,12 @@
     }
 
     function renderAll() {
-      if (!state.data) return;
-
       renderUserChip();
       renderNav();
+      applyI18n();
+
+      if (!state.data) return;
+
       populateStudio();
       populateFeedFilters();
       renderPreview();
@@ -2486,12 +2554,11 @@
       renderSupport();
       renderAdmin();
       renderApprovedQr();
-      applyI18n();
     }
 
     function showModal(html) {
       document.getElementById('modal').innerHTML = `
-        <div class="modal-backdrop" onclick="closeModal(event)">
+        <div class="modal-backdrop" onclick="closeModal()">
           <div class="modal" onclick="event.stopPropagation()">
             ${html}
           </div>
@@ -2499,8 +2566,7 @@
       `;
     }
 
-    function closeModal(event) {
-      if (event && event.target && !event.target.classList.contains('modal-backdrop')) return;
+    function closeModal() {
       document.getElementById('modal').innerHTML = '';
     }
 
