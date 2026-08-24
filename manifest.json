@@ -3,11 +3,8 @@
   "short_name": "AdAstra",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#0b0b0d",
   "theme_color": "#0b0b0d",
-  "description": "Реклама, которая достаёт до звёзд",
-  "lang": "ru",
   "icons": [
     {
       "src": "/icon-v2.png",
