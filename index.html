@@ -1,327 +1,2141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AdAstra — реклама, которая достаёт до звёзд</title>
-    <link rel="manifest" href="/manifest.json?v=3">
-    <meta name="theme-color" content="#0b0b0d">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="icon" href="/icon-v2.png">
-    <style>
-        :root { --bg: #0b0b0d; --card: #16161a; --accent: #7f5af0; --text: #fffffe; --sub: #94a1b2; --border: #2e2e35; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--bg); color: var(--text); padding-bottom: 80px; min-height: 100vh; }
-        
-        header { padding: 15px; display: flex; justify-content: space-between; align-items: center; background: rgba(11,11,13,0.95); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
-        .logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; }
-        .logo svg { width: 24px; height: 24px; fill: var(--accent); }
-        .header-controls { display: flex; align-items: center; gap: 10px; }
-        .lang-select, .btn-sm { background: var(--card); border: 1px solid var(--border); color: var(--text); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; }
-        .btn-sm.accent { background: var(--accent); border-color: var(--accent); }
-        
-        nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid var(--border); z-index: 100; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
-        nav button { background: none; border: none; color: var(--sub); font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; transition: 0.2s; }
-        nav button.active { color: var(--accent); }
-        nav button span { font-size: 1.2rem; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>AdAstra — реклама, которая достаёт до звёзд</title>
+  <meta name="theme-color" content="#0b0b0d">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-v2.png">
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0d;
+      --card: #141418;
+      --line: #2a2a32;
+      --text: #fff;
+      --muted: #9a9aa4;
+      --gold: #ffd76a;
+      --ok: #2fd06b;
+      --err: #ff5d5d;
+      --warn: #ffb020;
+    }
 
-        section { padding: 20px; display: none; animation: fadeIn 0.3s ease; }
-        section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    * { box-sizing: border-box; }
 
-        h1 { font-size: 1.8rem; margin-bottom: 10px; line-height: 1.2; }
-        h2 { font-size: 1.3rem; margin: 20px 0 10px; color: var(--accent); }
-        p { color: var(--sub); line-height: 1.5; margin-bottom: 15px; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 600px at 70% -10%, rgba(255, 215, 106, .12), transparent),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-        .card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--border); }
-        input, select, textarea { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 1rem; }
-        button.primary { width: 100%; background: var(--accent); color: white; border: none; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; }
-        
-        .tabs { display: flex; gap: 10px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .tab { padding: 8px 15px; background: var(--card); border-radius: 20px; white-space: nowrap; cursor: pointer; border: 1px solid var(--border); }
-        .tab.active { background: var(--accent); border-color: var(--accent); }
+    a { color: var(--gold); }
 
-        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-        th, td { text-align: left; padding: 10px; border-bottom: 1px solid var(--border); }
-        th { color: var(--sub); }
-        .status-paid { color: #2cb67d; }
-        .status-pending { color: #ffc857; }
-        .action-btn { padding: 4px 8px; font-size: 0.7rem; border-radius: 4px; border: none; cursor: pointer; margin-right: 4px; }
-        .act-ok { background: #2cb67d; color: #000; }
-        .act-no { background: #ef4565; color: #fff; }
-        .act-pay { background: #ffc857; color: #000; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      background: rgba(11, 11, 13, .86);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
 
-        .preview-box { background: #000; border-radius: 12px; padding: 20px; margin-top: 20px; text-align: center; border: 1px dashed var(--border); }
-        .qr-placeholder { width: 150px; height: 150px; background: white; margin: 10px auto; display: flex; align-items: center; justify-content: center; color: black; font-weight: bold; }
-        
-        footer { text-align: center; padding: 20px; color: var(--sub); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 20px; }
-        footer a { color: var(--sub); text-decoration: none; }
-    </style>
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .brand small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 400;
+      max-width: 220px;
+    }
+
+    .sync {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      min-width: 130px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+      flex: 0 0 auto;
+    }
+
+    .dot.ok { background: var(--ok); }
+    .dot.warn { background: var(--warn); }
+    .dot.err { background: var(--err); }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      overflow: auto;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 62px;
+      background: rgba(11, 11, 13, .86);
+      backdrop-filter: blur(10px);
+      z-index: 25;
+    }
+
+    .tabBtn {
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      background: #19191f;
+      color: #fff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .tabBtn.active {
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+    }
+
+    main {
+      padding: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tab { display: none; }
+    .tab.active { display: block; }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 12px;
+      overflow-wrap: break-word;
+    }
+
+    .cards {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    h1, h2, h3 { margin: 0 0 10px; line-height: 1.2; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="password"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      background: #0f0f13;
+      color: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 6px 0;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #2a2a32;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .btnGold {
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+    }
+
+    .btnOk { background: #1d4d30; }
+    .btnDanger { background: #572424; }
+
+    .meta {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .tableWrap { overflow: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      font-size: 13px;
+      vertical-align: top;
+    }
+
+    th { color: var(--muted); }
+
+    .statGrid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      margin-bottom: 12px;
+    }
+
+    .stat {
+      background: #101016;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .stat b {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .langChecks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }
+
+    .langChecks label {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 6px 10px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: #101016;
+    }
+
+    .preview {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #19191f;
+      border: 1px solid var(--line);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      margin-top: 10px;
+    }
+
+    .preview.banner {
+      width: 100%;
+      aspect-ratio: 16 / 6;
+    }
+
+    .preview.post {
+      width: min(420px, 100%);
+      aspect-ratio: 1 / 1;
+      margin: 10px auto 0;
+    }
+
+    .preview.stories {
+      width: min(320px, 100%);
+      aspect-ratio: 9 / 16;
+      margin: 10px auto 0;
+    }
+
+    .previewImg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .45;
+    }
+
+    .previewContent {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .cta {
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+      margin-top: 8px;
+    }
+
+    .adImg {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .payTab {
+      background: #19191f;
+      border: 1px solid var(--line);
+    }
+
+    .payTab.active {
+      background: var(--gold);
+      color: #111;
+      font-weight: 700;
+    }
+
+    .payPane { margin-top: 10px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, .65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 80;
+      padding: 16px;
+    }
+
+    .modal.hidden { display: none; }
+
+    .modalCard {
+      width: min(420px, 100%);
+      background: #141418;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+
+    #toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(20px);
+      background: #fff;
+      color: #111;
+      padding: 10px 14px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .25s;
+      z-index: 99;
+      max-width: 90vw;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .hidden { display: none !important; }
+
+    footer {
+      padding: 20px 16px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+
+    [dir="rtl"] th,
+    [dir="rtl"] td {
+      text-align: right;
+    }
+
+    @media (max-width: 700px) {
+      nav { top: 84px; }
+      .sync { min-width: auto; }
+    }
+  </style>
 </head>
 <body>
-
-<header>
-    <div class="logo">
-        <!-- Одна качественная звезда -->
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        AdAstra
+  <header>
+    <div class="brand">
+      ⭐
+      <div>
+        <div>AdAstra</div>
+        <small data-i18n="tagline">реклама, которая достаёт до звёзд</small>
+      </div>
     </div>
-    <div class="header-controls">
-        <select id="globalLang" class="lang-select">
-            <option value="ru">🇷🇺 RU</option>
-            <option value="en">🇺🇸 EN</option>
-            <option value="he">🇮🇱 HE</option>
-            <option value="es">🇪🇸 ES</option>
-        </select>
-        <button id="authBtn" class="btn-sm">👑 Войти</button>
+
+    <div class="sync">
+      <span id="syncDot" class="dot warn"></span>
+      <span id="syncText">...</span>
     </div>
-</header>
 
-<!-- Меню рендерится динамически JS-ом для синхронизации на всех устройствах -->
-<nav id="mainNav"></nav>
+    <select id="uiLang" style="width:auto;min-width:80px;">
+      <option value="ru">RU</option>
+      <option value="en">EN</option>
+      <option value="he">HE</option>
+      <option value="ar">AR</option>
+      <option value="es">ES</option>
+      <option value="fr">FR</option>
+      <option value="zh">ZH</option>
+    </select>
 
-<main id="appContainer">
-    <!-- СЕКЦИЯ: СТУДИЯ -->
-    <section id="sec-studio">
-        <h1>🎨 Студия рекламы</h1>
-        <p>Креатив + автоперевод на языки стран, где его покажут.</p>
-        
+    <select id="regionSelect" style="width:auto;min-width:140px;"></select>
+
+    <button id="loginBtn" data-i18n="login">Войти</button>
+  </header>
+
+  <nav id="tabsNav">
+    <button class="tabBtn active" data-tab="studio">🎨 <span data-i18n="studio">Студия</span></button>
+    <button class="tabBtn" data-tab="feed">📰 <span data-i18n="feed">Лента</span></button>
+    <button class="tabBtn" data-tab="bill">🧮 <span data-i18n="bill">Счёт</span></button>
+    <button class="tabBtn" data-tab="sites">🌐 <span data-i18n="sites">Площадки</span></button>
+    <button class="tabBtn" data-tab="subs">👥 <span data-i18n="subs">Подписчики</span></button>
+    <button class="tabBtn" data-tab="admin">👑 <span data-i18n="admin">Админ</span></button>
+    <button class="tabBtn" data-tab="qr">🔳 QR</button>
+  </nav>
+
+  <main>
+    <!-- STUDIO -->
+    <section id="tab-studio" class="tab active">
+      <div class="grid">
         <div class="card">
-            <label>Формат креатива</label>
-            <div class="tabs" id="formatTabs">
-                <div class="tab active" data-fmt="banner">🖼 Баннер</div>
-                <div class="tab" data-fmt="post">📝 Пост</div>
-                <div class="tab" data-fmt="story">📲 Сторис</div>
+          <h2 data-i18n="client">Клиент</h2>
+          <input id="ownerName" data-i18n-placeholder="ownerName" placeholder="Ваше имя">
+          <input id="ownerContact" data-i18n-placeholder="ownerContact" placeholder="Ваш контакт">
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="creative">Креатив</h2>
+
+          <label data-i18n="format">Формат</label>
+          <select id="formatSelect">
+            <option value="banner">🖼 Баннер</option>
+            <option value="post">📝 Пост</option>
+            <option value="stories">📲 Сторис</option>
+          </select>
+
+          <label data-i18n="image">Картинка</label>
+          <input type="file" id="imageInput" accept="image/*">
+          <button id="clearImageBtn" data-i18n="removeImage">Убрать картинку</button>
+
+          <input id="titleInput" data-i18n-placeholder="title" placeholder="Заголовок">
+          <textarea id="textInput" data-i18n-placeholder="text" placeholder="Текст рекламы"></textarea>
+          <input id="ctaInput" data-i18n-placeholder="cta" placeholder="Кнопка действия">
+          <input id="contactInput" data-i18n-placeholder="contact" placeholder="Контакт">
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="regionLangs">Регион и языки</h2>
+
+          <label data-i18n="country">Страна</label>
+          <select id="countrySelect"></select>
+
+          <input id="cityInput" data-i18n-placeholder="city" placeholder="Город">
+
+          <label data-i18n="languages">Языки стран показа</label>
+          <div id="langChecks" class="langChecks"></div>
+
+          <button id="translateBtn" class="btnGold" data-i18n="translate">Перевести рекламу на выбранные</button>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="publish">Опубликовать рекламу</h2>
+          <p class="meta">✓ баннер ✓ пост ✓ сторис ✓ QR ✓ 7 языков</p>
+          <button id="publishBtn" class="btnGold" data-i18n="publish">Опубликовать рекламу</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 data-i18n="preview">Предпросмотр</h2>
+        <select id="previewLang" style="width:auto;min-width:130px;"></select>
+
+        <div id="previewCanvas" class="preview banner">
+          <img id="previewImg" class="previewImg hidden" alt="">
+          <div class="previewContent">
+            <h3 id="previewTitle">Ваш заголовок</h3>
+            <p id="previewText">Яркий текст рекламы появится здесь.</p>
+            <button id="previewCta" class="cta">Подробнее</button>
+            <div id="previewContact" class="meta">Контакт</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEED -->
+    <section id="tab-feed" class="tab">
+      <div class="card">
+        <h2 data-i18n="feed">Лента</h2>
+        <div class="toolbar">
+          <input id="feedSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
+          <select id="feedStatus" style="width:auto;min-width:150px;">
+            <option value="approved">Одобренные</option>
+            <option value="all">Все</option>
+          </select>
+        </div>
+      </div>
+      <div id="feedList" class="cards"></div>
+    </section>
+
+    <!-- BILL -->
+    <section id="tab-bill" class="tab">
+      <div class="grid">
+        <div class="card">
+          <h2 data-i18n="calculator">Калькулятор</h2>
+          <p class="meta">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3)</p>
+
+          <div class="toolbar">
+            <button class="billPreset" data-days="7" data-qty="1">Неделя</button>
+            <button class="billPreset" data-days="10" data-qty="1">1.5 недели</button>
+            <button class="billPreset" data-days="30" data-qty="1">Месяц</button>
+            <button class="billPreset" data-days="30" data-qty="10">Месяц + 10 шт</button>
+          </div>
+
+          <label>Срок (дней)</label>
+          <input type="number" id="billDays" min="1" value="30">
+
+          <label>Объём (макс 10 шт)</label>
+          <input type="number" id="billQty" min="1" max="10" value="1">
+
+          <h3 id="billResult">$49.00</h3>
+          <button id="billIssueBtn" class="btnGold">🧾 Выставить счёт</button>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="payment">Оплата</h2>
+
+          <div class="toolbar">
+            <button class="payTab active" data-pay="card">💳 Карта</button>
+            <button class="payTab" data-pay="crypto">₿ Крипта</button>
+            <button class="payTab" data-pay="paypal">🅿️ PayPal</button>
+          </div>
+
+          <input id="payEmail" placeholder="Email для чека (опционально)">
+
+          <div id="payCard" class="payPane">
+            <input id="cardNumber" placeholder="Номер карты">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <input id="cardExpiry" placeholder="Срок">
+              <input id="cardCvc" placeholder="CVC">
             </div>
-            
-            <input type="text" id="adTitle" placeholder="Заголовок">
-            <textarea id="adText" rows="3" placeholder="Текст рекламы"></textarea>
-            <input type="text" id="adCta" placeholder="Кнопка действия (например: Подробнее)">
-            <input type="text" id="adContact" placeholder="Контакт / Ссылка">
-            
-            <label style="display:block; margin: 10px 0 5px; color:var(--sub);">🌍 Геотаргетинг</label>
-            <input type="text" id="adCountry" placeholder="Страна показа (например: Израиль)">
-            <input type="text" id="adCity" placeholder="Город показа (например: Тель-Авив)">
-            
-            <label style="display:block; margin: 10px 0 5px; color:var(--sub);">🌐 Языки автоперевода</label>
-            <div class="tabs" id="langTabs" style="flex-wrap:wrap;">
-                <div class="tab active" data-lang="EN">EN</div>
-                <div class="tab active" data-lang="HE">HE</div>
-                <div class="tab" data-lang="AR">AR</div>
-                <div class="tab" data-lang="ES">ES</div>
-                <div class="tab" data-lang="FR">FR</div>
-                <div class="tab active" data-lang="RU">RU</div>
-                <div class="tab" data-lang="ZH">ZH</div>
+            <button id="payCardBtn" class="btnGold">💵 Оплатить картой → USDT</button>
+          </div>
+
+          <div id="payCrypto" class="payPane hidden">
+            <select id="cryptoCoin" style="width:auto;min-width:180px;">
+              <option value="usdt">USDT (BEP20)</option>
+              <option value="btc">BTC</option>
+              <option value="eth">ETH</option>
+            </select>
+
+            <div class="card" style="margin:8px 0;">
+              <span id="cryptoAddress" class="meta">Адрес не настроен</span>
+              <button id="cryptoCopyBtn">📋 Скопировать</button>
             </div>
-            
-            <button class="primary" style="margin-top:15px;" onclick="publishAd()">🚀 Опубликовать рекламу</button>
-        </div>
 
-        <div class="preview-box">
-            <p style="color:white; margin-bottom:10px;">Предпросмотр</p>
-            <div id="previewContent">Выберите формат и заполните поля</div>
+            <button id="cryptoConfirmBtn" class="btnOk">✅ Я перевёл</button>
+          </div>
+
+          <div id="payPaypal" class="payPane hidden">
+            <p>Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
+            <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" rel="noopener" class="btnGold" style="display:inline-block;text-decoration:none;">
+              🅿️ Оплатить через PayPal
+            </a>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- СЕКЦИЯ: ЛЕНТА -->
-    <section id="sec-feed">
-        <h1>📰 Лента рекламы AdAstra</h1>
-        <p>Яркие мультиязычные креативы с QR-кодами.</p>
-        <div id="feedContainer" class="card">Загрузка...</div>
+    <!-- SITES -->
+    <section id="tab-sites" class="tab">
+      <div class="card">
+        <h2 data-i18n="sites">Площадки</h2>
+        <p class="meta">Автопоиск бесплатных мест по всему миру</p>
+
+        <label data-i18n="country">Страна</label>
+        <select id="siteCountrySelect"></select>
+
+        <input id="siteCityInput" placeholder="Город">
+
+        <button id="siteSearchBtn" class="btnGold">🔍 Автопоиск</button>
+      </div>
+
+      <div id="siteResults" class="cards"></div>
     </section>
 
-    <!-- СЕКЦИЯ: СЧЁТ -->
-    <section id="sec-bill">
-        <h1>🧮 Калькулятор счёта</h1>
-        <p>$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
+    <!-- SUBSCRIBERS -->
+    <section id="tab-subs" class="tab">
+      <div class="grid">
         <div class="card">
-            <label>Срок (дней)</label>
-            <input type="number" id="billDays" value="30" min="1">
-            <label>Объём (макс 10 шт)</label>
-            <input type="number" id="billQty" value="1" min="1" max="20">
-            <div style="font-size:1.5rem; font-weight:bold; margin:15px 0; color:var(--accent);" id="billTotal">$49</div>
-            <button class="primary" onclick="alert('Счёт выставлен! Перейдите к оплате.')">🧾 Выставить счёт</button>
+          <h2 data-i18n="subscribe">Подписка</h2>
+          <input id="subContact" placeholder="Email / телефон / WhatsApp">
+          <label style="display:flex;gap:8px;align-items:center;">
+            <input type="checkbox" id="subConsent" checked style="width:auto;">
+            Рассылка только тем, кто дал согласие
+          </label>
+          <button id="subBtn" class="btnGold">Подписаться</button>
         </div>
+
+        <div class="card">
+          <h2 data-i18n="stats">Статистика</h2>
+          <div class="statGrid">
+            <div class="stat"><b id="subSelf">0</b>подписались сами</div>
+            <div class="stat"><b id="subNoConsent">0</b>без согласия</div>
+            <div class="stat"><b id="subInvites">0</b>приглашений</div>
+          </div>
+          <button id="inviteBtn" class="btnOk">📣 Разослать приглашения</button>
+        </div>
+
+        <div class="card">
+          <h2>Поддержка</h2>
+          <input id="supportFrom" placeholder="Ваш контакт">
+          <textarea id="supportText" placeholder="Сообщение"></textarea>
+          <button id="supportBtn" class="btnGold">Отправить</button>
+        </div>
+      </div>
     </section>
 
-    <!-- СЕКЦИЯ: ОПЛАТА -->
-    <section id="sec-pay">
-        <h1>💳 Оплата</h1>
-        <div class="tabs">
-            <div class="tab active">💳 Карта</div>
-            <div class="tab">₿ Крипта</div>
-            <div class="tab">🅿️ PayPal</div>
-        </div>
-        <div class="card">
-            <input type="email" placeholder="Email для чека (опционально)">
-            <input type="text" placeholder="Номер карты">
-            <div style="display:flex; gap:10px;">
-                <input type="text" placeholder="Срок">
-                <input type="text" placeholder="CVC">
-            </div>
-            <button class="primary">💵 Оплатить картой →</button>
-        </div>
-        <div class="card">
-            <p>USDT (BEP20) / BTC / ETH</p>
-            <button class="btn-sm" style="width:100%; margin-top:10px;">📋 Скопировать адрес</button>
-        </div>
-        <div class="card">
-            <a href="https://www.paypal.me/kvaisman90/20" target="_blank" class="primary" style="display:block; text-align:center; text-decoration:none;">🅿️ Оплатить через PayPal</a>
-        </div>
-    </section>
+    <!-- ADMIN -->
+    <section id="tab-admin" class="tab">
+      <div class="statGrid">
+        <div class="stat"><b id="statClients">0</b>клиентов</div>
+        <div class="stat"><b id="statPaid">0</b>платных</div>
+        <div class="stat"><b id="statFree">0</b>бесплатных</div>
+        <div class="stat"><b id="statIncome">$0</b>доход</div>
+        <div class="stat"><b id="statPending">0</b>ожидают</div>
+        <div class="stat"><b id="statSubs">0</b>подписчиков</div>
+        <div class="stat"><b id="statMsgs">0</b>сообщений</div>
+      </div>
 
-    <!-- СЕКЦИЯ: АДМИН (Рендерится только для админа) -->
-    <section id="sec-admin">
-        <h1>👑 Панель создателя</h1>
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-bottom:20px;">
-            <div class="card" style="margin:0;"><div style="font-size:1.5rem; font-weight:bold;" id="adm-clients">0</div><div style="color:var(--sub);">клиентов</div></div>
-            <div class="card" style="margin:0;"><div style="font-size:1.5rem; font-weight:bold; color:#2cb67d;" id="adm-income">$0</div><div style="color:var(--sub);">доход</div></div>
+      <div class="card">
+        <h2>Фильтры</h2>
+        <div class="toolbar">
+          <input id="adminSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
+          <select id="adminStatus" style="width:auto;min-width:170px;">
+            <option value="all">Все статусы</option>
+            <option value="pending">Ожидают</option>
+            <option value="approved_paid">Одобрено платно</option>
+            <option value="approved_free">Одобрено бесплатно</option>
+            <option value="paid">Оплачено</option>
+          </select>
+          <select id="adminCountry" style="width:auto;min-width:150px;"></select>
         </div>
+        <button id="refreshBtn" class="btnGold">🔄 Обновить базу</button>
+      </div>
 
-        <h2>Модерация объявлений</h2>
-        <div class="card" style="overflow-x:auto;">
-            <table id="admTable">
-                <thead><tr><th>Имя/Заголовок</th><th>Регион</th><th>Статус</th><th>Действие</th></tr></thead>
-                <tbody><!-- JS Render --></tbody>
-            </table>
+      <div class="card">
+        <h2>Модерация</h2>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Реклама</th>
+                <th>Клиент</th>
+                <th>Контакт</th>
+                <th>Регион</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="modTable"></tbody>
+          </table>
         </div>
-        
+      </div>
+
+      <div class="card">
+        <h2>Все клиенты</h2>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Имя</th>
+                <th>Статус</th>
+                <th>Заплатил</th>
+                <th>Дата</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="clientsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Подписчики</h2>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Контакт</th>
+                <th>Дата</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="subsTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Сообщения</h2>
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>От</th>
+                <th>Текст</th>
+                <th>Действие</th>
+              </tr>
+            </thead>
+            <tbody id="msgTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
         <h2>💰 Кошельки</h2>
-        <div class="card">
-            <p>USDT (BEP20): <code style="user-select:all;">TRC20_ADDRESS_HERE</code></p>
-            <p>BTC: <code style="user-select:all;">BTC_ADDRESS_HERE</code></p>
-        </div>
+
+        <label>USDT (BEP20 / BNB Smart Chain)</label>
+        <input id="walletUsdt" placeholder="USDT адрес">
+
+        <label>BTC</label>
+        <input id="walletBtc" placeholder="BTC адрес">
+
+        <label>ETH</label>
+        <input id="walletEth" placeholder="ETH адрес">
+
+        <button id="saveWalletsBtn" class="btnGold">Сохранить кошельки</button>
+      </div>
     </section>
-</main>
 
-<footer>
-    AdAstra — реклама, которая достаёт до звёзд 👑<br>
-    <a href="/privacy.html">Privacy</a> | <a href="/terms.html">Terms</a> | <a href="/payment.html">Payment</a>
-</footer>
+    <!-- QR -->
+    <section id="tab-qr" class="tab">
+      <div class="card">
+        <h2>QR</h2>
+        <input id="qrTextInput" placeholder="Ссылка/текст">
+        <button id="makeQrBtn" class="btnGold">Сделать QR</button>
+        <div id="qrResult"></div>
+      </div>
 
-<script>
-    // === КОНФИГ И СОСТОЯНИЕ ===
-    const STATE = {
-        isAdmin: localStorage.getItem('adastra_admin') === 'true',
-        lang: localStorage.getItem('adastra_lang') || 'ru',
-        ads: []
+      <div class="card">
+        <h2>QR одобренных реклам</h2>
+        <div id="qrAdsList" class="cards"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    AdAstra — реклама, которая достаёт до звёзд 👑 |
+    <a href="/privacy.html">Privacy</a> |
+    <a href="/terms.html">Terms</a> |
+    <a href="/payment.html">Payment</a>
+  </footer>
+
+  <div id="loginModal" class="modal hidden">
+    <div class="modalCard">
+      <h3>Вход</h3>
+      <input id="loginName" placeholder="Имя">
+      <input id="loginContact" placeholder="Email/телефон">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button id="loginSaveBtn" class="btnGold">Сохранить</button>
+        <button id="loginCancelBtn">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <script>
+    const API = '/api/admin';
+    const PAYPAL_BASE = 'https://www.paypal.me/kvaisman90';
+
+    const LS = {
+      lang: 'aa_lang',
+      region: 'aa_region',
+      user: 'aa_user'
     };
 
-    // === ДИНАМИЧЕСКОЕ МЕНЮ (РЕШАЕТ ПРОБЛЕМУ СИНХРОНИЗАЦИИ) ===
-    function renderNav() {
-        const nav = document.getElementById('mainNav');
-        let items = [
-            {id:'studio', icon:'🎨', label:'Студия'},
-            {id:'feed', icon:'📰', label:'Лента'},
-            {id:'bill', icon:'🧮', label:'Счёт'},
-            {id:'pay', icon:'💳', label:'Оплата'}
-        ];
-        if (STATE.isAdmin) items.push({id:'admin', icon:'👑', label:'Админ'});
-        
-        nav.innerHTML = items.map(i => 
-            `<button onclick="switchTab('${i.id}')" id="nav-${i.id}"><span>${i.icon}</span>${i.label}</button>`
-        ).join('');
-        switchTab('studio');
+    const LANGS = [
+      { code: 'en', label: 'EN' },
+      { code: 'he', label: 'HE' },
+      { code: 'ar', label: 'AR' },
+      { code: 'es', label: 'ES' },
+      { code: 'fr', label: 'FR' },
+      { code: 'ru', label: 'RU' },
+      { code: 'zh', label: 'ZH' }
+    ];
+
+    const COUNTRIES = [
+      'Все страны',
+      'Израиль',
+      'США',
+      'Канада',
+      'Великобритания',
+      'Германия',
+      'Франция',
+      'Испания',
+      'Италия',
+      'Португалия',
+      'Польша',
+      'Чехия',
+      'Греция',
+      'Кипр',
+      'Турция',
+      'Россия',
+      'Украина',
+      'Беларусь',
+      'Казахстан',
+      'Узбекистан',
+      'Азербайджан',
+      'Грузия',
+      'Армения',
+      'Латвия',
+      'Литва',
+      'Эстония',
+      'Молдова',
+      'ОАЭ',
+      'Саудовская Аравия',
+      'Катар',
+      'Бахрейн',
+      'Оман',
+      'Кувейт',
+      'Иордания',
+      'Египет',
+      'Марокко',
+      'Тунис',
+      'Алжир',
+      'ЮАР',
+      'Нигерия',
+      'Кения',
+      'Гана',
+      'Бразилия',
+      'Аргентина',
+      'Чили',
+      'Перу',
+      'Колумбия',
+      'Мексика',
+      'Уругвай',
+      'Австралия',
+      'Новая Зеландия',
+      'Япония',
+      'Китай',
+      'Индия',
+      'Южная Корея',
+      'Сингапур',
+      'Таиланд',
+      'Вьетнам',
+      'Филиппины',
+      'Индонезия',
+      'Малайзия'
+    ];
+
+    const T = {
+      ru: {
+        tagline: 'реклама, которая достаёт до звёзд',
+        studio: 'Студия',
+        feed: 'Лента',
+        bill: 'Счёт',
+        sites: 'Площадки',
+        subs: 'Подписчики',
+        admin: 'Админ',
+        login: 'Войти',
+        logout: 'Выйти',
+        syncing: 'Синхронизация...',
+        syncOk: 'Синхронизировано',
+        syncError: 'Ошибка синхронизации',
+        client: 'Клиент',
+        creative: 'Креатив',
+        format: 'Формат',
+        image: 'Картинка',
+        removeImage: 'Убрать картинку',
+        title: 'Заголовок',
+        text: 'Текст рекламы',
+        cta: 'Кнопка действия',
+        contact: 'Контакт',
+        regionLangs: 'Регион и языки',
+        country: 'Страна',
+        city: 'Город',
+        languages: 'Языки стран показа',
+        translate: 'Перевести рекламу на выбранные',
+        publish: 'Опубликовать рекламу',
+        preview: 'Предпросмотр',
+        calculator: 'Калькулятор',
+        payment: 'Оплата',
+        subscribe: 'Подписка',
+        stats: 'Статистика',
+        ownerName: 'Ваше имя',
+        ownerContact: 'Ваш контакт'
+      },
+      en: {
+        tagline: 'advertising that reaches the stars',
+        studio: 'Studio',
+        feed: 'Feed',
+        bill: 'Billing',
+        sites: 'Platforms',
+        subs: 'Subscribers',
+        admin: 'Admin',
+        login: 'Login',
+        logout: 'Logout',
+        syncing: 'Syncing...',
+        syncOk: 'Synced',
+        syncError: 'Sync error',
+        client: 'Client',
+        creative: 'Creative',
+        format: 'Format',
+        image: 'Image',
+        removeImage: 'Remove image',
+        title: 'Title',
+        text: 'Ad text',
+        cta: 'Action button',
+        contact: 'Contact',
+        regionLangs: 'Region & languages',
+        country: 'Country',
+        city: 'City',
+        languages: 'Display languages',
+        translate: 'Translate ad into selected',
+        publish: 'Publish ad',
+        preview: 'Preview',
+        calculator: 'Calculator',
+        payment: 'Payment',
+        subscribe: 'Subscription',
+        stats: 'Stats',
+        ownerName: 'Your name',
+        ownerContact: 'Your contact'
+      },
+      he: {
+        tagline: 'פרסום שמגיע עד הכוכבים',
+        studio: 'סטודיו',
+        feed: 'פיד',
+        bill: 'חיוב',
+        sites: 'פלטפורמות',
+        subs: 'מנויים',
+        admin: 'אדמין',
+        login: 'התחברות',
+        logout: 'התנתקות',
+        syncing: 'מסנכרן...',
+        syncOk: 'מסונכרן',
+        syncError: 'שגיאת סנכרון',
+        client: 'לקוח',
+        creative: 'קריאייטיב',
+        format: 'פורמט',
+        image: 'תמונה',
+        removeImage: 'הסר תמונה',
+        title: 'כותרת',
+        text: 'טקסט מודעה',
+        cta: 'כפתור פעולה',
+        contact: 'איש קשר',
+        regionLangs: 'אזור ושפות',
+        country: 'מדינה',
+        city: 'עיר',
+        languages: 'שפות תצוגה',
+        translate: 'תרגם מודעה לשפות שנבחרו',
+        publish: 'פרסום מודעה',
+        preview: 'תצוגה מקדימה',
+        calculator: 'מחשבון',
+        payment: 'תשלום',
+        subscribe: 'הרשמה',
+        stats: 'סטטיסטיקה',
+        ownerName: 'השם שלך',
+        ownerContact: 'איש הקשר שלך'
+      },
+      ar: {
+        tagline: 'إعلان يصل إلى النجوم',
+        studio: 'استوديو',
+        feed: 'الخلاصة',
+        bill: 'الفواتير',
+        sites: 'المنصات',
+        subs: 'المشتركون',
+        admin: 'الإدارة',
+        login: 'تسجيل الدخول',
+        logout: 'تسجيل الخروج',
+        syncing: 'مزامنة...',
+        syncOk: 'تم المزامنة',
+        syncError: 'خطأ في المزامنة',
+        client: 'العميل',
+        creative: 'الإبداع',
+        format: 'التنسيق',
+        image: 'الصورة',
+        removeImage: 'إزالة الصورة',
+        title: 'العنوان',
+        text: 'نص الإعلان',
+        cta: 'زر الإجراء',
+        contact: 'جهة الاتصال',
+        regionLangs: 'المنطقة واللغات',
+        country: 'الدولة',
+        city: 'المدينة',
+        languages: 'لغات العرض',
+        translate: 'ترجمة الإعلان إلى اللغات المحددة',
+        publish: 'نشر الإعلان',
+        preview: 'معاينة',
+        calculator: 'الحاسبة',
+        payment: 'الدفع',
+        subscribe: 'الاشتراك',
+        stats: 'الإحصائيات',
+        ownerName: 'اسمك',
+        ownerContact: 'جهة اتصالك'
+      },
+      es: {
+        tagline: 'publicidad que llega a las estrellas',
+        studio: 'Estudio',
+        feed: 'Feed',
+        bill: 'Facturación',
+        sites: 'Plataformas',
+        subs: 'Suscriptores',
+        admin: 'Admin',
+        login: 'Entrar',
+        logout: 'Salir',
+        syncing: 'Sincronizando...',
+        syncOk: 'Sincronizado',
+        syncError: 'Error de sincronización',
+        client: 'Cliente',
+        creative: 'Creativo',
+        format: 'Formato',
+        image: 'Imagen',
+        removeImage: 'Quitar imagen',
+        title: 'Título',
+        text: 'Texto del anuncio',
+        cta: 'Botón de acción',
+        contact: 'Contacto',
+        regionLangs: 'Región e idiomas',
+        country: 'País',
+        city: 'Ciudad',
+        languages: 'Idiomas de exhibición',
+        translate: 'Traducir anuncio a los seleccionados',
+        publish: 'Publicar anuncio',
+        preview: 'Vista previa',
+        calculator: 'Calculadora',
+        payment: 'Pago',
+        subscribe: 'Suscripción',
+        stats: 'Estadísticas',
+        ownerName: 'Tu nombre',
+        ownerContact: 'Tu contacto'
+      },
+      fr: {
+        tagline: 'publicité qui atteint les étoiles',
+        studio: 'Studio',
+        feed: 'Flux',
+        bill: 'Facturation',
+        sites: 'Plateformes',
+        subs: 'Abonnés',
+        admin: 'Admin',
+        login: 'Connexion',
+        logout: 'Déconnexion',
+        syncing: 'Synchronisation...',
+        syncOk: 'Synchronisé',
+        syncError: 'Erreur de synchronisation',
+        client: 'Client',
+        creative: 'Créatif',
+        format: 'Format',
+        image: 'Image',
+        removeImage: 'Retirer l’image',
+        title: 'Titre',
+        text: 'Texte publicitaire',
+        cta: 'Bouton d’action',
+        contact: 'Contact',
+        regionLangs: 'Région et langues',
+        country: 'Pays',
+        city: 'Ville',
+        languages: 'Langues d’affichage',
+        translate: 'Traduire la publicité dans les langues sélectionnées',
+        publish: 'Publier la publicité',
+        preview: 'Aperçu',
+        calculator: 'Calculateur',
+        payment: 'Paiement',
+        subscribe: 'Abonnement',
+        stats: 'Statistiques',
+        ownerName: 'Votre nom',
+        ownerContact: 'Votre contact'
+      },
+      zh: {
+        tagline: '直达星辰的广告',
+        studio: '工作室',
+        feed: '广告流',
+        bill: '账单',
+        sites: '平台',
+        subs: '订阅者',
+        admin: '管理员',
+        login: '登录',
+        logout: '退出',
+        syncing: '同步中...',
+        syncOk: '已同步',
+        syncError: '同步错误',
+        client: '客户',
+        creative: '创意',
+        format: '格式',
+        image: '图片',
+        removeImage: '移除图片',
+        title: '标题',
+        text: '广告文本',
+        cta: '操作按钮',
+        contact: '联系方式',
+        regionLangs: '地区和语言',
+        country: '国家',
+        city: '城市',
+        languages: '展示语言',
+        translate: '将广告翻译成所选语言',
+        publish: '发布广告',
+        preview: '预览',
+        calculator: '计算器',
+        payment: '支付',
+        subscribe: '订阅',
+        stats: '统计',
+        ownerName: '您的姓名',
+        ownerContact: '您的联系方式'
+      }
+    };
+
+    const $ = id => document.getElementById(id);
+
+    function escapeHtml(s) {
+      return String(s || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
     }
 
-    function switchTab(id) {
-        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById(`sec-${id}`).classList.add('active');
-        const btn = document.getElementById(`nav-${id}`);
-        if(btn) btn.classList.add('active');
-        if(id === 'admin' && STATE.isAdmin) loadAdminData();
+    function fillSelect(el, arr, selected) {
+      if (!el) return;
+      el.innerHTML = arr.map(v => {
+        return '<option value="' + escapeHtml(v) + '" ' + (v === selected ? 'selected' : '') + '>' + escapeHtml(v) + '</option>';
+      }).join('');
     }
 
-    // === АВТОРИЗАЦИЯ ===
-    document.getElementById('authBtn').onclick = () => {
-        if (STATE.isAdmin) {
-            localStorage.removeItem('adastra_admin');
-            location.reload();
+    let db = {
+      ads: [],
+      subscribers: [],
+      messages: [],
+      invitations: [],
+      settings: { wallets: { usdt: '', btc: '', eth: '' } }
+    };
+
+    let currentUser = null;
+    try {
+      currentUser = JSON.parse(localStorage.getItem(LS.user) || 'null');
+    } catch (e) {
+      currentUser = null;
+    }
+
+    let state = {
+      image: null,
+      translations: {}
+    };
+
+    const savedLang = localStorage.getItem(LS.lang);
+    const browserLang = (navigator.language || 'ru').slice(0, 2).toLowerCase();
+    let currentLang = ['ru', 'en', 'he', 'ar', 'es', 'fr', 'zh'].includes(savedLang)
+      ? savedLang
+      : (['ru', 'en', 'he', 'ar', 'es', 'fr', 'zh'].includes(browserLang) ? browserLang : 'ru');
+
+    function t(key) {
+      return (T[currentLang] && T[currentLang][key]) || T.ru[key] || key;
+    }
+
+    function applyI18n() {
+      document.documentElement.lang = currentLang;
+      document.documentElement.dir = ['he', 'ar'].includes(currentLang) ? 'rtl' : 'ltr';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.dataset.i18n);
+      });
+
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+      });
+
+      const lb = $('loginBtn');
+      if (lb) lb.textContent = currentUser ? t('logout') : t('login');
+    }
+
+    function setSync(mode) {
+      const dot = $('syncDot');
+      const text = $('syncText');
+      if (!dot || !text) return;
+
+      if (mode === 'ok') {
+        dot.className = 'dot ok';
+        text.textContent = t('syncOk');
+      } else if (mode === 'error') {
+        dot.className = 'dot err';
+        text.textContent = t('syncError');
+      } else {
+        dot.className = 'dot warn';
+        text.textContent = t('syncing');
+      }
+    }
+
+    function toast(msg) {
+      const el = $('toast');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+
+    function qrUrl(data) {
+      return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(data);
+    }
+
+    function statusLabel(s) {
+      const map = {
+        pending: 'Ожидает',
+        approved_paid: 'Одобрено платно',
+        approved_free: 'Одобрено бесплатно',
+        paid: 'Оплачено',
+        rejected: 'Отклонено'
+      };
+      return map[s] || s || '';
+    }
+
+    function trField(ad, field) {
+      const tr = ad && ad.translations && ad.translations[currentLang];
+      return (tr && tr[field]) || (ad && ad[field]) || '';
+    }
+
+    function selectedLangs() {
+      return Array.from(document.querySelectorAll('#langChecks input:checked')).map(i => i.value);
+    }
+
+    function renderLangChecks() {
+      const defaults = ['en', 'he', 'ru'];
+      $('langChecks').innerHTML = LANGS.map(l => {
+        return '<label><input type="checkbox" value="' + l.code + '" ' + (defaults.includes(l.code) ? 'checked' : '') + '> ' + l.label + '</label>';
+      }).join('');
+    }
+
+    function renderPreviewLangOptions() {
+      const el = $('previewLang');
+      if (!el) return;
+      el.innerHTML = '<option value="original">Оригинал</option>' +
+        LANGS.map(l => '<option value="' + l.code + '">' + l.label + '</option>').join('');
+    }
+
+    function renderPreview() {
+      const lang = $('previewLang') ? $('previewLang').value : 'original';
+
+      let title = $('titleInput').value || 'Ваш заголовок';
+      let text = $('textInput').value || 'Яркий текст рекламы появится здесь.';
+      let cta = $('ctaInput').value || 'Подробнее';
+      let contact = $('contactInput').value || 'Контакт';
+
+      if (lang !== 'original' && state.translations[lang]) {
+        const tr = state.translations[lang];
+        title = tr.title || title;
+        text = tr.text || text;
+        cta = tr.cta || cta;
+      }
+
+      $('previewTitle').textContent = title;
+      $('previewText').textContent = text;
+      $('previewCta').textContent = cta;
+      $('previewContact').textContent = contact;
+
+      const canvas = $('previewCanvas');
+      if (canvas) canvas.className = 'preview ' + $('formatSelect').value;
+
+      const img = $('previewImg');
+      if (img) {
+        if (state.image) {
+          img.src = state.image;
+          img.classList.remove('hidden');
         } else {
-            const pass = prompt('Пароль администратора:');
-            if (pass === 'admin123') { // ЗАМЕНИТЬ НА РЕАЛЬНЫЙ ПАРОЛЬ
-                localStorage.setItem('adastra_admin', 'true');
-                location.reload();
-            } else alert('Неверный пароль');
+          img.classList.add('hidden');
         }
-    };
-    document.getElementById('authBtn').textContent = STATE.isAdmin ? '🚪 Выйти' : '👑 Войти';
+      }
+    }
 
-    // === ГЕОТАРГЕТИНГ И ЯЗЫК ===
-    document.getElementById('globalLang').value = STATE.lang;
-    document.getElementById('globalLang').onchange = (e) => {
-        STATE.lang = e.target.value;
-        localStorage.setItem('adastra_lang', STATE.lang);
-        // Здесь можно добавить логику перевода интерфейса
+    function detectLang(s) {
+      s = s || '';
+      if (/[א-ת]/.test(s)) return 'he';
+      if (/[؀-ۿ]/.test(s)) return 'ar';
+      if (/[а-яё]/i.test(s)) return 'ru';
+      if (/[，。！？]/.test(s)) return 'zh';
+      return 'en';
+    }
+
+    function targetLangCode(lang) {
+      return lang === 'zh' ? 'zh-CN' : lang;
+    }
+
+    async function translateText(text, lang) {
+      if (!text) return '';
+      const source = detectLang(text);
+      const target = targetLangCode(lang);
+      if (source === lang) return text;
+
+      try {
+        const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target);
+        const data = await res.json();
+        return (data && data.responseData && data.responseData.translatedText) || text;
+      } catch (e) {
+        return text;
+      }
+    }
+
+    function autoCheckLangs() {
+      const map = {
+        'Израиль': 'he',
+        'США': 'en',
+        'Канада': 'en',
+        'Великобритания': 'en',
+        'Франция': 'fr',
+        'Испания': 'es',
+        'Россия': 'ru',
+        'Украина': 'ru',
+        'Беларусь': 'ru',
+        'Казахстан': 'ru',
+        'Узбекистан': 'ru',
+        'Азербайджан': 'ru',
+        'Грузия': 'ru',
+        'Армения': 'ru',
+        'Латвия': 'ru',
+        'Литва': 'ru',
+        'Эстония': 'ru',
+        'Молдова': 'ru',
+        'Китай': 'zh',
+        'ОАЭ': 'ar',
+        'Саудовская Аравия': 'ar',
+        'Египет': 'ar',
+        'Марокко': 'ar',
+        'Тунис': 'ar',
+        'Алжир': 'ar',
+        'Иордания': 'ar',
+        'Катар': 'ar',
+        'Бахрейн': 'ar',
+        'Оман': 'ar',
+        'Кувейт': 'ar',
+        'Бразилия': 'es',
+        'Аргентина': 'es',
+        'Чили': 'es',
+        'Перу': 'es',
+        'Колумбия': 'es',
+        'Мексика': 'es',
+        'Уругвай': 'es'
+      };
+
+      const country = $('countrySelect') ? $('countrySelect').value : '';
+      const lang = map[country] || 'en';
+
+      document.querySelectorAll('#langChecks input').forEach(cb => cb.checked = false);
+
+      const enCb = document.querySelector('#langChecks input[value="en"]');
+      if (enCb) enCb.checked = true;
+
+      const cb = document.querySelector('#langChecks input[value="' + lang + '"]');
+      if (cb) cb.checked = true;
+    }
+
+    function calcBill() {
+      const days = Math.max(1, Number($('billDays').value) || 30);
+      const qty = Math.min(10, Math.max(1, Number($('billQty').value) || 1));
+
+      let base = days * 3;
+      if (base > 49) base = 49;
+
+      const extra = qty > 3 ? base * 0.02 * (qty - 3) : 0;
+      const total = Math.round((base + extra) * 100) / 100;
+
+      $('billResult').textContent = '$' + total.toFixed(2);
+      $('billResult').dataset.total = total;
+      updatePaypal();
+    }
+
+    function updatePaypal() {
+      const total = Number($('billResult').dataset.total || 20);
+      const amount = Math.max(1, Math.round(total));
+      const link = $('paypalLink');
+      if (!link) return;
+      link.href = PAYPAL_BASE + '/' + amount;
+      link.textContent = '🅿️ Оплатить через PayPal ($' + amount + ')';
+    }
+
+    function updateCryptoAddress() {
+      const coin = $('cryptoCoin') ? $('cryptoCoin').value : 'usdt';
+      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
+      const addr = wallets[coin] || '';
+      $('cryptoAddress').textContent = addr || 'Адрес не настроен';
+      $('cryptoCopyBtn').disabled = !addr;
+    }
+
+    function copyText(txt) {
+      if (!txt) return;
+      navigator.clipboard.writeText(txt)
+        .then(() => toast('Скопировано'))
+        .catch(() => toast(txt));
+    }
+
+    function feedCard(a) {
+      const title = trField(a, 'title');
+      const text = trField(a, 'text');
+      const cta = trField(a, 'cta');
+      const qr = qrUrl(JSON.stringify({
+        title: a.title,
+        contact: a.contact,
+        country: a.country,
+        city: a.city
+      }));
+
+      return '<article class="card">' +
+        (a.image ? '<img class="adImg" src="' + a.image + '" alt="">' : '') +
+        '<h3>' + escapeHtml(title) + '</h3>' +
+        '<p>' + escapeHtml(text) + '</p>' +
+        (cta ? '<button class="cta">' + escapeHtml(cta) + '</button>' : '') +
+        '<div class="meta">' + escapeHtml(a.country || '') + ' ' + escapeHtml(a.city || '') + ' · ' + (a.langs || []).map(l => l.toUpperCase()).join(', ') + '</div>' +
+        '<div class="meta">' + statusLabel(a.status) + ' ' + (a.paid ? '💰' : '') + '</div>' +
+        '<details><summary>QR</summary><img src="' + qr + '" width="220" alt="QR"></details>' +
+      '</article>';
+    }
+
+    function renderFeed() {
+      const list = $('feedList');
+      if (!list) return;
+
+      let ads = db.ads || [];
+      const q = $('feedSearch').value.toLowerCase();
+      const status = $('feedStatus').value;
+      const region = $('regionSelect').value;
+
+      if (status === 'approved') {
+        ads = ads.filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+      }
+
+      if (region !== 'Все страны') {
+        ads = ads.filter(a => !a.country || a.country === region);
+      }
+
+      if (q) {
+        ads = ads.filter(a => [a.title, a.text, a.owner, a.contact, a.country, a.city].join(' ').toLowerCase().includes(q));
+      }
+
+      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
+
+      list.innerHTML = ads.map(feedCard).join('') || '<div class="card meta">Нет объявлений</div>';
+    }
+
+    function renderStats() {
+      const ads = db.ads || [];
+      const paid = ads.filter(a => a.paid || a.status === 'paid');
+      const free = ads.filter(a => a.status === 'approved_free');
+      const clients = new Set(ads.map(a => a.contact || a.owner).filter(Boolean)).size;
+
+      $('statClients').textContent = clients;
+      $('statPaid').textContent = paid.length;
+      $('statFree').textContent = free.length;
+      $('statIncome').textContent = '$' + (paid.length * 49);
+      $('statPending').textContent = ads.filter(a => a.status === 'pending').length;
+      $('statSubs').textContent = (db.subscribers || []).length;
+      $('statMsgs').textContent = (db.messages || []).length;
+    }
+
+    function renderModeration() {
+      const tb = $('modTable');
+      if (!tb) return;
+
+      let ads = (db.ads || []).filter(a => a.status === 'pending');
+      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
+
+      if (q) {
+        ads = ads.filter(a => [a.title, a.owner, a.contact, a.country, a.city].join(' ').toLowerCase().includes(q));
+      }
+
+      tb.innerHTML = ads.map(a => {
+        const aid = JSON.stringify(a.id);
+        return '<tr>' +
+          '<td>' + escapeHtml(a.title) + '</td>' +
+          '<td>' + escapeHtml(a.owner || '') + '</td>' +
+          '<td>' + escapeHtml(a.contact || '') + '</td>' +
+          '<td>' + escapeHtml(a.country || '') + ' ' + escapeHtml(a.city || '') + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button class="btnOk" onclick="adminAction(\'approve_paid\', ' + aid + ')">Платно</button>' +
+            '<button onclick="adminAction(\'approve_free\', ' + aid + ')">Бесплатно</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'reject\', ' + aid + ')">Отклонить</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
+    }
+
+    function renderClients() {
+      const tb = $('clientsTable');
+      if (!tb) return;
+
+      let ads = db.ads || [];
+      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
+      const st = $('adminStatus') ? $('adminStatus').value : 'all';
+      const c = $('adminCountry') ? $('adminCountry').value : 'Все страны';
+
+      if (st !== 'all') ads = ads.filter(a => a.status === st);
+      if (c !== 'Все страны') ads = ads.filter(a => (a.country || '') === c);
+
+      if (q) {
+        ads = ads.filter(a => [a.owner, a.contact, a.title, a.text, a.country, a.city].join(' ').toLowerCase().includes(q));
+      }
+
+      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
+
+      tb.innerHTML = ads.map(a => {
+        const aid = JSON.stringify(a.id);
+        const date = new Date(a.created_at || a.id).toLocaleString();
+
+        return '<tr>' +
+          '<td>' + escapeHtml(a.owner || '') + '</td>' +
+          '<td>' + statusLabel(a.status) + '</td>' +
+          '<td>' + (a.paid ? '✅' : '—') + '</td>' +
+          '<td>' + escapeHtml(date) + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button onclick="adminAction(\'confirm_payment\', ' + aid + ')">💰</button>' +
+            '<button onclick="adminAction(\'make_paid\', ' + aid + ')">Платное</button>' +
+            '<button onclick="adminAction(\'make_free\', ' + aid + ')">Бесплатное</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'delete\', ' + aid + ')">Удалить</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
+    }
+
+    function renderSubCounters() {
+      const subs = db.subscribers || [];
+      $('subSelf').textContent = subs.filter(s => s.consent !== false).length;
+      $('subNoConsent').textContent = subs.filter(s => s.consent === false).length;
+      $('subInvites').textContent = (db.invitations || []).length;
+    }
+
+    function renderSubscribers() {
+      const tb = $('subsTable');
+      if (!tb) return;
+
+      const subs = db.subscribers || [];
+
+      tb.innerHTML = subs.map(s => {
+        const sid = JSON.stringify(s.id);
+        const date = new Date(s.date || s.id).toLocaleString();
+
+        return '<tr>' +
+          '<td>' + escapeHtml(s.contact) + '</td>' +
+          '<td>' + escapeHtml(date) + '</td>' +
+          '<td><button class="btnDanger" onclick="adminAction(\'delete_sub\', ' + sid + ')">Удалить</button></td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="3" class="meta">Пусто</td></tr>';
+
+      renderSubCounters();
+    }
+
+    function renderMessages() {
+      const tb = $('msgTable');
+      if (!tb) return;
+
+      const msgs = db.messages || [];
+
+      tb.innerHTML = msgs.map(m => {
+        const mid = JSON.stringify(m.id);
+        return '<tr style="' + (m.read ? '' : 'font-weight:700;') + '">' +
+          '<td>' + escapeHtml(m.from || '') + '</td>' +
+          '<td>' + escapeHtml(m.text || '') + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button onclick="adminAction(\'mark_read\', ' + mid + ')">Прочитано</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'delete_msg\', ' + mid + ')">Удалить</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="3" class="meta">Пусто</td></tr>';
+    }
+
+    function renderWallets() {
+      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
+
+      $('walletUsdt').value = wallets.usdt || '';
+      $('walletBtc').value = wallets.btc || '';
+      $('walletEth').value = wallets.eth || '';
+
+      updateCryptoAddress();
+    }
+
+    function renderApprovedQrList() {
+      const box = $('qrAdsList');
+      if (!box) return;
+
+      const ads = (db.ads || []).filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+
+      box.innerHTML = ads.map(a => {
+        const data = JSON.stringify({
+          title: a.title,
+          contact: a.contact,
+          country: a.country,
+          city: a.city
+        });
+        const url = qrUrl(data);
+
+        return '<div class="card">' +
+          '<h3>' + escapeHtml(a.title) + '</h3>' +
+          '<img src="' + url + '" width="180" alt="QR"><br>' +
+          '<a href="' + url + '" download="adastra-qr.png">⬇ Скачать</a>' +
+        '</div>';
+      }).join('') || '<div class="card meta">Нет одобренных реклам</div>';
+    }
+
+    function renderAll() {
+      renderStats();
+      renderFeed();
+      renderModeration();
+      renderClients();
+      renderSubscribers();
+      renderMessages();
+      renderWallets();
+      renderApprovedQrList();
+    }
+
+    async function api(method, body) {
+      method = method || 'GET';
+      setSync('sync');
+
+      const opts = {
+        method,
+        headers: { 'Content-Type': 'application/json' }
+      };
+
+      if (body) opts.body = JSON.stringify(body);
+
+      const res = await fetch(API, opts);
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+
+      const data = await res.json();
+      setSync('ok');
+      return data;
+    }
+
+    async function loadData() {
+      try {
+        const data = await api('GET');
+
+        db = Object.assign({
+          ads: [],
+          subscribers: [],
+          messages: [],
+          invitations: [],
+          settings: { wallets: { usdt: '', btc: '', eth: '' } }
+        }, data || {});
+
+        if (!db.settings) db.settings = { wallets: { usdt: '', btc: '', eth: '' } };
+        if (!db.settings.wallets) db.settings.wallets = { usdt: '', btc: '', eth: '' };
+
+        renderAll();
+      } catch (e) {
+        console.error(e);
+        setSync('error');
+      }
+    }
+
+    window.adminAction = async function(action, id, payload) {
+      payload = payload || {};
+      try {
+        await api('POST', Object.assign({ action, id }, payload));
+        await loadData();
+        toast('Сохранено');
+      } catch (e) {
+        toast('Ошибка: ' + e.message);
+      }
     };
 
-    // === ЛОГИКА СТУДИИ ===
-    document.querySelectorAll('#formatTabs .tab').forEach(t => t.onclick = () => {
-        document.querySelectorAll('#formatTabs .tab').forEach(x=>x.classList.remove('active'));
-        t.classList.add('active');
+    function clearStudio() {
+      ['titleInput', 'textInput', 'ctaInput', 'contactInput', 'cityInput'].forEach(id => {
+        if ($(id)) $(id).value = '';
+      });
+
+      state.image = null;
+      state.translations = {};
+
+      if ($('imageInput')) $('imageInput').value = '';
+      if ($('previewImg')) $('previewImg').classList.add('hidden');
+
+      renderPreview();
+    }
+
+    // Init selects
+    const savedRegion = localStorage.getItem(LS.region) || 'Все страны';
+    fillSelect($('regionSelect'), COUNTRIES, savedRegion);
+
+    const countrySelected = savedRegion !== 'Все страны' ? savedRegion : 'Израиль';
+    fillSelect($('countrySelect'), COUNTRIES.filter(c => c !== 'Все страны'), countrySelected);
+    fillSelect($('siteCountrySelect'), COUNTRIES.filter(c => c !== 'Все страны'), countrySelected);
+    fillSelect($('adminCountry'), ['Все страны'].concat(COUNTRIES.filter(c => c !== 'Все страны')), 'Все страны');
+
+    $('uiLang').value = currentLang;
+
+    renderLangChecks();
+    renderPreviewLangOptions();
+    autoCheckLangs();
+    applyI18n();
+
+    if (currentUser) {
+      $('ownerName').value = currentUser.name || '';
+      $('ownerContact').value = currentUser.contact || '';
+    }
+
+    // Tabs
+    document.querySelectorAll('.tabBtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+        btn.classList.add('active');
+        $('tab-' + btn.dataset.tab).classList.add('active');
+      });
     });
-    document.querySelectorAll('#langTabs .tab').forEach(t => t.onclick = () => t.classList.toggle('active'));
 
-    async function publishAd() {
-        const langs = [...document.querySelectorAll('#langTabs .tab.active')].map(t=>t.dataset.lang);
-        const payload = {
-            owner: 'Guest_' + Date.now(),
-            title: document.getElementById('adTitle').value,
-            text: document.getElementById('adText').value,
-            cta: document.getElementById('adCta').value,
-            contact: document.getElementById('adContact').value,
-            country: document.getElementById('adCountry').value,
-            city: document.getElementById('adCity').value,
-            format: document.querySelector('#formatTabs .tab.active').dataset.fmt,
-            langs: langs.join(',')
+    // Live preview
+    ['titleInput', 'textInput', 'ctaInput', 'contactInput'].forEach(id => {
+      if ($(id)) $(id).addEventListener('input', renderPreview);
+    });
+
+    if ($('formatSelect')) $('formatSelect').addEventListener('change', renderPreview);
+    if ($('previewLang')) $('previewLang').addEventListener('change', renderPreview);
+    if ($('countrySelect')) $('countrySelect').addEventListener('change', autoCheckLangs);
+
+    // Image
+    if ($('imageInput')) {
+      $('imageInput').addEventListener('change', e => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          state.image = reader.result;
+          renderPreview();
         };
-        if(!payload.title) return alert('Введите заголовок');
-        
-        // Вызов API из admin.js (через fetch к вашему эндпоинту)
-        // В реальном проекте здесь должен быть URL вашего Vercel/Netlify функции
-        alert('Отправлено на модерацию! (Интеграция с admin.js подключена)');
-        console.log('PUBLISH PAYLOAD:', payload);
+        reader.readAsDataURL(file);
+      });
     }
 
-    // === КАЛЬКУЛЯТОР ===
-    const calcBill = () => {
-        const d = parseInt(document.getElementById('billDays').value) || 0;
-        const q = parseInt(document.getElementById('billQty').value) || 1;
-        let base = Math.min(d * 3, 49);
-        let extra = q > 3 ? (q - 3) * (base * 0.02) : 0;
-        document.getElementById('billTotal').textContent = '$' + (base + extra).toFixed(2);
+    if ($('clearImageBtn')) {
+      $('clearImageBtn').addEventListener('click', () => {
+        state.image = null;
+        $('imageInput').value = '';
+        renderPreview();
+      });
+    }
+
+    // Publish
+    if ($('publishBtn')) {
+      $('publishBtn').addEventListener('click', async () => {
+        const title = $('titleInput').value.trim();
+        const text = $('textInput').value.trim();
+
+        if (!title || !text) {
+          toast('Заполните заголовок и текст');
+          return;
+        }
+
+        $('publishBtn').disabled = true;
+
+        try {
+          await api('POST', {
+            action: 'publish',
+            owner: $('ownerName').value.trim() || (currentUser && currentUser.name) || 'Гость',
+            contact: $('ownerContact').value.trim() || (currentUser && currentUser.contact) || $('contactInput').value.trim(),
+            title,
+            text,
+            cta: $('ctaInput').value.trim(),
+            image: state.image,
+            format: $('formatSelect').value,
+            country: $('countrySelect').value,
+            city: $('cityInput').value.trim(),
+            langs: selectedLangs(),
+            translations: state.translations
+          });
+
+          await loadData();
+          toast('Отправлено на модерацию');
+          clearStudio();
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        } finally {
+          $('publishBtn').disabled = false;
+        }
+      });
+    }
+
+    // Translate
+    if ($('translateBtn')) {
+      $('translateBtn').addEventListener('click', async () => {
+        const langs = selectedLangs();
+
+        if (!langs.length) {
+          toast('Выберите языки');
+          return;
+        }
+
+        const title = $('titleInput').value.trim();
+        const text = $('textInput').value.trim();
+        const cta = $('ctaInput').value.trim();
+
+        if (!title && !text) {
+          toast('Введите текст');
+          return;
+        }
+
+        $('translateBtn').disabled = true;
+        const old = $('translateBtn').textContent;
+        $('translateBtn').textContent = '...';
+
+        state.translations = {};
+
+        try {
+          for (const lang of langs) {
+            state.translations[lang] = {
+              title: await translateText(title, lang),
+              text: await translateText(text, lang),
+              cta: await translateText(cta, lang)
+            };
+          }
+
+          renderPreviewLangOptions();
+          renderPreview();
+          toast('Перевод готов');
+        } catch (e) {
+          toast('Ошибка перевода: ' + e.message);
+        } finally {
+          $('translateBtn').disabled = false;
+          $('translateBtn').textContent = old;
+        }
+      });
+    }
+
+    // Billing
+    ['billDays', 'billQty'].forEach(id => {
+      if ($(id)) $(id).addEventListener('input', calcBill);
+    });
+
+    document.querySelectorAll('.billPreset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $('billDays').value = btn.dataset.days;
+        $('billQty').value = btn.dataset.qty;
+        calcBill();
+      });
+    });
+
+    if ($('billIssueBtn')) {
+      $('billIssueBtn').addEventListener('click', () => {
+        toast('Счёт сформирован: ' + $('billResult').textContent);
+      });
+    }
+
+    // Payment tabs
+    document.querySelectorAll('.payTab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.payTab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        ['payCard', 'payCrypto', 'payPaypal'].forEach(id => {
+          if ($(id)) $(id).classList.add('hidden');
+        });
+
+        const target = 'pay' + btn.dataset.pay.charAt(0).toUpperCase() + btn.dataset.pay.slice(1);
+        if ($(target)) $(target).classList.remove('hidden');
+      });
+    });
+
+    if ($('payCardBtn')) {
+      $('payCardBtn').addEventListener('click', () => {
+        const number = $('cardNumber').value.trim();
+        if (!number) {
+          toast('Введите номер карты');
+          return;
+        }
+        toast('Демо-режим: карта не списывается');
+      });
+    }
+
+    if ($('cryptoCoin')) $('cryptoCoin').addEventListener('change', updateCryptoAddress);
+
+    if ($('cryptoCopyBtn')) {
+      $('cryptoCopyBtn').addEventListener('click', () => {
+        copyText($('cryptoAddress').textContent);
+      });
+    }
+
+    if ($('cryptoConfirmBtn')) {
+      $('cryptoConfirmBtn').addEventListener('click', async () => {
+        try {
+          await api('POST', {
+            action: 'support',
+            from: $('payEmail').value.trim() || (currentUser && currentUser.contact) || 'Клиент',
+            text: 'Я перевёл ' + $('cryptoCoin').value.toUpperCase() + ' ' + $('billResult').textContent
+          });
+
+          await loadData();
+          toast('Отмечено, админ подтверит');
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        }
+      });
+    }
+
+    // Sites
+    if ($('siteSearchBtn')) {
+      $('siteSearchBtn').addEventListener('click', () => {
+        const country = $('siteCountrySelect').value;
+        const city = $('siteCityInput').value.trim() || 'город';
+        const types = ['Telegram', 'WhatsApp', 'Facebook', 'Instagram', 'TikTok', 'Google Business', 'Local forum', 'City board'];
+
+        $('siteResults').innerHTML = types.map((type, i) => {
+          const reach = 1000 + ((country.length * city.length * (i + 7) * 13) % 50000);
+
+          return '<div class="card">' +
+            '<h3>' + escapeHtml(type + ' ' + country + ' / ' + city) + '</h3>' +
+            '<div class="meta">Охват: ' + reach + ' · Бесплатно</div>' +
+            '<button onclick="useSite(\'' + escapeHtml(type + ' ' + country) + '\')">Использовать</button>' +
+          '</div>';
+        }).join('');
+      });
+    }
+
+    window.useSite = function(name) {
+      toast('Площадка: ' + name);
     };
-    document.getElementById('billDays').oninput = calcBill;
-    document.getElementById('billQty').oninput = calcBill;
 
-    // === АДМИН ПАНЕЛЬ ===
-    async function loadAdminData() {
-        // Демо-данные для статического отображения структуры
-        // В реальности сюда подставляется fetch к вашему API
-        const tbody = document.querySelector('#admTable tbody');
-        tbody.innerHTML = `
-            <tr>
-                <td>Test Ad Banner</td>
-                <td>IL / Tel Aviv</td>
-                <td class="status-pending">pending</td>
-                <td>
-                    <button class="action-btn act-ok">✓ Paid</button>
-                    <button class="action-btn act-no">✕ Reject</button>
-                </td>
-            </tr>
-        `;
-        document.getElementById('adm-clients').innerText = '12';
-        document.getElementById('adm-income').innerText = '$580';
+    // Subscribers
+    if ($('subBtn')) {
+      $('subBtn').addEventListener('click', async () => {
+        const contact = $('subContact').value.trim();
+
+        if (!contact) {
+          toast('Введите контакт');
+          return;
+        }
+
+        if (!$('subConsent').checked) {
+          toast('Нужно согласие');
+          return;
+        }
+
+        try {
+          await api('POST', { action: 'subscribe', contact, consent: true });
+          $('subContact').value = '';
+          await loadData();
+          toast('Подписка сохранена');
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        }
+      });
     }
 
-    // === ИНИЦИАЛИЗАЦИЯ ===
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js?v=3');
+    if ($('inviteBtn')) {
+      $('inviteBtn').addEventListener('click', async () => {
+        try {
+          await api('POST', { action: 'invite_all' });
+          await loadData();
+          toast('Приглашения созданы');
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        }
+      });
     }
-    renderNav();
+
+    if ($('supportBtn')) {
+      $('supportBtn').addEventListener('click', async () => {
+        const text = $('supportText').value.trim();
+        if (!text) return;
+
+        try {
+          await api('POST', {
+            action: 'support',
+            from: $('supportFrom').value.trim() || (currentUser && currentUser.contact) || 'Гость',
+            text
+          });
+
+          $('supportText').value = '';
+          await loadData();
+          toast('Сообщение отправлено');
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        }
+      });
+    }
+
+    // Admin filters
+    if ($('refreshBtn')) $('refreshBtn').addEventListener('click', loadData);
+
+    ['adminSearch', 'adminStatus', 'adminCountry'].forEach(id => {
+      if ($(id)) {
+        $(id).addEventListener('input', () => {
+          renderModeration();
+          renderClients();
+        });
+      }
+    });
+
+    if ($('saveWalletsBtn')) {
+      $('saveWalletsBtn').addEventListener('click', async () => {
+        try {
+          await api('POST', {
+            action: 'save_settings',
+            settings: {
+              wallets: {
+                usdt: $('walletUsdt').value.trim(),
+                btc: $('walletBtc').value.trim(),
+                eth: $('walletEth').value.trim()
+              }
+            }
+          });
+
+          await loadData();
+          toast('Кошельки сохранены');
+        } catch (e) {
+          toast('Ошибка: ' + e.message);
+        }
+      });
+    }
+
+    // QR
+    if ($('makeQrBtn')) {
+      $('makeQrBtn').addEventListener('click', () => {
+        const data = $('qrTextInput').value.trim();
+
+        if (!data) {
+          toast('Введите ссылку/текст');
+          return;
+        }
+
+        const url = qrUrl(data);
+        $('qrResult').innerHTML = '<br><img src="' + url + '" width="260" alt="QR"><br>' +
+          '<a href="' + url + '" download="adastra-qr.png">⬇ Скачать</a>';
+      });
+    }
+
+    // Login
+    if ($('loginBtn')) {
+      $('loginBtn').addEventListener('click', () => {
+        if (currentUser) {
+          currentUser = null;
+          localStorage.removeItem(LS.user);
+          applyI18n();
+          toast('Вы вышли');
+        } else {
+          $('loginModal').classList.remove('hidden');
+        }
+      });
+    }
+
+    if ($('loginCancelBtn')) {
+      $('loginCancelBtn').addEventListener('click', () => {
+        $('loginModal').classList.add('hidden');
+      });
+    }
+
+    if ($('loginSaveBtn')) {
+      $('loginSaveBtn').addEventListener('click', () => {
+        const name = $('loginName').value.trim();
+        const contact = $('loginContact').value.trim();
+
+        if (!name) {
+          toast('Введите имя');
+          return;
+        }
+
+        currentUser = { name, contact };
+        localStorage.setItem(LS.user, JSON.stringify(currentUser));
+
+        $('ownerName').value = name;
+        $('ownerContact').value = contact;
+        $('loginModal').classList.add('hidden');
+
+        applyI18n();
+        toast('Сохранено');
+      });
+    }
+
+    ['ownerName', 'ownerContact'].forEach(id => {
+      if ($(id)) {
+        $(id).addEventListener('change', () => {
+          currentUser = {
+            name: $('ownerName').value.trim(),
+            contact: $('ownerContact').value.trim()
+          };
+          localStorage.setItem(LS.user, JSON.stringify(currentUser));
+          applyI18n();
+        });
+      }
+    });
+
+    // Language / region
+    if ($('uiLang')) {
+      $('uiLang').addEventListener('change', () => {
+        currentLang = $('uiLang').value;
+        localStorage.setItem(LS.lang, currentLang);
+        applyI18n();
+        renderAll();
+      });
+    }
+
+    if ($('regionSelect')) {
+      $('regionSelect').addEventListener('change', () => {
+        localStorage.setItem(LS.region, $('regionSelect').value);
+
+        if ($('countrySelect').value === 'Все страны') {
+          $('countrySelect').value = $('regionSelect').value !== 'Все страны' ? $('regionSelect').value : 'Израиль';
+        }
+
+        autoCheckLangs();
+        renderFeed();
+      });
+    }
+
+    if ($('feedSearch')) $('feedSearch').addEventListener('input', renderFeed);
+    if ($('feedStatus')) $('feedStatus').addEventListener('change', renderFeed);
+
+    // Start
+    renderPreview();
     calcBill();
-</script>
+    loadData();
+
+    setInterval(loadData, 20000);
+    window.addEventListener('focus', loadData);
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
 </body>
 </html>
