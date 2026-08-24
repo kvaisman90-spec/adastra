@@ -18,7 +18,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-/* Splash Screen */
 #splash {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: #fff;
@@ -35,7 +34,6 @@ body {
   0%, 100% { transform: rotate(-5deg) scale(1); }
   50% { transform: rotate(5deg) scale(1.05); }
 }
-/* Login Screen */
 #login-screen {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: #0b0b0d;
@@ -118,10 +116,8 @@ body {
   width: 100%;
   max-width: 350px;
 }
-/* Main App */
 #app { display: none; }
 #app.active { display: block; }
-/* Header */
 .header {
   background: #0b0b0d;
   border-bottom: 1px solid #1a1a1d;
@@ -168,7 +164,6 @@ body {
   font-size: 12px;
   cursor: pointer;
 }
-/* Region Bar */
 .region-bar {
   background: #1a1a1d;
   padding: 8px 16px;
@@ -187,7 +182,6 @@ body {
   border-radius: 4px;
   font-size: 12px;
 }
-/* Navigation */
 .nav {
   display: flex;
   overflow-x: auto;
@@ -211,7 +205,6 @@ body {
   border-bottom-color: #fff;
 }
 .nav-item:hover { color: #fff; }
-/* Content */
 .content {
   padding: 20px 16px;
   max-width: 800px;
@@ -228,7 +221,6 @@ body {
   font-size: 14px;
   margin-bottom: 20px;
 }
-/* Cards */
 .card {
   background: #1a1a1d;
   border-radius: 12px;
@@ -245,7 +237,6 @@ body {
   font-size: 14px;
   line-height: 1.5;
 }
-/* Forms */
 .form-group {
   margin-bottom: 16px;
 }
@@ -272,7 +263,6 @@ body {
   min-height: 80px;
   resize: vertical;
 }
-/* Buttons */
 .btn {
   padding: 12px 20px;
   border: none;
@@ -307,7 +297,6 @@ body {
   padding: 6px 12px;
   font-size: 12px;
 }
-/* Format Selector */
 .format-selector {
   display: flex;
   gap: 8px;
@@ -328,7 +317,6 @@ body {
   color: #0b0b0d;
   border-color: #fff;
 }
-/* Language Selector */
 .lang-selector {
   display: flex;
   gap: 8px;
@@ -349,7 +337,6 @@ body {
   color: #0b0b0d;
   border-color: #fff;
 }
-/* Preview */
 .preview-box {
   background: #0b0b0d;
   border: 1px solid #333;
@@ -375,7 +362,6 @@ body {
   background: #fff;
   color: #0b0b0d;
 }
-/* Table */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -390,7 +376,6 @@ body {
   color: #888;
   font-weight: normal;
 }
-/* Status badges */
 .status {
   padding: 3px 8px;
   border-radius: 10px;
@@ -401,7 +386,6 @@ body {
 .status-approved { background: #28a745; color: #fff; }
 .status-rejected { background: #dc3545; color: #fff; }
 .status-paid { background: #17a2b8; color: #fff; }
-/* Stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -424,7 +408,6 @@ body {
   font-size: 12px;
   color: #888;
 }
-/* Payment */
 .payment-methods {
   display: flex;
   gap: 8px;
@@ -444,7 +427,6 @@ body {
   color: #0b0b0d;
   border-color: #fff;
 }
-/* QR */
 .qr-result {
   text-align: center;
   padding: 20px;
@@ -455,7 +437,6 @@ body {
 .qr-result img {
   max-width: 200px;
 }
-/* Toast */
 .toast {
   position: fixed;
   bottom: 20px;
@@ -472,7 +453,6 @@ body {
   pointer-events: none;
 }
 .toast.show { opacity: 1; }
-/* Admin panel specific */
 .admin-section {
   background: #1a1a1d;
   border-radius: 12px;
@@ -485,7 +465,6 @@ body {
   margin-bottom: 12px;
   color: #ffd700;
 }
-/* Responsive */
 @media (max-width: 600px) {
   .content { padding: 16px 12px; }
   .section-title { font-size: 20px; }
@@ -493,7 +472,6 @@ body {
   .table { font-size: 11px; }
   .table th, .table td { padding: 8px 4px; }
 }
-/* Loading */
 .loading {
   text-align: center;
   padding: 40px;
@@ -509,7 +487,6 @@ body {
   margin: 0 auto 10px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #0b0b0d; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
@@ -517,12 +494,10 @@ body {
 </head>
 <body>
 
-<!-- Splash Screen -->
 <div id="splash">
   <img src="/icon-v2.png" alt="AdAstra">
 </div>
 
-<!-- Login Screen -->
 <div id="login-screen">
   <img src="/icon-v2.png" alt="AdAstra" class="logo">
   <h1>AdAstra</h1>
@@ -544,19 +519,17 @@ body {
   </div>
   
   <select class="lang-select" id="login-lang" onchange="changeLoginLang(this.value)">
-    <option value="ru">🇺 Русский</option>
-    <option value="en">🇬🇧 English</option>
-    <option value="he">🇱 עברית</option>
+    <option value="ru">🇷🇺 Русский</option>
+    <option value="en">🇧 English</option>
+    <option value="he">🇮🇱 עברית</option>
     <option value="ar">🇸🇦 العربية</option>
-    <option value="es">🇪🇸 Español</option>
+    <option value="es">🇪 Español</option>
     <option value="fr">🇫🇷 Français</option>
-    <option value="zh">🇨🇳 中文</option>
+    <option value="zh">🇨 中文</option>
   </select>
 </div>
 
-<!-- Main App -->
 <div id="app">
-  <!-- Header -->
   <div class="header">
     <div class="header-left">
       <img src="/icon-v2.png" alt="AdAstra" class="header-logo">
@@ -568,20 +541,19 @@ body {
     </div>
   </div>
   
-  <!-- Region Bar -->
   <div class="region-bar">
     <span>🌍</span>
     <select id="region-country" onchange="updateRegion()">
       <option value="world">Весь мир</option>
-      <option value="RU">🇷 Россия</option>
-      <option value="IL">🇮🇱 Израиль</option>
-      <option value="US">🇺 США</option>
+      <option value="RU">🇷🇺 Россия</option>
+      <option value="IL">🇮 Израиль</option>
+      <option value="US">🇺🇸 США</option>
       <option value="GB">🇬🇧 Великобритания</option>
       <option value="DE">🇩🇪 Германия</option>
-      <option value="FR">🇫🇷 Франция</option>
+      <option value="FR">🇷 Франция</option>
       <option value="ES">🇪🇸 Испания</option>
-      <option value="CN">🇨🇳 Китай</option>
-      <option value="UA">🇦 Украина</option>
+      <option value="CN">🇳 Китай</option>
+      <option value="UA">🇺🇦 Украина</option>
       <option value="KZ">🇰🇿 Казахстан</option>
     </select>
     <select id="region-city" onchange="updateRegion()">
@@ -598,22 +570,19 @@ body {
     </select>
   </div>
   
-  <!-- Navigation -->
   <div class="nav" id="main-nav">
     <div class="nav-item active" data-section="studio" onclick="showSection('studio')">🎨 Студия</div>
-    <div class="nav-item" data-section="feed" onclick="showSection('feed')"> Лента</div>
+    <div class="nav-item" data-section="feed" onclick="showSection('feed')">📰 Лента</div>
     <div class="nav-item" data-section="calculator" onclick="showSection('calculator')">🧮 Счёт</div>
-    <div class="nav-item" data-section="platforms" onclick="showSection('platforms')"> Площадки</div>
+    <div class="nav-item" data-section="platforms" onclick="showSection('platforms')">🌐 Площадки</div>
     <div class="nav-item" data-section="subscribers" onclick="showSection('subscribers')">👥 Подписчики</div>
-    <div class="nav-item" data-section="admin" onclick="showSection('admin')" id="admin-nav" style="display:none;">👑 Админ</div>
-    <div class="nav-item" data-section="qr" onclick="showSection('qr')"> QR</div>
+    <div class="nav-item" data-section="admin" onclick="showSection('admin')" id="admin-nav" style="display:none;"> Админ</div>
+    <div class="nav-item" data-section="qr" onclick="showSection('qr')">🔳 QR</div>
     <div class="nav-item" data-section="support" onclick="showSection('support')">💬 Поддержка</div>
   </div>
   
-  <!-- Content -->
   <div class="content">
     
-    <!-- Studio Section -->
     <div class="section active" id="section-studio">
       <h2 class="section-title">🎨 Студия рекламы</h2>
       <p class="section-subtitle">Креатив + автоперевод на языки стран, где его покажут.</p>
@@ -621,7 +590,7 @@ body {
       <div class="card">
         <div class="form-label">Формат креатива</div>
         <div class="format-selector">
-          <button class="format-btn active" data-format="banner" onclick="selectFormat('banner')">🖼 Баннер</button>
+          <button class="format-btn active" data-format="banner" onclick="selectFormat('banner')"> Баннер</button>
           <button class="format-btn" data-format="post" onclick="selectFormat('post')">📝 Пост</button>
           <button class="format-btn" data-format="stories" onclick="selectFormat('stories')">📲 Сторис</button>
         </div>
@@ -652,7 +621,7 @@ body {
         </div>
         
         <div class="form-group">
-          <label class="form-label"> Языки стран показа (автоперевод)</label>
+          <label class="form-label">🌍 Языки стран показа (автоперевод)</label>
           <div class="lang-selector">
             <button class="lang-btn active" data-lang="EN" onclick="toggleLang('EN')">EN</button>
             <button class="lang-btn" data-lang="HE" onclick="toggleLang('HE')">HE</button>
@@ -675,11 +644,10 @@ body {
           </select>
         </div>
         
-        <button class="btn btn-primary" onclick="publishAd()" style="width:100%;">🚀 Опубликовать рекламу</button>
+        <button class="btn btn-primary" onclick="publishAd()" style="width:100%;"> Опубликовать рекламу</button>
         <p style="color:#888;font-size:12px;margin-top:8px;text-align:center;">✓ баннер ✓ пост ✓ сторис ✓ QR ✓ 7 языков</p>
       </div>
       
-      <!-- Preview -->
       <div class="card">
         <div class="form-label">Предпросмотр</div>
         <div class="preview-tabs">
@@ -692,7 +660,6 @@ body {
         </div>
       </div>
       
-      <!-- My Ads -->
       <div class="card">
         <div class="form-label">Мои объявления</div>
         <div id="my-ads-list">
@@ -701,7 +668,6 @@ body {
       </div>
     </div>
     
-    <!-- Feed Section -->
     <div class="section" id="section-feed">
       <h2 class="section-title">📰 Лента рекламы AdAstra</h2>
       <p class="section-subtitle">Яркие мультиязычные креативы с QR-кодами.</p>
@@ -728,7 +694,6 @@ body {
       </div>
     </div>
     
-    <!-- Calculator Section -->
     <div class="section" id="section-calculator">
       <h2 class="section-title">🧮 Калькулятор счёта</h2>
       <p class="section-subtitle">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
@@ -768,13 +733,12 @@ body {
         <button class="btn btn-primary" onclick="showPayment()" style="width:100%;margin-top:16px;">🧾 Выставить счёт</button>
       </div>
       
-      <!-- Payment -->
       <div class="card" id="payment-section" style="display:none;">
         <div class="form-label">Оплата</div>
         <div class="payment-methods">
           <button class="payment-method active" data-method="card" onclick="selectPayment('card')">💳 Карта</button>
           <button class="payment-method" data-method="crypto" onclick="selectPayment('crypto')">₿ Крипта</button>
-          <button class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">🅿️ PayPal</button>
+          <button class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">️ PayPal</button>
         </div>
         
         <div id="payment-card">
@@ -811,7 +775,7 @@ body {
           <div class="form-group">
             <label class="form-label">Адрес кошелька AdAstra</label>
             <input type="text" id="crypto-address" class="form-input" readonly>
-            <button class="btn btn-secondary btn-small" onclick="copyCryptoAddress()" style="margin-top:8px;">📋 Скопировать</button>
+            <button class="btn btn-secondary btn-small" onclick="copyCryptoAddress()" style="margin-top:8px;"> Скопировать</button>
           </div>
           <div class="form-group">
             <label class="form-label">Сумма к переводу</label>
@@ -830,7 +794,6 @@ body {
       </div>
     </div>
     
-    <!-- Platforms Section -->
     <div class="section" id="section-platforms">
       <h2 class="section-title">🌐 Площадки</h2>
       <p class="section-subtitle">Автопоиск бесплатных мест по всему миру.</p>
@@ -868,11 +831,10 @@ body {
         <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#888;margin-bottom:12px;">
           <input type="checkbox" id="autopost-adastra" checked> Лента AdAstra
         </label>
-        <button class="btn btn-secondary" onclick="enableAutopost()" style="width:100%;">️ Настроить автопостинг</button>
+        <button class="btn btn-secondary" onclick="enableAutopost()" style="width:100%;">⚙️ Настроить автопостинг</button>
       </div>
     </div>
     
-    <!-- Subscribers Section -->
     <div class="section" id="section-subscribers">
       <h2 class="section-title">👥 Подписчики по согласию</h2>
       <p class="section-subtitle">Рассылка только тем, кто дал согласие.</p>
@@ -905,9 +867,8 @@ body {
       </div>
     </div>
     
-    <!-- Admin Section -->
     <div class="section" id="section-admin">
-      <h2 class="section-title">👑 Панель создателя</h2>
+      <h2 class="section-title"> Панель создателя</h2>
       <p class="section-subtitle">Полное управление платформой AdAstra.</p>
       
       <div class="stats-grid">
@@ -929,27 +890,25 @@ body {
         </div>
       </div>
       
-      <!-- Wallets -->
       <div class="admin-section">
         <h3>💰 Кошельки</h3>
         <div class="form-group">
           <label class="form-label">USDT (BEP20 / BNB Smart Chain)</label>
-          <input type="text" id="wallet-usdt" class="form-input" value="0xYOUR_USDT_ADDRESS" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-usdt')" style="margin-top:6px;">📋 USDT</button>
+          <input type="text" id="wallet-usdt" class="form-input" placeholder="Введите USDT адрес" onchange="saveWallets()">
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-usdt')" style="margin-top:6px;"> USDT</button>
         </div>
         <div class="form-group">
           <label class="form-label">BTC</label>
-          <input type="text" id="wallet-btc" class="form-input" value="YOUR_BTC_ADDRESS" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-btc')" style="margin-top:6px;">📋 BTC</button>
+          <input type="text" id="wallet-btc" class="form-input" placeholder="Введите BTC адрес" onchange="saveWallets()">
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-btc')" style="margin-top:6px;"> BTC</button>
         </div>
         <div class="form-group">
           <label class="form-label">ETH</label>
-          <input type="text" id="wallet-eth" class="form-input" value="YOUR_ETH_ADDRESS" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;">📋 ETH</button>
+          <input type="text" id="wallet-eth" class="form-input" placeholder="Введите ETH адрес" onchange="saveWallets()">
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;"> ETH</button>
         </div>
       </div>
       
-      <!-- All Clients -->
       <div class="admin-section">
         <h3>👥 Все клиенты (из БД)</h3>
         <div style="overflow-x:auto;">
@@ -970,7 +929,6 @@ body {
         </div>
       </div>
       
-      <!-- Moderation -->
       <div class="admin-section">
         <h3>🔍 Модерация (из БД)</h3>
         <div id="admin-moderation-list">
@@ -978,7 +936,6 @@ body {
         </div>
       </div>
       
-      <!-- Support Messages -->
       <div class="admin-section">
         <h3>💬 Сообщения поддержки</h3>
         <div id="admin-messages-list">
@@ -987,7 +944,6 @@ body {
       </div>
     </div>
     
-    <!-- QR Section -->
     <div class="section" id="section-qr">
       <h2 class="section-title">🔳 QR-коды</h2>
       <p class="section-subtitle">Генерация QR для ваших реклам.</p>
@@ -1013,7 +969,6 @@ body {
       </div>
     </div>
     
-    <!-- Support Section -->
     <div class="section" id="section-support">
       <h2 class="section-title">💬 Поддержка</h2>
       <p class="section-subtitle">Напишите нам — мы ответим.</p>
@@ -1027,13 +982,12 @@ body {
           <label class="form-label">Сообщение</label>
           <textarea id="support-text" class="form-textarea" placeholder="Ваше сообщение, просьба или пожелание..."></textarea>
         </div>
-        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;"> Отправить</button>
+        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;">📤 Отправить</button>
       </div>
     </div>
     
   </div>
   
-  <!-- Footer -->
   <div style="text-align:center;padding:20px;color:#555;font-size:12px;border-top:1px solid #1a1a1d;margin-top:40px;">
     <p>AdAstra — реклама, которая достаёт до звёзд 👑</p>
     <p style="margin-top:8px;">
@@ -1044,80 +998,30 @@ body {
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ============ CONFIG ============
 const ADMIN_CODE = '584462';
 const API_BASE = '/api/admin';
 let currentUser = null;
 let isAdmin = false;
-let db = { ads: [], subscribers: [], messages: [] };
+let db = { ads: [], subscribers: [], messages: [], wallets: {} };
 let selectedFormat = 'banner';
 let selectedLangs = ['EN', 'RU'];
 let selectedPreview = 'banner';
 let selectedPayment = 'card';
 let currentLang = 'ru';
 
-// ============ TRANSLATIONS ============
 const translations = {
-  ru: {
-    studio: '🎨 Студия', feed: '📰 Лента', calculator: '🧮 Счёт',
-    platforms: '🌐 Площадки', subscribers: ' Подписчики', admin: ' Админ',
-    qr: '🔳 QR', support: '💬 Поддержка', guest: 'Гость', admin_badge: 'Админ',
-    logout: 'Выйти', login_guest: 'Войти как гость', login_admin: 'Войти как админ',
-    publish: '🚀 Опубликовать рекламу', search: '🔍 Поиск по ленте...',
-    all_categories: 'Все категории', tech: 'Технологии', food: 'Еда',
-    fashion: 'Мода', auto: 'Авто', realestate: 'Недвижимость', services: 'Услуги', other: 'Другое'
-  },
-  en: {
-    studio: '🎨 Studio', feed: '📰 Feed', calculator: '🧮 Calculator',
-    platforms: ' Platforms', subscribers: '👥 Subscribers', admin: '👑 Admin',
-    qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin',
-    logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin',
-    publish: ' Publish Ad', search: '🔍 Search feed...',
-    all_categories: 'All Categories', tech: 'Technology', food: 'Food',
-    fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other'
-  },
-  he: {
-    studio: '🎨 סטודיו', feed: '📰 פיד', calculator: '🧮 מחשבון',
-    platforms: '🌐 פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל',
-    qr: '🔳 QR', support: '💬 תמיכה', guest: 'אורח', admin_badge: 'מנהל',
-    logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל',
-    publish: ' פרסם מודעה', search: ' חיפוש בפיד...'
-  },
-  ar: {
-    studio: '🎨 استوديو', feed: '📰 تغذية', calculator: '🧮 حاسبة',
-    platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: ' مسؤول',
-    qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول',
-    logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول',
-    publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...'
-  },
-  es: {
-    studio: '🎨 Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora',
-    platforms: '🌐 Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin',
-    qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin',
-    logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin',
-    publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...'
-  },
-  fr: {
-    studio: '🎨 Studio', feed: '📰 Flux', calculator: '🧮 Calculatrice',
-    platforms: '🌐 Plateformes', subscribers: '👥 Abonnés', admin: '👑 Admin',
-    qr: ' QR', support: '💬 Support', guest: 'Invité', admin_badge: 'Admin',
-    logout: 'Déconnexion', login_guest: 'Connexion en tant qu\'invité', login_admin: 'Connexion en tant qu\'admin',
-    publish: '🚀 Publier une annonce', search: '🔍 Rechercher dans le flux...'
-  },
-  zh: {
-    studio: ' 工作室', feed: '📰 动态', calculator: '🧮 计算器',
-    platforms: '🌐 平台', subscribers: '👥 订阅者', admin: '👑 管理员',
-    qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员',
-    logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录',
-    publish: ' 发布广告', search: '🔍 搜索动态...'
-  }
+  ru: { studio: '🎨 Студия', feed: '📰 Лента', calculator: '🧮 Счёт', platforms: ' Площадки', subscribers: '👥 Подписчики', admin: '👑 Админ', qr: '🔳 QR', support: '💬 Поддержка', guest: 'Гость', admin_badge: 'Админ', logout: 'Выйти', login_guest: 'Войти как гость', login_admin: 'Войти как админ', publish: '🚀 Опубликовать рекламу', search: '🔍 Поиск по ленте...', all_categories: 'Все категории', tech: 'Технологии', food: 'Еда', fashion: 'Мода', auto: 'Авто', realestate: 'Недвижимость', services: 'Услуги', other: 'Другое' },
+  en: { studio: '🎨 Studio', feed: '📰 Feed', calculator: '🧮 Calculator', platforms: '🌐 Platforms', subscribers: '👥 Subscribers', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin', logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin', publish: '🚀 Publish Ad', search: '🔍 Search feed...', all_categories: 'All Categories', tech: 'Technology', food: 'Food', fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other' },
+  he: { studio: '🎨 סטודיו', feed: '📰 פיד', calculator: ' מחשבון', platforms: '🌐 פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל', qr: '🔳 QR', support: ' תמיכה', guest: 'אורח', admin_badge: 'מנהל', logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל', publish: ' פרסם מודעה', search: ' חיפוש בפיד...' },
+  ar: { studio: '🎨 استوديو', feed: '📰 تغذية', calculator: '🧮 حاسبة', platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: '👑 مسؤول', qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول', logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول', publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...' },
+  es: { studio: ' Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora', platforms: ' Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin', logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin', publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...' },
+  fr: { studio: '🎨 Studio', feed: '📰 Flux', calculator: '🧮 Calculatrice', platforms: '🌐 Plateformes', subscribers: ' Abonnés', admin: '👑 Admin', qr: '🔳 QR', support: ' Support', guest: 'Invité', admin_badge: 'Admin', logout: 'Déconnexion', login_guest: 'Connexion en tant qu\'invité', login_admin: 'Connexion en tant qu\'admin', publish: '🚀 Publier une annonce', search: '🔍 Rechercher dans le flux...' },
+  zh: { studio: ' 工作室', feed: '📰 动态', calculator: '🧮 计算器', platforms: '🌐 平台', subscribers: '👥 订阅者', admin: ' 管理员', qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员', logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录', publish: '🚀 发布广告', search: ' 搜索动态...' }
 };
 
-// ============ INIT ============
 window.addEventListener('load', () => {
   setTimeout(() => {
     document.getElementById('splash').style.opacity = '0';
@@ -1127,15 +1031,11 @@ window.addEventListener('load', () => {
     }, 500);
   }, 1500);
   
-  // Register SW
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
   }
   
-  // Detect language
   detectLanguage();
-  
-  // Load cities based on country
   document.getElementById('region-country').addEventListener('change', loadCities);
 });
 
@@ -1161,7 +1061,6 @@ function checkAuth() {
   }
 }
 
-// ============ LOGIN ============
 function switchLoginType(type) {
   document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
   document.querySelector(`.login-tab[data-type="${type}"]`).classList.add('active');
@@ -1206,10 +1105,8 @@ function showApp() {
   loadDB();
 }
 
-// ============ LANGUAGE ============
 function changeLoginLang(lang) {
   currentLang = lang;
-  // Update login screen text
   const t = translations[lang] || translations.ru;
   document.querySelector('.login-tab[data-type="guest"]').textContent = t.login_guest;
   document.querySelector('.login-tab[data-type="admin"]').textContent = t.login_admin;
@@ -1218,17 +1115,13 @@ function changeLoginLang(lang) {
 function changeAppLang(lang) {
   currentLang = lang;
   const t = translations[lang] || translations.ru;
-  // Update nav
   document.querySelectorAll('.nav-item').forEach(item => {
     const section = item.dataset.section;
     if (t[section]) item.textContent = t[section];
   });
-  // Update user badge
   document.getElementById('user-badge').textContent = isAdmin ? '👑 ' + t.admin_badge : currentUser;
-  document.getElementById('logout-btn') && (document.getElementById('logout-btn').textContent = t.logout);
 }
 
-// ============ NAVIGATION ============
 function showSection(section) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -1242,7 +1135,6 @@ function showSection(section) {
   if (section === 'qr') loadApprovedQR();
 }
 
-// ============ REGION ============
 const cities = {
   world: ['Все города'],
   RU: ['Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань', 'Нижний Новгород', 'Челябинск', 'Самара', 'Омск', 'Ростов-на-Дону'],
@@ -1277,7 +1169,6 @@ function updateRegion() {
   showToast('Регион обновлён');
 }
 
-// ============ DB ============
 async function loadDB() {
   try {
     const res = await fetch(API_BASE);
@@ -1285,6 +1176,7 @@ async function loadDB() {
       db = await res.json();
       loadMyAds();
       loadSubscribers();
+      loadWallets();
     }
   } catch (e) {
     console.error('DB load error:', e);
@@ -1303,6 +1195,7 @@ async function saveDB(action, payload = {}) {
       if (result.ads) db.ads = result.ads;
       if (result.subscribers) db.subscribers = result.subscribers;
       if (result.messages) db.messages = result.messages;
+      if (result.wallets) db.wallets = result.wallets;
       return result;
     }
   } catch (e) {
@@ -1312,7 +1205,6 @@ async function saveDB(action, payload = {}) {
   return null;
 }
 
-// ============ STUDIO ============
 function selectFormat(format) {
   selectedFormat = format;
   document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
@@ -1346,35 +1238,11 @@ function updatePreview() {
   
   let html = '';
   if (selectedPreview === 'banner') {
-    html = `
-      <div style="background:#1a1a1d;border-radius:8px;padding:16px;">
-        ${imgFile ? '<div style="background:#333;height:120px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}
-        <h3 style="margin-bottom:8px;">${title}</h3>
-        <p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p>
-        <button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button>
-        <p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p>
-      </div>
-    `;
+    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;">${imgFile ? '<div style="background:#333;height:120px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   } else if (selectedPreview === 'post') {
-    html = `
-      <div style="background:#1a1a1d;border-radius:8px;padding:16px;">
-        ${imgFile ? '<div style="background:#333;height:200px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>' : ''}
-        <h3 style="margin-bottom:8px;">${title}</h3>
-        <p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p>
-        <button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button>
-        <p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p>
-      </div>
-    `;
+    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;">${imgFile ? '<div style="background:#333;height:200px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   } else {
-    html = `
-      <div style="background:#1a1a1d;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">
-        ${imgFile ? '<div style="background:#333;height:400px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>' : ''}
-        <h3 style="margin-bottom:8px;">${title}</h3>
-        <p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p>
-        <button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button>
-        <p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p>
-      </div>
-    `;
+    html = `<div style="background:#1a1a1d;border-radius:8px;padding:16px;max-width:280px;margin:0 auto;">${imgFile ? '<div style="background:#333;height:400px;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>' : ''}<h3 style="margin-bottom:8px;">${title}</h3><p style="color:#888;font-size:14px;margin-bottom:12px;">${text}</p><button style="background:#fff;color:#0b0b0d;border:none;padding:8px 16px;border-radius:6px;font-size:13px;">${cta}</button><p style="color:#555;font-size:12px;margin-top:8px;">${contact}</p></div>`;
   }
   document.getElementById('preview-content').innerHTML = html;
 }
@@ -1418,7 +1286,6 @@ async function publishAd() {
   
   if (result) {
     showToast('✅ Отправлено на модерацию');
-    // Clear form
     document.getElementById('ad-title').value = '';
     document.getElementById('ad-text').value = '';
     document.getElementById('ad-cta').value = '';
@@ -1452,7 +1319,7 @@ async function loadMyAds() {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
         <strong style="font-size:14px;">${ad.title}</strong>
         <span class="status status-${ad.status === 'pending' ? 'pending' : ad.status === 'approved_paid' || ad.status === 'approved_free' ? 'approved' : ad.status === 'paid' ? 'paid' : 'rejected'}">
-          ${ad.status === 'pending' ? ' На модерации' : ad.status === 'approved_paid' ? '✅ Одобрено (платно)' : ad.status === 'approved_free' ? '✅ Одобрено (бесплатно)' : ad.status === 'paid' ? ' Оплачено' : '❌ Отклонено'}
+          ${ad.status === 'pending' ? '⏳ На модерации' : ad.status === 'approved_paid' ? '✅ Одобрено (платно)' : ad.status === 'approved_free' ? '✅ Одобрено (бесплатно)' : ad.status === 'paid' ? '💰 Оплачено' : '❌ Отклонено'}
         </span>
       </div>
       <p style="color:#888;font-size:12px;">${ad.text.substring(0, 60)}...</p>
@@ -1461,7 +1328,6 @@ async function loadMyAds() {
   `).join('');
 }
 
-// ============ FEED ============
 async function loadFeed() {
   const container = document.getElementById('feed-list');
   const approvedAds = db.ads.filter(a => a.status === 'approved_paid' || a.status === 'approved_free' || a.status === 'paid');
@@ -1501,7 +1367,6 @@ function filterFeed() {
   });
 }
 
-// ============ CALCULATOR ============
 function calculatePrice() {
   const days = parseInt(document.getElementById('calc-days').value) || 1;
   const volume = parseInt(document.getElementById('calc-volume').value) || 1;
@@ -1536,15 +1401,15 @@ function processCardPayment() {
   const cvc = document.getElementById('pay-cvc').value.trim();
   if (!card || !expiry || !cvc) { showToast('Заполните все поля карты'); return; }
   showToast('✅ Оплата обрабатывается...');
-  // In production, send to payment processor
 }
 
 function updateCryptoAddress() {
   const coin = document.getElementById('crypto-coin').value;
+  const wallets = db.wallets || {};
   const addresses = {
-    USDT: '0xYOUR_USDT_ADDRESS',
-    BTC: 'YOUR_BTC_ADDRESS',
-    ETH: 'YOUR_ETH_ADDRESS'
+    USDT: wallets.usdt || 'Не настроен',
+    BTC: wallets.btc || 'Не настроен',
+    ETH: wallets.eth || 'Не настроен'
   };
   document.getElementById('crypto-address').value = addresses[coin] || '';
   document.getElementById('crypto-amount').value = document.getElementById('calc-result').textContent;
@@ -1552,7 +1417,7 @@ function updateCryptoAddress() {
 
 function copyCryptoAddress() {
   const addr = document.getElementById('crypto-address').value;
-  navigator.clipboard.writeText(addr).then(() => showToast(' Адрес скопирован'));
+  navigator.clipboard.writeText(addr).then(() => showToast('📋 Адрес скопирован'));
 }
 
 function processCryptoPayment() {
@@ -1560,7 +1425,6 @@ function processCryptoPayment() {
   showToast('✅ Оплата отправлена на проверку');
 }
 
-// ============ PLATFORMS ============
 function searchPlatforms() {
   const query = document.getElementById('platform-query').value.trim();
   if (!query) { showToast('Введите тему рекламы'); return; }
@@ -1600,7 +1464,6 @@ function enableAutopost() {
   showToast('⚙️ Автопостинг настроен');
 }
 
-// ============ SUBSCRIBERS ============
 async function subscribe() {
   const contact = document.getElementById('sub-contact').value.trim();
   if (!contact) { showToast('Введите контакт'); return; }
@@ -1623,7 +1486,6 @@ async function sendInvites() {
   showToast('📣 Приглашения отправлены');
 }
 
-// ============ ADMIN ============
 async function loadAdminPanel() {
   if (!isAdmin) return;
   
@@ -1637,7 +1499,6 @@ async function loadAdminPanel() {
   document.getElementById('admin-free').textContent = free;
   document.getElementById('admin-income').textContent = '$' + income;
   
-  // Clients table
   const tbody = document.getElementById('admin-clients-body');
   const clientAds = {};
   db.ads.forEach(ad => {
@@ -1663,7 +1524,6 @@ async function loadAdminPanel() {
     `;
   }).join('') || '<tr><td colspan="5" style="text-align:center;color:#888;">Нет клиентов</td></tr>';
   
-  // Moderation
   const pendingAds = db.ads.filter(a => a.status === 'pending');
   document.getElementById('admin-moderation-list').innerHTML = pendingAds.length === 0 
     ? '<p style="color:#888;font-size:14px;">Нет объявлений на модерации</p>'
@@ -1673,7 +1533,7 @@ async function loadAdminPanel() {
           <strong>${ad.title}</strong>
           <span style="color:#888;font-size:12px;">${ad.owner}</span>
         </div>
-        ${ad.image ? `<div style="background:#333;height:100px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>` : ''}
+        ${ad.image ? `<div style="background:#333;height:100px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>` : ''}
         <p style="color:#ccc;font-size:13px;margin-bottom:12px;">${ad.text}</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn btn-success btn-small" onclick="adminApprovePaid(${ad.id})">✅ Одобрить платно</button>
@@ -1684,7 +1544,6 @@ async function loadAdminPanel() {
       </div>
     `).join('');
   
-  // Messages
   const messages = db.messages;
   document.getElementById('admin-messages-list').innerHTML = messages.length === 0
     ? '<p style="color:#888;font-size:14px;">Нет сообщений</p>'
@@ -1723,16 +1582,6 @@ async function adminDelete(id) {
   if (result) { showToast('🗑 Удалено'); loadAdminPanel(); }
 }
 
-async function adminMakePaid(id) {
-  const result = await saveDB('make_paid', { id });
-  if (result) { showToast('💰 Статус: платный'); loadAdminPanel(); }
-}
-
-async function adminMakeFree(id) {
-  const result = await saveDB('make_free', { id });
-  if (result) { showToast('🆓 Статус: бесплатный'); loadAdminPanel(); }
-}
-
 async function adminDeleteClient(name) {
   if (!confirm(`Удалить все объявления клиента "${name}"?`)) return;
   const adsToDelete = db.ads.filter(a => a.owner === name).map(a => a.id);
@@ -1753,22 +1602,28 @@ async function adminDeleteMsg(id) {
   if (result) { showToast('🗑 Сообщение удалено'); loadAdminPanel(); }
 }
 
+function loadWallets() {
+  const wallets = db.wallets || {};
+  if (wallets.usdt) document.getElementById('wallet-usdt').value = wallets.usdt;
+  if (wallets.btc) document.getElementById('wallet-btc').value = wallets.btc;
+  if (wallets.eth) document.getElementById('wallet-eth').value = wallets.eth;
+}
+
 function saveWallets() {
   const wallets = {
     usdt: document.getElementById('wallet-usdt').value,
     btc: document.getElementById('wallet-btc').value,
     eth: document.getElementById('wallet-eth').value
   };
-  localStorage.setItem('adastra_wallets', JSON.stringify(wallets));
-  showToast(' Кошельки сохранены');
+  saveDB('save_wallets', { wallets });
+  showToast('💰 Кошельки сохранены');
 }
 
 function copyWallet(id) {
   const addr = document.getElementById(id).value;
-  navigator.clipboard.writeText(addr).then(() => showToast(' Скопировано'));
+  navigator.clipboard.writeText(addr).then(() => showToast('📋 Скопировано'));
 }
 
-// ============ QR ============
 function generateQR() {
   const input = document.getElementById('qr-input').value.trim();
   if (!input) { showToast('Введите ссылку или текст'); return; }
@@ -1815,7 +1670,6 @@ function downloadAdQR(title) {
   link.click();
 }
 
-// ============ SUPPORT ============
 async function sendSupport() {
   const name = document.getElementById('support-name').value.trim() || currentUser;
   const text = document.getElementById('support-text').value.trim();
@@ -1828,7 +1682,6 @@ async function sendSupport() {
   }
 }
 
-// ============ TOAST ============
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
