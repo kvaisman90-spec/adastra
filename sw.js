@@ -3,7 +3,6 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-star.png',
   '/icon-v2.png',
   '/privacy.html',
   '/terms.html',
@@ -26,12 +25,11 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// NetworkFirst для HTML решает проблему разного меню на разных устройствах
 self.addEventListener('fetch', event => {
-  // API запросы никогда не кэшируются
-  if (event.request.url.includes('/api/')) return;
+  if (event.request.url.includes('/api/') || event.request.method === 'POST') return;
 
-  // Для навигации (HTML) используем NetworkFirst, чтобы меню было актуальным
-  if (event.request.mode === 'navigate') {
+  if (event.request.destination === 'document') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
@@ -41,11 +39,9 @@ self.addEventListener('fetch', event => {
         })
         .catch(() => caches.match(event.request))
     );
-    return;
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(response => response || fetch(event.request))
+    );
   }
-
-  // Для статики (CSS, JS, IMG) - CacheFirst
-  event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
-  );
 });
