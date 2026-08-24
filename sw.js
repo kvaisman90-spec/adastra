@@ -3,6 +3,7 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
+  '/icon-star.png',
   '/icon-v2.png',
   '/privacy.html',
   '/terms.html',
@@ -26,7 +27,24 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('/api/') || event.request.url.includes('jsonbin.io')) return;
+  // API запросы никогда не кэшируются
+  if (event.request.url.includes('/api/')) return;
+
+  // Для навигации (HTML) используем NetworkFirst, чтобы меню было актуальным
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Для статики (CSS, JS, IMG) - CacheFirst
   event.respondWith(
     caches.match(event.request).then(response => response || fetch(event.request))
   );
