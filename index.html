@@ -522,8 +522,8 @@ body {
     <option value="he">🇮🇱 עברית</option>
     <option value="ar">🇸🇦 العربية</option>
     <option value="es">🇸 Español</option>
-    <option value="fr">🇫🇷 Français</option>
-    <option value="zh">🇳 中文</option>
+    <option value="fr">🇫 Français</option>
+    <option value="zh">🇨🇳 中文</option>
   </select>
 </div>
 
@@ -545,11 +545,11 @@ body {
       <option value="world">Весь мир</option>
       <option value="RU">🇷🇺 Россия</option>
       <option value="IL">🇮🇱 Израиль</option>
-      <option value="US">🇺 США</option>
-      <option value="GB">🇬🇧 Великобритания</option>
+      <option value="US">🇺🇸 США</option>
+      <option value="GB">🇧 Великобритания</option>
       <option value="DE">🇩 Германия</option>
       <option value="FR">🇫🇷 Франция</option>
-      <option value="ES">🇪 Испания</option>
+      <option value="ES">🇸 Испания</option>
       <option value="CN">🇨🇳 Китай</option>
       <option value="UA">🇺🇦 Украина</option>
       <option value="KZ">🇰🇿 Казахстан</option>
@@ -576,7 +576,7 @@ body {
     <div class="nav-item" data-section="subscribers" onclick="showSection('subscribers')">👥 Подписчики</div>
     <div class="nav-item" data-section="admin" onclick="showSection('admin')" id="admin-nav" style="display:none;">👑 Админ</div>
     <div class="nav-item" data-section="qr" onclick="showSection('qr')">🔳 QR</div>
-    <div class="nav-item" data-section="support" onclick="showSection('support')"> Поддержка</div>
+    <div class="nav-item" data-section="support" onclick="showSection('support')">💬 Поддержка</div>
   </div>
   
   <div class="content">
@@ -589,7 +589,7 @@ body {
         <div class="form-label">Формат креатива</div>
         <div class="format-selector">
           <button class="format-btn active" data-format="banner" onclick="selectFormat('banner')">🖼 Баннер</button>
-          <button class="format-btn" data-format="post" onclick="selectFormat('post')">📝 Пост</button>
+          <button class="format-btn" data-format="post" onclick="selectFormat('post')"> Пост</button>
           <button class="format-btn" data-format="stories" onclick="selectFormat('stories')">📲 Сторис</button>
         </div>
         
@@ -642,7 +642,7 @@ body {
           </select>
         </div>
         
-        <button class="btn btn-primary" onclick="publishAd()" style="width:100%;"> Опубликовать рекламу</button>
+        <button class="btn btn-primary" onclick="publishAd()" style="width:100%;">🚀 Опубликовать рекламу</button>
         <p style="color:#888;font-size:12px;margin-top:8px;text-align:center;">✓ баннер ✓ пост ✓ сторис ✓ QR ✓ 7 языков</p>
       </div>
       
@@ -736,7 +736,7 @@ body {
         <div class="payment-methods">
           <button class="payment-method active" data-method="card" onclick="selectPayment('card')">💳 Карта</button>
           <button class="payment-method" data-method="crypto" onclick="selectPayment('crypto')">₿ Крипта</button>
-          <button class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">️ PayPal</button>
+          <button class="payment-method" data-method="paypal" onclick="selectPayment('paypal')">🅿️ PayPal</button>
         </div>
         
         <div id="payment-card">
@@ -787,7 +787,7 @@ body {
         
         <div id="payment-paypal" style="display:none;">
           <p style="color:#888;font-size:14px;margin-bottom:16px;">Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-          <a href="https://www.paypal.me/kvaisman90/20" target="_blank" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;">️ Оплатить через PayPal</a>
+          <a href="https://www.paypal.me/kvaisman90/20" target="_blank" class="btn btn-primary" style="display:block;text-align:center;text-decoration:none;">🅿️ Оплатить через PayPal</a>
         </div>
       </div>
     </div>
@@ -866,7 +866,7 @@ body {
     </div>
     
     <div class="section" id="section-admin">
-      <h2 class="section-title"> Панель создателя</h2>
+      <h2 class="section-title">👑 Панель создателя</h2>
       <p class="section-subtitle">Полное управление платформой AdAstra.</p>
       
       <div class="stats-grid">
@@ -889,7 +889,7 @@ body {
       </div>
       
       <div class="admin-section">
-        <h3> Кошельки</h3>
+        <h3>💰 Кошельки</h3>
         <div class="form-group">
           <label class="form-label">USDT (BEP20 / BNB Smart Chain)</label>
           <input type="text" id="wallet-usdt" class="form-input" placeholder="Введите USDT адрес" onchange="saveWallets()">
@@ -903,7 +903,7 @@ body {
         <div class="form-group">
           <label class="form-label">ETH</label>
           <input type="text" id="wallet-eth" class="form-input" placeholder="Введите ETH адрес" onchange="saveWallets()">
-          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;">📋 ETH</button>
+          <button class="btn btn-secondary btn-small" onclick="copyWallet('wallet-eth')" style="margin-top:6px;"> ETH</button>
         </div>
       </div>
       
@@ -928,14 +928,14 @@ body {
       </div>
       
       <div class="admin-section">
-        <h3> Модерация (из БД)</h3>
+        <h3>🔍 Модерация (из БД)</h3>
         <div id="admin-moderation-list">
           <div class="loading"><div class="spinner"></div>Загрузка...</div>
         </div>
       </div>
       
       <div class="admin-section">
-        <h3> Сообщения поддержки</h3>
+        <h3>💬 Сообщения поддержки</h3>
         <div id="admin-messages-list">
           <div class="loading"><div class="spinner"></div>Загрузка...</div>
         </div>
@@ -955,7 +955,7 @@ body {
         <div class="qr-result" id="qr-result" style="display:none;">
           <img id="qr-image" src="" alt="QR">
           <br>
-          <button class="btn btn-secondary btn-small" onclick="downloadQR()" style="margin-top:12px;">⬇ Скачать</button>
+          <button class="btn btn-secondary btn-small" onclick="downloadQR()" style="margin-top:12px;"> Скачать</button>
         </div>
       </div>
       
@@ -980,7 +980,7 @@ body {
           <label class="form-label">Сообщение</label>
           <textarea id="support-text" class="form-textarea" placeholder="Ваше сообщение, просьба или пожелание..."></textarea>
         </div>
-        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;"> Отправить</button>
+        <button class="btn btn-primary" onclick="sendSupport()" style="width:100%;">📤 Отправить</button>
       </div>
     </div>
     
@@ -1011,13 +1011,13 @@ let selectedPayment = 'card';
 let currentLang = 'ru';
 
 const translations = {
-  ru: { studio: '🎨 Студия', feed: '📰 Лента', calculator: '🧮 Счёт', platforms: ' Площадки', subscribers: '👥 Подписчики', admin: '👑 Админ', qr: '🔳 QR', support: '💬 Поддержка', guest: 'Гость', admin_badge: 'Админ', logout: 'Выйти', login_guest: 'Войти как гость', login_admin: 'Войти как админ', publish: '🚀 Опубликовать рекламу', search: '🔍 Поиск по ленте...', all_categories: 'Все категории', tech: 'Технологии', food: 'Еда', fashion: 'Мода', auto: 'Авто', realestate: 'Недвижимость', services: 'Услуги', other: 'Другое' },
-  en: { studio: '🎨 Studio', feed: ' Feed', calculator: '🧮 Calculator', platforms: '🌐 Platforms', subscribers: ' Subscribers', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin', logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin', publish: '🚀 Publish Ad', search: '🔍 Search feed...', all_categories: 'All Categories', tech: 'Technology', food: 'Food', fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other' },
-  he: { studio: '🎨 סטודיו', feed: '📰 פיד', calculator: '🧮 מחשבון', platforms: '🌐 פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל', qr: '🔳 QR', support: '💬 תמיכה', guest: 'אורח', admin_badge: 'מנהל', logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל', publish: '🚀 פרסם מודעה', search: ' חיפוש בפיד...' },
-  ar: { studio: '🎨 استوديو', feed: '📰 تغذية', calculator: ' حاسبة', platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: '👑 مسؤول', qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول', logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول', publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...' },
-  es: { studio: '🎨 Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora', platforms: '🌐 Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin', logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin', publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...' },
+  ru: { studio: '🎨 Студия', feed: '📰 Лента', calculator: '🧮 Счёт', platforms: '🌐 Площадки', subscribers: '👥 Подписчики', admin: '👑 Админ', qr: '🔳 QR', support: '💬 Поддержка', guest: 'Гость', admin_badge: 'Админ', logout: 'Выйти', login_guest: 'Войти как гость', login_admin: 'Войти как админ', publish: '🚀 Опубликовать рекламу', search: '🔍 Поиск по ленте...', all_categories: 'Все категории', tech: 'Технологии', food: 'Еда', fashion: 'Мода', auto: 'Авто', realestate: 'Недвижимость', services: 'Услуги', other: 'Другое' },
+  en: { studio: '🎨 Studio', feed: '📰 Feed', calculator: '🧮 Calculator', platforms: ' Platforms', subscribers: '👥 Subscribers', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Guest', admin_badge: 'Admin', logout: 'Logout', login_guest: 'Login as Guest', login_admin: 'Login as Admin', publish: '🚀 Publish Ad', search: '🔍 Search feed...', all_categories: 'All Categories', tech: 'Technology', food: 'Food', fashion: 'Fashion', auto: 'Auto', realestate: 'Real Estate', services: 'Services', other: 'Other' },
+  he: { studio: '🎨 סטודיו', feed: '📰 פיד', calculator: ' מחשבון', platforms: ' פלטפורמות', subscribers: '👥 מנויים', admin: '👑 מנהל', qr: '🔳 QR', support: '💬 תמיכה', guest: 'אורח', admin_badge: 'מנהל', logout: 'יציאה', login_guest: 'התחברות כאורח', login_admin: 'התחברות כמנהל', publish: '🚀 פרסם מודעה', search: ' חיפוש בפיד...' },
+  ar: { studio: '🎨 استوديو', feed: ' تغذية', calculator: '🧮 حاسبة', platforms: '🌐 منصات', subscribers: '👥 مشتركون', admin: ' مسؤول', qr: '🔳 QR', support: '💬 دعم', guest: 'ضيف', admin_badge: 'مسؤول', logout: 'خروج', login_guest: 'دخول كضيف', login_admin: 'دخول كمسؤول', publish: '🚀 نشر إعلان', search: '🔍 بحث في التغذية...' },
+  es: { studio: '🎨 Estudio', feed: '📰 Feed', calculator: '🧮 Calculadora', platforms: ' Plataformas', subscribers: '👥 Suscriptores', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Soporte', guest: 'Invitado', admin_badge: 'Admin', logout: 'Salir', login_guest: 'Entrar como invitado', login_admin: 'Entrar como admin', publish: '🚀 Publicar anuncio', search: '🔍 Buscar en feed...' },
   fr: { studio: '🎨 Studio', feed: '📰 Flux', calculator: '🧮 Calculatrice', platforms: '🌐 Plateformes', subscribers: '👥 Abonnés', admin: '👑 Admin', qr: '🔳 QR', support: '💬 Support', guest: 'Invité', admin_badge: 'Admin', logout: 'Déconnexion', login_guest: 'Connexion en tant qu\'invité', login_admin: 'Connexion en tant qu\'admin', publish: ' Publier une annonce', search: ' Rechercher dans le flux...' },
-  zh: { studio: '🎨 工作室', feed: '📰 动态', calculator: ' 计算器', platforms: '🌐 平台', subscribers: '👥 订阅者', admin: '👑 管理员', qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员', logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录', publish: '🚀 发布广告', search: '🔍 搜索动态...' }
+  zh: { studio: '🎨 工作室', feed: '📰 动态', calculator: ' 计算器', platforms: '🌐 平台', subscribers: '👥 订阅者', admin: '👑 管理员', qr: '🔳 QR', support: '💬 支持', guest: '访客', admin_badge: '管理员', logout: '退出', login_guest: '以访客身份登录', login_admin: '以管理员身份登录', publish: ' 发布广告', search: '🔍 搜索动态...' }
 };
 
 window.addEventListener('load', () => {
@@ -1097,7 +1097,7 @@ function logout() {
 function showApp() {
   document.getElementById('login-screen').classList.remove('active');
   document.getElementById('app').classList.add('active');
-  document.getElementById('user-badge').textContent = isAdmin ? '👑 Админ' : currentUser;
+  document.getElementById('user-badge').textContent = isAdmin ? ' Админ' : currentUser;
   document.getElementById('user-badge').className = 'user-badge' + (isAdmin ? ' admin' : '');
   document.getElementById('admin-nav').style.display = isAdmin ? 'block' : 'none';
   loadDB();
@@ -1415,7 +1415,7 @@ function updateCryptoAddress() {
 
 function copyCryptoAddress() {
   const addr = document.getElementById('crypto-address').value;
-  navigator.clipboard.writeText(addr).then(() => showToast('📋 Адрес скопирован'));
+  navigator.clipboard.writeText(addr).then(() => showToast(' Адрес скопирован'));
 }
 
 function processCryptoPayment() {
@@ -1459,7 +1459,7 @@ function enableAutopost() {
     adastra: document.getElementById('autopost-adastra').checked
   };
   localStorage.setItem('adastra_autopost', JSON.stringify(settings));
-  showToast('⚙️ Автопостинг настроен');
+  showToast('️ Автопостинг настроен');
 }
 
 async function subscribe() {
@@ -1516,7 +1516,7 @@ async function loadAdminPanel() {
         <td>${paid}</td>
         <td>${date}</td>
         <td>
-          <button class="btn btn-danger btn-small" onclick="adminDeleteClient('${name}')">🗑</button>
+          <button class="btn btn-danger btn-small" onclick="adminDeleteClient('${name}')"></button>
         </td>
       </tr>
     `;
@@ -1531,7 +1531,7 @@ async function loadAdminPanel() {
           <strong>${ad.title}</strong>
           <span style="color:#888;font-size:12px;">${ad.owner}</span>
         </div>
-        ${ad.image ? `<div style="background:#333;height:100px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;color:#888;">🖼 Изображение</div>` : ''}
+        ${ad.image ? `<div style="background:#333;height:100px;border-radius:8px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;color:#888;"> Изображение</div>` : ''}
         <p style="color:#ccc;font-size:13px;margin-bottom:12px;">${ad.text}</p>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn btn-success btn-small" onclick="adminApprovePaid(${ad.id})">✅ Одобрить платно</button>
@@ -1619,7 +1619,7 @@ function saveWallets() {
 
 function copyWallet(id) {
   const addr = document.getElementById(id).value;
-  navigator.clipboard.writeText(addr).then(() => showToast(' Скопировано'));
+  navigator.clipboard.writeText(addr).then(() => showToast('📋 Скопировано'));
 }
 
 function generateQR() {
@@ -1655,7 +1655,7 @@ async function loadApprovedQR() {
         <strong style="font-size:13px;">${ad.title}</strong>
         <p style="color:#888;font-size:11px;">${ad.owner}</p>
       </div>
-      <button class="btn btn-secondary btn-small" onclick="downloadAdQR('${ad.title}')"></button>
+      <button class="btn btn-secondary btn-small" onclick="downloadAdQR('${ad.title}')">⬇</button>
     </div>
   `).join('');
 }
