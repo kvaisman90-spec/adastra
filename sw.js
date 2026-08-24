@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v5';
+const CACHE_NAME = 'adastra-app-v6';
 const ASSETS = [
   '/',
   '/index.html',
@@ -18,7 +18,7 @@ self.addEventListener('install', event => {
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(keys => 
+    caches.keys().then(keys =>
       Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
     )
   );
@@ -26,7 +26,7 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('/api/')) return;
+  if (event.request.url.includes('/api/') || event.request.url.includes('jsonbin.io')) return;
   event.respondWith(
     caches.match(event.request).then(response => response || fetch(event.request))
   );
