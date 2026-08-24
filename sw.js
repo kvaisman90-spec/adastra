@@ -4,67 +4,60 @@ const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icon-v2.png',
+  '/icon.svg',
   '/privacy.html',
   '/terms.html',
   '/payment.html'
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(ASSETS))
+      .then((cache) => Promise.allSettled(ASSETS.map((url) => cache.add(url))))
       .catch(() => null)
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
+    caches.keys()
+      .then((keys) => Promise.all(
         keys
-          .filter(key => key !== CACHE_NAME)
-          .map(key => caches.delete(key))
-      )
-    )
+          .filter((key) => key !== CACHE_NAME)
+          .map((key) => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  if (url.pathname.includes('/api/') || event.request.method !== 'GET') {
-    return;
-  }
+  if (url.pathname.includes('/api/')) return;
 
-  if (event.request.mode === 'navigate') {
+  if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname === '/index.html') {
     event.respondWith(
       fetch(event.request)
-        .then(response => {
+        .then((response) => {
           const copy = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put('/index.html', copy));
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
           return response;
         })
-        .catch(() => caches.match('/index.html'))
+        .catch(() => caches.match(event.request).then((cached) => cached || caches.match('/index.html')))
     );
     return;
   }
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(event.request)
-        .then(response => {
-          if (response.ok && url.origin === location.origin) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => caches.match('/index.html'));
-    })
+    caches.match(event.request).then((cached) => {
+      return cached || fetch(event.request).then((response) => {
+        if (event.request.method === 'GET' && response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        }
+        return response;
+      });
+    }).catch(() => caches.match('/index.html'))
   );
 });
