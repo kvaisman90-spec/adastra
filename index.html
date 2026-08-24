@@ -6,7 +6,7 @@
   <title>AdAstra — реклама, которая достаёт до звёзд</title>
   <meta name="theme-color" content="#0b0b0d">
   <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="/icon-v2.png">
   <link rel="apple-touch-icon" href="/icon-v2.png">
   <style>
     :root {
@@ -20,6 +20,8 @@
       --ok: #2fd06b;
       --err: #ff5d5d;
       --warn: #ffb020;
+      --paper: #f7f2e8;
+      --ink: #17130d;
     }
 
     * { box-sizing: border-box; }
@@ -35,6 +37,109 @@
     }
 
     a { color: var(--gold); }
+    button { cursor: pointer; }
+
+    input, select, textarea {
+      width: 100%;
+      background: #0f0f13;
+      color: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
+      margin: 6px 0;
+      outline: none;
+    }
+
+    textarea { min-height: 95px; resize: vertical; }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #2a2a32;
+      color: #fff;
+    }
+
+    .btnGold { background: var(--gold); color: #111; font-weight: 700; }
+    .btnOk { background: #1d4d30; }
+    .btnDanger { background: #572424; }
+    .btnWarn { background: #6b4d10; }
+
+    .hidden { display: none !important; }
+
+    /* Splash / login */
+    .splash {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(0,0,0,.04) 0 2px, transparent 3px),
+        radial-gradient(circle at 75% 15%, rgba(0,0,0,.05) 0 2px, transparent 3px),
+        radial-gradient(circle at 30% 75%, rgba(0,0,0,.04) 0 2px, transparent 3px),
+        linear-gradient(180deg, #fffdf7, var(--paper));
+      color: var(--ink);
+      overflow: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .stickers {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      font-size: 34px;
+      opacity: .9;
+    }
+
+    .sticker {
+      position: absolute;
+      transform: rotate(var(--r, 0deg));
+      opacity: .8;
+      filter: drop-shadow(0 3px 5px rgba(0,0,0,.08));
+      user-select: none;
+    }
+
+    .loginCard {
+      position: relative;
+      z-index: 2;
+      width: min(500px, 100%);
+      background: rgba(255,255,255,.92);
+      color: #17130d;
+      border: 2px solid rgba(23,19,13,.12);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.16);
+      padding: 24px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .loginCard input {
+      background: #fff;
+      color: #17130d;
+      border: 1px solid rgba(23,19,13,.2);
+    }
+
+    .logo {
+      width: 88px;
+      height: 88px;
+      object-fit: contain;
+      margin: 0 auto 10px;
+      display: block;
+      border-radius: 22px;
+      background: #0b0b0d;
+      padding: 8px;
+    }
+
+    .divider {
+      margin: 14px 0;
+      color: rgba(23,19,13,.55);
+      font-size: 13px;
+    }
+
+    /* App */
+    #app { display: none; }
 
     header {
       position: sticky;
@@ -45,7 +150,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 12px 16px;
-      background: rgba(11, 11, 13, .86);
+      background: rgba(11,11,13,.86);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
       flex-wrap: wrap;
@@ -95,7 +200,7 @@
       border-bottom: 1px solid var(--line);
       position: sticky;
       top: 62px;
-      background: rgba(11, 11, 13, .86);
+      background: rgba(11,11,13,.86);
       backdrop-filter: blur(10px);
       z-index: 25;
     }
@@ -107,7 +212,6 @@
       color: #fff;
       border-radius: 999px;
       padding: 8px 12px;
-      cursor: pointer;
     }
 
     .tabBtn.active {
@@ -118,7 +222,7 @@
 
     main {
       padding: 16px;
-      max-width: 1200px;
+      max-width: 1250px;
       margin: 0 auto;
     }
 
@@ -150,51 +254,7 @@
     h2 { font-size: 18px; }
     h3 { font-size: 16px; }
 
-    input[type="text"],
-    input[type="email"],
-    input[type="number"],
-    input[type="password"],
-    input[type="file"],
-    select,
-    textarea {
-      width: 100%;
-      background: #0f0f13;
-      color: #fff;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 10px;
-      margin: 6px 0;
-      outline: none;
-    }
-
-    textarea {
-      min-height: 95px;
-      resize: vertical;
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 10px 12px;
-      background: #2a2a32;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .btnGold {
-      background: var(--gold);
-      color: #111;
-      font-weight: 700;
-    }
-
-    .btnOk { background: #1d4d30; }
-    .btnDanger { background: #572424; }
-
-    .meta {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
-    }
+    .meta { color: var(--muted); font-size: 12px; line-height: 1.35; }
 
     .toolbar {
       display: flex;
@@ -208,7 +268,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 700px;
+      min-width: 750px;
     }
 
     th, td {
@@ -273,24 +333,11 @@
       margin-top: 10px;
     }
 
-    .preview.banner {
-      width: 100%;
-      aspect-ratio: 16 / 6;
-    }
+    .preview.banner { width: 100%; aspect-ratio: 16 / 6; }
+    .preview.post { width: min(420px, 100%); aspect-ratio: 1 / 1; margin: 10px auto 0; }
+    .preview.stories { width: min(320px, 100%); aspect-ratio: 9 / 16; margin: 10px auto 0; }
 
-    .preview.post {
-      width: min(420px, 100%);
-      aspect-ratio: 1 / 1;
-      margin: 10px auto 0;
-    }
-
-    .preview.stories {
-      width: min(320px, 100%);
-      aspect-ratio: 9 / 16;
-      margin: 10px auto 0;
-    }
-
-    .previewImg {
+    .previewMedia {
       position: absolute;
       inset: 0;
       width: 100%;
@@ -313,13 +360,31 @@
       margin-top: 8px;
     }
 
-    .adImg {
+    .adMedia {
       width: 100%;
-      max-height: 220px;
+      max-height: 230px;
       object-fit: cover;
       border-radius: 12px;
       margin-bottom: 10px;
+      background: #000;
     }
+
+    video.adMedia { object-fit: contain; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 700;
+      margin-right: 6px;
+      background: #222;
+    }
+
+    .badge.ok { background: rgba(47,208,107,.16); color: var(--ok); }
+    .badge.warn { background: rgba(255,176,32,.16); color: var(--warn); }
+    .badge.err { background: rgba(255,93,93,.16); color: var(--err); }
+    .badge.gold { background: rgba(255,215,106,.16); color: var(--gold); }
 
     .payTab {
       background: #19191f;
@@ -337,7 +402,7 @@
     .modal {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, .65);
+      background: rgba(0,0,0,.65);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -345,10 +410,10 @@
       padding: 16px;
     }
 
-    .modal.hidden { display: none; }
-
     .modalCard {
-      width: min(420px, 100%);
+      width: min(860px, 100%);
+      max-height: 90vh;
+      overflow: auto;
       background: #141418;
       border: 1px solid var(--line);
       border-radius: 16px;
@@ -378,8 +443,6 @@
       transform: translateX(-50%) translateY(0);
     }
 
-    .hidden { display: none !important; }
-
     footer {
       padding: 20px 16px;
       color: var(--muted);
@@ -388,9 +451,21 @@
       line-height: 1.5;
     }
 
-    [dir="rtl"] th,
-    [dir="rtl"] td {
-      text-align: right;
+    .shareLinks {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 10px;
+    }
+
+    .shareLinks a {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      background: #19191f;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px;
     }
 
     @media (max-width: 700px) {
@@ -400,403 +475,498 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      ⭐
-      <div>
-        <div>AdAstra</div>
-        <small data-i18n="tagline">реклама, которая достаёт до звёзд</small>
-      </div>
+
+  <!-- SPLASH / LOGIN -->
+  <div id="splash" class="splash">
+    <div class="stickers">
+      <span class="sticker" style="top:7%;left:8%;--r:-16deg;">🚀</span>
+      <span class="sticker" style="top:16%;left:72%;--r:18deg;">⭐</span>
+      <span class="sticker" style="top:62%;left:12%;--r:10deg;">🐈‍⬛</span>
+      <span class="sticker" style="top:74%;left:78%;--r:-12deg;">🚀</span>
+      <span class="sticker" style="top:28%;left:22%;--r:8deg;">⭐</span>
+      <span class="sticker" style="top:82%;left:42%;--r:-18deg;">🚀</span>
+      <span class="sticker" style="top:12%;left:44%;--r:-8deg;">⭐</span>
+      <span class="sticker" style="top:42%;left:84%;--r:14deg;">🚀</span>
+      <span class="sticker" style="top:52%;left:58%;--r:-10deg;">⭐</span>
+      <span class="sticker" style="top:34%;left:5%;--r:16deg;">🚀</span>
+      <span class="sticker" style="top:88%;left:16%;--r:8deg;">⭐</span>
+      <span class="sticker" style="top:66%;left:62%;--r:18deg;">🐈‍⬛</span>
     </div>
 
-    <div class="sync">
-      <span id="syncDot" class="dot warn"></span>
-      <span id="syncText">...</span>
+    <div class="loginCard">
+      <img id="loginLogo" src="/icon-v2.png" alt="AdAstra" class="logo" onerror="this.outerHTML='🚀⭐🐈‍⬛'">
+      <h1>AdAstra</h1>
+      <p data-i18n="tagline">Весь мир · все языки · только с согласия людей 👑</p>
+
+      <div id="loginError" class="meta" style="color:#b42626;"></div>
+
+      <input id="adminCode" type="password" inputmode="numeric" data-i18n-placeholder="adminCode" placeholder="Код администратора">
+      <button id="adminLoginBtn" class="btnGold" data-i18n="adminLogin">👑 Войти как администратор</button>
+
+      <div class="divider">или</div>
+
+      <input id="guestName" data-i18n-placeholder="guestName" placeholder="Имя гостя">
+      <input id="guestContact" data-i18n-placeholder="guestContact" placeholder="Email / телефон (опционально)">
+      <button id="guestLoginBtn" data-i18n="guestLogin">Войти как гость</button>
     </div>
+  </div>
 
-    <select id="uiLang" style="width:auto;min-width:80px;">
-      <option value="ru">RU</option>
-      <option value="en">EN</option>
-      <option value="he">HE</option>
-      <option value="ar">AR</option>
-      <option value="es">ES</option>
-      <option value="fr">FR</option>
-      <option value="zh">ZH</option>
-    </select>
-
-    <select id="regionSelect" style="width:auto;min-width:140px;"></select>
-
-    <button id="loginBtn" data-i18n="login">Войти</button>
-  </header>
-
-  <nav id="tabsNav">
-    <button class="tabBtn active" data-tab="studio">🎨 <span data-i18n="studio">Студия</span></button>
-    <button class="tabBtn" data-tab="feed">📰 <span data-i18n="feed">Лента</span></button>
-    <button class="tabBtn" data-tab="bill">🧮 <span data-i18n="bill">Счёт</span></button>
-    <button class="tabBtn" data-tab="sites">🌐 <span data-i18n="sites">Площадки</span></button>
-    <button class="tabBtn" data-tab="subs">👥 <span data-i18n="subs">Подписчики</span></button>
-    <button class="tabBtn" data-tab="admin">👑 <span data-i18n="admin">Админ</span></button>
-    <button class="tabBtn" data-tab="qr">🔳 QR</button>
-  </nav>
-
-  <main>
-    <!-- STUDIO -->
-    <section id="tab-studio" class="tab active">
-      <div class="grid">
-        <div class="card">
-          <h2 data-i18n="client">Клиент</h2>
-          <input id="ownerName" data-i18n-placeholder="ownerName" placeholder="Ваше имя">
-          <input id="ownerContact" data-i18n-placeholder="ownerContact" placeholder="Ваш контакт">
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="creative">Креатив</h2>
-
-          <label data-i18n="format">Формат</label>
-          <select id="formatSelect">
-            <option value="banner">🖼 Баннер</option>
-            <option value="post">📝 Пост</option>
-            <option value="stories">📲 Сторис</option>
-          </select>
-
-          <label data-i18n="image">Картинка</label>
-          <input type="file" id="imageInput" accept="image/*">
-          <button id="clearImageBtn" data-i18n="removeImage">Убрать картинку</button>
-
-          <input id="titleInput" data-i18n-placeholder="title" placeholder="Заголовок">
-          <textarea id="textInput" data-i18n-placeholder="text" placeholder="Текст рекламы"></textarea>
-          <input id="ctaInput" data-i18n-placeholder="cta" placeholder="Кнопка действия">
-          <input id="contactInput" data-i18n-placeholder="contact" placeholder="Контакт">
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="regionLangs">Регион и языки</h2>
-
-          <label data-i18n="country">Страна</label>
-          <select id="countrySelect"></select>
-
-          <input id="cityInput" data-i18n-placeholder="city" placeholder="Город">
-
-          <label data-i18n="languages">Языки стран показа</label>
-          <div id="langChecks" class="langChecks"></div>
-
-          <button id="translateBtn" class="btnGold" data-i18n="translate">Перевести рекламу на выбранные</button>
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="publish">Опубликовать рекламу</h2>
-          <p class="meta">✓ баннер ✓ пост ✓ сторис ✓ QR ✓ 7 языков</p>
-          <button id="publishBtn" class="btnGold" data-i18n="publish">Опубликовать рекламу</button>
+  <!-- APP -->
+  <div id="app">
+    <header>
+      <div class="brand">
+        <span>🚀⭐</span>
+        <div>
+          <div>AdAstra</div>
+          <small data-i18n="tagline">Весь мир · все языки · только с согласия людей 👑</small>
         </div>
       </div>
 
-      <div class="card">
-        <h2 data-i18n="preview">Предпросмотр</h2>
-        <select id="previewLang" style="width:auto;min-width:130px;"></select>
-
-        <div id="previewCanvas" class="preview banner">
-          <img id="previewImg" class="previewImg hidden" alt="">
-          <div class="previewContent">
-            <h3 id="previewTitle">Ваш заголовок</h3>
-            <p id="previewText">Яркий текст рекламы появится здесь.</p>
-            <button id="previewCta" class="cta">Подробнее</button>
-            <div id="previewContact" class="meta">Контакт</div>
-          </div>
-        </div>
+      <div class="sync">
+        <span id="syncDot" class="dot warn"></span>
+        <span id="syncText">...</span>
       </div>
-    </section>
 
-    <!-- FEED -->
-    <section id="tab-feed" class="tab">
-      <div class="card">
-        <h2 data-i18n="feed">Лента</h2>
-        <div class="toolbar">
-          <input id="feedSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
-          <select id="feedStatus" style="width:auto;min-width:150px;">
-            <option value="approved">Одобренные</option>
-            <option value="all">Все</option>
-          </select>
-        </div>
+      <select id="uiLang" style="width:auto;min-width:80px;">
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+        <option value="he">HE</option>
+        <option value="ar">AR</option>
+        <option value="es">ES</option>
+        <option value="fr">FR</option>
+        <option value="zh">ZH</option>
+      </select>
+
+      <select id="regionSelect" style="width:auto;min-width:145px;"></select>
+
+      <div class="toolbar">
+        <span id="userBadge" class="badge">Гость</span>
+        <button id="logoutBtn" data-i18n="logout">Выйти</button>
       </div>
-      <div id="feedList" class="cards"></div>
-    </section>
+    </header>
 
-    <!-- BILL -->
-    <section id="tab-bill" class="tab">
-      <div class="grid">
-        <div class="card">
-          <h2 data-i18n="calculator">Калькулятор</h2>
-          <p class="meta">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3)</p>
+    <nav id="tabsNav">
+      <button class="tabBtn active" data-tab="studio">🎨 <span data-i18n="studio">Студия</span></button>
+      <button class="tabBtn" data-tab="feed">📰 <span data-i18n="feed">Лента</span></button>
+      <button class="tabBtn" data-tab="bill">🧮 <span data-i18n="bill">Счёт</span></button>
+      <button class="tabBtn" data-tab="sites">🌐 <span data-i18n="sites">Площадки</span></button>
+      <button class="tabBtn" data-tab="subs">👥 <span data-i18n="subs">Подписчики</span></button>
+      <button class="tabBtn" id="adminTabBtn" data-tab="admin" style="display:none;">👑 <span data-i18n="admin">Админ</span></button>
+      <button class="tabBtn" data-tab="qr">🔳 QR</button>
+    </nav>
 
-          <div class="toolbar">
-            <button class="billPreset" data-days="7" data-qty="1">Неделя</button>
-            <button class="billPreset" data-days="10" data-qty="1">1.5 недели</button>
-            <button class="billPreset" data-days="30" data-qty="1">Месяц</button>
-            <button class="billPreset" data-days="30" data-qty="10">Месяц + 10 шт</button>
+    <main>
+      <!-- STUDIO -->
+      <section id="tab-studio" class="tab active">
+        <div class="grid">
+          <div class="card">
+            <h2 data-i18n="client">Клиент</h2>
+            <input id="ownerName" placeholder="Имя / название">
+            <input id="ownerContact" placeholder="Email / телефон / WhatsApp">
           </div>
 
-          <label>Срок (дней)</label>
-          <input type="number" id="billDays" min="1" value="30">
+          <div class="card">
+            <h2 data-i18n="creative">Креатив</h2>
 
-          <label>Объём (макс 10 шт)</label>
-          <input type="number" id="billQty" min="1" max="10" value="1">
+            <label>Категория</label>
+            <select id="categorySelect"></select>
 
-          <h3 id="billResult">$49.00</h3>
-          <button id="billIssueBtn" class="btnGold">🧾 Выставить счёт</button>
-        </div>
-
-        <div class="card">
-          <h2 data-i18n="payment">Оплата</h2>
-
-          <div class="toolbar">
-            <button class="payTab active" data-pay="card">💳 Карта</button>
-            <button class="payTab" data-pay="crypto">₿ Крипта</button>
-            <button class="payTab" data-pay="paypal">🅿️ PayPal</button>
-          </div>
-
-          <input id="payEmail" placeholder="Email для чека (опционально)">
-
-          <div id="payCard" class="payPane">
-            <input id="cardNumber" placeholder="Номер карты">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-              <input id="cardExpiry" placeholder="Срок">
-              <input id="cardCvc" placeholder="CVC">
-            </div>
-            <button id="payCardBtn" class="btnGold">💵 Оплатить картой → USDT</button>
-          </div>
-
-          <div id="payCrypto" class="payPane hidden">
-            <select id="cryptoCoin" style="width:auto;min-width:180px;">
-              <option value="usdt">USDT (BEP20)</option>
-              <option value="btc">BTC</option>
-              <option value="eth">ETH</option>
+            <label>Формат</label>
+            <select id="formatSelect">
+              <option value="banner">🖼 Баннер</option>
+              <option value="post">📝 Пост</option>
+              <option value="stories">📲 Сторис</option>
             </select>
 
-            <div class="card" style="margin:8px 0;">
-              <span id="cryptoAddress" class="meta">Адрес не настроен</span>
-              <button id="cryptoCopyBtn">📋 Скопировать</button>
+            <label>Картинка / видео</label>
+            <input type="file" id="mediaInput" accept="image/*,video/*">
+            <input id="mediaLink" placeholder="Ссылка на фото/видео (если файл большой)">
+            <button id="clearMediaBtn">Убрать файл</button>
+
+            <input id="titleInput" placeholder="Заголовок">
+            <textarea id="textInput" placeholder="Текст рекламы"></textarea>
+            <input id="ctaInput" placeholder="Кнопка действия">
+            <input id="contactInput" placeholder="Контакт для связи">
+          </div>
+
+          <div class="card">
+            <h2 data-i18n="regionLangs">Регион и языки</h2>
+
+            <label style="display:flex;gap:8px;align-items:center;">
+              <input type="checkbox" id="globalCheck" style="width:auto;">
+              Международная реклама (все регионы)
+            </label>
+
+            <label>Страна</label>
+            <select id="countrySelect"></select>
+
+            <input id="cityInput" placeholder="Город">
+
+            <label>Языки стран показа</label>
+            <div id="langChecks" class="langChecks"></div>
+
+            <button id="translateBtn" class="btnGold">🌐 Перевести рекламу на выбранные</button>
+          </div>
+
+          <div class="card">
+            <h2 data-i18n="publish">Опубликовать рекламу</h2>
+            <p class="meta">✓ баннер ✓ пост ✓ сторис ✓ QR ✓ 7 языков ✓ регионы</p>
+            <button id="publishBtn" class="btnGold">🚀 Опубликовать рекламу</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 data-i18n="preview">Предпросмотр</h2>
+          <select id="previewLang" style="width:auto;min-width:130px;"></select>
+
+          <div id="previewCanvas" class="preview banner">
+            <img id="previewMedia" class="previewMedia hidden" alt="">
+            <div class="previewContent">
+              <h3 id="previewTitle">Ваш заголовок</h3>
+              <p id="previewText">Яркий текст рекламы появится здесь.</p>
+              <button id="previewCta" class="cta">Подробнее</button>
+              <div id="previewContact" class="meta">Контакт</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEED -->
+      <section id="tab-feed" class="tab">
+        <div class="card">
+          <h2 data-i18n="feed">Лента</h2>
+          <div class="toolbar">
+            <input id="feedSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
+            <select id="feedCategory" style="width:auto;min-width:150px;"></select>
+            <select id="feedStatus" style="width:auto;min-width:150px;">
+              <option value="approved">Одобренные</option>
+              <option value="all">Все</option>
+            </select>
+          </div>
+        </div>
+        <div id="feedList" class="cards"></div>
+      </section>
+
+      <!-- BILL -->
+      <section id="tab-bill" class="tab">
+        <div class="grid">
+          <div class="card">
+            <h2 data-i18n="calculator">Калькулятор</h2>
+            <p class="meta">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3)</p>
+
+            <div class="toolbar">
+              <button class="billPreset" data-days="7" data-qty="1">Неделя</button>
+              <button class="billPreset" data-days="10" data-qty="1">1.5 недели</button>
+              <button class="billPreset" data-days="30" data-qty="1">Месяц</button>
+              <button class="billPreset" data-days="30" data-qty="10">Месяц + 10 шт</button>
             </div>
 
-            <button id="cryptoConfirmBtn" class="btnOk">✅ Я перевёл</button>
+            <label>Срок (дней)</label>
+            <input type="number" id="billDays" min="1" value="30">
+
+            <label>Объём (макс 10 шт)</label>
+            <input type="number" id="billQty" min="1" max="10" value="1">
+
+            <h3 id="billResult">$49.00</h3>
+            <button id="billIssueBtn" class="btnGold">🧾 Выставить счёт</button>
           </div>
 
-          <div id="payPaypal" class="payPane hidden">
-            <p>Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-            <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" rel="noopener" class="btnGold" style="display:inline-block;text-decoration:none;">
-              🅿️ Оплатить через PayPal
-            </a>
+          <div class="card">
+            <h2 data-i18n="payment">Оплата</h2>
+
+            <label>Выбрать объявление для оплаты</label>
+            <select id="billingAdSelect"></select>
+
+            <div class="toolbar">
+              <button class="payTab active" data-pay="card">💳 Карта</button>
+              <button class="payTab" data-pay="crypto">₿ Крипта</button>
+              <button class="payTab" data-pay="paypal">🅿️ PayPal</button>
+            </div>
+
+            <input id="payEmail" placeholder="Email для чека (опционально)">
+
+            <div id="payCard" class="payPane">
+              <input id="billingName" placeholder="Имя клиента">
+              <input id="billingContact" placeholder="Телефон / email">
+              <input id="billingCountry" placeholder="Страна">
+              <input id="billingCity" placeholder="Город">
+              <textarea id="billingNotes" placeholder="Комментарий / данные для счёта"></textarea>
+
+              <input id="cardNumber" placeholder="Номер карты (хранится только последние 4 цифры)">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <input id="cardExpiry" placeholder="Срок">
+                <input id="cardCvc" type="password" placeholder="CVC">
+              </div>
+
+              <button id="payCardBtn" class="btnGold">💵 Отправить данные для счёта → админу</button>
+              <p class="meta">Безопасность: полные данные карты и CVC не сохраняются в базу.</p>
+            </div>
+
+            <div id="payCrypto" class="payPane hidden">
+              <select id="cryptoCoin" style="width:auto;min-width:180px;">
+                <option value="usdt">USDT (BEP20)</option>
+                <option value="btc">BTC</option>
+                <option value="eth">ETH</option>
+              </select>
+
+              <div class="card" style="margin:8px 0;">
+                <span id="cryptoAddress" class="meta">Адрес не настроен</span>
+                <button id="cryptoCopyBtn">📋 Скопировать</button>
+              </div>
+
+              <button id="cryptoConfirmBtn" class="btnOk">✅ Я перевёл</button>
+            </div>
+
+            <div id="payPaypal" class="payPane hidden">
+              <p>Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
+              <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" rel="noopener" class="btnGold" style="display:inline-block;text-decoration:none;">
+                🅿️ Оплатить через PayPal
+              </a>
+              <br><br>
+              <button id="paypalConfirmBtn" class="btnOk">✅ Я оплатил через PayPal</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SITES -->
-    <section id="tab-sites" class="tab">
-      <div class="card">
-        <h2 data-i18n="sites">Площадки</h2>
-        <p class="meta">Автопоиск бесплатных мест по всему миру</p>
-
-        <label data-i18n="country">Страна</label>
-        <select id="siteCountrySelect"></select>
-
-        <input id="siteCityInput" placeholder="Город">
-
-        <button id="siteSearchBtn" class="btnGold">🔍 Автопоиск</button>
-      </div>
-
-      <div id="siteResults" class="cards"></div>
-    </section>
-
-    <!-- SUBSCRIBERS -->
-    <section id="tab-subs" class="tab">
-      <div class="grid">
+      <!-- SITES -->
+      <section id="tab-sites" class="tab">
         <div class="card">
-          <h2 data-i18n="subscribe">Подписка</h2>
-          <input id="subContact" placeholder="Email / телефон / WhatsApp">
-          <label style="display:flex;gap:8px;align-items:center;">
-            <input type="checkbox" id="subConsent" checked style="width:auto;">
-            Рассылка только тем, кто дал согласие
-          </label>
-          <button id="subBtn" class="btnGold">Подписаться</button>
-        </div>
+          <h2 data-i18n="sites">Площадки</h2>
+          <p class="meta">Автоподготовка рекламы для бесплатных площадок без спама: готовый текст + ссылки для публикации.</p>
 
-        <div class="card">
-          <h2 data-i18n="stats">Статистика</h2>
-          <div class="statGrid">
-            <div class="stat"><b id="subSelf">0</b>подписались сами</div>
-            <div class="stat"><b id="subNoConsent">0</b>без согласия</div>
-            <div class="stat"><b id="subInvites">0</b>приглашений</div>
+          <label>Выбрать одобренное объявление</label>
+          <select id="sitesAdSelect"></select>
+
+          <label>Или свой текст</label>
+          <textarea id="sitesCustomText" placeholder="Например: Реклама в Израиле и по всему миру"></textarea>
+
+          <div class="toolbar">
+            <button id="siteSearchBtn" class="btnGold">🔍 Автопоиск</button>
+            <button id="selfPromoBtn" class="btnOk">🚀 Рекламировать AdAstra</button>
           </div>
-          <button id="inviteBtn" class="btnOk">📣 Разослать приглашения</button>
+        </div>
+
+        <div id="siteResults"></div>
+      </section>
+
+      <!-- SUBS -->
+      <section id="tab-subs" class="tab">
+        <div class="grid">
+          <div class="card">
+            <h2 data-i18n="subscribe">Подписка</h2>
+            <input id="subContact" placeholder="Email / телефон / WhatsApp">
+            <label style="display:flex;gap:8px;align-items:center;">
+              <input type="checkbox" id="subConsent" checked style="width:auto;">
+              Рассылка только тем, кто дал согласие
+            </label>
+            <button id="subBtn" class="btnGold">Подписаться</button>
+          </div>
+
+          <div class="card">
+            <h2 data-i18n="stats">Статистика</h2>
+            <div class="statGrid">
+              <div class="stat"><b id="subSelf">0</b>подписались сами</div>
+              <div class="stat"><b id="subNoConsent">0</b>без согласия</div>
+              <div class="stat"><b id="subInvites">0</b>приглашений</div>
+            </div>
+            <button id="inviteBtn" class="btnOk">📣 Разослать приглашения</button>
+          </div>
+
+          <div class="card">
+            <h2>Поддержка</h2>
+            <input id="supportFrom" placeholder="Ваш контакт">
+            <textarea id="supportText" placeholder="Сообщение / просьба / пожелание"></textarea>
+            <button id="supportBtn" class="btnGold">Отправить</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADMIN -->
+      <section id="tab-admin" class="tab">
+        <div class="statGrid">
+          <div class="stat"><b id="statClients">0</b>клиентов</div>
+          <div class="stat"><b id="statPaid">0</b>платных</div>
+          <div class="stat"><b id="statFree">0</b>бесплатных</div>
+          <div class="stat"><b id="statIncome">$0</b>доход</div>
+          <div class="stat"><b id="statPending">0</b>ожидают</div>
+          <div class="stat"><b id="statRejected">0</b>отказов</div>
+          <div class="stat"><b id="statSubs">0</b>подписчиков</div>
+          <div class="stat"><b id="statMsgs">0</b>сообщений</div>
         </div>
 
         <div class="card">
-          <h2>Поддержка</h2>
-          <input id="supportFrom" placeholder="Ваш контакт">
-          <textarea id="supportText" placeholder="Сообщение"></textarea>
-          <button id="supportBtn" class="btnGold">Отправить</button>
+          <h2>Фильтры</h2>
+          <div class="toolbar">
+            <input id="adminSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
+            <select id="adminStatus" style="width:auto;min-width:170px;">
+              <option value="all">Все статусы</option>
+              <option value="pending">Ожидают</option>
+              <option value="approved_paid">Одобрено платно</option>
+              <option value="approved_free">Одобрено бесплатно</option>
+              <option value="paid">Оплачено</option>
+              <option value="rejected">Отказано</option>
+              <option value="deleted">Удалено</option>
+            </select>
+            <select id="adminCountry" style="width:auto;min-width:150px;"></select>
+            <select id="adminCategory" style="width:auto;min-width:150px;"></select>
+          </div>
+          <button id="refreshBtn" class="btnGold">🔄 Обновить базу</button>
         </div>
-      </div>
-    </section>
 
-    <!-- ADMIN -->
-    <section id="tab-admin" class="tab">
-      <div class="statGrid">
-        <div class="stat"><b id="statClients">0</b>клиентов</div>
-        <div class="stat"><b id="statPaid">0</b>платных</div>
-        <div class="stat"><b id="statFree">0</b>бесплатных</div>
-        <div class="stat"><b id="statIncome">$0</b>доход</div>
-        <div class="stat"><b id="statPending">0</b>ожидают</div>
-        <div class="stat"><b id="statSubs">0</b>подписчиков</div>
-        <div class="stat"><b id="statMsgs">0</b>сообщений</div>
-      </div>
-
-      <div class="card">
-        <h2>Фильтры</h2>
-        <div class="toolbar">
-          <input id="adminSearch" placeholder="Поиск" style="flex:1;min-width:180px;">
-          <select id="adminStatus" style="width:auto;min-width:170px;">
-            <option value="all">Все статусы</option>
-            <option value="pending">Ожидают</option>
-            <option value="approved_paid">Одобрено платно</option>
-            <option value="approved_free">Одобрено бесплатно</option>
-            <option value="paid">Оплачено</option>
-          </select>
-          <select id="adminCountry" style="width:auto;min-width:150px;"></select>
+        <div class="card">
+          <h2>Модерация</h2>
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Реклама</th>
+                  <th>Клиент</th>
+                  <th>Контакт</th>
+                  <th>Регион</th>
+                  <th>Действие</th>
+                </tr>
+              </thead>
+              <tbody id="modTable"></tbody>
+            </table>
+          </div>
         </div>
-        <button id="refreshBtn" class="btnGold">🔄 Обновить базу</button>
-      </div>
 
-      <div class="card">
-        <h2>Модерация</h2>
-        <div class="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Реклама</th>
-                <th>Клиент</th>
-                <th>Контакт</th>
-                <th>Регион</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody id="modTable"></tbody>
-          </table>
+        <div class="card">
+          <h2>Все объявления</h2>
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Заголовок</th>
+                  <th>Клиент</th>
+                  <th>Статус</th>
+                  <th>Регион</th>
+                  <th>Дата</th>
+                  <th>Действие</th>
+                </tr>
+              </thead>
+              <tbody id="adsTable"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>Все клиенты</h2>
-        <div class="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Имя</th>
-                <th>Статус</th>
-                <th>Заплатил</th>
-                <th>Дата</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody id="clientsTable"></tbody>
-          </table>
+        <div class="card">
+          <h2>Клиенты</h2>
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Имя</th>
+                  <th>Контакт</th>
+                  <th>Объявлений</th>
+                  <th>Оплачено</th>
+                  <th>Действие</th>
+                </tr>
+              </thead>
+              <tbody id="clientsTable"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>Подписчики</h2>
-        <div class="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Контакт</th>
-                <th>Дата</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody id="subsTable"></tbody>
-          </table>
+        <div class="card">
+          <h2>Подписчики</h2>
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Контакт</th>
+                  <th>Согласие</th>
+                  <th>Дата</th>
+                  <th>Действие</th>
+                </tr>
+              </thead>
+              <tbody id="subsTable"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>Сообщения</h2>
-        <div class="tableWrap">
-          <table>
-            <thead>
-              <tr>
-                <th>От</th>
-                <th>Текст</th>
-                <th>Действие</th>
-              </tr>
-            </thead>
-            <tbody id="msgTable"></tbody>
-          </table>
+        <div class="card">
+          <h2>Сообщения</h2>
+          <div class="tableWrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>От</th>
+                  <th>Текст</th>
+                  <th>Статус</th>
+                  <th>Действие</th>
+                </tr>
+              </thead>
+              <tbody id="msgTable"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="card">
-        <h2>💰 Кошельки</h2>
+        <div class="card">
+          <h2>💰 Кошельки</h2>
 
-        <label>USDT (BEP20 / BNB Smart Chain)</label>
-        <input id="walletUsdt" placeholder="USDT адрес">
+          <label>USDT (BEP20 / BNB Smart Chain)</label>
+          <input id="walletUsdt" placeholder="USDT адрес">
 
-        <label>BTC</label>
-        <input id="walletBtc" placeholder="BTC адрес">
+          <label>BTC</label>
+          <input id="walletBtc" placeholder="BTC адрес">
 
-        <label>ETH</label>
-        <input id="walletEth" placeholder="ETH адрес">
+          <label>ETH</label>
+          <input id="walletEth" placeholder="ETH адрес">
 
-        <button id="saveWalletsBtn" class="btnGold">Сохранить кошельки</button>
-      </div>
-    </section>
+          <button id="saveWalletsBtn" class="btnGold">Сохранить кошельки</button>
+        </div>
+      </section>
 
-    <!-- QR -->
-    <section id="tab-qr" class="tab">
-      <div class="card">
-        <h2>QR</h2>
-        <input id="qrTextInput" placeholder="Ссылка/текст">
-        <button id="makeQrBtn" class="btnGold">Сделать QR</button>
-        <div id="qrResult"></div>
-      </div>
+      <!-- QR -->
+      <section id="tab-qr" class="tab">
+        <div class="card">
+          <h2>QR</h2>
+          <input id="qrTextInput" placeholder="Ссылка / текст">
+          <button id="makeQrBtn" class="btnGold">Сделать QR</button>
+          <div id="qrResult"></div>
+        </div>
 
-      <div class="card">
-        <h2>QR одобренных реклам</h2>
-        <div id="qrAdsList" class="cards"></div>
-      </div>
-    </section>
-  </main>
+        <div class="card">
+          <h2>QR одобренных реклам</h2>
+          <div id="qrAdsList" class="cards"></div>
+        </div>
+      </section>
+    </main>
 
-  <footer>
-    AdAstra — реклама, которая достаёт до звёзд 👑 |
-    <a href="/privacy.html">Privacy</a> |
-    <a href="/terms.html">Terms</a> |
-    <a href="/payment.html">Payment</a>
-  </footer>
+    <footer>
+      AdAstra — реклама, которая достаёт до звёзд 👑 |
+      <a href="/privacy.html">Privacy</a> |
+      <a href="/terms.html">Terms</a> |
+      <a href="/payment.html">Payment</a>
+    </footer>
+  </div>
 
-  <div id="loginModal" class="modal hidden">
+  <!-- MODAL -->
+  <div id="modal" class="modal hidden">
     <div class="modalCard">
-      <h3>Вход</h3>
-      <input id="loginName" placeholder="Имя">
-      <input id="loginContact" placeholder="Email/телефон">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button id="loginSaveBtn" class="btnGold">Сохранить</button>
-        <button id="loginCancelBtn">Отмена</button>
+      <div class="toolbar" style="justify-content:space-between;">
+        <h3 id="modalTitle">Просмотр</h3>
+        <button id="closeModalBtn">✖ Закрыть</button>
       </div>
+      <div id="modalBody"></div>
     </div>
   </div>
 
   <div id="toast"></div>
 
   <script>
+    const ADMIN_CODE = '584462';
     const API = '/api/admin';
+    const JSONBIN_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
+    const BIN_ID = '6a87c78ff5f4af5e292f9a29';
     const PAYPAL_BASE = 'https://www.paypal.me/kvaisman90';
 
-    const LS = {
-      lang: 'aa_lang',
-      region: 'aa_region',
-      user: 'aa_user'
-    };
+    const LS_SESSION = 'adastra_session';
+    const LS_LANG = 'adastra_lang';
+    const LS_REGION = 'adastra_region';
+    const LS_LOCAL_DB = 'adastra_local_db';
 
     const LANGS = [
       { code: 'en', label: 'EN' },
@@ -806,6 +976,22 @@
       { code: 'fr', label: 'FR' },
       { code: 'ru', label: 'RU' },
       { code: 'zh', label: 'ZH' }
+    ];
+
+    const CATEGORIES = [
+      'Реклама',
+      'Услуги',
+      'Товары',
+      'Работа',
+      'Недвижимость',
+      'Авто',
+      'Еда',
+      'Красота',
+      'Здоровье',
+      'Образование',
+      'Технологии',
+      'Развлечения',
+      'Другое'
     ];
 
     const COUNTRIES = [
@@ -874,276 +1060,183 @@
 
     const T = {
       ru: {
-        tagline: 'реклама, которая достаёт до звёзд',
+        tagline: 'Весь мир · все языки · только с согласия людей 👑',
+        adminCode: 'Код администратора',
+        adminLogin: '👑 Войти как администратор',
+        guestName: 'Имя гостя',
+        guestContact: 'Email / телефон (опционально)',
+        guestLogin: 'Войти как гость',
         studio: 'Студия',
         feed: 'Лента',
         bill: 'Счёт',
         sites: 'Площадки',
         subs: 'Подписчики',
         admin: 'Админ',
-        login: 'Войти',
+        qr: 'QR',
         logout: 'Выйти',
-        syncing: 'Синхронизация...',
-        syncOk: 'Синхронизировано',
-        syncError: 'Ошибка синхронизации',
         client: 'Клиент',
         creative: 'Креатив',
-        format: 'Формат',
-        image: 'Картинка',
-        removeImage: 'Убрать картинку',
-        title: 'Заголовок',
-        text: 'Текст рекламы',
-        cta: 'Кнопка действия',
-        contact: 'Контакт',
         regionLangs: 'Регион и языки',
-        country: 'Страна',
-        city: 'Город',
-        languages: 'Языки стран показа',
-        translate: 'Перевести рекламу на выбранные',
         publish: 'Опубликовать рекламу',
         preview: 'Предпросмотр',
         calculator: 'Калькулятор',
         payment: 'Оплата',
         subscribe: 'Подписка',
-        stats: 'Статистика',
-        ownerName: 'Ваше имя',
-        ownerContact: 'Ваш контакт'
+        stats: 'Статистика'
       },
       en: {
-        tagline: 'advertising that reaches the stars',
+        tagline: 'All world · all languages · only with consent 👑',
+        adminCode: 'Admin code',
+        adminLogin: '👑 Login as admin',
+        guestName: 'Guest name',
+        guestContact: 'Email / phone (optional)',
+        guestLogin: 'Login as guest',
         studio: 'Studio',
         feed: 'Feed',
         bill: 'Billing',
         sites: 'Platforms',
         subs: 'Subscribers',
         admin: 'Admin',
-        login: 'Login',
+        qr: 'QR',
         logout: 'Logout',
-        syncing: 'Syncing...',
-        syncOk: 'Synced',
-        syncError: 'Sync error',
         client: 'Client',
         creative: 'Creative',
-        format: 'Format',
-        image: 'Image',
-        removeImage: 'Remove image',
-        title: 'Title',
-        text: 'Ad text',
-        cta: 'Action button',
-        contact: 'Contact',
         regionLangs: 'Region & languages',
-        country: 'Country',
-        city: 'City',
-        languages: 'Display languages',
-        translate: 'Translate ad into selected',
         publish: 'Publish ad',
         preview: 'Preview',
         calculator: 'Calculator',
         payment: 'Payment',
         subscribe: 'Subscription',
-        stats: 'Stats',
-        ownerName: 'Your name',
-        ownerContact: 'Your contact'
+        stats: 'Stats'
       },
       he: {
-        tagline: 'פרסום שמגיע עד הכוכבים',
+        tagline: 'כל העולם · כל השפות · רק בהסכמה 👑',
+        adminCode: 'קוד מנהל',
+        adminLogin: '👑 התחבר כמנהל',
+        guestName: 'שם אורח',
+        guestContact: 'אימייל / טלפון (אופציונלי)',
+        guestLogin: 'התחבר כאורח',
         studio: 'סטודיו',
         feed: 'פיד',
         bill: 'חיוב',
         sites: 'פלטפורמות',
         subs: 'מנויים',
         admin: 'אדמין',
-        login: 'התחברות',
+        qr: 'QR',
         logout: 'התנתקות',
-        syncing: 'מסנכרן...',
-        syncOk: 'מסונכרן',
-        syncError: 'שגיאת סנכרון',
         client: 'לקוח',
         creative: 'קריאייטיב',
-        format: 'פורמט',
-        image: 'תמונה',
-        removeImage: 'הסר תמונה',
-        title: 'כותרת',
-        text: 'טקסט מודעה',
-        cta: 'כפתור פעולה',
-        contact: 'איש קשר',
         regionLangs: 'אזור ושפות',
-        country: 'מדינה',
-        city: 'עיר',
-        languages: 'שפות תצוגה',
-        translate: 'תרגם מודעה לשפות שנבחרו',
         publish: 'פרסום מודעה',
         preview: 'תצוגה מקדימה',
         calculator: 'מחשבון',
         payment: 'תשלום',
         subscribe: 'הרשמה',
-        stats: 'סטטיסטיקה',
-        ownerName: 'השם שלך',
-        ownerContact: 'איש הקשר שלך'
+        stats: 'סטטיסטיקה'
       },
       ar: {
-        tagline: 'إعلان يصل إلى النجوم',
+        tagline: 'كل العالم · كل اللغات · فقط بالموافقة 👑',
+        adminCode: 'رمز المدير',
+        adminLogin: '👑 الدخول كمدير',
+        guestName: 'اسم الضيف',
+        guestContact: 'البريد / الهاتف (اختياري)',
+        guestLogin: 'الدخول كضيف',
         studio: 'استوديو',
         feed: 'الخلاصة',
         bill: 'الفواتير',
         sites: 'المنصات',
         subs: 'المشتركون',
         admin: 'الإدارة',
-        login: 'تسجيل الدخول',
+        qr: 'QR',
         logout: 'تسجيل الخروج',
-        syncing: 'مزامنة...',
-        syncOk: 'تم المزامنة',
-        syncError: 'خطأ في المزامنة',
         client: 'العميل',
         creative: 'الإبداع',
-        format: 'التنسيق',
-        image: 'الصورة',
-        removeImage: 'إزالة الصورة',
-        title: 'العنوان',
-        text: 'نص الإعلان',
-        cta: 'زر الإجراء',
-        contact: 'جهة الاتصال',
         regionLangs: 'المنطقة واللغات',
-        country: 'الدولة',
-        city: 'المدينة',
-        languages: 'لغات العرض',
-        translate: 'ترجمة الإعلان إلى اللغات المحددة',
         publish: 'نشر الإعلان',
         preview: 'معاينة',
         calculator: 'الحاسبة',
         payment: 'الدفع',
         subscribe: 'الاشتراك',
-        stats: 'الإحصائيات',
-        ownerName: 'اسمك',
-        ownerContact: 'جهة اتصالك'
+        stats: 'الإحصائيات'
       },
       es: {
-        tagline: 'publicidad que llega a las estrellas',
+        tagline: 'Todo el mundo · todos los idiomas · solo con consentimiento 👑',
+        adminCode: 'Código de administrador',
+        adminLogin: '👑 Entrar como administrador',
+        guestName: 'Nombre del invitado',
+        guestContact: 'Email / teléfono (opcional)',
+        guestLogin: 'Entrar como invitado',
         studio: 'Estudio',
         feed: 'Feed',
         bill: 'Facturación',
         sites: 'Plataformas',
         subs: 'Suscriptores',
         admin: 'Admin',
-        login: 'Entrar',
+        qr: 'QR',
         logout: 'Salir',
-        syncing: 'Sincronizando...',
-        syncOk: 'Sincronizado',
-        syncError: 'Error de sincronización',
         client: 'Cliente',
         creative: 'Creativo',
-        format: 'Formato',
-        image: 'Imagen',
-        removeImage: 'Quitar imagen',
-        title: 'Título',
-        text: 'Texto del anuncio',
-        cta: 'Botón de acción',
-        contact: 'Contacto',
         regionLangs: 'Región e idiomas',
-        country: 'País',
-        city: 'Ciudad',
-        languages: 'Idiomas de exhibición',
-        translate: 'Traducir anuncio a los seleccionados',
         publish: 'Publicar anuncio',
         preview: 'Vista previa',
         calculator: 'Calculadora',
         payment: 'Pago',
         subscribe: 'Suscripción',
-        stats: 'Estadísticas',
-        ownerName: 'Tu nombre',
-        ownerContact: 'Tu contacto'
+        stats: 'Estadísticas'
       },
       fr: {
-        tagline: 'publicité qui atteint les étoiles',
+        tagline: 'Tout le monde · toutes les langues · uniquement avec consentement 👑',
+        adminCode: 'Code administrateur',
+        adminLogin: '👑 Connexion administrateur',
+        guestName: 'Nom de l’invité',
+        guestContact: 'Email / téléphone (optionnel)',
+        guestLogin: 'Connexion invité',
         studio: 'Studio',
         feed: 'Flux',
         bill: 'Facturation',
         sites: 'Plateformes',
         subs: 'Abonnés',
         admin: 'Admin',
-        login: 'Connexion',
+        qr: 'QR',
         logout: 'Déconnexion',
-        syncing: 'Synchronisation...',
-        syncOk: 'Synchronisé',
-        syncError: 'Erreur de synchronisation',
         client: 'Client',
         creative: 'Créatif',
-        format: 'Format',
-        image: 'Image',
-        removeImage: 'Retirer l’image',
-        title: 'Titre',
-        text: 'Texte publicitaire',
-        cta: 'Bouton d’action',
-        contact: 'Contact',
         regionLangs: 'Région et langues',
-        country: 'Pays',
-        city: 'Ville',
-        languages: 'Langues d’affichage',
-        translate: 'Traduire la publicité dans les langues sélectionnées',
         publish: 'Publier la publicité',
         preview: 'Aperçu',
         calculator: 'Calculateur',
         payment: 'Paiement',
         subscribe: 'Abonnement',
-        stats: 'Statistiques',
-        ownerName: 'Votre nom',
-        ownerContact: 'Votre contact'
+        stats: 'Statistiques'
       },
       zh: {
-        tagline: '直达星辰的广告',
+        tagline: '全球 · 多语言 · 仅限同意 👑',
+        adminCode: '管理员代码',
+        adminLogin: '👑 以管理员登录',
+        guestName: '访客姓名',
+        guestContact: '邮箱 / 电话（可选）',
+        guestLogin: '以访客登录',
         studio: '工作室',
         feed: '广告流',
         bill: '账单',
         sites: '平台',
         subs: '订阅者',
         admin: '管理员',
-        login: '登录',
+        qr: 'QR',
         logout: '退出',
-        syncing: '同步中...',
-        syncOk: '已同步',
-        syncError: '同步错误',
         client: '客户',
         creative: '创意',
-        format: '格式',
-        image: '图片',
-        removeImage: '移除图片',
-        title: '标题',
-        text: '广告文本',
-        cta: '操作按钮',
-        contact: '联系方式',
         regionLangs: '地区和语言',
-        country: '国家',
-        city: '城市',
-        languages: '展示语言',
-        translate: '将广告翻译成所选语言',
         publish: '发布广告',
         preview: '预览',
         calculator: '计算器',
         payment: '支付',
         subscribe: '订阅',
-        stats: '统计',
-        ownerName: '您的姓名',
-        ownerContact: '您的联系方式'
+        stats: '统计'
       }
     };
 
     const $ = id => document.getElementById(id);
-
-    function escapeHtml(s) {
-      return String(s || '')
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-
-    function fillSelect(el, arr, selected) {
-      if (!el) return;
-      el.innerHTML = arr.map(v => {
-        return '<option value="' + escapeHtml(v) + '" ' + (v === selected ? 'selected' : '') + '>' + escapeHtml(v) + '</option>';
-      }).join('');
-    }
 
     let db = {
       ads: [],
@@ -1153,23 +1246,25 @@
       settings: { wallets: { usdt: '', btc: '', eth: '' } }
     };
 
-    let currentUser = null;
+    let session = null;
     try {
-      currentUser = JSON.parse(localStorage.getItem(LS.user) || 'null');
+      session = JSON.parse(localStorage.getItem(LS_SESSION) || 'null');
     } catch (e) {
-      currentUser = null;
+      session = null;
     }
 
+    let backendMode = null;
     let state = {
-      image: null,
+      media: null,
+      mediaType: null,
       translations: {}
     };
 
-    const savedLang = localStorage.getItem(LS.lang);
+    const savedLang = localStorage.getItem(LS_LANG);
     const browserLang = (navigator.language || 'ru').slice(0, 2).toLowerCase();
-    let currentLang = ['ru', 'en', 'he', 'ar', 'es', 'fr', 'zh'].includes(savedLang)
+    let currentLang = ['ru','en','he','ar','es','fr','zh'].includes(savedLang)
       ? savedLang
-      : (['ru', 'en', 'he', 'ar', 'es', 'fr', 'zh'].includes(browserLang) ? browserLang : 'ru');
+      : (['ru','en','he','ar','es','fr','zh'].includes(browserLang) ? browserLang : 'ru');
 
     function t(key) {
       return (T[currentLang] && T[currentLang][key]) || T.ru[key] || key;
@@ -1186,26 +1281,19 @@
       document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         el.placeholder = t(el.dataset.i18nPlaceholder);
       });
-
-      const lb = $('loginBtn');
-      if (lb) lb.textContent = currentUser ? t('logout') : t('login');
     }
 
-    function setSync(mode) {
-      const dot = $('syncDot');
-      const text = $('syncText');
-      if (!dot || !text) return;
+    function escapeHtml(s) {
+      return String(s || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
 
-      if (mode === 'ok') {
-        dot.className = 'dot ok';
-        text.textContent = t('syncOk');
-      } else if (mode === 'error') {
-        dot.className = 'dot err';
-        text.textContent = t('syncError');
-      } else {
-        dot.className = 'dot warn';
-        text.textContent = t('syncing');
-      }
+    function jsId(v) {
+      return JSON.stringify(v ?? '');
     }
 
     function toast(msg) {
@@ -1217,8 +1305,335 @@
       el._t = setTimeout(() => el.classList.remove('show'), 2600);
     }
 
-    function qrUrl(data) {
-      return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(data);
+    function setSync(mode) {
+      const dot = $('syncDot');
+      const text = $('syncText');
+      if (!dot || !text) return;
+
+      if (mode === 'ok') {
+        dot.className = 'dot ok';
+        text.textContent = 'Синхронизировано';
+      } else if (mode === 'error') {
+        dot.className = 'dot err';
+        text.textContent = 'Ошибка синхронизации';
+      } else {
+        dot.className = 'dot warn';
+        text.textContent = 'Синхронизация...';
+      }
+    }
+
+    function fillSelect(el, arr, selected) {
+      if (!el) return;
+      el.innerHTML = arr.map(v => {
+        return '<option value="' + escapeHtml(v) + '" ' + (v === selected ? 'selected' : '') + '>' + escapeHtml(v) + '</option>';
+      }).join('');
+    }
+
+    function normalizeDb(data) {
+      const out = Object.assign({
+        ads: [],
+        subscribers: [],
+        messages: [],
+        invitations: [],
+        settings: { wallets: { usdt: '', btc: '', eth: '' } }
+      }, data || {});
+
+      if (!out.settings) out.settings = { wallets: { usdt: '', btc: '', eth: '' } };
+      if (!out.settings.wallets) out.settings.wallets = { usdt: '', btc: '', eth: '' };
+
+      out.ads = Array.isArray(out.ads) ? out.ads : [];
+      out.subscribers = Array.isArray(out.subscribers) ? out.subscribers : [];
+      out.messages = Array.isArray(out.messages) ? out.messages : [];
+      out.invitations = Array.isArray(out.invitations) ? out.invitations : [];
+
+      return out;
+    }
+
+    async function initBackend() {
+      setSync('sync');
+
+      // 1) serverless /api/admin
+      try {
+        const res = await fetch(API, { method: 'GET' });
+        if (!res.ok) throw new Error('api not ok');
+        const text = await res.text();
+        const data = JSON.parse(text);
+        backendMode = 'api';
+        setSync('ok');
+        return normalizeDb(data);
+      } catch (e) {
+        console.warn('API fallback:', e);
+      }
+
+      // 2) direct JSONBin fallback
+      try {
+        const res = await fetch('https://api.jsonbin.io/v3/b/' + BIN_ID + '/latest', {
+          headers: { 'X-Master-Key': JSONBIN_KEY }
+        });
+        if (!res.ok) throw new Error('jsonbin not ok');
+        const data = await res.json();
+        backendMode = 'jsonbin';
+        setSync('ok');
+        return normalizeDb(data.record || {});
+      } catch (e) {
+        console.warn('Local fallback:', e);
+      }
+
+      // 3) local fallback
+      backendMode = 'local';
+      setSync('error');
+      try {
+        return normalizeDb(JSON.parse(localStorage.getItem(LS_LOCAL_DB) || '{}'));
+      } catch (e) {
+        return normalizeDb({});
+      }
+    }
+
+    async function persistDirect() {
+      if (backendMode === 'jsonbin') {
+        await fetch('https://api.jsonbin.io/v3/b/' + BIN_ID, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': JSONBIN_KEY
+          },
+          body: JSON.stringify(db)
+        });
+      } else if (backendMode === 'local') {
+        localStorage.setItem(LS_LOCAL_DB, JSON.stringify(db));
+      }
+    }
+
+    function applyAction(body) {
+      const { action, id, ...payload } = body;
+      const now = Date.now();
+
+      if (action === 'publish') {
+        db.ads.push({
+          id: now,
+          type: 'ad',
+          status: 'pending',
+          paid: false,
+          owner: payload.owner || '',
+          title: payload.title || '',
+          text: payload.text || '',
+          cta: payload.cta || '',
+          contact: payload.contact || '',
+          category: payload.category || 'Реклама',
+          country: payload.country || '',
+          city: payload.city || '',
+          global: !!payload.global,
+          langs: Array.isArray(payload.langs) ? payload.langs : [],
+          translations: payload.translations || {},
+          mediaType: payload.mediaType || null,
+          mediaLink: payload.mediaLink || '',
+          media: payload.media || payload.image || null,
+          image: payload.image || payload.media || null,
+          format: payload.format || '',
+          billing: payload.billing || null,
+          created_at: new Date().toISOString()
+        });
+      }
+
+      else if (action === 'approve_paid') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.status = 'approved_paid';
+          item.paid = false;
+        }
+      }
+
+      else if (action === 'approve_free') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.status = 'approved_free';
+          item.paid = false;
+        }
+      }
+
+      else if (action === 'reject') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.status = 'rejected';
+          item.paid = false;
+        }
+      }
+
+      else if (action === 'delete') {
+        db.ads = db.ads.filter(p => p.id != id);
+      }
+
+      else if (action === 'archive') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'deleted';
+      }
+
+      else if (action === 'restore') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'pending';
+      }
+
+      else if (action === 'make_paid') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.paid = true;
+          item.status = 'paid';
+        }
+      }
+
+      else if (action === 'make_free') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.paid = false;
+          item.status = 'approved_free';
+        }
+      }
+
+      else if (action === 'approve') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'approved_paid';
+      }
+
+      else if (action === 'confirm_payment') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.status = 'paid';
+          item.paid = true;
+        }
+      }
+
+      else if (action === 'subscribe') {
+        if (!db.subscribers.find(s => s.contact === payload.contact)) {
+          db.subscribers.push({
+            id: now,
+            contact: payload.contact,
+            consent: payload.consent !== false,
+            date: new Date().toISOString()
+          });
+        }
+      }
+
+      else if (action === 'delete_sub') {
+        db.subscribers = db.subscribers.filter(s => s.id != id);
+      }
+
+      else if (action === 'support') {
+        db.messages.push({
+          id: now,
+          from: payload.from || '',
+          text: payload.text || '',
+          read: false,
+          created_at: new Date().toISOString()
+        });
+      }
+
+      else if (action === 'delete_msg') {
+        db.messages = db.messages.filter(m => m.id != id);
+      }
+
+      else if (action === 'mark_read') {
+        const item = db.messages.find(m => m.id == id);
+        if (item) item.read = true;
+      }
+
+      else if (action === 'invite_all') {
+        db.invitations = Array.isArray(db.invitations) ? db.invitations : [];
+        (db.subscribers || []).forEach((s, i) => {
+          if (!db.invitations.find(x => x.contact === s.contact)) {
+            db.invitations.push({
+              id: now + i,
+              contact: s.contact,
+              date: new Date().toISOString()
+            });
+          }
+        });
+      }
+
+      else if (action === 'save_settings') {
+        db.settings = Object.assign({}, db.settings, payload.settings || {});
+        db.settings.wallets = Object.assign(
+          { usdt: '', btc: '', eth: '' },
+          (db.settings && db.settings.wallets) || {},
+          ((payload.settings && payload.settings.wallets) || {})
+        );
+      }
+
+      else if (action === 'update_ad') {
+        const item = db.ads.find(p => p.id == id);
+        if (item && payload.updates) {
+          Object.keys(payload.updates).forEach(k => {
+            if (k !== 'id') item[k] = payload.updates[k];
+          });
+        }
+      }
+
+      else if (action === 'delete_client') {
+        db.ads = db.ads.filter(a => {
+          const byContact = payload.contact && a.contact === payload.contact;
+          const byOwner = payload.owner && a.owner === payload.owner;
+          return !byContact && !byOwner;
+        });
+
+        db.subscribers = db.subscribers.filter(s => s.contact !== payload.contact);
+      }
+    }
+
+    async function sendAction(body) {
+      setSync('sync');
+
+      try {
+        if (backendMode === 'api') {
+          const res = await fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+
+          const data = await res.json();
+          db = normalizeDb(data);
+        } else {
+          applyAction(body);
+          await persistDirect();
+        }
+
+        setSync('ok');
+        renderAll();
+        return true;
+      } catch (e) {
+        console.error(e);
+        setSync('error');
+        toast('Ошибка: ' + e.message);
+        return false;
+      }
+    }
+
+    function isAdmin() {
+      return session && session.role === 'admin';
+    }
+
+    function isGuest() {
+      return session && session.role === 'guest';
+    }
+
+    function currentContact() {
+      return (session && session.contact) || '';
+    }
+
+    function currentUserName() {
+      return (session && session.name) || '';
+    }
+
+    function switchTab(name) {
+      document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+      const btn = document.querySelector('.tabBtn[data-tab="' + name + '"]');
+      if (btn) btn.classList.add('active');
+
+      const tab = $('tab-' + name);
+      if (tab) tab.classList.add('active');
     }
 
     function statusLabel(s) {
@@ -1227,9 +1642,23 @@
         approved_paid: 'Одобрено платно',
         approved_free: 'Одобрено бесплатно',
         paid: 'Оплачено',
-        rejected: 'Отклонено'
+        rejected: 'Отказано',
+        deleted: 'Удалено'
       };
       return map[s] || s || '';
+    }
+
+    function statusBadge(s) {
+      if (s === 'paid') return '<span class="badge ok">Оплачено</span>';
+      if (s === 'approved_paid') return '<span class="badge gold">Одобрено платно</span>';
+      if (s === 'approved_free') return '<span class="badge ok">Одобрено бесплатно</span>';
+      if (s === 'rejected') return '<span class="badge err">Вам отказано</span>';
+      if (s === 'deleted') return '<span class="badge">Удалено</span>';
+      return '<span class="badge warn">Ожидает</span>';
+    }
+
+    function qrUrl(data) {
+      return 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' + encodeURIComponent(data);
     }
 
     function trField(ad, field) {
@@ -1255,66 +1684,19 @@
         LANGS.map(l => '<option value="' + l.code + '">' + l.label + '</option>').join('');
     }
 
-    function renderPreview() {
-      const lang = $('previewLang') ? $('previewLang').value : 'original';
-
-      let title = $('titleInput').value || 'Ваш заголовок';
-      let text = $('textInput').value || 'Яркий текст рекламы появится здесь.';
-      let cta = $('ctaInput').value || 'Подробнее';
-      let contact = $('contactInput').value || 'Контакт';
-
-      if (lang !== 'original' && state.translations[lang]) {
-        const tr = state.translations[lang];
-        title = tr.title || title;
-        text = tr.text || text;
-        cta = tr.cta || cta;
-      }
-
-      $('previewTitle').textContent = title;
-      $('previewText').textContent = text;
-      $('previewCta').textContent = cta;
-      $('previewContact').textContent = contact;
-
-      const canvas = $('previewCanvas');
-      if (canvas) canvas.className = 'preview ' + $('formatSelect').value;
-
-      const img = $('previewImg');
-      if (img) {
-        if (state.image) {
-          img.src = state.image;
-          img.classList.remove('hidden');
-        } else {
-          img.classList.add('hidden');
-        }
-      }
+    function renderCategories() {
+      fillSelect($('categorySelect'), CATEGORIES, 'Реклама');
+      fillSelect($('feedCategory'), ['Все категории'].concat(CATEGORIES), 'Все категории');
+      fillSelect($('adminCategory'), ['Все категории'].concat(CATEGORIES), 'Все категории');
     }
 
-    function detectLang(s) {
-      s = s || '';
-      if (/[א-ת]/.test(s)) return 'he';
-      if (/[؀-ۿ]/.test(s)) return 'ar';
-      if (/[а-яё]/i.test(s)) return 'ru';
-      if (/[，。！？]/.test(s)) return 'zh';
-      return 'en';
-    }
+    function renderCountries() {
+      const savedRegion = localStorage.getItem(LS_REGION) || 'Все страны';
+      fillSelect($('regionSelect'), COUNTRIES, savedRegion);
 
-    function targetLangCode(lang) {
-      return lang === 'zh' ? 'zh-CN' : lang;
-    }
-
-    async function translateText(text, lang) {
-      if (!text) return '';
-      const source = detectLang(text);
-      const target = targetLangCode(lang);
-      if (source === lang) return text;
-
-      try {
-        const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target);
-        const data = await res.json();
-        return (data && data.responseData && data.responseData.translatedText) || text;
-      } catch (e) {
-        return text;
-      }
+      const countrySelected = savedRegion !== 'Все страны' ? savedRegion : 'Израиль';
+      fillSelect($('countrySelect'), COUNTRIES.filter(c => c !== 'Все страны'), countrySelected);
+      fillSelect($('adminCountry'), ['Все страны'].concat(COUNTRIES.filter(c => c !== 'Все страны')), 'Все страны');
     }
 
     function autoCheckLangs() {
@@ -1370,6 +1752,527 @@
       if (cb) cb.checked = true;
     }
 
+    function renderUserBadge() {
+      const badge = $('userBadge');
+      if (!badge) return;
+
+      if (isAdmin()) {
+        badge.textContent = '👑 Админ';
+        badge.className = 'badge gold';
+        $('adminTabBtn').style.display = '';
+      } else if (isGuest()) {
+        badge.textContent = '👤 ' + (session.name || 'Гость');
+        badge.className = 'badge';
+        $('adminTabBtn').style.display = 'none';
+      } else {
+        badge.textContent = 'Гость';
+        badge.className = 'badge';
+        $('adminTabBtn').style.display = 'none';
+      }
+    }
+
+    function renderPreview() {
+      const lang = $('previewLang') ? $('previewLang').value : 'original';
+
+      let title = $('titleInput').value || 'Ваш заголовок';
+      let text = $('textInput').value || 'Яркий текст рекламы появится здесь.';
+      let cta = $('ctaInput').value || 'Подробнее';
+      let contact = $('contactInput').value || 'Контакт';
+
+      if (lang !== 'original' && state.translations[lang]) {
+        const tr = state.translations[lang];
+        title = tr.title || title;
+        text = tr.text || text;
+        cta = tr.cta || cta;
+      }
+
+      $('previewTitle').textContent = title;
+      $('previewText').textContent = text;
+      $('previewCta').textContent = cta;
+      $('previewContact').textContent = contact;
+
+      const canvas = $('previewCanvas');
+      if (canvas) canvas.className = 'preview ' + $('formatSelect').value;
+
+      const media = $('previewMedia');
+      if (media) {
+        if (state.media && state.mediaType && state.mediaType.startsWith('image')) {
+          media.src = state.media;
+          media.classList.remove('hidden');
+        } else {
+          media.classList.add('hidden');
+        }
+      }
+    }
+
+    function detectLang(s) {
+      s = s || '';
+      if (/[א-ת]/.test(s)) return 'he';
+      if (/[؀-ۿ]/.test(s)) return 'ar';
+      if (/[а-яё]/i.test(s)) return 'ru';
+      if (/[，。！？]/.test(s)) return 'zh';
+      return 'en';
+    }
+
+    function targetLangCode(lang) {
+      return lang === 'zh' ? 'zh-CN' : lang;
+    }
+
+    async function translateText(text, lang) {
+      if (!text) return '';
+      const source = detectLang(text);
+      const target = targetLangCode(lang);
+      if (source === lang) return text;
+
+      try {
+        const res = await fetch('https://api.mymemory.translated.net/get?q=' + encodeURIComponent(text) + '&langpair=' + source + '|' + target);
+        const data = await res.json();
+        return (data && data.responseData && data.responseData.translatedText) || text;
+      } catch (e) {
+        return text;
+      }
+    }
+
+    function adMediaHtml(a) {
+      if (a.mediaType === 'video' && a.media) {
+        return '<video class="adMedia" controls src="' + a.media + '"></video>';
+      }
+
+      if (a.mediaType === 'image' && a.media) {
+        return '<img class="adMedia" src="' + a.media + '" alt="">';
+      }
+
+      if (a.image) {
+        return '<img class="adMedia" src="' + a.image + '" alt="">';
+      }
+
+      if (a.mediaLink) {
+        return '<a href="' + escapeHtml(a.mediaLink) + '" target="_blank" rel="noopener">📎 Открыть фото/видео</a>';
+      }
+
+      return '';
+    }
+
+    function feedCard(a) {
+      const title = trField(a, 'title');
+      const text = trField(a, 'text');
+      const cta = trField(a, 'cta');
+
+      const qr = qrUrl(JSON.stringify({
+        title: a.title,
+        contact: a.contact,
+        category: a.category,
+        country: a.country,
+        city: a.city
+      }));
+
+      const region = a.global
+        ? '🌍 Международная'
+        : ((a.country || '') + ' ' + (a.city || '')).trim();
+
+      const ownerActions = [];
+
+      if (a.status === 'approved_paid') {
+        ownerActions.push('<button class="btnGold" onclick="payAd(' + jsId(a.id) + ')">💳 Оплатить</button>');
+      }
+
+      if (['approved_paid', 'approved_free', 'paid'].includes(a.status)) {
+        ownerActions.push('<button onclick="promoteAd(' + jsId(a.id) + ')">🚀 Продвинуть</button>');
+      }
+
+      return '<article class="card">' +
+        adMediaHtml(a) +
+        '<h3>' + escapeHtml(title) + '</h3>' +
+        '<p>' + escapeHtml(text) + '</p>' +
+        (cta ? '<button class="cta">' + escapeHtml(cta) + '</button>' : '') +
+        '<div class="meta">' +
+          statusBadge(a.status) +
+          '<span class="badge">' + escapeHtml(a.category || 'Реклама') + '</span>' +
+          '<span class="badge">' + escapeHtml(region) + '</span>' +
+          '<span class="badge">' + (a.langs || []).map(l => l.toUpperCase()).join(', ') + '</span>' +
+        '</div>' +
+        '<div class="meta">Контакт: ' + escapeHtml(a.contact || '') + '</div>' +
+        '<details><summary>QR</summary><img src="' + qr + '" width="220" alt="QR"></details>' +
+        '<div class="toolbar" style="margin-top:10px;">' + ownerActions.join(' ') + '</div>' +
+      '</article>';
+    }
+
+    function renderFeed() {
+      const list = $('feedList');
+      if (!list) return;
+
+      let ads = db.ads || [];
+      const q = $('feedSearch').value.toLowerCase();
+      const category = $('feedCategory').value;
+      const status = $('feedStatus').value;
+      const region = $('regionSelect').value;
+
+      if (!isAdmin()) {
+        const contact = currentContact();
+        ads = ads.filter(a => {
+          const approved = ['approved_paid', 'approved_free', 'paid'].includes(a.status);
+          const own = contact && a.contact === contact;
+          return approved || own;
+        });
+      }
+
+      if (status === 'approved' && !isAdmin()) {
+        ads = ads.filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+      }
+
+      if (category !== 'Все категории') {
+        ads = ads.filter(a => a.category === category);
+      }
+
+      if (region !== 'Все страны') {
+        ads = ads.filter(a => a.global || !a.country || a.country === region);
+      }
+
+      if (q) {
+        ads = ads.filter(a => [a.title, a.text, a.owner, a.contact, a.country, a.city, a.category].join(' ').toLowerCase().includes(q));
+      }
+
+      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
+
+      list.innerHTML = ads.map(feedCard).join('') || '<div class="card meta">Нет объявлений</div>';
+    }
+
+    function renderStats() {
+      const ads = db.ads || [];
+      const paid = ads.filter(a => a.paid || a.status === 'paid');
+      const free = ads.filter(a => a.status === 'approved_free');
+      const clients = new Set(ads.map(a => a.contact || a.owner).filter(Boolean)).size;
+
+      $('statClients').textContent = clients;
+      $('statPaid').textContent = paid.length;
+      $('statFree').textContent = free.length;
+      $('statIncome').textContent = '$' + (paid.length * 49);
+      $('statPending').textContent = ads.filter(a => a.status === 'pending').length;
+      $('statRejected').textContent = ads.filter(a => a.status === 'rejected').length;
+      $('statSubs').textContent = (db.subscribers || []).length;
+      $('statMsgs').textContent = (db.messages || []).length;
+    }
+
+    function renderModeration() {
+      const tb = $('modTable');
+      if (!tb) return;
+
+      let ads = (db.ads || []).filter(a => a.status === 'pending');
+      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
+
+      if (q) {
+        ads = ads.filter(a => [a.title, a.owner, a.contact, a.country, a.city, a.category].join(' ').toLowerCase().includes(q));
+      }
+
+      tb.innerHTML = ads.map(a => {
+        const aid = jsId(a.id);
+        return '<tr>' +
+          '<td>' + escapeHtml(a.title) + '</td>' +
+          '<td>' + escapeHtml(a.owner || '') + '</td>' +
+          '<td>' + escapeHtml(a.contact || '') + '</td>' +
+          '<td>' + escapeHtml((a.global ? '🌍 ' : '') + (a.country || '') + ' ' + (a.city || '')) + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button onclick="viewAd(' + aid + ')">👁 Смотреть</button>' +
+            '<button class="btnOk" onclick="adminAction(\'approve_paid\', ' + aid + ')">Платно</button>' +
+            '<button class="btnOk" onclick="adminAction(\'approve_free\', ' + aid + ')">Бесплатно</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'reject\', ' + aid + ')">Отказать</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
+    }
+
+    function renderAllAds() {
+      const tb = $('adsTable');
+      if (!tb) return;
+
+      let ads = db.ads || [];
+      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
+      const st = $('adminStatus') ? $('adminStatus').value : 'all';
+      const c = $('adminCountry') ? $('adminCountry').value : 'Все страны';
+      const cat = $('adminCategory') ? $('adminCategory').value : 'Все категории';
+
+      if (st !== 'all') ads = ads.filter(a => a.status === st);
+      if (c !== 'Все страны') ads = ads.filter(a => (a.country || '') === c || a.global);
+      if (cat !== 'Все категории') ads = ads.filter(a => a.category === cat);
+
+      if (q) {
+        ads = ads.filter(a => [a.owner, a.contact, a.title, a.text, a.country, a.city, a.category].join(' ').toLowerCase().includes(q));
+      }
+
+      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
+
+      tb.innerHTML = ads.map(a => {
+        const aid = jsId(a.id);
+        const date = new Date(a.created_at || a.id).toLocaleString();
+
+        return '<tr>' +
+          '<td>' + escapeHtml(a.title) + '</td>' +
+          '<td>' + escapeHtml(a.owner || '') + '</td>' +
+          '<td>' + statusLabel(a.status) + '</td>' +
+          '<td>' + escapeHtml((a.global ? '🌍 ' : '') + (a.country || '') + ' ' + (a.city || '')) + '</td>' +
+          '<td>' + escapeHtml(date) + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button onclick="viewAd(' + aid + ')">👁</button>' +
+            '<button class="btnOk" onclick="adminAction(\'confirm_payment\', ' + aid + ')">💰</button>' +
+            '<button onclick="adminAction(\'make_paid\', ' + aid + ')">Платное</button>' +
+            '<button onclick="adminAction(\'make_free\', ' + aid + ')">Бесплатное</button>' +
+            '<button class="btnWarn" onclick="adminAction(\'archive\', ' + aid + ')">Архив</button>' +
+            '<button onclick="adminAction(\'restore\', ' + aid + ')">Вернуть</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'delete\', ' + aid + ')">Удалить</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="6" class="meta">Пусто</td></tr>';
+    }
+
+    function renderClients() {
+      const tb = $('clientsTable');
+      if (!tb) return;
+
+      const ads = db.ads || [];
+      const map = {};
+
+      ads.forEach(a => {
+        const key = a.contact || a.owner || 'Без контакта';
+        if (!map[key]) {
+          map[key] = {
+            name: a.owner || 'Без имени',
+            contact: a.contact || '',
+            count: 0,
+            paid: 0
+          };
+        }
+        map[key].count += 1;
+        if (a.paid || a.status === 'paid') map[key].paid += 1;
+      });
+
+      const rows = Object.values(map);
+
+      tb.innerHTML = rows.map(c => {
+        return '<tr>' +
+          '<td>' + escapeHtml(c.name) + '</td>' +
+          '<td>' + escapeHtml(c.contact) + '</td>' +
+          '<td>' + c.count + '</td>' +
+          '<td>' + c.paid + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button class="btnDanger" onclick="deleteClient(' + jsId(c.contact) + ', ' + jsId(c.name) + ')">Удалить клиента</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
+    }
+
+    function renderSubCounters() {
+      const subs = db.subscribers || [];
+      $('subSelf').textContent = subs.filter(s => s.consent !== false).length;
+      $('subNoConsent').textContent = subs.filter(s => s.consent === false).length;
+      $('subInvites').textContent = (db.invitations || []).length;
+    }
+
+    function renderSubscribers() {
+      const tb = $('subsTable');
+      if (!tb) return;
+
+      const subs = db.subscribers || [];
+
+      tb.innerHTML = subs.map(s => {
+        const sid = jsId(s.id);
+        const date = new Date(s.date || s.id).toLocaleString();
+
+        return '<tr>' +
+          '<td>' + escapeHtml(s.contact) + '</td>' +
+          '<td>' + (s.consent === false ? 'Нет' : 'Да') + '</td>' +
+          '<td>' + escapeHtml(date) + '</td>' +
+          '<td><button class="btnDanger" onclick="adminAction(\'delete_sub\', ' + sid + ')">Удалить</button></td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="4" class="meta">Пусто</td></tr>';
+
+      renderSubCounters();
+    }
+
+    function renderMessages() {
+      const tb = $('msgTable');
+      if (!tb) return;
+
+      const msgs = db.messages || [];
+
+      tb.innerHTML = msgs.map(m => {
+        const mid = jsId(m.id);
+        return '<tr style="' + (m.read ? '' : 'font-weight:700;') + '">' +
+          '<td>' + escapeHtml(m.from || '') + '</td>' +
+          '<td>' + escapeHtml(m.text || '') + '</td>' +
+          '<td>' + (m.read ? 'Прочитано' : 'Новое') + '</td>' +
+          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button onclick="adminAction(\'mark_read\', ' + mid + ')">Прочитано</button>' +
+            '<button class="btnDanger" onclick="adminAction(\'delete_msg\', ' + mid + ')">Удалить</button>' +
+          '</td>' +
+        '</tr>';
+      }).join('') || '<tr><td colspan="4" class="meta">Пусто</td></tr>';
+    }
+
+    function renderWallets() {
+      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
+
+      $('walletUsdt').value = wallets.usdt || '';
+      $('walletBtc').value = wallets.btc || '';
+      $('walletEth').value = wallets.eth || '';
+
+      updateCryptoAddress();
+    }
+
+    function updateCryptoAddress() {
+      const coin = $('cryptoCoin') ? $('cryptoCoin').value : 'usdt';
+      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
+      const addr = wallets[coin] || '';
+      $('cryptoAddress').textContent = addr || 'Адрес не настроен';
+      $('cryptoCopyBtn').disabled = !addr;
+    }
+
+    function renderApprovedQrList() {
+      const box = $('qrAdsList');
+      if (!box) return;
+
+      const ads = (db.ads || []).filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+
+      box.innerHTML = ads.map(a => {
+        const data = JSON.stringify({
+          title: a.title,
+          contact: a.contact,
+          category: a.category,
+          country: a.country,
+          city: a.city
+        });
+        const url = qrUrl(data);
+
+        return '<div class="card">' +
+          '<h3>' + escapeHtml(a.title) + '</h3>' +
+          '<img src="' + url + '" width="180" alt="QR"><br>' +
+          '<a href="' + url + '" download="adastra-qr.png">⬇ Скачать</a>' +
+        '</div>';
+      }).join('') || '<div class="card meta">Нет одобренных реклам</div>';
+    }
+
+    function renderBillingSelect() {
+      const sel = $('billingAdSelect');
+      if (!sel) return;
+
+      const ads = (db.ads || []).filter(a => a.status === 'approved_paid' || a.status === 'paid');
+
+      sel.innerHTML = '<option value="">— выбрать объявление —</option>' + ads.map(a => {
+        return '<option value="' + escapeHtml(String(a.id)) + '">' +
+          escapeHtml(a.title || 'Без названия') + ' · ' + escapeHtml(a.contact || '') + ' · ' + statusLabel(a.status) +
+        '</option>';
+      }).join('');
+    }
+
+    function renderSitesSelect() {
+      const sel = $('sitesAdSelect');
+      if (!sel) return;
+
+      const ads = (db.ads || []).filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+
+      sel.innerHTML = '<option value="">— выбрать объявление —</option>' + ads.map(a => {
+        return '<option value="' + escapeHtml(String(a.id)) + '">' + escapeHtml(a.title || 'Без названия') + '</option>';
+      }).join('');
+    }
+
+    function renderAll() {
+      renderUserBadge();
+      renderFeed();
+      renderStats();
+      renderModeration();
+      renderAllAds();
+      renderClients();
+      renderSubscribers();
+      renderMessages();
+      renderWallets();
+      renderApprovedQrList();
+      renderBillingSelect();
+      renderSitesSelect();
+      renderPreview();
+    }
+
+    function closeModal() {
+      $('modal').classList.add('hidden');
+      $('modalBody').innerHTML = '';
+    }
+
+    function viewAd(id) {
+      const a = (db.ads || []).find(x => x.id == id);
+      if (!a) return;
+
+      const billing = a.billing || {};
+
+      $('modalTitle').textContent = a.title || 'Просмотр рекламы';
+      $('modalBody').innerHTML =
+        adMediaHtml(a) +
+        '<h3>' + escapeHtml(a.title || '') + '</h3>' +
+        '<p>' + escapeHtml(a.text || '') + '</p>' +
+        '<div class="meta">' +
+          statusBadge(a.status) +
+          '<span class="badge">' + escapeHtml(a.category || 'Реклама') + '</span>' +
+          '<span class="badge">' + escapeHtml(a.global ? '🌍 Международная' : ((a.country || '') + ' ' + (a.city || ''))) + '</span>' +
+          '<span class="badge">' + (a.langs || []).map(l => l.toUpperCase()).join(', ') + '</span>' +
+        '</div>' +
+        '<p><strong>Клиент:</strong> ' + escapeHtml(a.owner || '') + '</p>' +
+        '<p><strong>Контакт:</strong> ' + escapeHtml(a.contact || '') + '</p>' +
+        '<p><strong>Формат:</strong> ' + escapeHtml(a.format || '') + '</p>' +
+        '<p><strong>Ссылка медиа:</strong> ' + (a.mediaLink ? '<a href="' + escapeHtml(a.mediaLink) + '" target="_blank" rel="noopener">' + escapeHtml(a.mediaLink) + '</a>' : 'нет') + '</p>' +
+        '<p><strong>Дата:</strong> ' + escapeHtml(new Date(a.created_at || a.id).toLocaleString()) + '</p>' +
+        '<hr>' +
+        '<h3>Данные оплаты</h3>' +
+        '<p><strong>Метод:</strong> ' + escapeHtml(billing.method || '—') + '</p>' +
+        '<p><strong>Имя:</strong> ' + escapeHtml(billing.name || '—') + '</p>' +
+        '<p><strong>Контакт:</strong> ' + escapeHtml(billing.contact || '—') + '</p>' +
+        '<p><strong>Страна/город:</strong> ' + escapeHtml((billing.country || '') + ' ' + (billing.city || '')) + '</p>' +
+        '<p><strong>Комментарий:</strong> ' + escapeHtml(billing.notes || '—') + '</p>' +
+        '<p><strong>Карта (последние 4):</strong> ' + escapeHtml(billing.cardLast4 || '—') + '</p>' +
+        '<hr>' +
+        '<div class="toolbar">' +
+          '<button class="btnOk" onclick="adminAction(\'approve_paid\', ' + jsId(a.id) + ')">Одобрить платно</button>' +
+          '<button class="btnOk" onclick="adminAction(\'approve_free\', ' + jsId(a.id) + ')">Одобрить бесплатно</button>' +
+          '<button class="btnGold" onclick="adminAction(\'confirm_payment\', ' + jsId(a.id) + ')">Подтвердить оплату</button>' +
+          '<button class="btnDanger" onclick="adminAction(\'reject\', ' + jsId(a.id) + ')">Отказать</button>' +
+          '<button class="btnWarn" onclick="adminAction(\'archive\', ' + jsId(a.id) + ')">В архив</button>' +
+          '<button onclick="adminAction(\'restore\', ' + jsId(a.id) + ')">Вернуть</button>' +
+          '<button class="btnDanger" onclick="adminAction(\'delete\', ' + jsId(a.id) + ')">Удалить навсегда</button>' +
+        '</div>';
+
+      $('modal').classList.remove('hidden');
+    }
+
+    window.viewAd = viewAd;
+
+    window.adminAction = async function(action, id, payload) {
+      payload = payload || {};
+      const ok = await sendAction(Object.assign({ action, id }, payload));
+      if (ok) toast('Сохранено');
+    };
+
+    window.deleteClient = async function(contact, owner) {
+      const ok = await sendAction({ action: 'delete_client', contact, owner });
+      if (ok) toast('Клиент удалён');
+    };
+
+    window.payAd = function(id) {
+      switchTab('bill');
+      const sel = $('billingAdSelect');
+      if (sel) sel.value = String(id);
+      toast('Выбрано объявление для оплаты');
+    };
+
+    window.promoteAd = function(id) {
+      switchTab('sites');
+      const sel = $('sitesAdSelect');
+      if (sel) sel.value = String(id);
+      generateSites();
+    };
+
+    function copyText(txt) {
+      if (!txt) return;
+      navigator.clipboard.writeText(txt)
+        .then(() => toast('Скопировано'))
+        .catch(() => toast(txt));
+    }
+
     function calcBill() {
       const days = Math.max(1, Number($('billDays').value) || 30);
       const qty = Math.min(10, Math.max(1, Number($('billQty').value) || 1));
@@ -1394,337 +2297,167 @@
       link.textContent = '🅿️ Оплатить через PayPal ($' + amount + ')';
     }
 
-    function updateCryptoAddress() {
-      const coin = $('cryptoCoin') ? $('cryptoCoin').value : 'usdt';
-      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
-      const addr = wallets[coin] || '';
-      $('cryptoAddress').textContent = addr || 'Адрес не настроен';
-      $('cryptoCopyBtn').disabled = !addr;
+    function getSelectedBillingAd() {
+      const id = $('billingAdSelect').value;
+      if (!id) return null;
+      return (db.ads || []).find(a => a.id == id) || null;
     }
 
-    function copyText(txt) {
-      if (!txt) return;
-      navigator.clipboard.writeText(txt)
-        .then(() => toast('Скопировано'))
-        .catch(() => toast(txt));
+    function buildBilling(method) {
+      const cardNumber = $('cardNumber').value.replace(/\D/g, '');
+      const last4 = cardNumber.length >= 4 ? cardNumber.slice(-4) : '';
+
+      return {
+        method,
+        name: $('billingName').value.trim(),
+        contact: $('billingContact').value.trim() || $('payEmail').value.trim(),
+        country: $('billingCountry').value.trim(),
+        city: $('billingCity').value.trim(),
+        notes: $('billingNotes').value.trim(),
+        cardLast4: method === 'card' ? last4 : '',
+        amount: $('billResult').textContent,
+        date: new Date().toISOString()
+      };
     }
 
-    function feedCard(a) {
-      const title = trField(a, 'title');
-      const text = trField(a, 'text');
-      const cta = trField(a, 'cta');
-      const qr = qrUrl(JSON.stringify({
-        title: a.title,
-        contact: a.contact,
-        country: a.country,
-        city: a.city
-      }));
+    function shareLinksFor(text, url) {
+      const eText = encodeURIComponent(text);
+      const eUrl = encodeURIComponent(url);
 
-      return '<article class="card">' +
-        (a.image ? '<img class="adImg" src="' + a.image + '" alt="">' : '') +
-        '<h3>' + escapeHtml(title) + '</h3>' +
-        '<p>' + escapeHtml(text) + '</p>' +
-        (cta ? '<button class="cta">' + escapeHtml(cta) + '</button>' : '') +
-        '<div class="meta">' + escapeHtml(a.country || '') + ' ' + escapeHtml(a.city || '') + ' · ' + (a.langs || []).map(l => l.toUpperCase()).join(', ') + '</div>' +
-        '<div class="meta">' + statusLabel(a.status) + ' ' + (a.paid ? '💰' : '') + '</div>' +
-        '<details><summary>QR</summary><img src="' + qr + '" width="220" alt="QR"></details>' +
-      '</article>';
+      return {
+        facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + eUrl,
+        whatsapp: 'https://wa.me/?text=' + eText + '%20' + eUrl,
+        telegram: 'https://t.me/share/url?url=' + eUrl + '&text=' + eText,
+        x: 'https://twitter.com/intent/tweet?text=' + eText + '&url=' + eUrl,
+        linkedin: 'https://www.linkedin.com/sharing/share-offsite/?url=' + eUrl,
+        reddit: 'https://www.reddit.com/submit?url=' + eUrl + '&title=' + eText,
+        email: 'mailto:?subject=AdAstra&body=' + eText + '%20' + eUrl
+      };
     }
 
-    function renderFeed() {
-      const list = $('feedList');
-      if (!list) return;
-
-      let ads = db.ads || [];
-      const q = $('feedSearch').value.toLowerCase();
-      const status = $('feedStatus').value;
-      const region = $('regionSelect').value;
-
-      if (status === 'approved') {
-        ads = ads.filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
-      }
-
-      if (region !== 'Все страны') {
-        ads = ads.filter(a => !a.country || a.country === region);
-      }
-
-      if (q) {
-        ads = ads.filter(a => [a.title, a.text, a.owner, a.contact, a.country, a.city].join(' ').toLowerCase().includes(q));
-      }
-
-      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
-
-      list.innerHTML = ads.map(feedCard).join('') || '<div class="card meta">Нет объявлений</div>';
-    }
-
-    function renderStats() {
-      const ads = db.ads || [];
-      const paid = ads.filter(a => a.paid || a.status === 'paid');
-      const free = ads.filter(a => a.status === 'approved_free');
-      const clients = new Set(ads.map(a => a.contact || a.owner).filter(Boolean)).size;
-
-      $('statClients').textContent = clients;
-      $('statPaid').textContent = paid.length;
-      $('statFree').textContent = free.length;
-      $('statIncome').textContent = '$' + (paid.length * 49);
-      $('statPending').textContent = ads.filter(a => a.status === 'pending').length;
-      $('statSubs').textContent = (db.subscribers || []).length;
-      $('statMsgs').textContent = (db.messages || []).length;
-    }
-
-    function renderModeration() {
-      const tb = $('modTable');
-      if (!tb) return;
-
-      let ads = (db.ads || []).filter(a => a.status === 'pending');
-      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
-
-      if (q) {
-        ads = ads.filter(a => [a.title, a.owner, a.contact, a.country, a.city].join(' ').toLowerCase().includes(q));
-      }
-
-      tb.innerHTML = ads.map(a => {
-        const aid = JSON.stringify(a.id);
-        return '<tr>' +
-          '<td>' + escapeHtml(a.title) + '</td>' +
-          '<td>' + escapeHtml(a.owner || '') + '</td>' +
-          '<td>' + escapeHtml(a.contact || '') + '</td>' +
-          '<td>' + escapeHtml(a.country || '') + ' ' + escapeHtml(a.city || '') + '</td>' +
-          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
-            '<button class="btnOk" onclick="adminAction(\'approve_paid\', ' + aid + ')">Платно</button>' +
-            '<button onclick="adminAction(\'approve_free\', ' + aid + ')">Бесплатно</button>' +
-            '<button class="btnDanger" onclick="adminAction(\'reject\', ' + aid + ')">Отклонить</button>' +
-          '</td>' +
-        '</tr>';
-      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
-    }
-
-    function renderClients() {
-      const tb = $('clientsTable');
-      if (!tb) return;
-
-      let ads = db.ads || [];
-      const q = $('adminSearch') ? $('adminSearch').value.toLowerCase() : '';
-      const st = $('adminStatus') ? $('adminStatus').value : 'all';
-      const c = $('adminCountry') ? $('adminCountry').value : 'Все страны';
-
-      if (st !== 'all') ads = ads.filter(a => a.status === st);
-      if (c !== 'Все страны') ads = ads.filter(a => (a.country || '') === c);
-
-      if (q) {
-        ads = ads.filter(a => [a.owner, a.contact, a.title, a.text, a.country, a.city].join(' ').toLowerCase().includes(q));
-      }
-
-      ads.sort((a, b) => (b.id || 0) - (a.id || 0));
-
-      tb.innerHTML = ads.map(a => {
-        const aid = JSON.stringify(a.id);
-        const date = new Date(a.created_at || a.id).toLocaleString();
-
-        return '<tr>' +
-          '<td>' + escapeHtml(a.owner || '') + '</td>' +
-          '<td>' + statusLabel(a.status) + '</td>' +
-          '<td>' + (a.paid ? '✅' : '—') + '</td>' +
-          '<td>' + escapeHtml(date) + '</td>' +
-          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
-            '<button onclick="adminAction(\'confirm_payment\', ' + aid + ')">💰</button>' +
-            '<button onclick="adminAction(\'make_paid\', ' + aid + ')">Платное</button>' +
-            '<button onclick="adminAction(\'make_free\', ' + aid + ')">Бесплатное</button>' +
-            '<button class="btnDanger" onclick="adminAction(\'delete\', ' + aid + ')">Удалить</button>' +
-          '</td>' +
-        '</tr>';
-      }).join('') || '<tr><td colspan="5" class="meta">Пусто</td></tr>';
-    }
-
-    function renderSubCounters() {
-      const subs = db.subscribers || [];
-      $('subSelf').textContent = subs.filter(s => s.consent !== false).length;
-      $('subNoConsent').textContent = subs.filter(s => s.consent === false).length;
-      $('subInvites').textContent = (db.invitations || []).length;
-    }
-
-    function renderSubscribers() {
-      const tb = $('subsTable');
-      if (!tb) return;
-
-      const subs = db.subscribers || [];
-
-      tb.innerHTML = subs.map(s => {
-        const sid = JSON.stringify(s.id);
-        const date = new Date(s.date || s.id).toLocaleString();
-
-        return '<tr>' +
-          '<td>' + escapeHtml(s.contact) + '</td>' +
-          '<td>' + escapeHtml(date) + '</td>' +
-          '<td><button class="btnDanger" onclick="adminAction(\'delete_sub\', ' + sid + ')">Удалить</button></td>' +
-        '</tr>';
-      }).join('') || '<tr><td colspan="3" class="meta">Пусто</td></tr>';
-
-      renderSubCounters();
-    }
-
-    function renderMessages() {
-      const tb = $('msgTable');
-      if (!tb) return;
-
-      const msgs = db.messages || [];
-
-      tb.innerHTML = msgs.map(m => {
-        const mid = JSON.stringify(m.id);
-        return '<tr style="' + (m.read ? '' : 'font-weight:700;') + '">' +
-          '<td>' + escapeHtml(m.from || '') + '</td>' +
-          '<td>' + escapeHtml(m.text || '') + '</td>' +
-          '<td style="display:flex;gap:6px;flex-wrap:wrap;">' +
-            '<button onclick="adminAction(\'mark_read\', ' + mid + ')">Прочитано</button>' +
-            '<button class="btnDanger" onclick="adminAction(\'delete_msg\', ' + mid + ')">Удалить</button>' +
-          '</td>' +
-        '</tr>';
-      }).join('') || '<tr><td colspan="3" class="meta">Пусто</td></tr>';
-    }
-
-    function renderWallets() {
-      const wallets = (db.settings && db.settings.wallets) || { usdt: '', btc: '', eth: '' };
-
-      $('walletUsdt').value = wallets.usdt || '';
-      $('walletBtc').value = wallets.btc || '';
-      $('walletEth').value = wallets.eth || '';
-
-      updateCryptoAddress();
-    }
-
-    function renderApprovedQrList() {
-      const box = $('qrAdsList');
+    function generateSites() {
+      const box = $('siteResults');
       if (!box) return;
 
-      const ads = (db.ads || []).filter(a => ['approved_paid', 'approved_free', 'paid'].includes(a.status));
+      const adId = $('sitesAdSelect').value;
+      const custom = $('sitesCustomText').value.trim();
 
-      box.innerHTML = ads.map(a => {
-        const data = JSON.stringify({
-          title: a.title,
-          contact: a.contact,
-          country: a.country,
-          city: a.city
-        });
-        const url = qrUrl(data);
+      let title = 'AdAstra — реклама, которая достаёт до звёзд';
+      let text = custom || 'Сделайте рекламу на AdAstra: баннер, пост, сторис, QR, 7 языков.';
+      let url = location.href;
 
-        return '<div class="card">' +
-          '<h3>' + escapeHtml(a.title) + '</h3>' +
-          '<img src="' + url + '" width="180" alt="QR"><br>' +
-          '<a href="' + url + '" download="adastra-qr.png">⬇ Скачать</a>' +
+      if (adId) {
+        const a = (db.ads || []).find(x => x.id == adId);
+        if (a) {
+          title = a.title || title;
+          text = (a.text || text) + ' | Контакт: ' + (a.contact || '');
+        }
+      }
+
+      const links = shareLinksFor(text, url);
+      const caption = text + '\n\n#AdAstra #реклама #business #ads #marketing';
+
+      const platforms = [
+        ['Telegram', links.telegram],
+        ['WhatsApp', links.whatsapp],
+        ['Facebook', links.facebook],
+        ['X / Twitter', links.x],
+        ['LinkedIn', links.linkedin],
+        ['Reddit', links.reddit],
+        ['Email', links.email]
+      ];
+
+      box.innerHTML =
+        '<div class="card">' +
+          '<h3>Готовые ссылки для публикации</h3>' +
+          '<p class="meta">Без спама: вы публикуете вручную там, где это разрешено.</p>' +
+          '<div class="shareLinks">' +
+            platforms.map(p => '<a href="' + p[1] + '" target="_blank" rel="noopener">' + escapeHtml(p[0]) + '</a>').join('') +
+          '</div>' +
+          '<br>' +
+          '<button id="copyCaptionBtn" class="btnGold">📋 Скопировать текст для Instagram / TikTok</button>' +
+          '<p class="meta">Instagram и TikTok не дают автоматический share-link, поэтому копируешь текст и публикуешь вручную.</p>' +
+        '</div>' +
+        '<div class="card">' +
+          '<h3>Бесплатные площадки</h3>' +
+          '<div class="cards">' +
+            [
+              'Telegram groups / channels',
+              'WhatsApp community',
+              'Facebook groups',
+              'Instagram bio / post',
+              'TikTok short video',
+              'Google Business Profile',
+              'Local forums',
+              'City boards'
+            ].map(name => {
+              return '<div class="card"><h3>' + escapeHtml(name) + '</h3><div class="meta">Бесплатно · вручную</div></div>';
+            }).join('') +
+          '</div>' +
         '</div>';
-      }).join('') || '<div class="card meta">Нет одобренных реклам</div>';
+
+      $('copyCaptionBtn').addEventListener('click', () => copyText(caption));
     }
 
-    function renderAll() {
-      renderStats();
-      renderFeed();
-      renderModeration();
-      renderClients();
-      renderSubscribers();
-      renderMessages();
-      renderWallets();
-      renderApprovedQrList();
+    function renderLangChecksAndEvents() {
+      renderLangChecks();
+      autoCheckLangs();
     }
 
-    async function api(method, body) {
-      method = method || 'GET';
-      setSync('sync');
+    // EVENTS
 
-      const opts = {
-        method,
-        headers: { 'Content-Type': 'application/json' }
-      };
-
-      if (body) opts.body = JSON.stringify(body);
-
-      const res = await fetch(API, opts);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-
-      const data = await res.json();
-      setSync('ok');
-      return data;
-    }
-
-    async function loadData() {
-      try {
-        const data = await api('GET');
-
-        db = Object.assign({
-          ads: [],
-          subscribers: [],
-          messages: [],
-          invitations: [],
-          settings: { wallets: { usdt: '', btc: '', eth: '' } }
-        }, data || {});
-
-        if (!db.settings) db.settings = { wallets: { usdt: '', btc: '', eth: '' } };
-        if (!db.settings.wallets) db.settings.wallets = { usdt: '', btc: '', eth: '' };
-
-        renderAll();
-      } catch (e) {
-        console.error(e);
-        setSync('error');
-      }
-    }
-
-    window.adminAction = async function(action, id, payload) {
-      payload = payload || {};
-      try {
-        await api('POST', Object.assign({ action, id }, payload));
-        await loadData();
-        toast('Сохранено');
-      } catch (e) {
-        toast('Ошибка: ' + e.message);
-      }
-    };
-
-    function clearStudio() {
-      ['titleInput', 'textInput', 'ctaInput', 'contactInput', 'cityInput'].forEach(id => {
-        if ($(id)) $(id).value = '';
-      });
-
-      state.image = null;
-      state.translations = {};
-
-      if ($('imageInput')) $('imageInput').value = '';
-      if ($('previewImg')) $('previewImg').classList.add('hidden');
-
-      renderPreview();
-    }
-
-    // Init selects
-    const savedRegion = localStorage.getItem(LS.region) || 'Все страны';
-    fillSelect($('regionSelect'), COUNTRIES, savedRegion);
-
-    const countrySelected = savedRegion !== 'Все страны' ? savedRegion : 'Израиль';
-    fillSelect($('countrySelect'), COUNTRIES.filter(c => c !== 'Все страны'), countrySelected);
-    fillSelect($('siteCountrySelect'), COUNTRIES.filter(c => c !== 'Все страны'), countrySelected);
-    fillSelect($('adminCountry'), ['Все страны'].concat(COUNTRIES.filter(c => c !== 'Все страны')), 'Все страны');
-
-    $('uiLang').value = currentLang;
-
-    renderLangChecks();
-    renderPreviewLangOptions();
-    autoCheckLangs();
-    applyI18n();
-
-    if (currentUser) {
-      $('ownerName').value = currentUser.name || '';
-      $('ownerContact').value = currentUser.contact || '';
-    }
-
-    // Tabs
     document.querySelectorAll('.tabBtn').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.tabBtn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-        btn.classList.add('active');
-        $('tab-' + btn.dataset.tab).classList.add('active');
+        if (btn.dataset.tab === 'admin' && !isAdmin()) {
+          toast('Только для администратора');
+          return;
+        }
+        switchTab(btn.dataset.tab);
       });
     });
 
-    // Live preview
+    $('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem(LS_SESSION);
+      location.reload();
+    });
+
+    $('adminLoginBtn').addEventListener('click', () => {
+      const code = $('adminCode').value.trim();
+      if (code === ADMIN_CODE) {
+        session = { role: 'admin', name: 'Админ' };
+        localStorage.setItem(LS_SESSION, JSON.stringify(session));
+        $('splash').classList.add('hidden');
+        $('app').style.display = 'block';
+        renderUserBadge();
+        renderAll();
+        toast('Админ вход выполнен');
+      } else {
+        $('loginError').textContent = 'Неверный код администратора';
+      }
+    });
+
+    $('guestLoginBtn').addEventListener('click', () => {
+      const name = $('guestName').value.trim();
+      const contact = $('guestContact').value.trim();
+
+      if (!name) {
+        $('loginError').textContent = 'Введите имя гостя';
+        return;
+      }
+
+      session = { role: 'guest', name, contact };
+      localStorage.setItem(LS_SESSION, JSON.stringify(session));
+
+      $('ownerName').value = name;
+      $('ownerContact').value = contact;
+
+      $('splash').classList.add('hidden');
+      $('app').style.display = 'block';
+      renderUserBadge();
+      renderAll();
+      toast('Вход как гость: ' + name);
+    });
+
     ['titleInput', 'textInput', 'ctaInput', 'contactInput'].forEach(id => {
       if ($(id)) $(id).addEventListener('input', renderPreview);
     });
@@ -1733,70 +2466,36 @@
     if ($('previewLang')) $('previewLang').addEventListener('change', renderPreview);
     if ($('countrySelect')) $('countrySelect').addEventListener('change', autoCheckLangs);
 
-    // Image
-    if ($('imageInput')) {
-      $('imageInput').addEventListener('change', e => {
+    if ($('mediaInput')) {
+      $('mediaInput').addEventListener('change', e => {
         const file = e.target.files && e.target.files[0];
         if (!file) return;
 
+        if (file.size > 4 * 1024 * 1024) {
+          toast('Файл больше 4МБ. Используй ссылку на фото/видео.');
+          e.target.value = '';
+          return;
+        }
+
         const reader = new FileReader();
         reader.onload = () => {
-          state.image = reader.result;
+          state.media = reader.result;
+          state.mediaType = file.type || 'image';
           renderPreview();
         };
         reader.readAsDataURL(file);
       });
     }
 
-    if ($('clearImageBtn')) {
-      $('clearImageBtn').addEventListener('click', () => {
-        state.image = null;
-        $('imageInput').value = '';
+    if ($('clearMediaBtn')) {
+      $('clearMediaBtn').addEventListener('click', () => {
+        state.media = null;
+        state.mediaType = null;
+        $('mediaInput').value = '';
         renderPreview();
       });
     }
 
-    // Publish
-    if ($('publishBtn')) {
-      $('publishBtn').addEventListener('click', async () => {
-        const title = $('titleInput').value.trim();
-        const text = $('textInput').value.trim();
-
-        if (!title || !text) {
-          toast('Заполните заголовок и текст');
-          return;
-        }
-
-        $('publishBtn').disabled = true;
-
-        try {
-          await api('POST', {
-            action: 'publish',
-            owner: $('ownerName').value.trim() || (currentUser && currentUser.name) || 'Гость',
-            contact: $('ownerContact').value.trim() || (currentUser && currentUser.contact) || $('contactInput').value.trim(),
-            title,
-            text,
-            cta: $('ctaInput').value.trim(),
-            image: state.image,
-            format: $('formatSelect').value,
-            country: $('countrySelect').value,
-            city: $('cityInput').value.trim(),
-            langs: selectedLangs(),
-            translations: state.translations
-          });
-
-          await loadData();
-          toast('Отправлено на модерацию');
-          clearStudio();
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
-        } finally {
-          $('publishBtn').disabled = false;
-        }
-      });
-    }
-
-    // Translate
     if ($('translateBtn')) {
       $('translateBtn').addEventListener('click', async () => {
         const langs = selectedLangs();
@@ -1842,7 +2541,58 @@
       });
     }
 
-    // Billing
+    if ($('publishBtn')) {
+      $('publishBtn').addEventListener('click', async () => {
+        const title = $('titleInput').value.trim();
+        const text = $('textInput').value.trim();
+
+        if (!title || !text) {
+          toast('Заполните заголовок и текст');
+          return;
+        }
+
+        $('publishBtn').disabled = true;
+
+        const payload = {
+          action: 'publish',
+          owner: $('ownerName').value.trim() || currentUserName() || 'Гость',
+          contact: $('ownerContact').value.trim() || currentContact() || $('contactInput').value.trim(),
+          title,
+          text,
+          cta: $('ctaInput').value.trim(),
+          category: $('categorySelect').value,
+          format: $('formatSelect').value,
+          global: $('globalCheck').checked,
+          country: $('globalCheck').checked ? '' : $('countrySelect').value,
+          city: $('globalCheck').checked ? '' : $('cityInput').value.trim(),
+          langs: selectedLangs(),
+          translations: state.translations,
+          mediaType: state.mediaType || null,
+          mediaLink: $('mediaLink').value.trim(),
+          media: state.media || null,
+          image: state.mediaType && state.mediaType.startsWith('image') ? state.media : null
+        };
+
+        const ok = await sendAction(payload);
+
+        if (ok) {
+          toast('Отправлено на модерацию');
+
+          ['titleInput', 'textInput', 'ctaInput', 'contactInput', 'cityInput', 'mediaLink'].forEach(id => {
+            if ($(id)) $(id).value = '';
+          });
+
+          state.media = null;
+          state.mediaType = null;
+          state.translations = {};
+          $('mediaInput').value = '';
+          renderPreview();
+        }
+
+        $('publishBtn').disabled = false;
+      });
+    }
+
     ['billDays', 'billQty'].forEach(id => {
       if ($(id)) $(id).addEventListener('input', calcBill);
     });
@@ -1861,7 +2611,6 @@
       });
     }
 
-    // Payment tabs
     document.querySelectorAll('.payTab').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.payTab').forEach(b => b.classList.remove('active'));
@@ -1876,17 +2625,6 @@
       });
     });
 
-    if ($('payCardBtn')) {
-      $('payCardBtn').addEventListener('click', () => {
-        const number = $('cardNumber').value.trim();
-        if (!number) {
-          toast('Введите номер карты');
-          return;
-        }
-        toast('Демо-режим: карта не списывается');
-      });
-    }
-
     if ($('cryptoCoin')) $('cryptoCoin').addEventListener('change', updateCryptoAddress);
 
     if ($('cryptoCopyBtn')) {
@@ -1895,47 +2633,73 @@
       });
     }
 
-    if ($('cryptoConfirmBtn')) {
-      $('cryptoConfirmBtn').addEventListener('click', async () => {
-        try {
-          await api('POST', {
-            action: 'support',
-            from: $('payEmail').value.trim() || (currentUser && currentUser.contact) || 'Клиент',
-            text: 'Я перевёл ' + $('cryptoCoin').value.toUpperCase() + ' ' + $('billResult').textContent
-          });
+    async function sendBilling(method) {
+      const ad = getSelectedBillingAd();
 
-          await loadData();
-          toast('Отмечено, админ подтверит');
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
+      if (!ad) {
+        toast('Выберите объявление для оплаты');
+        return;
+      }
+
+      const billing = buildBilling(method);
+
+      const ok = await sendAction({
+        action: 'update_ad',
+        id: ad.id,
+        updates: {
+          billing,
+          billingStatus: 'waiting'
         }
       });
+
+      if (!ok) return;
+
+      const ok2 = await sendAction({
+        action: 'support',
+        from: billing.contact || billing.name || 'Клиент',
+        text: 'Заявка на оплату: ' + (ad.title || '') + ' | метод: ' + method + ' | сумма: ' + billing.amount
+      });
+
+      if (ok2) toast('Данные отправлены админу');
     }
 
-    // Sites
-    if ($('siteSearchBtn')) {
-      $('siteSearchBtn').addEventListener('click', () => {
-        const country = $('siteCountrySelect').value;
-        const city = $('siteCityInput').value.trim() || 'город';
-        const types = ['Telegram', 'WhatsApp', 'Facebook', 'Instagram', 'TikTok', 'Google Business', 'Local forum', 'City board'];
+    if ($('payCardBtn')) {
+      $('payCardBtn').addEventListener('click', async () => {
+        const cardNumber = $('cardNumber').value.replace(/\D/g, '');
 
-        $('siteResults').innerHTML = types.map((type, i) => {
-          const reach = 1000 + ((country.length * city.length * (i + 7) * 13) % 50000);
+        if (cardNumber.length < 12) {
+          toast('Введите корректный номер карты');
+          return;
+        }
 
-          return '<div class="card">' +
-            '<h3>' + escapeHtml(type + ' ' + country + ' / ' + city) + '</h3>' +
-            '<div class="meta">Охват: ' + reach + ' · Бесплатно</div>' +
-            '<button onclick="useSite(\'' + escapeHtml(type + ' ' + country) + '\')">Использовать</button>' +
-          '</div>';
-        }).join('');
+        await sendBilling('card');
       });
     }
 
-    window.useSite = function(name) {
-      toast('Площадка: ' + name);
-    };
+    if ($('cryptoConfirmBtn')) {
+      $('cryptoConfirmBtn').addEventListener('click', async () => {
+        await sendBilling('crypto:' + $('cryptoCoin').value);
+      });
+    }
 
-    // Subscribers
+    if ($('paypalConfirmBtn')) {
+      $('paypalConfirmBtn').addEventListener('click', async () => {
+        await sendBilling('paypal');
+      });
+    }
+
+    if ($('siteSearchBtn')) {
+      $('siteSearchBtn').addEventListener('click', generateSites);
+    }
+
+    if ($('selfPromoBtn')) {
+      $('selfPromoBtn').addEventListener('click', () => {
+        $('sitesAdSelect').value = '';
+        $('sitesCustomText').value = 'AdAstra — реклама, которая достаёт до звёзд. Баннер, пост, сторис, QR, 7 языков, регионы, только с согласия людей.';
+        generateSites();
+      });
+    }
+
     if ($('subBtn')) {
       $('subBtn').addEventListener('click', async () => {
         const contact = $('subContact').value.trim();
@@ -1950,26 +2714,18 @@
           return;
         }
 
-        try {
-          await api('POST', { action: 'subscribe', contact, consent: true });
+        const ok = await sendAction({ action: 'subscribe', contact, consent: true });
+        if (ok) {
           $('subContact').value = '';
-          await loadData();
           toast('Подписка сохранена');
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
         }
       });
     }
 
     if ($('inviteBtn')) {
       $('inviteBtn').addEventListener('click', async () => {
-        try {
-          await api('POST', { action: 'invite_all' });
-          await loadData();
-          toast('Приглашения созданы');
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
-        }
+        const ok = await sendAction({ action: 'invite_all' });
+        if (ok) toast('Приглашения созданы');
       });
     }
 
@@ -1978,57 +2734,52 @@
         const text = $('supportText').value.trim();
         if (!text) return;
 
-        try {
-          await api('POST', {
-            action: 'support',
-            from: $('supportFrom').value.trim() || (currentUser && currentUser.contact) || 'Гость',
-            text
-          });
+        const ok = await sendAction({
+          action: 'support',
+          from: $('supportFrom').value.trim() || currentContact() || currentUserName() || 'Гость',
+          text
+        });
 
+        if (ok) {
           $('supportText').value = '';
-          await loadData();
           toast('Сообщение отправлено');
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
         }
       });
     }
 
-    // Admin filters
-    if ($('refreshBtn')) $('refreshBtn').addEventListener('click', loadData);
+    if ($('refreshBtn')) {
+      $('refreshBtn').addEventListener('click', async () => {
+        db = await initBackend();
+        renderAll();
+      });
+    }
 
-    ['adminSearch', 'adminStatus', 'adminCountry'].forEach(id => {
+    ['adminSearch', 'adminStatus', 'adminCountry', 'adminCategory'].forEach(id => {
       if ($(id)) {
         $(id).addEventListener('input', () => {
           renderModeration();
-          renderClients();
+          renderAllAds();
         });
       }
     });
 
     if ($('saveWalletsBtn')) {
       $('saveWalletsBtn').addEventListener('click', async () => {
-        try {
-          await api('POST', {
-            action: 'save_settings',
-            settings: {
-              wallets: {
-                usdt: $('walletUsdt').value.trim(),
-                btc: $('walletBtc').value.trim(),
-                eth: $('walletEth').value.trim()
-              }
+        const ok = await sendAction({
+          action: 'save_settings',
+          settings: {
+            wallets: {
+              usdt: $('walletUsdt').value.trim(),
+              btc: $('walletBtc').value.trim(),
+              eth: $('walletEth').value.trim()
             }
-          });
+          }
+        });
 
-          await loadData();
-          toast('Кошельки сохранены');
-        } catch (e) {
-          toast('Ошибка: ' + e.message);
-        }
+        if (ok) toast('Кошельки сохранены');
       });
     }
 
-    // QR
     if ($('makeQrBtn')) {
       $('makeQrBtn').addEventListener('click', () => {
         const data = $('qrTextInput').value.trim();
@@ -2044,66 +2795,22 @@
       });
     }
 
-    // Login
-    if ($('loginBtn')) {
-      $('loginBtn').addEventListener('click', () => {
-        if (currentUser) {
-          currentUser = null;
-          localStorage.removeItem(LS.user);
-          applyI18n();
-          toast('Вы вышли');
-        } else {
-          $('loginModal').classList.remove('hidden');
-        }
-      });
+    if ($('closeModalBtn')) {
+      $('closeModalBtn').addEventListener('click', closeModal);
     }
 
-    if ($('loginCancelBtn')) {
-      $('loginCancelBtn').addEventListener('click', () => {
-        $('loginModal').classList.add('hidden');
-      });
-    }
-
-    if ($('loginSaveBtn')) {
-      $('loginSaveBtn').addEventListener('click', () => {
-        const name = $('loginName').value.trim();
-        const contact = $('loginContact').value.trim();
-
-        if (!name) {
-          toast('Введите имя');
-          return;
-        }
-
-        currentUser = { name, contact };
-        localStorage.setItem(LS.user, JSON.stringify(currentUser));
-
-        $('ownerName').value = name;
-        $('ownerContact').value = contact;
-        $('loginModal').classList.add('hidden');
-
-        applyI18n();
-        toast('Сохранено');
-      });
-    }
-
-    ['ownerName', 'ownerContact'].forEach(id => {
-      if ($(id)) {
-        $(id).addEventListener('change', () => {
-          currentUser = {
-            name: $('ownerName').value.trim(),
-            contact: $('ownerContact').value.trim()
-          };
-          localStorage.setItem(LS.user, JSON.stringify(currentUser));
-          applyI18n();
-        });
-      }
+    $('modal').addEventListener('click', e => {
+      if (e.target === $('modal')) closeModal();
     });
 
-    // Language / region
+    if ($('feedSearch')) $('feedSearch').addEventListener('input', renderFeed);
+    if ($('feedCategory')) $('feedCategory').addEventListener('change', renderFeed);
+    if ($('feedStatus')) $('feedStatus').addEventListener('change', renderFeed);
+
     if ($('uiLang')) {
       $('uiLang').addEventListener('change', () => {
         currentLang = $('uiLang').value;
-        localStorage.setItem(LS.lang, currentLang);
+        localStorage.setItem(LS_LANG, currentLang);
         applyI18n();
         renderAll();
       });
@@ -2111,31 +2818,46 @@
 
     if ($('regionSelect')) {
       $('regionSelect').addEventListener('change', () => {
-        localStorage.setItem(LS.region, $('regionSelect').value);
-
-        if ($('countrySelect').value === 'Все страны') {
-          $('countrySelect').value = $('regionSelect').value !== 'Все страны' ? $('regionSelect').value : 'Израиль';
-        }
-
-        autoCheckLangs();
+        localStorage.setItem(LS_REGION, $('regionSelect').value);
         renderFeed();
       });
     }
 
-    if ($('feedSearch')) $('feedSearch').addEventListener('input', renderFeed);
-    if ($('feedStatus')) $('feedStatus').addEventListener('change', renderFeed);
+    // INIT
+    async function init() {
+      renderCategories();
+      renderCountries();
+      renderLangChecksAndEvents();
+      renderPreviewLangOptions();
+      applyI18n();
 
-    // Start
-    renderPreview();
-    calcBill();
-    loadData();
+      $('uiLang').value = currentLang;
 
-    setInterval(loadData, 20000);
-    window.addEventListener('focus', loadData);
+      if (session) {
+        $('splash').classList.add('hidden');
+        $('app').style.display = 'block';
+
+        if (isGuest()) {
+          $('ownerName').value = session.name || '';
+          $('ownerContact').value = session.contact || '';
+        }
+      }
+
+      db = await initBackend();
+      renderAll();
+      calcBill();
+
+      setInterval(async () => {
+        db = await initBackend();
+        renderAll();
+      }, 25000);
+    }
 
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js');
     }
+
+    init();
   </script>
 </body>
 </html>
