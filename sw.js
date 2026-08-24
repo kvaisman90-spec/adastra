@@ -1,9 +1,11 @@
 const CACHE_NAME = 'adastra-app-v6';
+
 const ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon-v2.png',
+  '/icon.svg',
   '/privacy.html',
   '/terms.html',
   '/payment.html'
@@ -11,7 +13,9 @@ const ASSETS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(ASSETS))
+      .catch(() => null)
   );
   self.skipWaiting();
 });
@@ -19,29 +23,49 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
     )
   );
   self.clients.claim();
 });
 
-// NetworkFirst для HTML решает проблему разного меню на разных устройствах
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('/api/') || event.request.method === 'POST') return;
+  const url = new URL(event.request.url);
 
-  if (event.request.destination === 'document') {
+  if (url.pathname.includes('/api/') || event.request.method !== 'GET') {
+    return;
+  }
+
+  if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put('/index.html', copy));
           return response;
         })
-        .catch(() => caches.match(event.request))
+        .catch(() => caches.match('/index.html'))
     );
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(response => response || fetch(event.request))
-    );
+    return;
   }
+
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request)
+        .then(response => {
+          if (response.ok && url.origin === location.origin) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          }
+          return response;
+        })
+        .catch(() => caches.match('/index.html'));
+    })
+  );
 });
