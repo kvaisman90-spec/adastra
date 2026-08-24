@@ -32,7 +32,6 @@ export default async function handler(req, res) {
       const { action, id, ...payload } = body;
       const now = Date.now();
       
-      // КЛИЕНТ: Отправка на модерацию
       if (action === 'publish') {
         db.ads.push({
           id: now,
@@ -54,35 +53,28 @@ export default async function handler(req, res) {
           created_at: new Date().toISOString()
         });
       }
-      // АДМИН: Одобрить платно
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_paid'; item.paid = false; }
       }
-      // АДМИН: Одобрить бесплатно
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
       }
-      // АДМИН: Отклонить
       else if (action === 'reject') {
         db.ads = db.ads.filter(p => p.id != id);
       }
-      // АДМИН: Удалить навсегда
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
-      // АДМИН: Сделать платным
       else if (action === 'make_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = true; item.status = 'paid'; }
       }
-      // АДМИН: Сделать бесплатным
       else if (action === 'make_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = false; item.status = 'approved_free'; }
       }
-      // Совместимость
       else if (action === 'approve') {
         const item = db.ads.find(p => p.id == id);
         if (item) item.status = 'approved_paid';
@@ -91,7 +83,6 @@ export default async function handler(req, res) {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'paid'; item.paid = true; }
       }
-      // Подписчики
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
           db.subscribers.push({
@@ -105,7 +96,6 @@ export default async function handler(req, res) {
       else if (action === 'delete_sub') {
         db.subscribers = db.subscribers.filter(s => s.id != id);
       }
-      // Сообщения
       else if (action === 'support') {
         db.messages.push({
           id: now,
@@ -122,7 +112,6 @@ export default async function handler(req, res) {
         const item = db.messages.find(m => m.id == id);
         if (item) item.read = true;
       }
-      // Кошельки
       else if (action === 'save_wallets') {
         db.wallets = payload.wallets || {};
       }
