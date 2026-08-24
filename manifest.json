@@ -1,8 +1,11 @@
 {
   "name": "AdAstra Реклама",
   "short_name": "AdAstra",
+  "description": "Мультиязычная реклама с регионами, QR и синхронизацией",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0b0b0d",
   "theme_color": "#0b0b0d",
   "icons": [
@@ -22,15 +25,19 @@
       "src": "/icon-v2.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "maskable",
-      "safe_area": { "inset": "20%" }
+      "purpose": "maskable"
     },
     {
       "src": "/icon-v2.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "maskable",
-      "safe_area": { "inset": "20%" }
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     }
   ]
 }
