@@ -5,15 +5,14 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
     let db = { ads: [], subscribers: [], messages: [] };
-
     const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
       headers: { 'X-Master-Key': API_KEY }
     });
-
     if (binRes.ok) {
       const data = await binRes.json();
       const rec = data.record || {};
@@ -31,62 +30,36 @@ export default async function handler(req, res) {
       const { action, id, ...payload } = body;
       const now = Date.now();
 
-      // КЛИЕНТ: Отправка на модерацию
       if (action === 'publish') {
         db.ads.push({
           id: now, type: 'ad', status: 'pending', paid: false,
           owner: payload.owner, title: payload.title,
           text: payload.text, cta: payload.cta || '', contact: payload.contact,
           image: payload.image || null, format: payload.format || '',
+          country: payload.country || '', city: payload.city || '',
+          languages: payload.languages || [],
           created_at: new Date().toISOString()
         });
       }
-
-      // АДМИН: Одобрить платно
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
-        if (item) { item.status = 'approved_paid'; item.paid = false; }
+        if (item) { item.status = 'approved_paid'; item.paid = true; }
       }
-
-      // АДМИН: Одобрить бесплатно
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'approved_free'; item.paid = false; }
       }
-
-      // АДМИН: Отклонить = УДАЛИТЬ из базы сразу
-      else if (action === 'reject') {
+      else if (action === 'reject' || action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
-
-      // АДМИН: Удалить любое объявление навсегда
-      else if (action === 'delete') {
-        db.ads = db.ads.filter(p => p.id != id);
-      }
-
-      // АДМИН: Сделать платным
       else if (action === 'make_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = true; item.status = 'paid'; }
       }
-
-      // АДМИН: Сделать бесплатным
       else if (action === 'make_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = false; item.status = 'approved_free'; }
       }
-
-      // Совместимость
-      else if (action === 'approve') {
-        const item = db.ads.find(p => p.id == id);
-        if (item) item.status = 'approved_paid';
-      }
-      else if (action === 'confirm_payment') {
-        const item = db.ads.find(p => p.id == id);
-        if (item) { item.status = 'paid'; item.paid = true; }
-      }
-
-      // Подписчики
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
           db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString() });
@@ -95,8 +68,6 @@ export default async function handler(req, res) {
       else if (action === 'delete_sub') {
         db.subscribers = db.subscribers.filter(s => s.id != id);
       }
-
-      // Сообщения
       else if (action === 'support') {
         db.messages.push({
           id: now, from: payload.from, text: payload.text,
@@ -116,9 +87,9 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
         body: JSON.stringify(db)
       });
-
       return res.status(200).json({ success: true, ...db });
     }
+
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (e) {
     console.error(e);
