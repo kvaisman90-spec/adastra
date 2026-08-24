@@ -56,30 +56,33 @@ export default async function handler(req, res) {
       const { action, id, ...payload } = body;
       const now = Date.now();
 
-      // КЛИЕНТ: отправка рекламы на модерацию
       if (action === 'publish') {
         db.ads.push({
           id: now,
           type: 'ad',
           status: 'pending',
           paid: false,
-          owner: payload.owner,
-          title: payload.title,
-          text: payload.text,
+          owner: payload.owner || '',
+          title: payload.title || '',
+          text: payload.text || '',
           cta: payload.cta || '',
-          contact: payload.contact,
-          image: payload.image || null,
-          format: payload.format || '',
+          contact: payload.contact || '',
+          category: payload.category || 'Реклама',
           country: payload.country || '',
           city: payload.city || '',
-          region: payload.region || '',
+          global: !!payload.global,
           langs: Array.isArray(payload.langs) ? payload.langs : [],
           translations: payload.translations || {},
+          mediaType: payload.mediaType || null,
+          mediaLink: payload.mediaLink || '',
+          media: payload.media || payload.image || null,
+          image: payload.image || payload.media || null,
+          format: payload.format || '',
+          billing: payload.billing || null,
           created_at: new Date().toISOString()
         });
       }
 
-      // АДМИН: одобрить платно
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
@@ -88,7 +91,6 @@ export default async function handler(req, res) {
         }
       }
 
-      // АДМИН: одобрить бесплатно
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
@@ -97,17 +99,28 @@ export default async function handler(req, res) {
         }
       }
 
-      // АДМИН: отклонить = удалить
       else if (action === 'reject') {
-        db.ads = db.ads.filter(p => p.id != id);
+        const item = db.ads.find(p => p.id == id);
+        if (item) {
+          item.status = 'rejected';
+          item.paid = false;
+        }
       }
 
-      // АДМИН: удалить объявление навсегда
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
 
-      // АДМИН: сделать платным
+      else if (action === 'archive') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'deleted';
+      }
+
+      else if (action === 'restore') {
+        const item = db.ads.find(p => p.id == id);
+        if (item) item.status = 'pending';
+      }
+
       else if (action === 'make_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
@@ -116,7 +129,6 @@ export default async function handler(req, res) {
         }
       }
 
-      // АДМИН: сделать бесплатным
       else if (action === 'make_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
@@ -125,7 +137,6 @@ export default async function handler(req, res) {
         }
       }
 
-      // Совместимость
       else if (action === 'approve') {
         const item = db.ads.find(p => p.id == id);
         if (item) item.status = 'approved_paid';
@@ -139,7 +150,6 @@ export default async function handler(req, res) {
         }
       }
 
-      // Подписчики
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
           db.subscribers.push({
@@ -155,12 +165,11 @@ export default async function handler(req, res) {
         db.subscribers = db.subscribers.filter(s => s.id != id);
       }
 
-      // Сообщения
       else if (action === 'support') {
         db.messages.push({
           id: now,
-          from: payload.from,
-          text: payload.text,
+          from: payload.from || '',
+          text: payload.text || '',
           read: false,
           created_at: new Date().toISOString()
         });
@@ -175,7 +184,6 @@ export default async function handler(req, res) {
         if (item) item.read = true;
       }
 
-      // Приглашения
       else if (action === 'invite_all') {
         db.invitations = Array.isArray(db.invitations) ? db.invitations : [];
 
@@ -190,7 +198,6 @@ export default async function handler(req, res) {
         });
       }
 
-      // Настройки / кошельки
       else if (action === 'save_settings') {
         db.settings = Object.assign({}, db.settings, payload.settings || {});
 
@@ -199,6 +206,25 @@ export default async function handler(req, res) {
           (db.settings && db.settings.wallets) || {},
           ((payload.settings && payload.settings.wallets) || {})
         );
+      }
+
+      else if (action === 'update_ad') {
+        const item = db.ads.find(p => p.id == id);
+        if (item && payload.updates) {
+          Object.keys(payload.updates).forEach(k => {
+            if (k !== 'id') item[k] = payload.updates[k];
+          });
+        }
+      }
+
+      else if (action === 'delete_client') {
+        db.ads = db.ads.filter(a => {
+          const byContact = payload.contact && a.contact === payload.contact;
+          const byOwner = payload.owner && a.owner === payload.owner;
+          return !byContact && !byOwner;
+        });
+
+        db.subscribers = db.subscribers.filter(s => s.contact === payload.contact ? false : true);
       }
 
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
