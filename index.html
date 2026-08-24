@@ -4,15 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#d4af37">
-<title>AdAstra — реклама до звёзд</title>
+<title>AdAstra — реклама, которая достаёт до звёзд</title>
 <link rel="manifest" href="/manifest.json">
-<link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icon-v2.png">
 <style>
-  :root { --gold: #d4af37; --bg: #fdfbf7; --card: #111; --text: #111; --white: #fff; }
+  /* ТВОИ СТИЛИ (восстановлены по описанию) */
+  :root { --gold: #d4af37; --bg: #fdfbf7; --card: #111; --text: #111; }
   * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  body { background-color: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; position: relative; }
+  body { background-color: var(--bg); color: var(--text); min-height: 100vh; position: relative; overflow-x: hidden; }
   
-  /* ТВОЙ ПАТТЕРН: Ракеты на белом фоне */
+  /* Твой паттерн: ракеты на белом фоне */
   body::before {
     content: "🚀"; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     font-size: 40px; opacity: 0.05; z-index: -1; pointer-events: none;
@@ -20,7 +21,7 @@
     align-items: center; justify-items: center; transform: rotate(-15deg);
   }
 
-  /* ЭКРАН ВХОДА (Чёрная кошка/Ракета) */
+  /* Экран входа (Чёрная кошка/Ракета) */
   #loginScreen {
     position: fixed; inset: 0; background: #000; z-index: 9999;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -32,11 +33,11 @@
   .login-box input { width: 100%; padding: 12px; margin: 10px 0; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
   .login-box button { width: 100%; padding: 12px; background: var(--gold); color: #000; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; }
 
-  /* ОСНОВНОЙ ИНТЕРФЕЙС */
-  header { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; padding: 15px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
+  /* Основной интерфейс */
+  header { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid #eee; padding: 15px; position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
   .logo { font-weight: 800; font-size: 20px; color: #000; display: flex; align-items: center; gap: 8px; }
   .logo span { color: var(--gold); }
-  .controls { display: flex; gap: 10px; }
+  .controls { display: flex; gap: 10px; align-items: center; }
   select { padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; }
 
   nav { display: flex; overflow-x: auto; padding: 10px 15px; gap: 10px; background: #fff; border-bottom: 1px solid #eee; scrollbar-width: none; }
@@ -49,7 +50,7 @@
   .section.active { display: block; }
   @keyframes fadeIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
 
-  /* ТВОИ ЧЁРНЫЕ КАРТОЧКИ */
+  /* Твои чёрные карточки с золотом */
   .card { background: var(--card); color: #fff; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid var(--gold); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
   .card h2 { color: var(--gold); margin-bottom: 15px; font-size: 18px; }
   .card input, .card textarea, .card select { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #444; color: #fff; border-radius: 6px; }
@@ -73,22 +74,21 @@
 
   .update-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #000; padding: 10px 20px; border-radius: 20px; font-weight: bold; display: none; z-index: 200; box-shadow: 0 4px 10px rgba(0,0,0,0.3); cursor: pointer; }
   
-  /* Адаптив */
   @media(max-width: 600px) {
     .stat-grid { grid-template-columns: 1fr 1fr; }
-    header { flex-direction: column; gap: 10px; }
-    .controls { width: 100%; justify-content: space-between; }
+    header { flex-direction: column; align-items: stretch; }
+    .controls { justify-content: space-between; }
   }
 </style>
 </head>
 <body>
 
-<!-- ЭКРАН ВХОДА -->
+<!-- ЭКРАН ВХОДА (Твой дизайн) -->
 <div id="loginScreen">
   <div class="login-logo">🐱‍🚀</div>
   <div class="login-box">
     <h2 style="color:var(--gold); margin-bottom:15px;">AdAstra</h2>
-    <p style="color:#888; font-size:12px; margin-bottom:15px;">Вход в систему</p>
+    <p style="color:#888; font-size:12px; margin-bottom:15px;">к звёздам через рекламу · Израиль → весь мир</p>
     <input type="text" id="loginName" placeholder="Ваше имя">
     <input type="password" id="loginKey" placeholder="Код администратора (если есть)">
     <button onclick="doLogin()">Войти</button>
@@ -101,7 +101,7 @@
   <div class="controls">
     <select id="langSelect" onchange="setLang(this.value)">
       <option value="ru">🇷🇺 RU</option><option value="en">🇬🇧 EN</option><option value="he">🇮🇱 HE</option>
-      <option value="ar">🇸🇦 AR</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="zh">🇨🇳 ZH</option>
+      <option value="ar">🇸 AR</option><option value="es">🇪🇸 ES</option><option value="fr">🇫🇷 FR</option><option value="zh">🇨🇳 ZH</option>
     </select>
     <select id="regionSelect" onchange="filterRegion(this.value)">
       <option value="">🌍 Весь мир</option>
@@ -127,18 +127,19 @@
   <section id="studio" class="section active">
     <div class="card">
       <h2>🎨 Студия рекламы</h2>
-      <p style="color:#888; font-size:13px; margin-bottom:15px;">Креатив + автоперевод. Данные синхронизируются мгновенно.</p>
+      <p style="color:#888; font-size:13px; margin-bottom:15px;">Креатив + автоперевод на языки стран, где его покажут.</p>
       
-      <label style="color:#888; font-size:12px;">Формат</label>
+      <label style="color:#888; font-size:12px;">Формат креатива</label>
       <div style="display:flex; gap:10px; margin-bottom:15px;">
-        <label style="color:#fff"><input type="radio" name="fmt" value="banner" checked> Баннер</label>
-        <label style="color:#fff"><input type="radio" name="fmt" value="post"> Пост</label>
-        <label style="color:#fff"><input type="radio" name="fmt" value="story"> Сторис</label>
+        <label style="color:#fff"><input type="radio" name="fmt" value="banner" checked> 🖼 Баннер</label>
+        <label style="color:#fff"><input type="radio" name="fmt" value="post"> 📝 Пост</label>
+        <label style="color:#fff"><input type="radio" name="fmt" value="story"> 📲 Сторис</label>
       </div>
 
       <input type="text" id="adTitle" placeholder="Заголовок">
       <textarea id="adText" placeholder="Текст рекламы"></textarea>
-      <input type="text" id="adContact" placeholder="Контакт (TG, Email)">
+      <input type="text" id="adCta" placeholder="Кнопка действия">
+      <input type="text" id="adContact" placeholder="Контакт">
       
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
         <div>
@@ -153,15 +154,18 @@
         </div>
       </div>
 
-      <label style="color:#888; font-size:12px; margin-top:10px; display:block;">Языки перевода</label>
+      <label style="color:#888; font-size:12px; margin-top:10px; display:block;">🌍 Языки стран показа (автоперевод)</label>
       <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px;">
         <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="ru" checked> RU</label>
         <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="en" checked> EN</label>
         <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="he"> HE</label>
         <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="ar"> AR</label>
+        <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="es"> ES</label>
+        <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="fr"> FR</label>
+        <label style="color:#fff; font-size:12px;"><input type="checkbox" class="lang-chk" value="zh"> ZH</label>
       </div>
 
-      <button class="btn" onclick="publishAd()">🚀 Опубликовать</button>
+      <button class="btn" onclick="publishAd()">🚀 Опубликовать рекламу</button>
     </div>
     
     <div class="card">
@@ -173,7 +177,8 @@
   <!-- ЛЕНТА -->
   <section id="feed" class="section">
     <div class="card" style="background:transparent; border:none; box-shadow:none; padding:0;">
-      <h2 style="color:#000; margin-bottom:15px;">📰 Лента AdAstra</h2>
+      <h2 style="color:#000; margin-bottom:15px;">📰 Лента рекламы AdAstra</h2>
+      <p style="color:#666; margin-bottom:15px;">Яркие мультиязычные креативы с QR-кодами.</p>
       <div id="feedList" class="grid"></div>
     </div>
   </section>
@@ -181,15 +186,25 @@
   <!-- СЧЁТ -->
   <section id="calc" class="section">
     <div class="card">
-      <h2>🧮 Калькулятор</h2>
+      <h2>🧮 Калькулятор счёта</h2>
+      <p style="color:#888; font-size:13px; margin-bottom:15px;">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
       <div class="stat-grid">
         <div class="stat-box"><span class="stat-num">$20</span><span class="stat-lbl">Неделя</span></div>
+        <div class="stat-box"><span class="stat-num">$30</span><span class="stat-lbl">1,5 недели</span></div>
         <div class="stat-box"><span class="stat-num">$49</span><span class="stat-lbl">Месяц</span></div>
+        <div class="stat-box"><span class="stat-num">$56</span><span class="stat-lbl">Месяц + 10 шт</span></div>
       </div>
-      <input type="number" id="calcDays" value="7" oninput="calcTotal()">
-      <input type="number" id="calcVol" value="1" oninput="calcTotal()">
+      <input type="number" id="calcDays" value="7" oninput="calcTotal()" placeholder="Срок (дней)">
+      <input type="number" id="calcVol" value="1" oninput="calcTotal()" placeholder="Объём (макс 10 шт)">
       <div style="text-align:center; font-size:24px; color:var(--gold); margin:15px 0;" id="calcTotal">$20</div>
       <button class="btn" onclick="alert('Счёт выставлен!')">🧾 Выставить счёт</button>
+      
+      <h3 style="color:var(--gold); margin-top:20px; margin-bottom:10px;">Оплата</h3>
+      <div style="display:flex; gap:10px; margin-bottom:15px;">
+        <button class="btn btn-sm" onclick="alert('Карта')">💳 Карта</button>
+        <button class="btn btn-sm" onclick="alert('Крипта')">₿ Крипта</button>
+        <button class="btn btn-sm" onclick="window.open('https://www.paypal.me/kvaisman90/20')">🅿️ PayPal</button>
+      </div>
     </div>
   </section>
 
@@ -197,6 +212,7 @@
   <section id="platforms" class="section">
     <div class="card">
       <h2>🌐 Площадки</h2>
+      <p style="color:#888; font-size:13px; margin-bottom:15px;">Автопоиск бесплатных мест по всему миру.</p>
       <input type="text" id="platSearch" placeholder="Что рекламируем?">
       <button class="btn" onclick="searchPlat()">🔍 Автопоиск</button>
       <div id="platResults" style="margin-top:15px;"></div>
@@ -206,12 +222,16 @@
   <!-- ПОДПИСЧИКИ -->
   <section id="subs" class="section">
     <div class="card">
-      <h2>👥 Подписчики</h2>
+      <h2>👥 Подписчики по согласию</h2>
       <div class="stat-grid">
-        <div class="stat-box"><span class="stat-num" id="subCount">0</span><span class="stat-lbl">Всего</span></div>
+        <div class="stat-box"><span class="stat-num" id="subCount">0</span><span class="stat-lbl">подписались сами</span></div>
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-lbl">без согласия</span></div>
+        <div class="stat-box"><span class="stat-num">0</span><span class="stat-lbl">приглашений</span></div>
       </div>
+      <p style="color:#888; font-size:12px; margin-bottom:15px;">Рассылка только тем, кто дал согласие.</p>
       <input type="text" id="subEmail" placeholder="Email или TG">
       <button class="btn" onclick="addSub()">➕ Подписать</button>
+      <button class="btn btn-ghost" style="margin-top:10px;" onclick="alert('Приглашения разосланы')">📣 Разослать приглашения</button>
       <div id="subList" style="margin-top:15px;"></div>
     </div>
   </section>
@@ -219,48 +239,67 @@
   <!-- АДМИНКА -->
   <section id="admin" class="section">
     <div class="card">
-      <h2>👑 Панель Администратора</h2>
+      <h2>👑 Панель создателя</h2>
       <div class="stat-grid">
-        <div class="stat-box"><span class="stat-num" id="admTotal">0</span><span class="stat-lbl">Всего</span></div>
-        <div class="stat-box"><span class="stat-num" id="admPending">0</span><span class="stat-lbl">На модерации</span></div>
-        <div class="stat-box"><span class="stat-num" id="admPaid">0</span><span class="stat-lbl">Оплачено</span></div>
-        <div class="stat-box"><span class="stat-num" id="admViews">0</span><span class="stat-lbl">Просмотры</span></div>
+        <div class="stat-box"><span class="stat-num" id="admClients">0</span><span class="stat-lbl">клиентов</span></div>
+        <div class="stat-box"><span class="stat-num" id="admPaid">0</span><span class="stat-lbl">платных</span></div>
+        <div class="stat-box"><span class="stat-num" id="admFree">0</span><span class="stat-lbl">бесплатных</span></div>
+        <div class="stat-box"><span class="stat-num" id="admRevenue">$0</span><span class="stat-lbl">доход</span></div>
       </div>
       
-      <h3 style="color:var(--gold); margin:15px 0 10px; font-size:14px;">Модерация</h3>
-      <div id="modList"></div>
+      <h3 style="color:var(--gold); margin:15px 0 10px; font-size:14px;">💰 Кошельки</h3>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:5px; margin-bottom:15px;">
+        <div class="stat-box" style="padding:10px;"><span style="font-size:10px;">USDT</span><br><span style="font-size:10px; word-break:break-all;">0x...f0bEb1</span></div>
+        <div class="stat-box" style="padding:10px;"><span style="font-size:10px;">BTC</span><br><span style="font-size:10px; word-break:break-all;">bc1...x0wlh</span></div>
+        <div class="stat-box" style="padding:10px;"><span style="font-size:10px;">ETH</span><br><span style="font-size:10px; word-break:break-all;">0x...f0bEb1</span></div>
+      </div>
 
-      <h3 style="color:var(--gold); margin:20px 0 10px; font-size:14px;">Все клиенты</h3>
-      <div id="clientList"></div>
+      <h3 style="color:var(--gold); margin:20px 0 10px; font-size:14px;">Все клиенты (из БД)</h3>
+      <div style="overflow-x:auto;">
+        <table style="width:100%; font-size:12px; color:#fff; border-collapse:collapse;">
+          <thead><tr style="text-align:left; border-bottom:1px solid #444;"><th>Имя</th><th>Статус</th><th>Заплатил</th><th>Дата</th><th>Действие</th></tr></thead>
+          <tbody id="clientTableBody"></tbody>
+        </table>
+      </div>
+
+      <h3 style="color:var(--gold); margin:20px 0 10px; font-size:14px;">Модерация (из БД)</h3>
+      <div id="modList"></div>
     </div>
   </section>
 
   <!-- QR -->
   <section id="qr" class="section">
     <div class="card">
-      <h2>🔳 QR Коды</h2>
-      <input type="text" id="qrInput" placeholder="Ссылка">
-      <button class="btn" onclick="makeQR()">Сгенерировать</button>
+      <h2>🔳 QR-коды</h2>
+      <input type="text" id="qrInput" placeholder="Ссылка/текст">
+      <button class="btn" onclick="makeQR()">Сделать QR</button>
+      <button class="btn btn-ghost" style="margin-top:10px;" onclick="alert('Скачивание...')">⬇ Скачать</button>
       <div id="qrOutput" style="text-align:center; margin-top:15px; background:#fff; padding:10px; display:inline-block;"></div>
+      
+      <h3 style="color:var(--gold); margin-top:20px; font-size:14px;">QR одобренных реклам</h3>
+      <div id="qrAdsList" class="grid"></div>
     </div>
   </section>
 </main>
+
+<footer style="text-align:center; padding:20px; color:#888; font-size:12px; border-top:1px solid #eee; margin-top:40px;">
+  AdAstra — реклама, которая достаёт до звёзд 👑<br>
+  <a href="/privacy.html" style="color:var(--gold); text-decoration:none; margin:0 10px;">Privacy</a> | 
+  <a href="/terms.html" style="color:var(--gold); text-decoration:none; margin:0 10px;">Terms</a> | 
+  <a href="/payment.html" style="color:var(--gold); text-decoration:none; margin:0 10px;">Payment</a>
+</footer>
 
 <div class="update-toast" id="updateToast" onclick="location.reload()">🔄 Обновить приложение</div>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-  // --- КОНФИГУРАЦИЯ ---
-  const API_URL = '/api/admin'; // Твой Vercel API
-  const ADMIN_KEY = 'adastra_admin_2026'; // Ключ админа
+  // --- КОНФИГУРАЦИЯ (Твои ключи) ---
+  const API_URL = '/api/admin'; 
+  const ADMIN_KEY = 'adastra_admin_2026'; 
   
-  // --- СОСТОЯНИЕ ---
-  let state = { user: null, isAdmin: false, data: { ads:[], subscribers:[], stats:{} }, lang: 'ru', region: '' };
-  let refreshTimer = null;
+  let state = { user: null, isAdmin: false, data: { ads:[], subscribers:[], messages:[], stats:{} }, lang: 'ru', region: '' };
 
-  // --- ИНИЦИАЛИЗАЦИЯ ---
   window.onload = () => {
-    // Проверка сессии
     const saved = localStorage.getItem('adastra_user');
     if(saved) {
       state.user = JSON.parse(saved);
@@ -268,7 +307,6 @@
       enterApp();
     }
     
-    // Регистрация SW
     if('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').then(reg => {
         reg.addEventListener('updatefound', () => {
@@ -281,17 +319,13 @@
         });
       });
     }
-    
-    // Запуск опроса данных (каждые 3 сек для админа, 10 сек для юзера)
     startPolling();
   };
 
-  // --- АВТОРИЗАЦИЯ ---
   function doLogin() {
     const name = document.getElementById('loginName').value.trim();
     const key = document.getElementById('loginKey').value.trim();
     if(!name) return alert('Введите имя');
-    
     state.user = { name, isAdmin: key === ADMIN_KEY };
     state.isAdmin = state.user.isAdmin;
     localStorage.setItem('adastra_user', JSON.stringify(state.user));
@@ -303,7 +337,7 @@
     setTimeout(() => document.getElementById('loginScreen').style.display = 'none', 500);
     document.getElementById('logoutBtn').style.display = 'block';
     if(state.isAdmin) document.getElementById('adminTabBtn').style.display = 'block';
-    fetchData(); // Сразу грузим данные
+    fetchData();
   }
 
   function logout() {
@@ -311,7 +345,6 @@
     location.reload();
   }
 
-  // --- СИНХРОНИЗАЦИЯ ДАННЫХ ---
   async function fetchData() {
     try {
       const res = await fetch(API_URL, { cache: 'no-store' });
@@ -330,17 +363,11 @@
   }
 
   function startPolling() {
-    setInterval(() => {
-      if(!document.hidden) fetchData();
-    }, state.isAdmin ? 3000 : 10000); // 3 сек для админа, 10 для юзера
+    setInterval(() => { if(!document.hidden) fetchData(); }, state.isAdmin ? 3000 : 10000);
   }
 
-  // --- РЕНДЕРИНГ ---
   function renderAll() {
-    renderMyAds();
-    renderFeed();
-    renderAdmin();
-    renderSubs();
+    renderMyAds(); renderFeed(); renderAdmin(); renderSubs(); renderQrAds();
   }
 
   function renderMyAds() {
@@ -350,7 +377,7 @@
     el.innerHTML = myAds.map(a => `
       <div class="ad-item">
         <div class="ad-header"><strong>${a.title}</strong> <span class="badge ${a.status}">${a.status}</span></div>
-        <div style="font-size:12px; color:#888;">${a.country} ${a.city} · 👁 ${a.views||0}</div>
+        <div style="font-size:12px; color:#888;">${a.country||''} ${a.city||''} · 👁 ${a.views||0}</div>
       </div>
     `).join('');
   }
@@ -359,7 +386,6 @@
     const el = document.getElementById('feedList');
     let ads = state.data.ads.filter(a => a.status !== 'pending');
     if(state.region) ads = ads.filter(a => !a.country || a.country === state.region);
-    
     el.innerHTML = ads.map(a => `
       <div class="card" style="margin:0;">
         <h3 style="color:var(--gold); font-size:16px;">${a.title}</h3>
@@ -373,10 +399,10 @@
   function renderAdmin() {
     if(!state.isAdmin) return;
     const ads = state.data.ads;
-    document.getElementById('admTotal').innerText = ads.length;
-    document.getElementById('admPending').innerText = ads.filter(a=>a.status==='pending').length;
+    document.getElementById('admClients').innerText = new Set(ads.map(a=>a.owner)).size;
     document.getElementById('admPaid').innerText = ads.filter(a=>a.paid).length;
-    document.getElementById('admViews').innerText = state.data.stats?.views || 0;
+    document.getElementById('admFree').innerText = ads.filter(a=>!a.paid && a.status!=='pending').length;
+    document.getElementById('admRevenue').innerText = '$' + (ads.filter(a=>a.paid).length * 49);
 
     const modEl = document.getElementById('modList');
     const pending = ads.filter(a => a.status === 'pending');
@@ -392,12 +418,15 @@
       </div>
     `).join('') : '<div style="color:#888; font-size:12px;">Нет заявок</div>';
 
-    const clientEl = document.getElementById('clientList');
-    clientEl.innerHTML = ads.map(a => `
-      <div style="display:flex; justify-content:space-between; padding:8px; border-bottom:1px solid #333; font-size:12px;">
-        <span>${a.owner}</span>
-        <span style="color:${a.paid?'var(--gold)':'#888'}">${a.paid?'PAID':'FREE'}</span>
-      </div>
+    const tbody = document.getElementById('clientTableBody');
+    tbody.innerHTML = ads.map(a => `
+      <tr style="border-bottom:1px solid #333;">
+        <td style="padding:8px;">${a.owner}</td>
+        <td style="padding:8px;"><span class="badge ${a.status}">${a.status}</span></td>
+        <td style="padding:8px;">${a.paid?'✓':'—'}</td>
+        <td style="padding:8px; font-size:10px;">${new Date(a.created_at).toLocaleDateString()}</td>
+        <td style="padding:8px;"><button class="btn btn-sm btn-danger" onclick="modAction('delete', ${a.id})">×</button></td>
+      </tr>
     `).join('');
   }
 
@@ -412,7 +441,25 @@
     `).join('');
   }
 
-  // --- ДЕЙСТВИЯ ---
+  function renderQrAds() {
+    const el = document.getElementById('qrAdsList');
+    const ads = state.data.ads.filter(a => a.status !== 'pending');
+    el.innerHTML = ads.slice(0,4).map(a => `
+      <div class="card" style="margin:0; text-align:center;">
+        <div style="font-size:12px; color:var(--gold); margin-bottom:5px;">${a.title}</div>
+        <div id="qr-ad-${a.id}" style="background:#fff; display:inline-block; padding:5px;"></div>
+      </div>
+    `).join('');
+    ads.slice(0,4).forEach(a => {
+      const box = document.getElementById(`qr-ad-${a.id}`);
+      if(box && window.QRCode) {
+        const canvas = document.createElement('canvas');
+        box.appendChild(canvas);
+        QRCode.toCanvas(canvas, a.contact || a.title, {width:100});
+      }
+    });
+  }
+
   function showTab(id) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -427,46 +474,34 @@
     const title = document.getElementById('adTitle').value;
     const text = document.getElementById('adText').value;
     if(!title || !text) return alert('Заполните поля');
-    
     const langs = Array.from(document.querySelectorAll('.lang-chk:checked')).map(c=>c.value);
     await postData({
       action: 'publish', owner: state.user.name, title, text,
-      contact: document.getElementById('adContact').value,
-      country: document.getElementById('adCountry').value,
-      city: document.getElementById('adCity').value,
+      cta: document.getElementById('adCta').value, contact: document.getElementById('adContact').value,
+      country: document.getElementById('adCountry').value, city: document.getElementById('adCity').value,
       languages: langs, format: document.querySelector('input[name=fmt]:checked').value
     });
     alert('Отправлено на модерацию!');
-    document.getElementById('adTitle').value = '';
-    document.getElementById('adText').value = '';
+    document.getElementById('adTitle').value = ''; document.getElementById('adText').value = '';
   }
 
-  async function modAction(action, id) {
-    await postData({ action, id });
-  }
-
+  async function modAction(action, id) { await postData({ action, id }); }
   async function addSub() {
     const c = document.getElementById('subEmail').value;
     if(!c) return;
     await postData({ action: 'subscribe', contact: c, lang: state.lang });
     document.getElementById('subEmail').value = '';
   }
-
-  async function delSub(id) {
-    await postData({ action: 'delete_sub', id });
-  }
+  async function delSub(id) { await postData({ action: 'delete_sub', id }); }
 
   function calcTotal() {
     const d = parseInt(document.getElementById('calcDays').value) || 1;
     const v = parseInt(document.getElementById('calcVol').value) || 1;
-    let price = d * 3;
-    if(price > 49) price = 49;
-    if(v > 3) price += (v-3) * 2;
+    let price = d * 3; if(price > 49) price = 49; if(v > 3) price += (v-3) * 2;
     document.getElementById('calcTotal').innerText = '$' + price;
   }
 
   function searchPlat() {
-    const q = document.getElementById('platSearch').value;
     document.getElementById('platResults').innerHTML = `
       <div class="ad-item"><strong>Facebook Groups</strong> <span class="badge">Free</span></div>
       <div class="ad-item"><strong>Telegram Channels</strong> <span class="badge">Free</span></div>
