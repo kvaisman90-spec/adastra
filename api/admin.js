@@ -15,6 +15,10 @@ function containsBannedContent(text) {
   return BANNED_WORDS.some(word => lowerText.includes(word.toLowerCase()));
 }
 
+function normalizeName(name) {
+  return String(name || '').trim().toLowerCase();
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -23,7 +27,8 @@ export default async function handler(req, res) {
 
   try {
     let db = { 
-      ads: [], subscribers: [], messages: [], payments: [], onlineUsers: [] 
+      ads: [], subscribers: [], messages: [], payments: [], onlineUsers: [],
+      adminPassword: '584462'
     };
     
     const binRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
@@ -38,6 +43,7 @@ export default async function handler(req, res) {
       db.messages = Array.isArray(rec.messages) ? rec.messages : [];
       db.payments = Array.isArray(rec.payments) ? rec.payments : [];
       db.onlineUsers = Array.isArray(rec.onlineUsers) ? rec.onlineUsers : [];
+      if (rec.adminPassword) db.adminPassword = rec.adminPassword;
     }
 
     if (req.method === 'GET') {
@@ -58,6 +64,30 @@ export default async function handler(req, res) {
       const { action, id, ...payload } = body;
       const now = Date.now();
 
+      // Смена пароля админа
+      if (action === 'change_password') {
+        if (payload.oldPassword !== db.adminPassword) {
+          return res.status(400).json({ success: false, error: 'Неверный старый пароль' });
+        }
+        if (!payload.newPassword || payload.newPassword.length < 4) {
+          return res.status(400).json({ success: false, error: 'Пароль должен быть минимум 4 символа' });
+        }
+        db.adminPassword = payload.newPassword;
+        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+          body: JSON.stringify(db)
+        });
+        return res.status(200).json({ success: true, message: 'Пароль изменён' });
+      }
+
+      // Проверка пароля (для входа)
+      if (action === 'check_password') {
+        return res.status(200).json({ 
+          success: payload.password === db.adminPassword 
+        });
+      }
+
       if (action === 'publish') {
         const titleText = `${payload.title} ${payload.text} ${payload.contact}`;
         if (containsBannedContent(titleText)) {
@@ -75,47 +105,111 @@ export default async function handler(req, res) {
         });
       }
       else if (action === 'heartbeat') {
-        const existingUser = db.onlineUsers.find(u => u.name === payload.name);
+        const userName = normalizeName(payload.name);
+        const user = db.subscribers.find(s => normalizeName(s.contact) === userName);
+        
+        // Если пользователь удалён или заблокирован — выкидываем
+        if (!user) {
+          return res.status(200).json({ success: true, kicked: true, reason: 'Пользователь не найден' });
+        }
+        if (user.blocked) {
+          return res.status(200).json({ success: true, kicked: true, reason: user.blockReason || 'Аккаунт заблокирован' });
+        }
+        
+        const existingUser = db.onlineUsers.find(u => normalizeName(u.name) === userName);
         if (existingUser) {
           existingUser.lastSeen = now;
         } else {
           db.onlineUsers.push({ name: payload.name, role: payload.role || 'client', lastSeen: now });
         }
+        
+        await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
+          body: JSON.stringify(db)
+        });
+        
+        return res.status(200).json({ success: true, kicked: false });
       }
       else if (action === 'block_user') {
-        const user = db.subscribers.find(s => s.contact === payload.name);
-        if (user) { user.blocked = true; user.blockReason = payload.reason || 'Нарушение правил'; }
-        db.onlineUsers = db.onlineUsers.filter(u => u.name !== payload.name);
+        const userName = normalizeName(payload.name);
+        const user = db.subscribers.find(s => normalizeName(s.contact) === userName);
+        if (user) { 
+          user.blocked = true; 
+          user.blockReason = payload.reason || 'Нарушение правил'; 
+          user.blockedAt = new Date().toISOString();
+        }
+        db.onlineUsers = db.onlineUsers.filter(u => normalizeName(u.name) !== userName);
       }
       else if (action === 'unblock_user') {
-        const user = db.subscribers.find(s => s.contact === payload.name);
-        if (user) { user.blocked = false; delete user.blockReason; }
+        const userName = normalizeName(payload.name);
+        const user = db.subscribers.find(s => normalizeName(s.contact) === userName);
+        if (user) { 
+          user.blocked = false; 
+          delete user.blockReason; 
+          delete user.blockedAt; 
+        }
       }
       else if (action === 'delete_user') {
-        db.subscribers = db.subscribers.filter(s => s.contact !== payload.name);
-        db.ads = db.ads.filter(a => a.owner !== payload.name);
-        db.messages = db.messages.filter(m => m.from !== payload.name && m.to !== payload.name);
-        db.onlineUsers = db.onlineUsers.filter(u => u.name !== payload.name);
+        const userName = normalizeName(payload.name);
+        db.subscribers = db.subscribers.filter(s => normalizeName(s.contact) !== userName);
+        db.ads = db.ads.filter(a => normalizeName(a.owner) !== userName);
+        db.messages = db.messages.filter(m => normalizeName(m.from) !== userName && normalizeName(m.to) !== userName);
+        db.onlineUsers = db.onlineUsers.filter(u => normalizeName(u.name) !== userName);
       }
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
           item.status = 'approved_paid'; 
-          db.messages.push({ id: now + 1, from: 'Администратор AdAstra', to: item.owner, text: `✅ Ваша реклама "${item.title}" одобрена как ПЛАТНАЯ. Перейдите в раздел "Счёт" для оплаты.`, read: false, created_at: new Date().toISOString(), type: 'notification' });
+          const ownerNorm = normalizeName(item.owner);
+          db.messages.push({ 
+            id: now + 1, 
+            from: 'Администратор AdAstra', 
+            to: item.owner,
+            toNorm: ownerNorm,
+            text: `✅ Ваша реклама "${item.title}" одобрена как ПЛАТНАЯ. Перейдите в раздел "Счёт" для оплаты.`, 
+            read: false, 
+            created_at: new Date().toISOString(), 
+            type: 'notification' 
+          });
         }
       }
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
           item.status = 'approved_free'; 
-          db.messages.push({ id: now + 1, from: 'Администратор AdAstra', to: item.owner, text: ` Ваша реклама "${item.title}" одобрена БЕСПЛАТНО. Она уже в ленте!`, read: false, created_at: new Date().toISOString(), type: 'notification' });
+          const ownerNorm = normalizeName(item.owner);
+          db.messages.push({ 
+            id: now + 1, 
+            from: 'Администратор AdAstra', 
+            to: item.owner,
+            toNorm: ownerNorm,
+            text: `🎁 Ваша реклама "${item.title}" одобрена БЕСПЛАТНО. Она уже в ленте!`, 
+            read: false, 
+            created_at: new Date().toISOString(), 
+            type: 'notification' 
+          });
         }
       }
       else if (action === 'reject') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
-          item.status = 'rejected'; item.rejectionReason = payload.reason || 'Не соответствует правилам';
-          db.messages.push({ id: now + 1, from: 'Администратор AdAstra', to: item.owner, text: `❌ Ваша реклама "${item.title}" отклонена.\n\nПричина: ${item.rejectionReason}`, read: false, created_at: new Date().toISOString(), type: 'rejection' });
+          item.status = 'rejected'; 
+          item.rejectionReason = payload.reason || 'Не соответствует правилам';
+          item.rejectedAt = new Date().toISOString();
+          const ownerNorm = normalizeName(item.owner);
+          
+          // Создаём уведомление с нормализованным именем
+          db.messages.push({ 
+            id: now + 1, 
+            from: 'Администратор AdAstra', 
+            to: item.owner,
+            toNorm: ownerNorm,
+            text: `❌ Ваша реклама "${item.title}" отклонена.\n\nПричина: ${item.rejectionReason}\n\nПожалуйста, исправьте и отправьте снова.`, 
+            read: false, 
+            created_at: new Date().toISOString(), 
+            type: 'rejection' 
+          });
         }
       }
       else if (action === 'delete') { db.ads = db.ads.filter(p => p.id != id); }
@@ -123,22 +217,59 @@ export default async function handler(req, res) {
         const item = db.ads.find(p => p.id == id);
         if (item) {
           item.status = 'paid'; item.paid = true;
-          db.payments.push({ id: now, adId: id, owner: item.owner, title: item.title, amount: payload.amount || 0, method: payload.method || 'unknown', date: new Date().toISOString(), status: 'pending_verification' });
-          db.messages.push({ id: now + 2, from: item.owner, to: 'Администратор AdAstra', text: `💰 Клиент сообщил об оплате рекламы "${item.title}" на сумму $${payload.amount || 0} (${payload.method}). Проверьте поступление.`, read: false, created_at: new Date().toISOString(), type: 'payment_notification' });
+          db.payments.push({ 
+            id: now, adId: id, owner: item.owner, title: item.title, 
+            amount: payload.amount || 0, method: payload.method || 'unknown', 
+            date: new Date().toISOString(), status: 'pending_verification' 
+          });
+          db.messages.push({ 
+            id: now + 2, 
+            from: item.owner, 
+            to: 'Администратор AdAstra',
+            toNorm: 'создатель',
+            text: `💰 Клиент сообщил об оплате рекламы "${item.title}" на сумму $${payload.amount || 0} (${payload.method}). Проверьте поступление.`, 
+            read: false, 
+            created_at: new Date().toISOString(), 
+            type: 'payment_notification' 
+          });
         }
       }
       else if (action === 'verify_payment') {
         const pay = db.payments.find(p => p.id == id);
-        if (pay) { pay.status = 'verified'; const item = db.ads.find(a => a.id == pay.adId); if (item) { item.status = 'paid'; item.paid = true; } }
+        if (pay) { 
+          pay.status = 'verified'; 
+          const item = db.ads.find(a => a.id == pay.adId); 
+          if (item) { item.status = 'paid'; item.paid = true; } 
+        }
       }
       else if (action === 'subscribe') {
-        const existingUser = db.subscribers.find(s => s.contact === payload.contact);
-        if (existingUser && existingUser.blocked) return res.status(403).json({ success: false, error: 'Аккаунт заблокирован.' });
-        if (!existingUser) db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString(), blocked: false });
+        const contactNorm = normalizeName(payload.contact);
+        const existingUser = db.subscribers.find(s => normalizeName(s.contact) === contactNorm);
+        if (existingUser && existingUser.blocked) {
+          return res.status(403).json({ success: false, error: 'Аккаунт заблокирован. Обратитесь в поддержку.' });
+        }
+        if (!existingUser) {
+          db.subscribers.push({ 
+            id: now, 
+            contact: payload.contact, 
+            contactNorm: contactNorm,
+            date: new Date().toISOString(), 
+            blocked: false 
+          });
+        }
       }
       else if (action === 'support') {
-        if (containsBannedContent(payload.text)) return res.status(400).json({ success: false, error: 'Сообщение содержит запрещённый контент.' });
-        db.messages.push({ id: now, from: payload.from, text: payload.text, read: false, created_at: new Date().toISOString() });
+        if (containsBannedContent(payload.text)) {
+          return res.status(400).json({ success: false, error: 'Сообщение содержит запрещённый контент.' });
+        }
+        db.messages.push({ 
+          id: now, 
+          from: payload.from,
+          fromNorm: normalizeName(payload.from),
+          text: payload.text, 
+          read: false, 
+          created_at: new Date().toISOString() 
+        });
       }
       else if (action === 'delete_msg') { db.messages = db.messages.filter(m => m.id != id); }
       else if (action === 'mark_read') { 
@@ -146,9 +277,12 @@ export default async function handler(req, res) {
         if (item) item.read = true; 
       }
       else if (action === 'mark_all_read') {
-        const userName = payload.userName;
+        const userName = normalizeName(payload.userName);
         db.messages.forEach(m => {
-          if ((m.to === userName || m.type === 'notification' || m.type === 'rejection') && !m.read) {
+          // Помечаем все сообщения клиента: отправленные им И полученные им
+          const fromMatch = m.fromNorm === userName || normalizeName(m.from) === userName;
+          const toMatch = m.toNorm === userName || normalizeName(m.to) === userName;
+          if (fromMatch || toMatch) {
             m.read = true;
           }
         });
