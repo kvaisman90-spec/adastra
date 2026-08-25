@@ -141,7 +141,18 @@ export default async function handler(req, res) {
         db.messages.push({ id: now, from: payload.from, text: payload.text, read: false, created_at: new Date().toISOString() });
       }
       else if (action === 'delete_msg') { db.messages = db.messages.filter(m => m.id != id); }
-      else if (action === 'mark_read') { const item = db.messages.find(m => m.id == id); if (item) item.read = true; }
+      else if (action === 'mark_read') { 
+        const item = db.messages.find(m => m.id == id); 
+        if (item) item.read = true; 
+      }
+      else if (action === 'mark_all_read') {
+        const userName = payload.userName;
+        db.messages.forEach(m => {
+          if ((m.to === userName || m.type === 'notification' || m.type === 'rejection') && !m.read) {
+            m.read = true;
+          }
+        });
+      }
 
       await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
         method: 'PUT',
