@@ -9,10 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=13"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=13"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=13"/>
-  <link rel="manifest" href="/manifest.json?v=13"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=14"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=14"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=14"/>
+  <link rel="manifest" href="/manifest.json?v=14"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -27,8 +27,10 @@
     .login-card .mark{width:88px;height:88px;margin:0 auto 8px;display:block;}
     .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;}
     .login-card .tag{color:#e8d9a0;font-size:13px;line-height:1.4;margin-bottom:18px;}
-    .login-card input{width:100%;margin:12px 0;padding:16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
-    .login-card input::placeholder{color:#9d8c53;}
+    .login-input-wrap{position:relative;width:100%;margin:12px 0;}
+    .login-input-wrap input{width:100%;padding:16px 50px 16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
+    .login-input-wrap input::placeholder{color:#9d8c53;}
+    .toggle-password{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#9d8c53;font-size:20px;cursor:pointer;padding:4px;}
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
     
     .pricing-preview{margin-top:20px;padding:16px;background:rgba(212,175,55,.08);border-radius:16px;border:1px solid rgba(212,175,55,.30);}
@@ -124,7 +126,7 @@
     
     .media-preview{max-width:100%;border-radius:12px;margin:12px 0;}
     .media-preview img,.media-preview video{max-width:100%;border-radius:12px;}
-    .media-thumb{width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line);}
+    .media-thumb{width:80px;height:80px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#f5f5f5;}
     
     .notif-badge{position:relative;}
     .notif-badge::after{content:attr(data-count);position:absolute;top:-6px;right:-6px;background:#dc3545;color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;min-width:18px;}
@@ -168,7 +170,12 @@
       <svg class="mark"><use href="#adastra-mark"></use></svg>
       <h1>AdAstra</h1>
       <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
-      <input id="loginInput" type="password" placeholder="Введите пароль или имя" autocomplete="off">
+      
+      <div class="login-input-wrap">
+        <input id="loginInput" type="password" placeholder="Введите пароль или имя" autocomplete="off">
+        <button type="button" class="toggle-password" id="toggleLoginPass" title="Показать/скрыть">👁</button>
+      </div>
+      
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
       
       <div class="pricing-preview">
@@ -194,13 +201,13 @@
       </div>
     </header>
     <nav class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
+      <button class="tab-btn active" data-tab="studio" type="button"> Студия</button>
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
       <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
-      <button class="tab-btn" data-tab="sites" type="button"> Площадки</button>
-      <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
+      <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
+      <button class="tab-btn" data-tab="subs" type="button"> Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
-      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
+      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button"> Админ</button>
       <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
     </nav>
     <main>
@@ -217,18 +224,18 @@
                 <option value="general">📌 Общее</option>
                 <option value="repair">🔧 Ремонт и строительство</option>
                 <option value="beauty">💄 Красота и здоровье</option>
-                <option value="food"> Еда и рестораны</option>
+                <option value="food">🍔 Еда и рестораны</option>
                 <option value="auto">🚗 Авто и транспорт</option>
                 <option value="realestate">🏠 Недвижимость</option>
-                <option value="education">📚 Образование</option>
-                <option value="services"> Услуги</option>
+                <option value="education"> Образование</option>
+                <option value="services">🛎 Услуги</option>
                 <option value="shopping">🛍 Магазины</option>
                 <option value="events">🎉 Мероприятия</option>
                 <option value="other">📦 Другое</option>
               </select>
               <label>🖼 Картинка (до 5 МБ)</label>
               <input id="imageUpload" type="file" accept="image/*">
-              <label>🎥 Видео-ролик (до 10 МБ, макс 30 сек)</label>
+              <label> Видео-ролик (до 10 МБ, макс 30 сек)</label>
               <input id="videoUpload" type="file" accept="video/*">
               <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Скидка 30% на ремонт квартир">
               <label>Текст рекламы</label><textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
@@ -236,17 +243,17 @@
               <label>Контакт</label><input id="adContact" type="text" placeholder="WhatsApp, телефон, сайт или email">
               <label>🌍 Регион показа рекламы</label>
               <select id="adRegion">
-                <option value="international"> Международный (все страны)</option>
+                <option value="international">🌐 Международный (все страны)</option>
                 <option value="IL">🇮🇱 Израиль</option>
                 <option value="US">🇺🇸 США</option>
-                <option value="RU">🇷🇺 Россия</option>
+                <option value="RU">🇷 Россия</option>
                 <option value="UA">🇺🇦 Украина</option>
-                <option value="BY">🇧🇾 Беларусь</option>
+                <option value="BY">🇧 Беларусь</option>
                 <option value="KZ">🇰🇿 Казахстан</option>
-                <option value="ES">🇪🇸 Испания</option>
-                <option value="FR">🇫 Франция</option>
+                <option value="ES">🇪 Испания</option>
+                <option value="FR">🇫🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
-                <option value="CN">🇨 Китай</option>
+                <option value="CN">🇨🇳 Китай</option>
                 <option value="AE">🇦🇪 ОАЭ</option>
               </select>
               <label>🏙 Город (опционально)</label>
@@ -268,7 +275,7 @@
             <div>
               <h3>Предпросмотр</h3>
               <div class="preview-tabs">
-                <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
+                <button class="chip preview-tab-btn active" data-preview="banner" type="button"> Баннер</button>
                 <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
                 <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
               </div>
@@ -285,7 +292,7 @@
         <div class="card">
           <h2>📰 Лента рекламы AdAstra</h2>
           <p class="sub">Яркие мультиязычные креативы с QR-кодами.</p>
-          <label>🔍 Поиск по категории</label>
+          <label> Поиск по категории</label>
           <select id="feedCategoryFilter">
             <option value="all">Все категории</option>
             <option value="repair">🔧 Ремонт и строительство</option>
@@ -294,8 +301,8 @@
             <option value="auto">🚗 Авто и транспорт</option>
             <option value="realestate">🏠 Недвижимость</option>
             <option value="education">📚 Образование</option>
-            <option value="services">🛎 Услуги</option>
-            <option value="shopping"> Магазины</option>
+            <option value="services"> Услуги</option>
+            <option value="shopping">🛍 Магазины</option>
             <option value="events">🎉 Мероприятия</option>
           </select>
           <label>🌍 Фильтр по региону</label>
@@ -303,11 +310,11 @@
             <option value="all">Все регионы</option>
             <option value="international">🌐 Международный</option>
             <option value="IL">🇮🇱 Израиль</option>
-            <option value="US">🇺🇸 США</option>
+            <option value="US">🇺 США</option>
             <option value="RU">🇷🇺 Россия</option>
-            <option value="UA">🇦 Украина</option>
-            <option value="ES">🇪 Испания</option>
-            <option value="FR">🇫🇷 Франция</option>
+            <option value="UA">🇺 Украина</option>
+            <option value="ES">🇪🇸 Испания</option>
+            <option value="FR">🇫 Франция</option>
           </select>
           <div id="feedList" class="grid"></div>
         </div>
@@ -361,19 +368,19 @@
 
       <section id="sites" class="section"><div class="card"><h2>🌐 Площадки</h2><p class="sub">Автопоиск бесплатных мест по всему миру.</p><label>Что рекламируем?</label><input id="siteSearch" type="text" placeholder="Израиль, ремонт, косметика..."><button id="btnFindSites" class="gold-btn" type="button">🔍 Автопоиск</button><h3>Найденные площадки</h3><div id="sitesList" class="grid"></div></div></section>
 
-      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button">📣 Разослать приглашения</button></div></section>
+      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button"> Разослать приглашения</button></div></section>
 
       <section id="support" class="section">
         <div class="card">
           <h2>💬 Поддержка и уведомления</h2>
           <p class="sub">Напишите нам или просмотрите уведомления от модератора.</p>
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
             <label style="margin:0">Ваши сообщения</label>
             <button id="btnMarkAllRead" class="ghost-btn small" type="button">✅ Отметить все как прочитанные</button>
           </div>
           <label>Ваше сообщение</label>
           <textarea id="supportText" placeholder="Опишите вашу проблему или предложение..." style="min-height:120px;"></textarea>
-          <button id="btnSendSupport" class="gold-btn" type="button">📤 Отправить сообщение</button>
+          <button id="btnSendSupport" class="gold-btn" type="button"> Отправить сообщение</button>
           <h3>История сообщений и уведомлений</h3>
           <div id="supportHistory"></div>
         </div>
@@ -381,7 +388,7 @@
 
       <section id="admin" class="section">
         <div class="card">
-          <h2>👑 Панель создателя</h2>
+          <h2> Панель создателя</h2>
           <div class="stats">
             <div class="stat"><b id="statClients">0</b>клиентов</div>
             <div class="stat"><b id="statOnline">0</b>онлайн</div>
@@ -393,13 +400,20 @@
             <div class="stat"><b id="statBlocked">0</b>заблокировано</div>
           </div>
           
+          <h3>🔐 Безопасность</h3>
+          <label>Текущий пароль</label>
+          <input id="oldPassword" type="password" placeholder="Введите текущий пароль">
+          <label>Новый пароль</label>
+          <input id="newPassword" type="password" placeholder="Введите новый пароль (мин. 4 символа)">
+          <button id="btnChangePassword" class="gold-btn" type="button">🔑 Сменить пароль</button>
+          
           <h3>💰 Кошельки</h3>
           <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
           
-          <h3> Онлайн пользователи</h3>
+          <h3>🟢 Онлайн пользователи</h3>
           <div id="onlineUsersList" class="grid"></div>
           
           <h3>История платежей (Ожидают проверки)</h3>
@@ -414,14 +428,14 @@
         </div>
       </section>
 
-      <section id="qr" class="section"><div class="card"><h2> QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button"> Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
+      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
     </main>
     <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
   </div>
   
   <div id="adModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3> Детали рекламы</h3>
+      <h3>📋 Детали рекламы</h3>
       <div id="modalContent"></div>
       <div class="modal-actions" id="modalActions"></div>
       <button class="ghost-btn" style="margin-top:12px;width:100%;" onclick="closeModal()">Закрыть</button>
@@ -430,7 +444,7 @@
 
   <div id="userModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3>👤 Профиль клиента</h3>
+      <h3> Профиль клиента</h3>
       <div id="userModalContent"></div>
       <div class="modal-actions" id="userModalActions"></div>
       <button class="ghost-btn" style="margin-top:12px;width:100%;" onclick="closeUserModal()">Закрыть</button>
@@ -467,24 +481,21 @@
 
   <script>
     const API_URL = '/api/admin';
-    const ADMIN_PASS = '584462';
+    let ADMIN_PASS = '584462';
     const CLOUD_NAME = 'hvtyo0sn';
     const UPLOAD_PRESET = 'adastra_preset';
     
     let state = { 
       role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [], payments: [], onlineUsers: [],
       syncInterval: null, heartbeatInterval: null, rejectAdId: null, blockUserName: null,
-      selectedImage: null, selectedVideo: null
+      selectedImage: null, selectedVideo: null, passwordVisible: false
     };
 
     async function uploadToCloudinary(file, type) {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', UPLOAD_PRESET);
-      
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, {
-        method: 'POST', body: formData
-      });
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, { method: 'POST', body: formData });
       if (!res.ok) throw new Error('Upload failed');
       const data = await res.json();
       return data.secure_url;
@@ -492,8 +503,16 @@
 
     function startHeartbeat() {
       if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
-      state.heartbeatInterval = setInterval(() => {
-        if (state.role && state.user) api('heartbeat', { name: state.user, role: state.role });
+      state.heartbeatInterval = setInterval(async () => {
+        if (state.role && state.user && state.role !== 'creator') {
+          try {
+            const res = await api('heartbeat', { name: state.user, role: state.role });
+            if (res && res.kicked) {
+              toast('🚫 ' + (res.reason || 'Ваш аккаунт заблокирован или удалён'));
+              setTimeout(() => logout(), 2000);
+            }
+          } catch(e) {}
+        }
       }, 30000);
     }
 
@@ -502,7 +521,7 @@
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=13');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=14');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -532,6 +551,7 @@
           state.ads = data.ads || []; state.subscribers = data.subscribers || [];
           state.messages = data.messages || []; state.payments = data.payments || [];
           state.onlineUsers = data.onlineUsers || [];
+          if (data.adminPassword) ADMIN_PASS = data.adminPassword;
           state.income = state.ads.filter(a => a.paid).length * 89;
           renderAll(); updateNotifBadge();
         }
@@ -549,6 +569,7 @@
     
     function escapeHtml(v){return String(v||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
     function toast(m){const e=$('#toast');e.innerHTML=m;e.classList.remove('hidden');clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.add('hidden'),2800);}
+    function normalizeName(n){return String(n||'').trim().toLowerCase();}
 
     function getStatusBadge(status) {
       if(status === 'pending') return '<span class="sb sb-pending">На модерации</span>';
@@ -560,16 +581,19 @@
     }
     
     function getCategoryName(cat) {
-      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': ' Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
+      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': ' Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
       return cats[cat] || cat;
     }
     
     function getRegionName(region) {
-      const regions = {'international': '🌐 Международный', 'IL': '🇮🇱 Израиль', 'US': '🇺 США', 'RU': '🇷 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
+      const regions = {'international': ' Международный', 'IL': '🇮 Израиль', 'US': '🇺🇸 США', 'RU': '🇷🇺 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇿 Казахстан', 'ES': '🇸 Испания', 'FR': '🇷 Франция', 'DE': '🇪 Германия', 'CN': '🇳 Китай', 'AE': '🇪 ОАЭ'};
       return regions[region] || region;
     }
 
-    function isUserOnline(userName) { return state.onlineUsers.some(u => u.name === userName); }
+    function isUserOnline(userName) { 
+      const norm = normalizeName(userName);
+      return state.onlineUsers.some(u => normalizeName(u.name) === norm); 
+    }
 
     function enterApp(){
       const v=$('#loginInput').value.trim();
@@ -594,6 +618,9 @@
       if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
       $('#app').classList.add('hidden'); $('#loginScreen').classList.remove('hidden');
       $('#loginInput').value=''; state.role=null; state.user='';
+      state.passwordVisible = false;
+      $('#loginInput').type = 'password';
+      $('#toggleLoginPass').textContent = '👁';
     }
 
     function switchTab(t){
@@ -609,8 +636,7 @@
       
       if (state.selectedImage) {
         $$('.preview-media').forEach(b => { b.innerHTML = `<img src="${state.selectedImage}" alt="Креатив">`; });
-      }
-      if (state.selectedVideo) {
+      } else if (state.selectedVideo) {
         $$('.preview-media').forEach(b => { b.innerHTML = `<video src="${state.selectedVideo}" autoplay muted loop></video>`; });
       }
     }
@@ -683,10 +709,10 @@
     window.closeModal = function() { $('#adModal').classList.add('hidden'); }
     
     window.openUserModal = function(userName) {
-      const user = state.subscribers.find(s => s.contact === userName);
+      const user = state.subscribers.find(s => normalizeName(s.contact) === normalizeName(userName));
       if (!user) return;
       
-      const userAds = state.ads.filter(a => a.owner === userName);
+      const userAds = state.ads.filter(a => normalizeName(a.owner) === normalizeName(userName));
       const isOnline = isUserOnline(userName);
       
       $('#userModalContent').innerHTML = `
@@ -695,14 +721,17 @@
           <div><b>Дата регистрации:</b> ${new Date(user.date).toLocaleString('ru-RU')}</div>
           <div><b>Всего объявлений:</b> ${userAds.length}</div>
           <div><b>Оплаченных:</b> ${userAds.filter(a => a.paid).length}</div>
-          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>🚫 ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}</div>` : ''}
+          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>🚫 ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}<br>Дата: ${user.blockedAt ? new Date(user.blockedAt).toLocaleString('ru-RU') : ''}</div>` : ''}
         </div>
         <h4>Последние объявления:</h4>
         ${userAds.slice(0, 3).map(a => `<div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;"><b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}</div>`).join('') || '<div class="empty">Нет объявлений</div>'}
       `;
       
       $('#userModalActions').innerHTML = `
-        ${user.blocked ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`}
+        ${user.blocked 
+          ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
+          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
+        }
         <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
       `;
       $('#userModal').classList.remove('hidden');
@@ -716,7 +745,7 @@
       if (state.blockUserName) {
         toast('⏳ Блокировка...');
         const res = await api('block_user', { name: state.blockUserName, reason });
-        if (res) { toast(' Клиент заблокирован'); closeBlockModal(); closeUserModal(); loadData(); }
+        if (res) { toast('🚫 Клиент заблокирован'); closeBlockModal(); closeUserModal(); loadData(); }
       }
     }
     window.unblockUser = async function(userName) {
@@ -786,7 +815,7 @@
     function renderMyAds(){
       const el=$('#myAds');
       let list = state.ads;
-      if(state.role !== 'creator') list = list.filter(a => a.owner && a.owner.toLowerCase() === state.user.toLowerCase());
+      if(state.role !== 'creator') list = list.filter(a => normalizeName(a.owner) === normalizeName(state.user));
       if(!list.length){el.innerHTML='<div class="empty">Пока пусто. Создай первую рекламу в Студии.</div>';return;}
       el.innerHTML=list.map(adCard).join('');
       drawMiniQR();
@@ -816,6 +845,8 @@
           thumbHTML = `<img src="${a.image}" class="media-thumb" alt="Превью">`;
         } else if (a.video) {
           thumbHTML = `<video src="${a.video}" class="media-thumb" muted></video>`;
+        } else {
+          thumbHTML = `<div class="media-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">Нет фото</div>`;
         }
         return `
         <div class="card" style="margin-bottom:12px; border-left: 4px solid var(--gold);">
@@ -835,7 +866,7 @@
                 <button class="red-btn small" onclick="openRejectModal(${a.id})">❌ Отклонить</button>
               </div>
             </div>
-            ${thumbHTML ? `<div style="flex:0 0 80px">${thumbHTML}</div>` : ''}
+            <div style="flex:0 0 80px">${thumbHTML}</div>
           </div>
         </div>
       `}).join('');
@@ -887,7 +918,7 @@
           <td>${escapeHtml(p.owner)}</td>
           <td>${escapeHtml(p.title)}</td>
           <td><b>$${p.amount}</b></td>
-          <td>${p.method === 'paypal' ? '️ PayPal' : '₿ Крипто'}</td>
+          <td>${p.method === 'paypal' ? '🅿️ PayPal' : '₿ Крипто'}</td>
           <td>${new Date(p.date).toLocaleString('ru-RU')}</td>
           <td><button class="gold-btn small" onclick="verifyPayment(${p.id})">✅ Подтвердить</button></td>
         </tr>
@@ -910,8 +941,8 @@
         return `<tr>
           <td><b>${escapeHtml(c.contact)}</b></td>
           <td><span class="sb ${statusClass}">${statusText}</span></td>
-          <td>${c.lastActivity ? new Date(c.lastActivity).toLocaleString('ru-RU') : new Date(c.date).toLocaleDateString()}</td>
-          <td><button class="ghost-btn small" onclick="openUserModal('${escapeHtml(c.contact)}')">👤 Профиль</button></td>
+          <td>${new Date(c.date).toLocaleDateString()}</td>
+          <td><button class="ghost-btn small" onclick="openUserModal('${escapeHtml(c.contact)}')"> Профиль</button></td>
         </tr>`;
       }).join('');
       
@@ -942,19 +973,24 @@
     function renderSupport(){
       const el = $('#supportHistory');
       let myMessages;
+      const userNorm = normalizeName(state.user);
       if (state.role === 'creator') {
         myMessages = state.messages.filter(m => m.from !== 'Администратор AdAstra' && m.type !== 'notification' && m.type !== 'rejection');
       } else {
-        myMessages = state.messages.filter(m => m.from === state.user || m.to === state.user || m.type === 'notification' || m.type === 'rejection');
+        myMessages = state.messages.filter(m => {
+          const fromNorm = normalizeName(m.from);
+          const toNorm = normalizeName(m.to);
+          return fromNorm === userNorm || toNorm === userNorm || m.type === 'notification' || m.type === 'rejection';
+        });
       }
       if (!myMessages.length) { el.innerHTML = '<div class="empty">Нет сообщений и уведомлений</div>'; return; }
       el.innerHTML = myMessages.map(m => {
         const isNotif = m.type === 'notification' || m.type === 'rejection';
         const bgColor = m.type === 'rejection' ? '#f8d7da' : (isNotif ? '#fff3cd' : '#fff');
         const borderColor = m.type === 'rejection' ? '#dc3545' : (isNotif ? '#ffc107' : 'var(--line)');
-        const unreadBadge = !m.read ? '<span style="color:#dc3545;font-size:11px;"> 🆕</span>' : '<span style="color:#28a745;font-size:11px;"> ✅</span>';
+        const unreadBadge = !m.read ? '<span style="color:#dc3545;font-size:11px;font-weight:700;"> 🆕 НОВОЕ</span>' : '<span style="color:#28a745;font-size:11px;"> ✅</span>';
         return `<div class="card" style="margin-bottom:8px;padding:12px;background:${bgColor};border:1px solid ${borderColor};cursor:pointer;" onclick="markMessageRead(${m.id})">
-          ${isNotif ? `<div style="font-size:11px;color:#856404;font-weight:700;margin-bottom:4px;">🔔 УВЕДОМЛЕНИЕ ОТ МОДЕРАТОРА${unreadBadge}</div>` : ''}
+          ${isNotif ? `<div style="font-size:11px;color:#856404;font-weight:700;margin-bottom:4px;">🔔 УВЕДОМЛЕНИЕ ОТ МОДЕРАТОРА${unreadBadge}</div>` : `<div style="font-size:11px;color:#856404;margin-bottom:4px;">${unreadBadge}</div>`}
           <div class="sub" style="margin:0;white-space:pre-wrap;">${escapeHtml(m.text)}</div>
           <div style="font-size:12px;color:#8b7a4f;margin-top:6px;">${new Date(m.created_at).toLocaleString('ru-RU')}</div>
         </div>`;
@@ -982,10 +1018,10 @@
     window.sendSupport = async function() {
       const text = $('#supportText').value.trim();
       if (!text) { toast('Введите текст сообщения'); return; }
-      toast(' Отправка...');
+      toast('⏳ Отправка...');
       const res = await api('support', { from: state.user, text });
       if (res) { 
-        if (res.error) toast('❌ ' + res.error);
+        if (res.error) toast(' ' + res.error);
         else { toast('✅ Сообщение отправлено'); $('#supportText').value = ''; }
         loadData(); 
       }
@@ -995,14 +1031,18 @@
     
     function updateNotifBadge() {
       if (state.role !== 'client') { $('#btnNotifs').classList.add('hidden'); return; }
-      const unread = state.messages.filter(m => (m.to === state.user || m.type === 'notification' || m.type === 'rejection') && !m.read).length;
+      const userNorm = normalizeName(state.user);
+      const unread = state.messages.filter(m => {
+        const toNorm = normalizeName(m.to);
+        return (toNorm === userNorm || m.type === 'notification' || m.type === 'rejection') && !m.read;
+      }).length;
       const btn = $('#btnNotifs');
       if (unread > 0) { btn.setAttribute('data-count', unread); btn.classList.remove('hidden'); }
       else { btn.classList.add('hidden'); }
     }
     
     function renderBilling(){
-      const pendingPaidAds = state.ads.filter(a => a.owner === state.user && (a.status === 'approved_paid' || a.status === 'paid'));
+      const pendingPaidAds = state.ads.filter(a => normalizeName(a.owner) === normalizeName(state.user) && (a.status === 'approved_paid' || a.status === 'paid'));
       if (pendingPaidAds.length === 0) { $('#billLocked').classList.remove('hidden'); $('#billUnlocked').classList.add('hidden'); return; }
       $('#billLocked').classList.add('hidden'); $('#billUnlocked').classList.remove('hidden');
       const select = $('#payAdSelect');
@@ -1048,9 +1088,25 @@
     async function confirmPayment(method) {
       const adId = parseInt($('#payAdSelect').value, 10);
       if (!adId) { toast('Выберите объявление'); return; }
-      toast('⏳ Отправка подтверждения...');
+      toast(' Отправка подтверждения...');
       const res = await api('confirm_payment', { id: adId, amount: state.bill, method: method });
       if (res) { toast('✅ Подтверждение отправлено! Администратор проверит поступление средств.'); loadData(); }
+    }
+
+    async function changePassword() {
+      const oldP = $('#oldPassword').value.trim();
+      const newP = $('#newPassword').value.trim();
+      if (!oldP || !newP) { toast('Заполните оба поля'); return; }
+      toast('⏳ Смена пароля...');
+      const res = await api('change_password', { oldPassword: oldP, newPassword: newP });
+      if (res && res.success) {
+        ADMIN_PASS = newP;
+        toast('✅ Пароль изменён!');
+        $('#oldPassword').value = '';
+        $('#newPassword').value = '';
+      } else if (res && res.error) {
+        toast(' ' + res.error);
+      }
     }
     
     function renderSites(q){
@@ -1070,11 +1126,19 @@
       updateSubs(); calcBill(); renderSites(''); drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
+    // Кнопка показать/скрыть пароль
+    $('#toggleLoginPass').addEventListener('click', function() {
+      state.passwordVisible = !state.passwordVisible;
+      $('#loginInput').type = state.passwordVisible ? 'text' : 'password';
+      this.textContent = state.passwordVisible ? '' : '👁';
+    });
+
     $('#btnEnter').addEventListener('click', enterApp);
     $('#loginInput').addEventListener('keydown', e=>{if(e.key==='Enter')enterApp();});
     $('#btnLogout').addEventListener('click', logout);
     $('#btnNotifs').addEventListener('click', () => switchTab('support'));
     $('#btnMarkAllRead').addEventListener('click', markAllRead);
+    $('#btnChangePassword').addEventListener('click', changePassword);
     $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
     ['adTitle','adText','adCta','adContact','adFormat'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
     
@@ -1100,7 +1164,7 @@
       $$('.preview-tab-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
       $$('.preview-box').forEach(x=>x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview));
     }));
-    $('#btnTranslate').addEventListener('click',()=>{ const c=selectedLangsCount(); if(!c){toast('Выбери хотя бы один язык');return;} toast(' Переведено на '+c+' языков'); });
+    $('#btnTranslate').addEventListener('click',()=>{ const c=selectedLangsCount(); if(!c){toast('Выбери хотя бы один язык');return;} toast('🌐 Переведено на '+c+' языков'); });
     $('#btnPublish').addEventListener('click', publishAd);
     
     $$('.term').forEach(b=>b.addEventListener('click',()=>{ $$('.term').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $('#daysInput').value=b.dataset.days; $('#qtyInput').value=b.dataset.qty||1; calcBill(); }));
@@ -1123,7 +1187,7 @@
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
     $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
-    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast(' QR создан');});
+    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
     $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
