@@ -29,7 +29,6 @@ export default async function handler(req, res) {
       const { action, id, ...payload } = body;
       const now = Date.now();
 
-      // КЛИЕНТ: Отправка на модерацию
       if (action === 'publish') {
         db.ads.push({
           id: now, type: 'ad', status: 'pending', paid: false,
@@ -44,13 +43,11 @@ export default async function handler(req, res) {
           created_at: new Date().toISOString()
         });
       }
-      // АДМИН: Одобрить платно
       else if (action === 'approve_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
           item.status = 'approved_paid'; 
           item.paid = false;
-          // Уведомление клиенту
           if (item.owner) {
             db.messages.push({
               id: now + 1, from: 'Администратор AdAstra', to: item.owner,
@@ -60,7 +57,6 @@ export default async function handler(req, res) {
           }
         }
       }
-      // АДМИН: Одобрить бесплатно
       else if (action === 'approve_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { 
@@ -75,14 +71,12 @@ export default async function handler(req, res) {
           }
         }
       }
-      // АДМИН: Отклонить (НЕ удаляем, ставим статус + уведомление)
       else if (action === 'reject') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
           item.status = 'rejected';
           item.rejectedAt = new Date().toISOString();
           item.rejectionReason = payload.reason || 'Не соответствует правилам платформы';
-          // Автоматическое уведомление клиенту
           if (item.owner) {
             db.messages.push({
               id: now + 1, from: 'Администратор AdAstra', to: item.owner,
@@ -92,21 +86,17 @@ export default async function handler(req, res) {
           }
         }
       }
-      // АДМИН: Удалить любое объявление навсегда
       else if (action === 'delete') {
         db.ads = db.ads.filter(p => p.id != id);
       }
-      // АДМИН: Сделать платным
       else if (action === 'make_paid') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = true; item.status = 'paid'; }
       }
-      // АДМИН: Сделать бесплатным
       else if (action === 'make_free') {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.paid = false; item.status = 'approved_free'; }
       }
-      // Совместимость
       else if (action === 'approve') {
         const item = db.ads.find(p => p.id == id);
         if (item) item.status = 'approved_paid';
@@ -115,7 +105,6 @@ export default async function handler(req, res) {
         const item = db.ads.find(p => p.id == id);
         if (item) { item.status = 'paid'; item.paid = true; }
       }
-      // Подписчики
       else if (action === 'subscribe') {
         if (!db.subscribers.find(s => s.contact === payload.contact)) {
           db.subscribers.push({ id: now, contact: payload.contact, date: new Date().toISOString() });
@@ -124,7 +113,6 @@ export default async function handler(req, res) {
       else if (action === 'delete_sub') {
         db.subscribers = db.subscribers.filter(s => s.id != id);
       }
-      // Сообщения
       else if (action === 'support') {
         db.messages.push({
           id: now, from: payload.from, text: payload.text,
@@ -138,7 +126,6 @@ export default async function handler(req, res) {
         const item = db.messages.find(m => m.id == id);
         if (item) item.read = true;
       }
-      // АВТОПОСТИНГ: Генерация share-ссылок (без API ключей)
       else if (action === 'autopost') {
         const item = db.ads.find(p => p.id == id);
         if (item) {
