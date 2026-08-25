@@ -9,10 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=11"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=11"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=11"/>
-  <link rel="manifest" href="/manifest.json?v=11"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=12"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=12"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=12"/>
+  <link rel="manifest" href="/manifest.json?v=12"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -95,9 +95,9 @@
     .contact{color:#7c6832;font-size:13px;font-weight:700;}
     .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
     
-    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:12px 0;}
-    .stat{padding:15px 14px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
-    .stat b{display:block;font-size:28px;color:#211a08;margin-bottom:4px;}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0;}
+    .stat{padding:12px 10px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
+    .stat b{display:block;font-size:24px;color:#211a08;margin-bottom:4px;}
     .table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;}
     .table th,.table td{padding:11px 10px;border-bottom:1px solid #eee1b8;text-align:left;font-size:14px;}
     .table th{background:#fff4cf;color:#4d3d12;}
@@ -129,7 +129,6 @@
     .notif-badge::after{content:attr(data-count);position:absolute;top:-6px;right:-6px;background:#dc3545;color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;min-width:18px;}
     
     .online-indicator{width:8px;height:8px;background:#28a745;border-radius:50%;display:inline-block;margin-right:6px;}
-    .offline-indicator{width:8px;height:8px;background:#6c757d;border-radius:50%;display:inline-block;margin-right:6px;}
     
     @media(max-width:640px){.brand-name{font-size:21px;}.brand-sub{display:none;}.card{padding:14px;}.card h2{font-size:23px;}.table{font-size:12px;}.table th,.table td{padding:8px 6px;}}
   </style>
@@ -172,7 +171,7 @@
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
       
       <div class="pricing-preview">
-        <h3>💰 Тарифы AdAstra</h3>
+        <h3> Тарифы AdAstra</h3>
         <div class="pricing-grid">
           <div class="pricing-item"><b>$4</b><span>в день</span></div>
           <div class="pricing-item"><b>$29</b><span>неделя</span></div>
@@ -194,14 +193,14 @@
       </div>
     </header>
     <nav class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="studio" type="button"> Студия</button>
+      <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
-      <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
+      <button class="tab-btn" data-tab="bill" type="button"> Счёт</button>
       <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
-      <button class="tab-btn" data-tab="subs" type="button"> Подписчики</button>
+      <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
       <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
-      <button class="tab-btn" data-tab="qr" type="button"> QR</button>
+      <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
     </nav>
     <main>
       <section id="studio" class="section active">
@@ -214,7 +213,7 @@
               <select id="adFormat"><option value="banner">🖼 Баннер</option><option value="post">📝 Пост</option><option value="story">📲 Сторис</option></select>
               <label>Категория рекламы</label>
               <select id="adCategory">
-                <option value="general"> Общее</option>
+                <option value="general">📌 Общее</option>
                 <option value="repair">🔧 Ремонт и строительство</option>
                 <option value="beauty">💄 Красота и здоровье</option>
                 <option value="food">🍔 Еда и рестораны</option>
@@ -226,30 +225,30 @@
                 <option value="events">🎉 Мероприятия</option>
                 <option value="other">📦 Другое</option>
               </select>
-              <label> Картинка (опционально)</label>
+              <label>🖼 Картинка (до 5 МБ)</label>
               <input id="imageUpload" type="file" accept="image/*">
-              <label>🎥 Видео (опционально)</label>
+              <label>🎥 Видео-ролик (до 10 МБ, макс 30 сек)</label>
               <input id="videoUpload" type="file" accept="video/*">
               <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Скидка 30% на ремонт квартир">
               <label>Текст рекламы</label><textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
               <label>Кнопка действия</label><input id="adCta" type="text" placeholder="Заказать / Получить смету / Написать">
               <label>Контакт</label><input id="adContact" type="text" placeholder="WhatsApp, телефон, сайт или email">
-              <label> Регион показа рекламы</label>
+              <label>🌍 Регион показа рекламы</label>
               <select id="adRegion">
                 <option value="international">🌐 Международный (все страны)</option>
-                <option value="IL">🇮 Израиль</option>
+                <option value="IL">🇮🇱 Израиль</option>
                 <option value="US">🇺🇸 США</option>
                 <option value="RU">🇷🇺 Россия</option>
                 <option value="UA">🇺🇦 Украина</option>
                 <option value="BY">🇧🇾 Беларусь</option>
-                <option value="KZ">🇰🇿 Казахстан</option>
-                <option value="ES">🇸 Испания</option>
-                <option value="FR">🇫🇷 Франция</option>
+                <option value="KZ">🇿 Казахстан</option>
+                <option value="ES">🇪🇸 Испания</option>
+                <option value="FR">🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
-                <option value="CN">🇨🇳 Китай</option>
+                <option value="CN">🇳 Китай</option>
                 <option value="AE">🇦🇪 ОАЭ</option>
               </select>
-              <label> Город (опционально)</label>
+              <label>🏙 Город (опционально)</label>
               <input id="adCity" type="text" placeholder="Например: Тель-Авив, Москва, Нью-Йорк">
               <label>🌍 Языки стран показа (автоперевод)</label>
               <div class="chips" id="langChips">
@@ -261,7 +260,7 @@
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="RU" checked> RU</label>
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="ZH" checked> ZH</label>
               </div>
-              <button id="btnTranslate" class="ghost-btn" type="button"> Перевести рекламу на выбранные</button>
+              <button id="btnTranslate" class="ghost-btn" type="button">🌐 Перевести рекламу на выбранные</button>
               <button id="btnPublish" class="gold-btn" type="button">🚀 Опубликовать рекламу</button>
               <div class="chips"><span class="chip">✓ баннер</span><span class="chip">✓ пост</span><span class="chip">✓ сторис</span><span class="chip">✓ QR</span><span class="chip">✓ 7 языков</span></div>
             </div>
@@ -270,7 +269,7 @@
               <div class="preview-tabs">
                 <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
                 <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
-                <button class="chip preview-tab-btn" data-preview="story" type="button"> Сторис</button>
+                <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
               </div>
               <div class="preview-box banner" data-preview="banner"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
               <div class="preview-box post hidden" data-preview="post"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
@@ -283,31 +282,31 @@
 
       <section id="feed" class="section">
         <div class="card">
-          <h2>📰 Лента рекламы AdAstra</h2>
+          <h2> Лента рекламы AdAstra</h2>
           <p class="sub">Яркие мультиязычные креативы с QR-кодами.</p>
           <label>🔍 Поиск по категории</label>
           <select id="feedCategoryFilter">
             <option value="all">Все категории</option>
-            <option value="repair">🔧 Ремонт и строительство</option>
-            <option value="beauty"> Красота и здоровье</option>
+            <option value="repair"> Ремонт и строительство</option>
+            <option value="beauty">💄 Красота и здоровье</option>
             <option value="food">🍔 Еда и рестораны</option>
-            <option value="auto"> Авто и транспорт</option>
-            <option value="realestate">🏠 Недвижимость</option>
-            <option value="education"> Образование</option>
+            <option value="auto">🚗 Авто и транспорт</option>
+            <option value="realestate"> Недвижимость</option>
+            <option value="education">📚 Образование</option>
             <option value="services">🛎 Услуги</option>
-            <option value="shopping">🛍 Магазины</option>
+            <option value="shopping"> Магазины</option>
             <option value="events">🎉 Мероприятия</option>
           </select>
-          <label>🌍 Фильтр по региону</label>
+          <label> Фильтр по региону</label>
           <select id="feedRegionFilter">
             <option value="all">Все регионы</option>
             <option value="international">🌐 Международный</option>
-            <option value="IL">🇮🇱 Израиль</option>
-            <option value="US">🇸 США</option>
+            <option value="IL">🇮 Израиль</option>
+            <option value="US">🇺🇸 США</option>
             <option value="RU">🇷🇺 Россия</option>
-            <option value="UA">🇦 Украина</option>
+            <option value="UA">🇺🇦 Украина</option>
             <option value="ES">🇪🇸 Испания</option>
-            <option value="FR">🇷 Франция</option>
+            <option value="FR">🇫🇷 Франция</option>
           </select>
           <div id="feedList" class="grid"></div>
         </div>
@@ -315,7 +314,7 @@
 
       <section id="bill" class="section">
         <div class="card">
-          <h2>🧮 Калькулятор счёта и оплата</h2>
+          <h2> Калькулятор счёта и оплата</h2>
           <div id="billLocked" class="empty">
             ⏳ <b>Дождитесь одобрения модератора.</b><br>
             Оплата доступна только после того, как администратор одобрит вашу рекламу как "Платную". Вы получите уведомление.
@@ -339,7 +338,7 @@
               <div>
                 <h3>Способ оплаты</h3>
                 <div class="chips">
-                  <button class="chip pay-tab active" data-pay="paypal" type="button">🅿️ PayPal (принимает карты)</button>
+                  <button class="chip pay-tab active" data-pay="paypal" type="button">️ PayPal (принимает карты)</button>
                   <button class="chip pay-tab" data-pay="crypto" type="button">₿ Криптовалюта</button>
                 </div>
                 <div id="payPaypal" class="pay-box">
@@ -350,7 +349,7 @@
                 <div id="payCrypto" class="pay-box hidden">
                   <label>Монета</label><select id="cryptoCoin"><option>USDT (BEP20)</option><option>BTC</option><option>ETH</option></select>
                   <label>Адрес кошелька AdAstra</label><input id="cryptoWallet" type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-                  <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button" style="width:100%;margin-bottom:10px;"> Скопировать адрес</button>
+                  <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button" style="width:100%;margin-bottom:10px;">📋 Скопировать адрес</button>
                   <button id="btnPaidCrypto" class="gold-btn" style="width:100%;" type="button">✅ Я перевёл криптовалюту</button>
                 </div>
               </div>
@@ -361,7 +360,7 @@
 
       <section id="sites" class="section"><div class="card"><h2>🌐 Площадки</h2><p class="sub">Автопоиск бесплатных мест по всему миру.</p><label>Что рекламируем?</label><input id="siteSearch" type="text" placeholder="Израиль, ремонт, косметика..."><button id="btnFindSites" class="gold-btn" type="button">🔍 Автопоиск</button><h3>Найденные площадки</h3><div id="sitesList" class="grid"></div></div></section>
 
-      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button">📣 Разослать приглашения</button></div></section>
+      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button"> Разослать приглашения</button></div></section>
 
       <section id="support" class="section">
         <div class="card">
@@ -393,9 +392,9 @@
           <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-          <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
+          <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button"> ETH</button></div>
           
-          <h3> Онлайн пользователи</h3>
+          <h3>🟢 Онлайн пользователи</h3>
           <div id="onlineUsersList" class="grid"></div>
           
           <h3>История платежей (Ожидают проверки)</h3>
@@ -410,7 +409,7 @@
         </div>
       </section>
 
-      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
+      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button"> Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
     </main>
     <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
   </div>
@@ -426,7 +425,7 @@
 
   <div id="userModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3> Профиль клиента</h3>
+      <h3>👤 Профиль клиента</h3>
       <div id="userModalContent"></div>
       <div class="modal-actions" id="userModalActions"></div>
       <button class="ghost-btn" style="margin-top:12px;width:100%;" onclick="closeUserModal()">Закрыть</button>
@@ -448,7 +447,7 @@
 
   <div id="blockModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3> Заблокировать клиента</h3>
+      <h3>🚫 Заблокировать клиента</h3>
       <p class="sub">Укажите причину блокировки.</p>
       <label>Причина блокировки</label>
       <textarea id="blockReason" placeholder="Например: Спам, неподобающий контент, бот..." style="min-height:100px;"></textarea>
@@ -464,42 +463,33 @@
   <script>
     const API_URL = '/api/admin';
     const ADMIN_PASS = '584462';
+    const CLOUD_NAME = 'hvtyo0sn';
+    const UPLOAD_PRESET = 'adastra_preset';
+    
     let state = { 
-      role: null, 
-      user: '', 
-      bill: 20, 
-      income: 0, 
-      ads: [], 
-      subscribers: [], 
-      messages: [], 
-      payments: [], 
-      onlineUsers: [],
-      syncInterval: null, 
-      heartbeatInterval: null,
-      rejectAdId: null,
-      blockUserName: null,
-      selectedImage: null,
-      selectedVideo: null
+      role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [], payments: [], onlineUsers: [],
+      syncInterval: null, heartbeatInterval: null, rejectAdId: null, blockUserName: null,
+      selectedImage: null, selectedVideo: null
     };
 
-    // Heartbeat каждые 30 секунд
+    async function uploadToCloudinary(file, type) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', UPLOAD_PRESET);
+      
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, {
+        method: 'POST', body: formData
+      });
+      if (!res.ok) throw new Error('Upload failed');
+      const data = await res.json();
+      return data.secure_url;
+    }
+
     function startHeartbeat() {
       if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
       state.heartbeatInterval = setInterval(() => {
-        if (state.role && state.user) {
-          api('heartbeat', { name: state.user, role: state.role });
-        }
+        if (state.role && state.user) api('heartbeat', { name: state.user, role: state.role });
       }, 30000);
-    }
-
-    // Конвертация файла в base64
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-      });
     }
 
     if ('serviceWorker' in navigator) {
@@ -507,15 +497,13 @@
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=11');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=12');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
             newWorker.addEventListener('statechange', () => {
               if (newWorker.state === 'activated' && navigator.serviceWorker.controller) {
-                if (confirm('🔄 Доступно обновление приложения! Перезагрузить для применения новых функций и иконки?')) {
-                  window.location.reload();
-                }
+                if (confirm('🔄 Доступно обновление приложения! Перезагрузить?')) window.location.reload();
               }
             });
           });
@@ -525,18 +513,10 @@
 
     async function api(action, payload = {}) {
       try {
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action, ...payload })
-        });
+        const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, ...payload }) });
         if (!res.ok) throw new Error('API Error');
         return await res.json();
-      } catch (e) {
-        console.error(e);
-        toast('❌ Ошибка соединения с сервером');
-        return null;
-      }
+      } catch (e) { console.error(e); toast('❌ Ошибка соединения с сервером'); return null; }
     }
 
     async function loadData() {
@@ -544,14 +524,11 @@
         const res = await fetch(API_URL + '?t=' + Date.now());
         if (res.ok) {
           const data = await res.json();
-          state.ads = data.ads || [];
-          state.subscribers = data.subscribers || [];
-          state.messages = data.messages || [];
-          state.payments = data.payments || [];
+          state.ads = data.ads || []; state.subscribers = data.subscribers || [];
+          state.messages = data.messages || []; state.payments = data.payments || [];
           state.onlineUsers = data.onlineUsers || [];
           state.income = state.ads.filter(a => a.paid).length * 89;
-          renderAll();
-          updateNotifBadge();
+          renderAll(); updateNotifBadge();
         }
       } catch (e) { console.warn("Load failed", e); }
     }
@@ -587,9 +564,7 @@
       return regions[region] || region;
     }
 
-    function isUserOnline(userName) {
-      return state.onlineUsers.some(u => u.name === userName);
-    }
+    function isUserOnline(userName) { return state.onlineUsers.some(u => u.name === userName); }
 
     function enterApp(){
       const v=$('#loginInput').value.trim();
@@ -605,19 +580,15 @@
       $('#loginScreen').classList.add('hidden');
       $('#app').classList.remove('hidden');
       $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+state.user;
-      loadData();
-      startSync();
-      startHeartbeat();
+      loadData(); startSync(); startHeartbeat();
       toast(state.role==='creator' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, '+escapeHtml(state.user));
     }
 
     function logout(){
       if (state.syncInterval) clearInterval(state.syncInterval);
       if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
-      $('#app').classList.add('hidden');
-      $('#loginScreen').classList.remove('hidden');
-      $('#loginInput').value='';
-      state.role=null; state.user='';
+      $('#app').classList.add('hidden'); $('#loginScreen').classList.remove('hidden');
+      $('#loginInput').value=''; state.role=null; state.user='';
     }
 
     function switchTab(t){
@@ -628,23 +599,14 @@
 
     function updatePreview(){
       const t=$('#adTitle').value.trim()||'Ваш заголовок', x=$('#adText').value.trim()||'Яркий текст рекламы появится здесь.', c=$('#adCta').value.trim()||'Подробнее', k=$('#adContact').value.trim()||'Контакт';
-      $$('.prev-title').forEach(e=>e.textContent=t);
-      $$('.prev-text').forEach(e=>e.textContent=x);
-      $$('.prev-cta').forEach(e=>e.textContent=c);
-      $$('.prev-contact').forEach(e=>e.textContent=k);
+      $$('.prev-title').forEach(e=>e.textContent=t); $$('.prev-text').forEach(e=>e.textContent=x);
+      $$('.prev-cta').forEach(e=>e.textContent=c); $$('.prev-contact').forEach(e=>e.textContent=k);
       
-      // Обновление превью медиа
       if (state.selectedImage) {
-        $$('.preview-media').forEach(b => {
-          if (!b.querySelector('img')) {
-            b.innerHTML = `<img src="${state.selectedImage}" alt="Креатив">`;
-          }
-        });
+        $$('.preview-media').forEach(b => { b.innerHTML = `<img src="${state.selectedImage}" alt="Креатив">`; });
       }
       if (state.selectedVideo) {
-        $$('.preview-media').forEach(b => {
-          b.innerHTML = `<video src="${state.selectedVideo}" autoplay muted loop></video>`;
-        });
+        $$('.preview-media').forEach(b => { b.innerHTML = `<video src="${state.selectedVideo}" autoplay muted loop></video>`; });
       }
     }
 
@@ -653,33 +615,28 @@
     async function publishAd(){
       const title=$('#adTitle').value.trim(), text=$('#adText').value.trim(), cta=$('#adCta').value.trim(), contact=$('#adContact').value.trim(), format=$('#adFormat').value, category=$('#adCategory').value, region=$('#adRegion').value, city=$('#adCity').value.trim(), langs=selectedLangsCount();
       if(!title){toast('Добавь заголовок рекламы');return;}
-      toast('⏳ Отправка на сервер...');
       
-      const payload = { 
-        owner: state.user, 
-        title, 
-        text, 
-        cta, 
-        contact, 
-        format, 
-        category, 
-        region, 
-        city, 
-        langs, 
-        image: state.selectedImage,
-        video: state.selectedVideo
-      };
+      toast('⏳ Загрузка медиа и отправка...');
+      let imageUrl = state.selectedImage;
+      let videoUrl = state.selectedVideo;
       
-      const res = await api('publish', payload);
+      const imgFile = $('#imageUpload').files[0];
+      const vidFile = $('#videoUpload').files[0];
+      
+      if (imgFile && !state.selectedImage) {
+        try { imageUrl = await uploadToCloudinary(imgFile, 'image'); } catch(e) { toast('❌ Ошибка загрузки картинки'); return; }
+      }
+      if (vidFile && !state.selectedVideo) {
+        try { videoUrl = await uploadToCloudinary(vidFile, 'video'); } catch(e) { toast('❌ Ошибка загрузки видео'); return; }
+      }
+
+      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: imageUrl, video: videoUrl });
       if(res && res.success) {
-        toast('🚀 Реклама отправлена на модерацию');
+        toast(' Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value=''; $('#adCity').value='';
-        state.selectedImage = null;
-        state.selectedVideo = null;
-        $('#imageUpload').value = '';
-        $('#videoUpload').value = '';
-        updatePreview();
-        loadData();
+        $('#imageUpload').value = ''; $('#videoUpload').value = '';
+        state.selectedImage = null; state.selectedVideo = null;
+        updatePreview(); loadData();
       } else if (res && res.error) {
         toast('❌ ' + res.error);
       }
@@ -690,12 +647,8 @@
       if (!ad) return;
       
       let mediaHTML = '';
-      if (ad.image) {
-        mediaHTML += `<div class="media-preview"><img src="${ad.image}" alt="Картинка рекламы"></div>`;
-      }
-      if (ad.video) {
-        mediaHTML += `<div class="media-preview"><video src="${ad.video}" controls></video></div>`;
-      }
+      if (ad.image) mediaHTML += `<div class="media-preview"><img src="${ad.image}" alt="Картинка рекламы"></div>`;
+      if (ad.video) mediaHTML += `<div class="media-preview"><video src="${ad.video}" controls></video></div>`;
       
       $('#modalContent').innerHTML = `
         <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip">🏙 ${escapeHtml(ad.city)}</span>` : ''}</div>
@@ -729,7 +682,6 @@
       if (!user) return;
       
       const userAds = state.ads.filter(a => a.owner === userName);
-      const userMessages = state.messages.filter(m => m.from === userName);
       const isOnline = isUserOnline(userName);
       
       $('#userModalContent').innerHTML = `
@@ -738,51 +690,32 @@
           <div><b>Дата регистрации:</b> ${new Date(user.date).toLocaleString('ru-RU')}</div>
           <div><b>Всего объявлений:</b> ${userAds.length}</div>
           <div><b>Оплаченных:</b> ${userAds.filter(a => a.paid).length}</div>
-          <div><b>Сообщений:</b> ${userMessages.length}</div>
-          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>🚫 ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}<br>Дата: ${new Date(user.blockedAt).toLocaleString('ru-RU')}</div>` : ''}
+          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b> ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}</div>` : ''}
         </div>
         <h4>Последние объявления:</h4>
-        ${userAds.slice(0, 3).map(a => `
-          <div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;">
-            <b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}
-          </div>
-        `).join('') || '<div class="empty">Нет объявлений</div>'}
+        ${userAds.slice(0, 3).map(a => `<div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;"><b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}</div>`).join('') || '<div class="empty">Нет объявлений</div>'}
       `;
       
       $('#userModalActions').innerHTML = `
-        ${user.blocked 
-          ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
-          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
-        }
+        ${user.blocked ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`}
         <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
       `;
-      
       $('#userModal').classList.remove('hidden');
     }
     
     window.closeUserModal = function() { $('#userModal').classList.add('hidden'); }
-    
-    window.openBlockModal = function(userName) {
-      state.blockUserName = userName;
-      $('#blockReason').value = '';
-      $('#blockModal').classList.remove('hidden');
-    }
+    window.openBlockModal = function(userName) { state.blockUserName = userName; $('#blockReason').value = ''; $('#blockModal').classList.remove('hidden'); }
     window.closeBlockModal = function() { $('#blockModal').classList.add('hidden'); state.blockUserName = null; }
     window.confirmBlock = async function() {
       const reason = $('#blockReason').value.trim() || 'Нарушение правил';
       if (state.blockUserName) {
         toast('⏳ Блокировка...');
         const res = await api('block_user', { name: state.blockUserName, reason });
-        if (res) { 
-          toast(' Клиент заблокирован'); 
-          closeBlockModal(); 
-          closeUserModal();
-          loadData(); 
-        }
+        if (res) { toast('🚫 Клиент заблокирован'); closeBlockModal(); closeUserModal(); loadData(); }
       }
     }
     window.unblockUser = async function(userName) {
-      toast('⏳ Разблокировка...');
+      toast(' Разблокировка...');
       const res = await api('unblock_user', { name: userName });
       if (res) { toast('✅ Клиент разблокирован'); closeUserModal(); loadData(); }
     }
@@ -790,27 +723,22 @@
       if (!confirm(`Удалить клиента "${userName}" и все его данные навсегда?`)) return;
       toast('⏳ Удаление...');
       const res = await api('delete_user', { name: userName });
-      if (res) { toast(' Клиент удалён'); closeUserModal(); loadData(); }
+      if (res) { toast('🗑 Клиент удалён'); closeUserModal(); loadData(); }
     }
     
-    window.openRejectModal = function(id) {
-      state.rejectAdId = id;
-      $('#rejectReason').value = '';
-      $('#rejectModal').classList.remove('hidden');
-    }
+    window.openRejectModal = function(id) { state.rejectAdId = id; $('#rejectReason').value = ''; $('#rejectModal').classList.remove('hidden'); }
     window.closeRejectModal = function() { $('#rejectModal').classList.add('hidden'); state.rejectAdId = null; }
     window.confirmReject = async function() {
       const reason = $('#rejectReason').value.trim() || 'Не соответствует правилам платформы';
       if (state.rejectAdId) {
-        toast('⏳ Отклонение...');
+        toast(' Отклонение...');
         const res = await api('reject', { id: state.rejectAdId, reason });
-        if (res) { toast('❌ Реклама отклонена, клиент уведомлён'); closeRejectModal(); loadData(); }
+        if (res) { toast(' Реклама отклонена, клиент уведомлён'); closeRejectModal(); loadData(); }
       }
     }
-    
     window.deleteAd = async function(id) {
       if (!confirm('Удалить это объявление навсегда?')) return;
-      toast('⏳ Удаление...');
+      toast(' Удаление...');
       const res = await api('delete', { id });
       if (res) { toast('✅ Удалено'); closeModal(); loadData(); }
     }
@@ -824,13 +752,9 @@
 
     function adCard(a){
       let mediaHTML = '';
-      if (a.image) {
-        mediaHTML = `<img src="${a.image}" alt="Картинка">`;
-      } else if (a.video) {
-        mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
-      } else {
-        mediaHTML = escapeHtml(a.format || '🖼 Баннер');
-      }
+      if (a.image) mediaHTML = `<img src="${a.image}" alt="Картинка">`;
+      else if (a.video) mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
+      else mediaHTML = escapeHtml(a.format || '🖼 Баннер');
       
       return `<div class="ad-card">
         <div class="ad-visual">${mediaHTML}</div>
@@ -847,9 +771,9 @@
             <span class="contact">${escapeHtml(a.contact||'')}</span>
             ${a.city ? `<span class="contact">🏙 ${escapeHtml(a.city)}</span>` : ''}
           </div>
-          <div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
+          <div class="chips"><span class="chip"> ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
           <canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas>
-          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})"> Подробнее</button>` : ''}
+          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})">📋 Подробнее</button>` : ''}
         </div>
       </div>`;
     }
@@ -891,7 +815,7 @@
           <div class="ad-actions">
             <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть детали</button>
             <button class="gold-btn small" onclick="moderateAd(${a.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
-            <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')"> Одобрить (Бесплатно)</button>
+            <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
             <button class="red-btn small" onclick="openRejectModal(${a.id})">❌ Отклонить</button>
           </div>
         </div>
@@ -923,17 +847,14 @@
 
     function renderOnlineUsers(){
       const el = $('#onlineUsersList');
-      if (!state.onlineUsers.length) {
-        el.innerHTML = '<div class="empty">Нет пользователей онлайн</div>';
-        return;
-      }
+      if (!state.onlineUsers.length) { el.innerHTML = '<div class="empty">Нет пользователей онлайн</div>'; return; }
       el.innerHTML = state.onlineUsers.map(u => `
         <div class="card" style="margin-bottom:0;padding:12px;">
           <div style="display:flex;justify-content:space-between;align-items:center;">
             <b><span class="online-indicator"></span>${escapeHtml(u.name)}</b>
-            <span style="font-size:11px;color:#8b7a4f">${u.role === 'creator' ? '👑 Админ' : '👤 Клиент'}</span>
+            <span style="font-size:11px;color:#8b7a4f">${u.role === 'creator' ? ' Админ' : '👤 Клиент'}</span>
           </div>
-          <div style="font-size:12px;color:#8b7a4f;margin-top:4px;">Последняя активность: ${new Date(u.lastSeen).toLocaleTimeString('ru-RU')}</div>
+          <div style="font-size:12px;color:#8b7a4f;margin-top:4px;">Активность: ${new Date(u.lastSeen).toLocaleTimeString('ru-RU')}</div>
         </div>
       `).join('');
     }
@@ -941,10 +862,7 @@
     function renderPayments(){
       const tbody = $('#paymentsTableBody');
       const pendingPays = state.payments.filter(p => p.status === 'pending_verification');
-      if(!pendingPays.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty">Нет платежей, ожидающих проверки</td></tr>';
-        return;
-      }
+      if(!pendingPays.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty">Нет платежей, ожидающих проверки</td></tr>'; return; }
       tbody.innerHTML = pendingPays.map(p => `
         <tr>
           <td>${escapeHtml(p.owner)}</td>
@@ -969,15 +887,14 @@
       tbody.innerHTML = state.subscribers.map(c => {
         const online = isUserOnline(c.contact);
         const statusClass = c.blocked ? 'sb-blocked' : (online ? 'sb-online' : 'sb-pending');
-        const statusText = c.blocked ? '🚫 Заблокирован' : (online ? '🟢 Онлайн' : '⚫ Оффлайн');
-        return `
-        <tr>
+        const statusText = c.blocked ? '🚫 Заблокирован' : (online ? '🟢 Онлайн' : ' Оффлайн');
+        return `<tr>
           <td><b>${escapeHtml(c.contact)}</b></td>
           <td><span class="sb ${statusClass}">${statusText}</span></td>
           <td>${c.lastActivity ? new Date(c.lastActivity).toLocaleString('ru-RU') : new Date(c.date).toLocaleDateString()}</td>
           <td><button class="ghost-btn small" onclick="openUserModal('${escapeHtml(c.contact)}')"> Профиль</button></td>
-        </tr>
-      `}).join('');
+        </tr>`;
+      }).join('');
       
       $('#statClients').textContent = state.subscribers.length;
       $('#statOnline').textContent = state.onlineUsers.filter(u => u.role !== 'creator').length;
@@ -1003,7 +920,7 @@
         const bgColor = m.type === 'rejection' ? '#f8d7da' : (isNotif ? '#fff3cd' : '#fff');
         const borderColor = m.type === 'rejection' ? '#dc3545' : (isNotif ? '#ffc107' : 'var(--line)');
         return `<div class="card" style="margin-bottom:8px;padding:12px;background:${bgColor};border:1px solid ${borderColor};">
-          ${isNotif ? `<div style="font-size:11px;color:#856404;font-weight:700;margin-bottom:4px;">🔔 УВЕДОМЛЕНИЕ ОТ МОДЕРАТОРА</div>` : ''}
+          ${isNotif ? `<div style="font-size:11px;color:#856404;font-weight:700;margin-bottom:4px;"> УВЕДОМЛЕНИЕ ОТ МОДЕРАТОРА</div>` : ''}
           <div class="sub" style="margin:0;white-space:pre-wrap;">${escapeHtml(m.text)}</div>
           <div style="font-size:12px;color:#8b7a4f;margin-top:6px;">${new Date(m.created_at).toLocaleString('ru-RU')} ${m.read ? '✅' : '🆕'}</div>
         </div>`;
@@ -1020,7 +937,7 @@
           <p class="sub" style="margin:8px 0">${escapeHtml(m.text)}</p>
           <div class="chips">
             ${!m.read ? `<button class="gold-btn small" onclick="markRead(${m.id})">✅ Отмечено прочитанным</button>` : '<span class="chip">✅ Прочитано</span>'}
-            <button class="red-btn small" onclick="deleteMsg(${m.id})">🗑 Удалить</button>
+            <button class="red-btn small" onclick="deleteMsg(${m.id})"> Удалить</button>
           </div>
         </div>
       `).join('');
@@ -1031,15 +948,11 @@
     window.sendSupport = async function() {
       const text = $('#supportText').value.trim();
       if (!text) { toast('Введите текст сообщения'); return; }
-      toast('⏳ Отправка...');
+      toast(' Отправка...');
       const res = await api('support', { from: state.user, text });
       if (res) { 
-        if (res.error) {
-          toast('❌ ' + res.error);
-        } else {
-          toast('✅ Сообщение отправлено'); 
-          $('#supportText').value = ''; 
-        }
+        if (res.error) toast('❌ ' + res.error);
+        else { toast('✅ Сообщение отправлено'); $('#supportText').value = ''; }
         loadData(); 
       }
     }
@@ -1050,24 +963,14 @@
       if (state.role !== 'client') { $('#btnNotifs').classList.add('hidden'); return; }
       const unread = state.messages.filter(m => (m.to === state.user || m.type === 'notification' || m.type === 'rejection') && !m.read).length;
       const btn = $('#btnNotifs');
-      if (unread > 0) {
-        btn.setAttribute('data-count', unread);
-        btn.classList.remove('hidden');
-      } else {
-        btn.classList.add('hidden');
-      }
+      if (unread > 0) { btn.setAttribute('data-count', unread); btn.classList.remove('hidden'); }
+      else { btn.classList.add('hidden'); }
     }
     
     function renderBilling(){
       const pendingPaidAds = state.ads.filter(a => a.owner === state.user && (a.status === 'approved_paid' || a.status === 'paid'));
-      if (pendingPaidAds.length === 0) {
-        $('#billLocked').classList.remove('hidden');
-        $('#billUnlocked').classList.add('hidden');
-        return;
-      }
-      $('#billLocked').classList.add('hidden');
-      $('#billUnlocked').classList.remove('hidden');
-      
+      if (pendingPaidAds.length === 0) { $('#billLocked').classList.remove('hidden'); $('#billUnlocked').classList.add('hidden'); return; }
+      $('#billLocked').classList.add('hidden'); $('#billUnlocked').classList.remove('hidden');
       const select = $('#payAdSelect');
       select.innerHTML = pendingPaidAds.map(a => `<option value="${a.id}" ${a.status === 'approved_paid' ? 'selected' : ''}>${escapeHtml(a.title)} (${getStatusBadge(a.status)})</option>`).join('');
       calcBill();
@@ -1079,41 +982,20 @@
       const days = Math.max(1, parseInt($('#daysInput').value, 10) || 1);
       const qty = Math.min(10, Math.max(1, parseInt($('#qtyInput').value, 10) || 1));
       
-      let remainingDays = days;
-      let baseCost = 0;
-      let breakdown = [];
+      let remainingDays = days; let baseCost = 0; let breakdown = [];
       
       const months = Math.floor(remainingDays / 30);
-      if (months > 0) {
-        baseCost += months * 89;
-        breakdown.push(`${months} мес. = $${months * 89}`);
-        remainingDays -= months * 30;
-      }
-      
+      if (months > 0) { baseCost += months * 89; breakdown.push(`${months} мес. = $${months * 89}`); remainingDays -= months * 30; }
       const twoWeeks = Math.floor(remainingDays / 14);
-      if (twoWeeks > 0) {
-        baseCost += twoWeeks * 49;
-        breakdown.push(`${twoWeeks} × 2 нед. = $${twoWeeks * 49}`);
-        remainingDays -= twoWeeks * 14;
-      }
-      
+      if (twoWeeks > 0) { baseCost += twoWeeks * 49; breakdown.push(`${twoWeeks} × 2 нед. = $${twoWeeks * 49}`); remainingDays -= twoWeeks * 14; }
       const weeks = Math.floor(remainingDays / 7);
-      if (weeks > 0) {
-        baseCost += weeks * 29;
-        breakdown.push(`${weeks} нед. = $${weeks * 29}`);
-        remainingDays -= weeks * 7;
-      }
-      
-      if (remainingDays > 0) {
-        baseCost += remainingDays * 4;
-        breakdown.push(`${remainingDays} дн. × $4 = $${remainingDays * 4}`);
-      }
+      if (weeks > 0) { baseCost += weeks * 29; breakdown.push(`${weeks} нед. = $${weeks * 29}`); remainingDays -= weeks * 7; }
+      if (remainingDays > 0) { baseCost += remainingDays * 4; breakdown.push(`${remainingDays} дн. × $4 = $${remainingDays * 4}`); }
       
       const extraAds = Math.max(0, qty - 3);
       const surchargePercent = extraAds * 2;
       const surcharge = Math.round(baseCost * surchargePercent / 100);
       const total = baseCost + surcharge;
-      
       const dailyCost = days * 4;
       const savings = dailyCost - total;
       
@@ -1122,14 +1004,9 @@
       
       let resultHTML = `<b>Расчет:</b><br>${breakdown.join(' + ')}<br>`;
       resultHTML += `База: <b>$${baseCost}</b>`;
-      if (surcharge > 0) {
-        resultHTML += ` · Надбавка за ${qty} объявл.: <b>+$${surcharge} (+${surchargePercent}%)</b>`;
-      }
+      if (surcharge > 0) resultHTML += ` · Надбавка за ${qty} объявл.: <b>+$${surcharge} (+${surchargePercent}%)</b>`;
       resultHTML += `<br><span class="total">Итого: $${total}</span>`;
-      if (savings > 0) {
-        resultHTML += `<br><span style="color:#28a745;font-size:13px;">🔥 Вы экономите $${savings} по сравнению с посуточной оплатой!</span>`;
-      }
-      
+      if (savings > 0) resultHTML += `<br><span style="color:#28a745;font-size:13px;">🔥 Вы экономите $${savings} по сравнению с посуточной оплатой!</span>`;
       $('#calcResult').innerHTML = resultHTML;
       return total;
     }
@@ -1137,12 +1014,9 @@
     async function confirmPayment(method) {
       const adId = parseInt($('#payAdSelect').value, 10);
       if (!adId) { toast('Выберите объявление'); return; }
-      toast('⏳ Отправка подтверждения...');
+      toast(' Отправка подтверждения...');
       const res = await api('confirm_payment', { id: adId, amount: state.bill, method: method });
-      if (res) {
-        toast('✅ Подтверждение отправлено! Администратор проверит поступление средств.');
-        loadData();
-      }
+      if (res) { toast('✅ Подтверждение отправлено! Администратор проверит поступление средств.'); loadData(); }
     }
     
     function renderSites(q){
@@ -1157,20 +1031,9 @@
     function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>toast('📋 Скопировано')).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
     
     function renderAll(){
-      updatePreview(); 
-      renderMyAds(); 
-      renderFeed(); 
-      renderModeration(); 
-      renderRejected(); 
-      renderClients(); 
-      renderSupport(); 
-      renderBilling();
-      renderOnlineUsers();
+      updatePreview(); renderMyAds(); renderFeed(); renderModeration(); renderRejected(); renderClients(); renderSupport(); renderBilling(); renderOnlineUsers();
       if (state.role === 'creator') { renderAdminMessages(); renderPayments(); }
-      updateSubs(); 
-      calcBill(); 
-      renderSites(''); 
-      drawQR($('#qrText').value,$('#qrCanvas'),8);
+      updateSubs(); calcBill(); renderSites(''); drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
     $('#btnEnter').addEventListener('click', enterApp);
@@ -1180,45 +1043,26 @@
     $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
     ['adTitle','adText','adCta','adContact','adFormat'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
     
-    $('#imageUpload').addEventListener('change', async function(){
+    $('#imageUpload').addEventListener('change', function(){
       const f=this.files&&this.files[0];
       if(!f) return;
-      if (f.size > 5 * 1024 * 1024) {
-        toast(' Картинка слишком большая (макс 5MB)');
-        return;
-      }
-      try {
-        state.selectedImage = await fileToBase64(f);
-        state.selectedVideo = null;
-        $('#videoUpload').value = '';
-        updatePreview();
-        toast(' Картинка загружена');
-      } catch (e) {
-        toast('❌ Ошибка загрузки картинки');
-      }
+      if (f.size > 5 * 1024 * 1024) { toast(' Картинка слишком большая (макс 5MB)'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { state.selectedImage = e.target.result; state.selectedVideo = null; $('#videoUpload').value = ''; updatePreview(); toast('🖼 Картинка готова к загрузке'); };
+      reader.readAsDataURL(f);
     });
     
-    $('#videoUpload').addEventListener('change', async function(){
+    $('#videoUpload').addEventListener('change', function(){
       const f=this.files&&this.files[0];
       if(!f) return;
-      if (f.size > 10 * 1024 * 1024) {
-        toast('❌ Видео слишком большое (макс 10MB)');
-        return;
-      }
-      try {
-        state.selectedVideo = await fileToBase64(f);
-        state.selectedImage = null;
-        $('#imageUpload').value = '';
-        updatePreview();
-        toast('🎥 Видео загружено');
-      } catch (e) {
-        toast('❌ Ошибка загрузки видео');
-      }
+      if (f.size > 10 * 1024 * 1024) { toast('❌ Видео слишком большое (макс 10MB)'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => { state.selectedVideo = e.target.result; state.selectedImage = null; $('#imageUpload').value = ''; updatePreview(); toast('🎥 Видео готово к загрузке'); };
+      reader.readAsDataURL(f);
     });
     
     $$('.preview-tab-btn').forEach(b=>b.addEventListener('click',()=>{
-      $$('.preview-tab-btn').forEach(x=>x.classList.remove('active')); 
-      b.classList.add('active');
+      $$('.preview-tab-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
       $$('.preview-box').forEach(x=>x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview));
     }));
     $('#btnTranslate').addEventListener('click',()=>{ const c=selectedLangsCount(); if(!c){toast('Выбери хотя бы один язык');return;} toast('🌐 Переведено на '+c+' языков'); });
@@ -1230,8 +1074,7 @@
     $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт рассчитан: $'+state.bill);});
     
     $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{
-      $$('.pay-tab').forEach(x=>x.classList.remove('active')); 
-      b.classList.add('active');
+      $$('.pay-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
       currentPayMethod = b.dataset.pay;
       $('#payPaypal').classList.toggle('hidden', currentPayMethod !== 'paypal');
       $('#payCrypto').classList.toggle('hidden', currentPayMethod !== 'crypto');
@@ -1244,9 +1087,9 @@
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
+    $('#btnInvite').addEventListener('click',()=>{toast(' Приглашения отправлены (Демо)');});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
+    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast(' QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
     $('#feedRegionFilter').addEventListener('change', renderFeed);
