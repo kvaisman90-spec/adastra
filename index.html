@@ -3,31 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AdAstra — Международное рекламное агентство | Реклама по всему миру на 7 языках</title>
-  <meta name="description" content="AdAstra — размещение рекламы в 50+ странах на 7 языках. Баннеры, посты, сторис. Модерация, автоперевод, публикация в соцсетях." />
-  <meta name="keywords" content="реклама, международная реклама, AdAstra, баннеры, соцсети, маркетинг, advertising, global ads" />
-  <meta name="author" content="AdAstra" />
-  <meta name="robots" content="index, follow" />
+  <title>AdAstra — реклама, которая достаёт до звёзд</title>
   <meta name="theme-color" content="#0b0b0d"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <meta property="og:title" content="AdAstra — реклама, которая достаёт до звёзд" />
-  <meta property="og:description" content="Международное рекламное агентство. Размещение рекламы по всему миру на 7 языках." />
-  <meta property="og:image" content="/icon-v2.png" />
-  <meta property="og:url" content="https://adastra.app" />
-  <meta property="og:type" content="website" />
-  
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AdAstra — международная реклама" />
-  <meta name="twitter:description" content="Размещение рекламы по всему миру на 7 языках" />
-  <meta name="twitter:image" content="/icon-v2.png" />
-  
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=9"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=9"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=9"/>
-  <link rel="manifest" href="/manifest.json?v=9"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=10"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=10"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=10"/>
+  <link rel="manifest" href="/manifest.json?v=10"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -120,15 +105,12 @@
     .sb-approved_paid,.sb-approved_free{background:#d4edda;color:#155724;border:1px solid #28a745}
     .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
     .sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
+    .sb-verify{background:#fff3cd;color:#856404;border:1px solid #ffc107;}
     
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;}
     .modal{background:#fff;border-radius:24px;max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:24px;border:2px solid var(--gold);}
     .modal h3{margin-top:0;color:#211a08;}
     .modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
-    
-    .autopost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:12px;}
-    .autopost-btn{padding:10px;border-radius:12px;border:1px solid var(--line);background:#fffdf8;color:#3c2f12;font-size:13px;font-weight:700;text-align:center;text-decoration:none;display:block;}
-    .autopost-btn:hover{background:#fff4cf;}
     
     .notif-badge{position:relative;}
     .notif-badge::after{content:attr(data-count);position:absolute;top:-6px;right:-6px;background:#dc3545;color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;min-width:18px;}
@@ -169,7 +151,7 @@
     <div class="login-card">
       <svg class="mark"><use href="#adastra-mark"></use></svg>
       <h1>AdAstra</h1>
-      <div class="tag" id="loginTag">Весь мир · все языки · только с согласия людей 👑</div>
+      <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
       <input id="loginInput" type="password" placeholder="Введите пароль или имя" autocomplete="off">
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
     </div>
@@ -177,10 +159,10 @@
 
   <div id="app" class="app hidden">
     <header class="topbar">
-      <div class="brand"><svg class="brand-mark"><use href="#adastra-mark"></use></svg><div><div class="brand-name">AdAstra</div><div class="brand-sub" id="brandSub">к звёздам через рекламу · Израиль → весь мир</div></div></div>
+      <div class="brand"><svg class="brand-mark"><use href="#adastra-mark"></use></svg><div><div class="brand-name">AdAstra</div><div class="brand-sub">к звёздам через рекламу · Израиль → весь мир</div></div></div>
       <div class="top-actions">
         <span id="roleBadge" class="role-badge">Гость</span>
-        <button id="btnNotifs" class="light notif-badge hidden" data-count="0" type="button" style="position:relative;"></button>
+        <button id="btnNotifs" class="light notif-badge hidden" data-count="0" type="button" style="position:relative;" title="Уведомления">🔔</button>
         <button id="btnLogout" class="light" type="button">Выйти</button>
       </div>
     </header>
@@ -192,17 +174,17 @@
       <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
       <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
-      <button class="tab-btn" data-tab="qr" type="button"> QR</button>
+      <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
     </nav>
     <main>
       <section id="studio" class="section active">
         <div class="card">
           <h2>🎨 Студия рекламы</h2>
-          <p class="sub" id="studioSub">Креатив + автоперевод на языки стран, где его покажут.</p>
+          <p class="sub">Креатив + автоперевод на языки стран, где его покажут.</p>
           <div class="grid">
             <div>
               <label>Формат креатива</label>
-              <select id="adFormat"><option value="banner">🖼 Баннер</option><option value="post"> Пост</option><option value="story"> Сторис</option></select>
+              <select id="adFormat"><option value="banner">🖼 Баннер</option><option value="post">📝 Пост</option><option value="story">📲 Сторис</option></select>
               <label>Категория рекламы</label>
               <select id="adCategory">
                 <option value="general">📌 Общее</option>
@@ -214,7 +196,7 @@
                 <option value="education">📚 Образование</option>
                 <option value="services">🛎 Услуги</option>
                 <option value="shopping">🛍 Магазины</option>
-                <option value="events"> Мероприятия</option>
+                <option value="events">🎉 Мероприятия</option>
                 <option value="other">📦 Другое</option>
               </select>
               <label>Картинка: загрузите свою или используйте демо-фон</label>
@@ -227,11 +209,11 @@
               <select id="adRegion">
                 <option value="international">🌐 Международный (все страны)</option>
                 <option value="IL">🇮🇱 Израиль</option>
-                <option value="US">🇺 США</option>
+                <option value="US">🇺🇸 США</option>
                 <option value="RU">🇷🇺 Россия</option>
-                <option value="UA">🇺 Украина</option>
+                <option value="UA">🇺🇦 Украина</option>
                 <option value="BY">🇧🇾 Беларусь</option>
-                <option value="KZ">🇰 Казахстан</option>
+                <option value="KZ">🇰🇿 Казахстан</option>
                 <option value="ES">🇪🇸 Испания</option>
                 <option value="FR">🇫🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
@@ -251,14 +233,14 @@
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="ZH" checked> ZH</label>
               </div>
               <button id="btnTranslate" class="ghost-btn" type="button">🌐 Перевести рекламу на выбранные</button>
-              <button id="btnPublish" class="gold-btn" type="button"> Опубликовать рекламу</button>
+              <button id="btnPublish" class="gold-btn" type="button">🚀 Опубликовать рекламу</button>
               <div class="chips"><span class="chip">✓ баннер</span><span class="chip">✓ пост</span><span class="chip">✓ сторис</span><span class="chip">✓ QR</span><span class="chip">✓ 7 языков</span></div>
             </div>
             <div>
               <h3>Предпросмотр</h3>
               <div class="preview-tabs">
                 <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
-                <button class="chip preview-tab-btn" data-preview="post" type="button"> Пост</button>
+                <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
                 <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
               </div>
               <div class="preview-box banner" data-preview="banner"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
@@ -293,9 +275,9 @@
             <option value="international">🌐 Международный</option>
             <option value="IL">🇮🇱 Израиль</option>
             <option value="US">🇺🇸 США</option>
-            <option value="RU">🇷 Россия</option>
+            <option value="RU">🇷🇺 Россия</option>
             <option value="UA">🇺🇦 Украина</option>
-            <option value="ES">🇪 Испания</option>
+            <option value="ES">🇪🇸 Испания</option>
             <option value="FR">🇫🇷 Франция</option>
           </select>
           <div id="feedList" class="grid"></div>
@@ -304,43 +286,45 @@
 
       <section id="bill" class="section">
         <div class="card">
-          <h2>🧮 Калькулятор счёта</h2>
-          <p class="sub">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
-          <div class="grid">
-            <div>
-              <div class="chips">
-                <button class="chip term active" data-days="7" data-qty="1" type="button">Неделя ≈ $20</button>
-                <button class="chip term" data-days="10" data-qty="1" type="button">1,5 недели ~ $30</button>
-                <button class="chip term" data-days="30" data-qty="1" type="button">Месяц $49</button>
-                <button class="chip term" data-days="30" data-qty="10" type="button">Месяц + 10 шт $56</button>
+          <h2>🧮 Калькулятор счёта и оплата</h2>
+          <div id="billLocked" class="empty">
+            ⏳ <b>Дождитесь одобрения модератора.</b><br>
+            Оплата доступна только после того, как администратор одобрит вашу рекламу как "Платную". Вы получите уведомление.
+          </div>
+          <div id="billUnlocked" class="hidden">
+            <p class="sub">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
+            <div class="grid">
+              <div>
+                <label>Выберите объявление для оплаты</label>
+                <select id="payAdSelect"></select>
+                <div class="chips" style="margin-top:12px;">
+                  <button class="chip term active" data-days="7" data-qty="1" type="button">Неделя ≈ $20</button>
+                  <button class="chip term" data-days="10" data-qty="1" type="button">1,5 недели ~ $30</button>
+                  <button class="chip term" data-days="30" data-qty="1" type="button">Месяц $49</button>
+                  <button class="chip term" data-days="30" data-qty="10" type="button">Месяц + 10 шт $56</button>
+                </div>
+                <label>Срок (дней)</label><input id="daysInput" type="number" min="1" value="7">
+                <label>Объём (макс 10 шт)</label><input id="qtyInput" type="number" min="1" max="10" value="1">
+                <button id="btnCalc" class="gold-btn" type="button">🧾 Рассчитать счёт</button>
+                <div id="calcResult" class="result"></div>
               </div>
-              <label>Срок (дней)</label><input id="daysInput" type="number" min="1" value="7">
-              <label>Объём (макс 10 шт)</label><input id="qtyInput" type="number" min="1" max="10" value="1">
-              <button id="btnCalc" class="gold-btn" type="button">🧾 Выставить счёт</button>
-              <div id="calcResult" class="result"></div>
-            </div>
-            <div>
-              <h3>Оплата</h3>
-              <div class="chips">
-                <button class="chip pay-tab active" data-pay="card" type="button"> Карта</button>
-                <button class="chip pay-tab" data-pay="crypto" type="button">₿ Крипта</button>
-                <button class="chip pay-tab" data-pay="paypal" type="button">🅿️ PayPal</button>
-              </div>
-              <div id="payCard" class="pay-box">
-                <label>Email для чека (опционально)</label><input id="payEmail" type="email" placeholder="mail@example.com">
-                <label>Номер карты</label><input type="text" placeholder="0000 0000 0000 0000">
-                <div class="grid"><div><label>Срок</label><input type="text" placeholder="MM/YY"></div><div><label>CVC</label><input type="password" placeholder="123"></div></div>
-                <button id="btnPayCard" class="gold-btn" type="button">💵 Оплатить картой → USDT</button>
-              </div>
-              <div id="payCrypto" class="pay-box hidden">
-                <label>Монета</label><select id="cryptoCoin"><option>USDT (BEP20)</option><option>BTC</option><option>ETH</option></select>
-                <label>Адрес кошелька AdAstra</label><input id="cryptoWallet" type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-                <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button">📋 Скопировать</button>
-                <button id="btnCryptoPaid" class="gold-btn" type="button">✅ Я перевёл</button>
-              </div>
-              <div id="payPaypal" class="pay-box hidden">
-                <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal для оплаты.</p>
-                <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;">🅿️ Оплатить через PayPal</a>
+              <div>
+                <h3>Способ оплаты</h3>
+                <div class="chips">
+                  <button class="chip pay-tab active" data-pay="paypal" type="button">🅿️ PayPal (принимает карты)</button>
+                  <button class="chip pay-tab" data-pay="crypto" type="button">₿ Криптовалюта</button>
+                </div>
+                <div id="payPaypal" class="pay-box">
+                  <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal. <br><b>Важно:</b> PayPal автоматически принимает банковские карты Visa/Mastercard/Мир даже без регистрации.</p>
+                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">🅿️ Оплатить через PayPal</a>
+                  <button id="btnPaidPaypal" class="ghost-btn" style="width:100%;" type="button">✅ Я оплатил через PayPal</button>
+                </div>
+                <div id="payCrypto" class="pay-box hidden">
+                  <label>Монета</label><select id="cryptoCoin"><option>USDT (BEP20)</option><option>BTC</option><option>ETH</option></select>
+                  <label>Адрес кошелька AdAstra</label><input id="cryptoWallet" type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
+                  <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button" style="width:100%;margin-bottom:10px;">📋 Скопировать адрес</button>
+                  <button id="btnPaidCrypto" class="gold-btn" style="width:100%;" type="button">✅ Я перевёл криптовалюту</button>
+                </div>
               </div>
             </div>
           </div>
@@ -368,27 +352,32 @@
           <h2>👑 Панель создателя</h2>
           <div class="stats">
             <div class="stat"><b id="statClients">0</b>клиентов</div>
-            <div class="stat"><b id="statPaid">0</b>платных</div>
+            <div class="stat"><b id="statPaid">0</b>оплачено</div>
             <div class="stat"><b id="statFree">0</b>бесплатных</div>
             <div class="stat"><b id="statIncome">$0</b>доход</div>
             <div class="stat"><b id="statPending">0</b>на модерации</div>
             <div class="stat"><b id="statRejected">0</b>отклонено</div>
-            <div class="stat"><b id="statMessages">0</b>сообщений</div>
           </div>
+          
           <h3>💰 Кошельки</h3>
           <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
+          
+          <h3>История платежей (Ожидают проверки)</h3>
+          <div style="overflow:auto;"><table class="table"><thead><tr><th>Клиент</th><th>Объявление</th><th>Сумма</th><th>Метод</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="paymentsTableBody"></tbody></table></div>
+
           <h3>Все клиенты (из БД)</h3>
           <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
+          
           <h3>Модерация (из БД)</h3><div id="moderationList"></div>
           <h3>Отклонённые рекламы</h3><div id="rejectedList"></div>
           <h3>Сообщения от клиентов</h3><div id="adminMessages"></div>
         </div>
       </section>
 
-      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button"> Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
+      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
     </main>
     <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
   </div>
@@ -409,7 +398,7 @@
       <label>Причина отказа</label>
       <textarea id="rejectReason" placeholder="Например: Некачественное изображение, запрещённый контент..." style="min-height:100px;"></textarea>
       <div class="modal-actions">
-        <button class="red-btn" onclick="confirmReject()"> Подтвердить отказ</button>
+        <button class="red-btn" onclick="confirmReject()">✅ Подтвердить отказ</button>
         <button class="ghost-btn" onclick="closeRejectModal()">Отмена</button>
       </div>
     </div>
@@ -420,27 +409,14 @@
   <script>
     const API_URL = '/api/admin';
     const ADMIN_PASS = '584462';
-    let state = { role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [], syncInterval: null, userLang: 'ru', userCountry: '', userCity: '', rejectAdId: null };
-
-    (async function detectUserLocale() {
-      try {
-        const browserLang = navigator.language || navigator.userLanguage || 'ru';
-        state.userLang = browserLang.split('-')[0].toLowerCase();
-        const geoRes = await fetch('https://ipapi.co/json/');
-        if (geoRes.ok) {
-          const geo = await geoRes.json();
-          state.userCountry = geo.country_code || '';
-          state.userCity = geo.city || '';
-        }
-      } catch (e) { console.warn('Geo detect failed', e); }
-    })();
+    let state = { role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [], payments: [], syncInterval: null, rejectAdId: null };
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=9');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=10');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -480,6 +456,7 @@
           state.ads = data.ads || [];
           state.subscribers = data.subscribers || [];
           state.messages = data.messages || [];
+          state.payments = data.payments || [];
           state.income = state.ads.filter(a => a.paid).length * 49;
           renderAll();
           updateNotifBadge();
@@ -501,20 +478,20 @@
 
     function getStatusBadge(status) {
       if(status === 'pending') return '<span class="sb sb-pending">На модерации</span>';
-      if(status === 'approved_paid') return '<span class="sb sb-approved_paid">Одобрено (Платно)</span>';
+      if(status === 'approved_paid') return '<span class="sb sb-approved_paid">Одобрено (Ждёт оплаты)</span>';
       if(status === 'approved_free') return '<span class="sb sb-approved_free">Одобрено (Бесплатно)</span>';
-      if(status === 'paid') return '<span class="sb sb-paid">Оплачено</span>';
+      if(status === 'paid') return '<span class="sb sb-paid">Оплачено и в ленте</span>';
       if(status === 'rejected') return '<span class="sb sb-rejected">❌ Отклонено</span>';
       return `<span class="sb">${status}</span>`;
     }
     
     function getCategoryName(cat) {
-      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': ' Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': ' Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
+      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
       return cats[cat] || cat;
     }
     
     function getRegionName(region) {
-      const regions = {'international': '🌐 Международный', 'IL': '🇱 Израиль', 'US': '🇸 США', 'RU': '🇺 Россия', 'UA': '🇦 Украина', 'BY': '🇾 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
+      const regions = {'international': '🌐 Международный', 'IL': '🇮🇱 Израиль', 'US': '🇺🇸 США', 'RU': '🇷🇺 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
       return regions[region] || region;
     }
 
@@ -565,7 +542,7 @@
       const title=$('#adTitle').value.trim(), text=$('#adText').value.trim(), cta=$('#adCta').value.trim(), contact=$('#adContact').value.trim(), format=$('#adFormat').value, category=$('#adCategory').value, region=$('#adRegion').value, city=$('#adCity').value.trim(), langs=selectedLangsCount();
       if(!title){toast('Добавь заголовок рекламы');return;}
       toast('⏳ Отправка на сервер...');
-      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: null, userLang: state.userLang });
+      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: null });
       if(res && res.success) {
         toast('🚀 Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value=''; $('#adCity').value='';
@@ -588,7 +565,6 @@
         <div><b>Статус:</b> ${getStatusBadge(ad.status)}</div>
         <div><b>Дата:</b> ${new Date(ad.created_at).toLocaleString('ru-RU')}</div>
         ${ad.rejectionReason ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>Причина отказа:</b> ${escapeHtml(ad.rejectionReason)}</div>` : ''}
-        ${ad.autopostLinks ? `<div style="margin-top:12px;"><b>🌐 Ссылки для публикации:</b><div class="autopost-grid">${Object.entries(ad.autopostLinks).map(([k,v]) => `<a class="autopost-btn" href="${v}" target="_blank">${k.toUpperCase()}</a>`).join('')}</div></div>` : ''}
         ${ad.image ? `<div style="margin-top:12px"><img src="${ad.image}" style="max-width:100%;border-radius:12px"></div>` : ''}
       `;
       if (state.role === 'creator') {
@@ -596,11 +572,8 @@
           <button class="gold-btn" onclick="moderateAd(${ad.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
           <button class="ghost-btn" onclick="moderateAd(${ad.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
           <button class="red-btn" onclick="openRejectModal(${ad.id})">❌ Отклонить</button>
-          <button class="ghost-btn" onclick="autopostAd(${ad.id})">🌐 Автопостинг</button>
           <button class="ghost-btn" onclick="deleteAd(${ad.id})">🗑 Удалить</button>
         `;
-      } else {
-        $('#modalActions').innerHTML = ad.autopostLinks ? `<button class="gold-btn" onclick="shareAd(${ad.id})">📤 Поделиться</button>` : '';
       }
       $('#adModal').classList.remove('hidden');
     }
@@ -622,28 +595,6 @@
       }
     }
     
-    window.autopostAd = async function(id) {
-      toast(' Генерация ссылок для публикации...');
-      const res = await api('autopost', { id });
-      if (res) { toast('✅ Ссылки готовы! Откройте детали рекламы.'); loadData(); }
-    }
-    
-    window.shareAd = function(id) {
-      const ad = state.ads.find(a => a.id === id);
-      if (!ad) return;
-      const shareData = {
-        title: ad.title,
-        text: `${ad.title}\n\n${ad.text}\n\n${ad.cta || 'Подробнее'}: ${ad.contact || ''}`,
-        url: 'https://adastra.app'
-      };
-      if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
-      } else {
-        const text = encodeURIComponent(shareData.text + ' ' + shareData.url);
-        window.open(`https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${text}`, '_blank');
-      }
-    }
-    
     window.deleteAd = async function(id) {
       if (!confirm('Удалить это объявление навсегда?')) return;
       toast('⏳ Удаление...');
@@ -660,7 +611,7 @@
 
     function adCard(a){
       return `<div class="ad-card">
-        <div class="ad-visual">${escapeHtml(a.format || ' Баннер')}</div>
+        <div class="ad-visual">${escapeHtml(a.format || '🖼 Баннер')}</div>
         <div class="ad-body">
           <div style="display:flex;justify-content:space-between;align-items:start;">
             <h3 style="margin:0">${escapeHtml(a.title)}</h3>
@@ -733,7 +684,7 @@
           <div class="chips" style="margin:6px 0"><span class="chip">От: ${escapeHtml(a.owner)}</span><span class="chip">${new Date(a.rejectedAt).toLocaleDateString()}</span></div>
           <div style="padding:8px;background:#f8d7da;border-radius:10px;font-size:13px;color:#721c24;margin:8px 0;"><b>Причина:</b> ${escapeHtml(a.rejectionReason||'Не указана')}</div>
           <div class="ad-actions">
-            <button class="ghost-btn small" onclick="openAdDetails(${a.id})"> Просмотреть</button>
+            <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть</button>
             <button class="red-btn small" onclick="deleteAd(${a.id})">🗑 Удалить навсегда</button>
           </div>
         </div>
@@ -744,6 +695,31 @@
       toast('⏳ Обновление статуса...');
       const res = await api(action, { id });
       if(res && res.success) { toast('✅ Статус обновлён'); loadData(); }
+    }
+
+    function renderPayments(){
+      const tbody = $('#paymentsTableBody');
+      const pendingPays = state.payments.filter(p => p.status === 'pending_verification');
+      if(!pendingPays.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="empty">Нет платежей, ожидающих проверки</td></tr>';
+        return;
+      }
+      tbody.innerHTML = pendingPays.map(p => `
+        <tr>
+          <td>${escapeHtml(p.owner)}</td>
+          <td>${escapeHtml(p.title)}</td>
+          <td><b>$${p.amount}</b></td>
+          <td>${p.method === 'paypal' ? '🅿️ PayPal' : '₿ Крипто'}</td>
+          <td>${new Date(p.date).toLocaleString('ru-RU')}</td>
+          <td><button class="gold-btn small" onclick="verifyPayment(${p.id})">✅ Подтвердить</button></td>
+        </tr>
+      `).join('');
+    }
+
+    window.verifyPayment = async function(id) {
+      toast('⏳ Подтверждение...');
+      const res = await api('verify_payment', { id });
+      if(res) { toast('✅ Оплата подтверждена, реклама опубликована!'); loadData(); }
     }
 
     function renderClients(){
@@ -759,11 +735,10 @@
       `).join('');
       $('#statClients').textContent = state.subscribers.length;
       $('#statPaid').textContent = state.ads.filter(a=>a.paid).length;
-      $('#statFree').textContent = state.ads.filter(a=>!a.paid && (a.status==='approved_free'||a.status==='approved_paid')).length;
+      $('#statFree').textContent = state.ads.filter(a=>!a.paid && (a.status==='approved_free')).length;
       $('#statIncome').textContent = '$' + state.income;
       $('#statPending').textContent = state.ads.filter(a=>a.status==='pending').length;
       $('#statRejected').textContent = state.ads.filter(a=>a.status==='rejected').length;
-      $('#statMessages').textContent = state.messages.filter(m => m.type !== 'notification' && m.type !== 'rejection' && m.from !== 'Администратор AdAstra').length;
     }
 
     window.deleteSub = async function(id) { const res = await api('delete_sub', { id }); if(res) loadData(); }
@@ -772,10 +747,8 @@
       const el = $('#supportHistory');
       let myMessages;
       if (state.role === 'creator') {
-        // Админ видит только сообщения от клиентов (не системные уведомления)
         myMessages = state.messages.filter(m => m.from !== 'Администратор AdAstra' && m.type !== 'notification' && m.type !== 'rejection');
       } else {
-        // Клиент видит свои сообщения + уведомления адресованные ему
         myMessages = state.messages.filter(m => m.from === state.user || m.to === state.user || m.type === 'notification' || m.type === 'rejection');
       }
       if (!myMessages.length) { el.innerHTML = '<div class="empty">Нет сообщений и уведомлений</div>'; return; }
@@ -793,7 +766,6 @@
     
     function renderAdminMessages(){
       const el = $('#adminMessages');
-      // Админ видит ТОЛЬКО сообщения от клиентов (исключаем системные уведомления)
       const clientMsgs = state.messages.filter(m => m.from !== 'Администратор AdAstra' && m.type !== 'notification' && m.type !== 'rejection');
       if (!clientMsgs.length) { el.innerHTML = '<div class="empty">Нет сообщений от клиентов</div>'; return; }
       el.innerHTML = clientMsgs.map(m => `
@@ -832,6 +804,23 @@
       }
     }
     
+    function renderBilling(){
+      const pendingPaidAds = state.ads.filter(a => a.owner === state.user && (a.status === 'approved_paid' || a.status === 'paid'));
+      if (pendingPaidAds.length === 0) {
+        $('#billLocked').classList.remove('hidden');
+        $('#billUnlocked').classList.add('hidden');
+        return;
+      }
+      $('#billLocked').classList.add('hidden');
+      $('#billUnlocked').classList.remove('hidden');
+      
+      const select = $('#payAdSelect');
+      select.innerHTML = pendingPaidAds.map(a => `<option value="${a.id}" ${a.status === 'approved_paid' ? 'selected' : ''}>${escapeHtml(a.title)} (${getStatusBadge(a.status)})</option>`).join('');
+      calcBill();
+    }
+
+    let currentPayMethod = 'paypal';
+    
     function calcBill(){
       const days=Math.max(1,parseInt($('#daysInput').value,10)||1);
       const qty=Math.min(10,Math.max(1,parseInt($('#qtyInput').value,10)||1));
@@ -842,6 +831,17 @@
       $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
       $('#calcResult').innerHTML=`Срок: <b>${days} дн.</b> · Объём: <b>${qty} шт</b><br>База: <b>$${base}</b> · Надбавка: <b>+${Math.round(surcharge*100)}%</b><br><span class="total">Итого: $${total}</span>`;
       return total;
+    }
+
+    async function confirmPayment(method) {
+      const adId = parseInt($('#payAdSelect').value, 10);
+      if (!adId) { toast('Выберите объявление'); return; }
+      toast('⏳ Отправка подтверждения...');
+      const res = await api('confirm_payment', { id: adId, amount: state.bill, method: method });
+      if (res) {
+        toast('✅ Подтверждение отправлено! Администратор проверит поступление средств.');
+        loadData();
+      }
     }
     
     function renderSites(q){
@@ -856,8 +856,8 @@
     function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>toast('📋 Скопировано')).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
     
     function renderAll(){
-      updatePreview(); renderMyAds(); renderFeed(); renderModeration(); renderRejected(); renderClients(); renderSupport();
-      if (state.role === 'creator') renderAdminMessages();
+      updatePreview(); renderMyAds(); renderFeed(); renderModeration(); renderRejected(); renderClients(); renderSupport(); renderBilling();
+      if (state.role === 'creator') { renderAdminMessages(); renderPayments(); }
       updateSubs(); calcBill(); renderSites(''); drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
@@ -879,20 +879,25 @@
     }));
     $('#btnTranslate').addEventListener('click',()=>{ const c=selectedLangsCount(); if(!c){toast('Выбери хотя бы один язык');return;} toast('🌐 Переведено на '+c+' языков'); });
     $('#btnPublish').addEventListener('click', publishAd);
+    
     $$('.term').forEach(b=>b.addEventListener('click',()=>{ $$('.term').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $('#daysInput').value=b.dataset.days; $('#qtyInput').value=b.dataset.qty||1; calcBill(); }));
     $('#daysInput').addEventListener('input',calcBill);
     $('#qtyInput').addEventListener('input',calcBill);
-    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт выставлен на $'+state.bill);});
+    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт рассчитан: $'+state.bill);});
+    
     $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{
       $$('.pay-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
-      $('#payCard').classList.toggle('hidden',b.dataset.pay!=='card');
-      $('#payCrypto').classList.toggle('hidden',b.dataset.pay!=='crypto');
-      $('#payPaypal').classList.toggle('hidden',b.dataset.pay!=='paypal');
+      currentPayMethod = b.dataset.pay;
+      $('#payPaypal').classList.toggle('hidden', currentPayMethod !== 'paypal');
+      $('#payCrypto').classList.toggle('hidden', currentPayMethod !== 'crypto');
     }));
+    
+    $('#btnPaidPaypal').addEventListener('click', () => confirmPayment('paypal'));
+    $('#btnPaidCrypto').addEventListener('click', () => confirmPayment('crypto'));
+    
     $('#cryptoCoin').addEventListener('change',function(){ const coin=this.value.split(' ')[0]; $('#cryptoWallet').value=getWallet(coin); });
-    $('#btnPayCard').addEventListener('click',()=>{toast('💳 Переход к эквайрингу... (Демо)');});
-    $('#btnCryptoPaid').addEventListener('click',()=>{toast('₿ Ожидаем подтверждение сети... (Демо)');});
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
+    
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
     $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
@@ -900,6 +905,7 @@
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
     $('#feedRegionFilter').addEventListener('change', renderFeed);
+    $('#payAdSelect').addEventListener('change', calcBill);
 
     renderAll();
   </script>
