@@ -19,7 +19,6 @@ function normalizeName(name) {
   return String(name || '').trim().toLowerCase();
 }
 
-// Надёжное чтение с retry
 async function readDB(retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -38,7 +37,6 @@ async function readDB(retries = 3) {
   return {};
 }
 
-// Надёжная запись с retry
 async function writeDB(db, retries = 3) {
   for (let i = 0; i < retries; i++) {
     try {
@@ -108,7 +106,6 @@ export default async function handler(req, res) {
           return res.status(400).json({ success: false, error: 'Обнаружен запрещённый контент.' });
         }
 
-        // Защита от переполнения JSONBin (лимит ~500KB на всю базу)
         let imageToSave = payload.image || null;
         let videoToSave = payload.video || null;
         
