@@ -31,6 +31,14 @@
     .login-card input::placeholder{color:#9d8c53;}
     .enter-btn{width:100%;margin-top:10px;padding:16px;border:none;border-radius:16px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;font-size:18px;font-weight:800;}
     
+    .pricing-preview{margin-top:20px;padding:16px;background:rgba(212,175,55,.08);border-radius:16px;border:1px solid rgba(212,175,55,.30);}
+    .pricing-preview h3{margin:0 0 12px;color:#f1df9d;font-size:18px;}
+    .pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+    .pricing-item{padding:10px;background:rgba(255,255,255,.05);border-radius:10px;text-align:center;}
+    .pricing-item b{display:block;font-size:20px;color:#f6e27a;margin-bottom:4px;}
+    .pricing-item span{font-size:11px;color:#c9b25f;}
+    .pricing-save{font-size:12px;color:#f6e27a;text-align:center;margin-top:8px;}
+    
     .app{min-height:100vh;display:flex;flex-direction:column;background:radial-gradient(circle at top right,rgba(212,175,55,.12),transparent 28%),linear-gradient(180deg,#fbf7ec,#fffdf7);}
     .topbar{position:sticky;top:0;z-index:20;background:#0b0b0d;color:#f3e7ad;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(212,175,55,.22);}
     .brand{display:flex;align-items:center;gap:12px;min-width:0;}
@@ -105,7 +113,6 @@
     .sb-approved_paid,.sb-approved_free{background:#d4edda;color:#155724;border:1px solid #28a745}
     .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
     .sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
-    .sb-verify{background:#fff3cd;color:#856404;border:1px solid #ffc107;}
     
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;}
     .modal{background:#fff;border-radius:24px;max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:24px;border:2px solid var(--gold);}
@@ -154,6 +161,17 @@
       <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
       <input id="loginInput" type="password" placeholder="Введите пароль или имя" autocomplete="off">
       <button id="btnEnter" class="enter-btn" type="button">Войти</button>
+      
+      <div class="pricing-preview">
+        <h3>💰 Тарифы AdAstra</h3>
+        <div class="pricing-grid">
+          <div class="pricing-item"><b>$4</b><span>в день</span></div>
+          <div class="pricing-item"><b>$29</b><span>неделя</span></div>
+          <div class="pricing-item"><b>$49</b><span>2 недели</span></div>
+          <div class="pricing-item"><b>$89</b><span>месяц</span></div>
+        </div>
+        <div class="pricing-save"> Экономия до 35% при выборе месяца!</div>
+      </div>
     </div>
   </div>
 
@@ -169,7 +187,7 @@
     <nav class="tabs" id="tabs">
       <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
-      <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
+      <button class="tab-btn" data-tab="bill" type="button"> Счёт</button>
       <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
       <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
@@ -213,11 +231,11 @@
                 <option value="RU">🇷🇺 Россия</option>
                 <option value="UA">🇺🇦 Украина</option>
                 <option value="BY">🇧🇾 Беларусь</option>
-                <option value="KZ">🇰🇿 Казахстан</option>
+                <option value="KZ">🇿 Казахстан</option>
                 <option value="ES">🇪🇸 Испания</option>
-                <option value="FR">🇫🇷 Франция</option>
+                <option value="FR">🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
-                <option value="CN">🇨🇳 Китай</option>
+                <option value="CN">🇳 Китай</option>
                 <option value="AE">🇦🇪 ОАЭ</option>
               </select>
               <label>🏙 Город (опционально)</label>
@@ -254,30 +272,30 @@
 
       <section id="feed" class="section">
         <div class="card">
-          <h2>📰 Лента рекламы AdAstra</h2>
+          <h2> Лента рекламы AdAstra</h2>
           <p class="sub">Яркие мультиязычные креативы с QR-кодами.</p>
           <label>🔍 Поиск по категории</label>
           <select id="feedCategoryFilter">
             <option value="all">Все категории</option>
-            <option value="repair">🔧 Ремонт и строительство</option>
+            <option value="repair"> Ремонт и строительство</option>
             <option value="beauty">💄 Красота и здоровье</option>
-            <option value="food">🍔 Еда и рестораны</option>
+            <option value="food"> Еда и рестораны</option>
             <option value="auto">🚗 Авто и транспорт</option>
-            <option value="realestate">🏠 Недвижимость</option>
+            <option value="realestate"> Недвижимость</option>
             <option value="education">📚 Образование</option>
             <option value="services">🛎 Услуги</option>
-            <option value="shopping">🛍 Магазины</option>
+            <option value="shopping"> Магазины</option>
             <option value="events">🎉 Мероприятия</option>
           </select>
           <label>🌍 Фильтр по региону</label>
           <select id="feedRegionFilter">
             <option value="all">Все регионы</option>
             <option value="international">🌐 Международный</option>
-            <option value="IL">🇮🇱 Израиль</option>
+            <option value="IL">🇱 Израиль</option>
             <option value="US">🇺🇸 США</option>
-            <option value="RU">🇷🇺 Россия</option>
+            <option value="RU">🇺 Россия</option>
             <option value="UA">🇺🇦 Украина</option>
-            <option value="ES">🇪🇸 Испания</option>
+            <option value="ES">🇸 Испания</option>
             <option value="FR">🇫🇷 Франция</option>
           </select>
           <div id="feedList" class="grid"></div>
@@ -292,19 +310,18 @@
             Оплата доступна только после того, как администратор одобрит вашу рекламу как "Платную". Вы получите уведомление.
           </div>
           <div id="billUnlocked" class="hidden">
-            <p class="sub">$3/день · месяц не дороже $49 · объём до 10 шт (+2% за каждую сверх 3).</p>
+            <p class="sub">$4/день · Неделя $29 · 2 недели $49 · Месяц $89 · До 10 объявлений (+2% за каждое сверх 3)</p>
             <div class="grid">
               <div>
                 <label>Выберите объявление для оплаты</label>
                 <select id="payAdSelect"></select>
                 <div class="chips" style="margin-top:12px;">
-                  <button class="chip term active" data-days="7" data-qty="1" type="button">Неделя ≈ $20</button>
-                  <button class="chip term" data-days="10" data-qty="1" type="button">1,5 недели ~ $30</button>
-                  <button class="chip term" data-days="30" data-qty="1" type="button">Месяц $49</button>
-                  <button class="chip term" data-days="30" data-qty="10" type="button">Месяц + 10 шт $56</button>
+                  <button class="chip term active" data-days="7" data-qty="1" type="button">Неделя $29</button>
+                  <button class="chip term" data-days="14" data-qty="1" type="button">2 недели $49</button>
+                  <button class="chip term" data-days="30" data-qty="1" type="button">Месяц $89</button>
                 </div>
                 <label>Срок (дней)</label><input id="daysInput" type="number" min="1" value="7">
-                <label>Объём (макс 10 шт)</label><input id="qtyInput" type="number" min="1" max="10" value="1">
+                <label>Объём (макс 10 объявлений)</label><input id="qtyInput" type="number" min="1" max="10" value="1">
                 <button id="btnCalc" class="gold-btn" type="button">🧾 Рассчитать счёт</button>
                 <div id="calcResult" class="result"></div>
               </div>
@@ -312,11 +329,11 @@
                 <h3>Способ оплаты</h3>
                 <div class="chips">
                   <button class="chip pay-tab active" data-pay="paypal" type="button">🅿️ PayPal (принимает карты)</button>
-                  <button class="chip pay-tab" data-pay="crypto" type="button">₿ Криптовалюта</button>
+                  <button class="chip pay-tab" data-pay="crypto" type="button"> Криптовалюта</button>
                 </div>
                 <div id="payPaypal" class="pay-box">
                   <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal. <br><b>Важно:</b> PayPal автоматически принимает банковские карты Visa/Mastercard/Мир даже без регистрации.</p>
-                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">🅿️ Оплатить через PayPal</a>
+                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">️ Оплатить через PayPal</a>
                   <button id="btnPaidPaypal" class="ghost-btn" style="width:100%;" type="button">✅ Я оплатил через PayPal</button>
                 </div>
                 <div id="payCrypto" class="pay-box hidden">
@@ -457,7 +474,7 @@
           state.subscribers = data.subscribers || [];
           state.messages = data.messages || [];
           state.payments = data.payments || [];
-          state.income = state.ads.filter(a => a.paid).length * 49;
+          state.income = state.ads.filter(a => a.paid).length * 89;
           renderAll();
           updateNotifBadge();
         }
@@ -486,12 +503,12 @@
     }
     
     function getCategoryName(cat) {
-      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
+      const cats = {'general': '📌 Общее', 'repair': ' Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
       return cats[cat] || cat;
     }
     
     function getRegionName(region) {
-      const regions = {'international': '🌐 Международный', 'IL': '🇮🇱 Израиль', 'US': '🇺🇸 США', 'RU': '🇷🇺 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
+      const regions = {'international': ' Международный', 'IL': '🇮 Израиль', 'US': '🇺 США', 'RU': '🇷 Россия', 'UA': '🇺 Украина', 'BY': '🇧 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇷 Франция', 'DE': '🇪 Германия', 'CN': '🇳 Китай', 'AE': '🇪 ОАЭ'};
       return regions[region] || region;
     }
 
@@ -508,7 +525,7 @@
       }
       $('#loginScreen').classList.add('hidden');
       $('#app').classList.remove('hidden');
-      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+state.user;
+      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : ' '+state.user;
       loadData();
       startSync();
       toast(state.role==='creator' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, '+escapeHtml(state.user));
@@ -555,7 +572,7 @@
       const ad = state.ads.find(a => a.id === id);
       if (!ad) return;
       $('#modalContent').innerHTML = `
-        <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip">🏙 ${escapeHtml(ad.city)}</span>` : ''}</div>
+        <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip"> ${escapeHtml(ad.city)}</span>` : ''}</div>
         <h4 style="margin:12px 0 6px">${escapeHtml(ad.title)}</h4>
         <p class="sub">${escapeHtml(ad.text||'')}</p>
         <div><b>Владелец:</b> ${escapeHtml(ad.owner)}</div>
@@ -571,7 +588,7 @@
         $('#modalActions').innerHTML = `
           <button class="gold-btn" onclick="moderateAd(${ad.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
           <button class="ghost-btn" onclick="moderateAd(${ad.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
-          <button class="red-btn" onclick="openRejectModal(${ad.id})">❌ Отклонить</button>
+          <button class="red-btn" onclick="openRejectModal(${ad.id})"> Отклонить</button>
           <button class="ghost-btn" onclick="deleteAd(${ad.id})">🗑 Удалить</button>
         `;
       }
@@ -685,7 +702,7 @@
           <div style="padding:8px;background:#f8d7da;border-radius:10px;font-size:13px;color:#721c24;margin:8px 0;"><b>Причина:</b> ${escapeHtml(a.rejectionReason||'Не указана')}</div>
           <div class="ad-actions">
             <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть</button>
-            <button class="red-btn small" onclick="deleteAd(${a.id})">🗑 Удалить навсегда</button>
+            <button class="red-btn small" onclick="deleteAd(${a.id})"> Удалить навсегда</button>
           </div>
         </div>
       `).join('');
@@ -821,15 +838,70 @@
 
     let currentPayMethod = 'paypal';
     
+    // УМНЫЙ КАЛЬКУЛЯТОР
     function calcBill(){
-      const days=Math.max(1,parseInt($('#daysInput').value,10)||1);
-      const qty=Math.min(10,Math.max(1,parseInt($('#qtyInput').value,10)||1));
-      let base=days*3;if(days===7)base=20;if(days===10)base=30;if(days>=30)base=Math.ceil(days/30)*49;
-      const surcharge=qty>3?(qty-3)*0.02:0;
-      const total=Math.round(base*(1+surcharge));
-      state.bill=total;
+      const days = Math.max(1, parseInt($('#daysInput').value, 10) || 1);
+      const qty = Math.min(10, Math.max(1, parseInt($('#qtyInput').value, 10) || 1));
+      
+      // Группируем дни в оптимальные блоки
+      let remainingDays = days;
+      let baseCost = 0;
+      let breakdown = [];
+      
+      // Месяцы (30 дней = $89)
+      const months = Math.floor(remainingDays / 30);
+      if (months > 0) {
+        baseCost += months * 89;
+        breakdown.push(`${months} мес. = $${months * 89}`);
+        remainingDays -= months * 30;
+      }
+      
+      // Двухнедельные блоки (14 дней = $49)
+      const twoWeeks = Math.floor(remainingDays / 14);
+      if (twoWeeks > 0) {
+        baseCost += twoWeeks * 49;
+        breakdown.push(`${twoWeeks} × 2 нед. = $${twoWeeks * 49}`);
+        remainingDays -= twoWeeks * 14;
+      }
+      
+      // Недели (7 дней = $29)
+      const weeks = Math.floor(remainingDays / 7);
+      if (weeks > 0) {
+        baseCost += weeks * 29;
+        breakdown.push(`${weeks} нед. = $${weeks * 29}`);
+        remainingDays -= weeks * 7;
+      }
+      
+      // Остаток дней (1-6 дней = $4/день)
+      if (remainingDays > 0) {
+        baseCost += remainingDays * 4;
+        breakdown.push(`${remainingDays} дн. × $4 = $${remainingDays * 4}`);
+      }
+      
+      // Надбавка за объем (2% за каждое объявление сверх 3)
+      const extraAds = Math.max(0, qty - 3);
+      const surchargePercent = extraAds * 2;
+      const surcharge = Math.round(baseCost * surchargePercent / 100);
+      const total = baseCost + surcharge;
+      
+      // Расчет экономии
+      const dailyCost = days * 4;
+      const savings = dailyCost - total;
+      
+      state.bill = total;
       $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
-      $('#calcResult').innerHTML=`Срок: <b>${days} дн.</b> · Объём: <b>${qty} шт</b><br>База: <b>$${base}</b> · Надбавка: <b>+${Math.round(surcharge*100)}%</b><br><span class="total">Итого: $${total}</span>`;
+      
+      let resultHTML = `<b>Расчет:</b><br>${breakdown.join(' + ')}<br>`;
+      resultHTML += `База: <b>$${baseCost}</b>`;
+      if (surcharge > 0) {
+        resultHTML += ` · Надбавка за ${qty} объявл.: <b>+$${surcharge} (+${surchargePercent}%)</b>`;
+      }
+      resultHTML += `<br><span class="total">Итого: $${total}</span>`;
+      if (savings > 0) {
+        resultHTML += `<br><span style="color:#28a745;font-size:13px;">🔥 Вы экономите $${savings} по сравнению с посуточной оплатой!</span>`;
+      }
+      
+      $('#calcResult').innerHTML = resultHTML;
       return total;
     }
 
@@ -883,7 +955,7 @@
     $$('.term').forEach(b=>b.addEventListener('click',()=>{ $$('.term').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $('#daysInput').value=b.dataset.days; $('#qtyInput').value=b.dataset.qty||1; calcBill(); }));
     $('#daysInput').addEventListener('input',calcBill);
     $('#qtyInput').addEventListener('input',calcBill);
-    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт рассчитан: $'+state.bill);});
+    $('#btnCalc').addEventListener('click',()=>{calcBill();toast(' Счёт рассчитан: $'+state.bill);});
     
     $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{
       $$('.pay-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
@@ -899,9 +971,9 @@
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
+    $('#btnInvite').addEventListener('click',()=>{toast(' Приглашения отправлены (Демо)');});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
+    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast(' QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
     $('#feedRegionFilter').addEventListener('change', renderFeed);
