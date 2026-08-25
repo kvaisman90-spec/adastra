@@ -9,10 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=10"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=10"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=10"/>
-  <link rel="manifest" href="/manifest.json?v=10"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=11"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=11"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=11"/>
+  <link rel="manifest" href="/manifest.json?v=11"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -79,7 +79,7 @@
     .preview-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
     .preview-box{border:1px solid var(--line);background:linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92)),linear-gradient(45deg,rgba(212,175,55,.18),rgba(212,175,55,.05));border-radius:22px;overflow:hidden;min-height:220px;}
     .preview-media{height:140px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 30% 20%,rgba(246,226,122,.55),transparent 30%),linear-gradient(135deg,rgba(212,175,55,.35),rgba(20,18,16,.14));font-size:36px;overflow:hidden;}
-    .preview-media img{width:100%;height:100%;object-fit:cover;display:block;}
+    .preview-media img,.preview-media video{width:100%;height:100%;object-fit:cover;display:block;}
     .small-mark{width:58px;height:58px;opacity:.9;}
     .preview-content{padding:14px;display:grid;gap:9px;}
     .prev-title{font-size:22px;font-weight:800;line-height:1.2;}
@@ -89,6 +89,7 @@
     
     .ad-card{border:1.5px solid rgba(212,175,55,.38);border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 10px 24px rgba(120,90,10,.08);margin-bottom:16px;}
     .ad-visual{min-height:110px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 25% 20%,rgba(246,226,122,.6),transparent 28%),linear-gradient(135deg,rgba(212,175,55,.32),rgba(18,16,14,.10));font-size:30px;font-weight:800;color:#2c230c;}
+    .ad-visual img,.ad-visual video{width:100%;height:100%;object-fit:cover;}
     .ad-body{padding:14px;display:grid;gap:9px;}
     .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
     .contact{color:#7c6832;font-size:13px;font-weight:700;}
@@ -113,14 +114,22 @@
     .sb-approved_paid,.sb-approved_free{background:#d4edda;color:#155724;border:1px solid #28a745}
     .sb-rejected{background:#f8d7da;color:#721c24;border:1px solid #dc3545}
     .sb-paid{background:#cce5ff;color:#004085;border:1px solid #007bff}
+    .sb-blocked{background:#f8d7da;color:#721c24;border:1px solid #dc3545;}
+    .sb-online{background:#d4edda;color:#155724;border:1px solid #28a745;}
     
     .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;}
     .modal{background:#fff;border-radius:24px;max-width:600px;width:100%;max-height:90vh;overflow:auto;padding:24px;border:2px solid var(--gold);}
     .modal h3{margin-top:0;color:#211a08;}
     .modal-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap;}
     
+    .media-preview{max-width:100%;border-radius:12px;margin:12px 0;}
+    .media-preview img,.media-preview video{max-width:100%;border-radius:12px;}
+    
     .notif-badge{position:relative;}
     .notif-badge::after{content:attr(data-count);position:absolute;top:-6px;right:-6px;background:#dc3545;color:#fff;font-size:10px;font-weight:800;padding:2px 6px;border-radius:99px;min-width:18px;}
+    
+    .online-indicator{width:8px;height:8px;background:#28a745;border-radius:50%;display:inline-block;margin-right:6px;}
+    .offline-indicator{width:8px;height:8px;background:#6c757d;border-radius:50%;display:inline-block;margin-right:6px;}
     
     @media(max-width:640px){.brand-name{font-size:21px;}.brand-sub{display:none;}.card{padding:14px;}.card h2{font-size:23px;}.table{font-size:12px;}.table th,.table td{padding:8px 6px;}}
   </style>
@@ -170,7 +179,7 @@
           <div class="pricing-item"><b>$49</b><span>2 недели</span></div>
           <div class="pricing-item"><b>$89</b><span>месяц</span></div>
         </div>
-        <div class="pricing-save"> Экономия до 35% при выборе месяца!</div>
+        <div class="pricing-save">🔥 Экономия до 35% при выборе месяца!</div>
       </div>
     </div>
   </div>
@@ -185,14 +194,14 @@
       </div>
     </header>
     <nav class="tabs" id="tabs">
-      <button class="tab-btn active" data-tab="studio" type="button">🎨 Студия</button>
+      <button class="tab-btn active" data-tab="studio" type="button"> Студия</button>
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
-      <button class="tab-btn" data-tab="bill" type="button"> Счёт</button>
+      <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
       <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
-      <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
+      <button class="tab-btn" data-tab="subs" type="button"> Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
       <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
-      <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
+      <button class="tab-btn" data-tab="qr" type="button"> QR</button>
     </nav>
     <main>
       <section id="studio" class="section active">
@@ -205,7 +214,7 @@
               <select id="adFormat"><option value="banner">🖼 Баннер</option><option value="post">📝 Пост</option><option value="story">📲 Сторис</option></select>
               <label>Категория рекламы</label>
               <select id="adCategory">
-                <option value="general">📌 Общее</option>
+                <option value="general"> Общее</option>
                 <option value="repair">🔧 Ремонт и строительство</option>
                 <option value="beauty">💄 Красота и здоровье</option>
                 <option value="food">🍔 Еда и рестораны</option>
@@ -217,28 +226,30 @@
                 <option value="events">🎉 Мероприятия</option>
                 <option value="other">📦 Другое</option>
               </select>
-              <label>Картинка: загрузите свою или используйте демо-фон</label>
+              <label> Картинка (опционально)</label>
               <input id="imageUpload" type="file" accept="image/*">
+              <label>🎥 Видео (опционально)</label>
+              <input id="videoUpload" type="file" accept="video/*">
               <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Скидка 30% на ремонт квартир">
               <label>Текст рекламы</label><textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
               <label>Кнопка действия</label><input id="adCta" type="text" placeholder="Заказать / Получить смету / Написать">
               <label>Контакт</label><input id="adContact" type="text" placeholder="WhatsApp, телефон, сайт или email">
-              <label>🌍 Регион показа рекламы</label>
+              <label> Регион показа рекламы</label>
               <select id="adRegion">
                 <option value="international">🌐 Международный (все страны)</option>
-                <option value="IL">🇮🇱 Израиль</option>
+                <option value="IL">🇮 Израиль</option>
                 <option value="US">🇺🇸 США</option>
                 <option value="RU">🇷🇺 Россия</option>
                 <option value="UA">🇺🇦 Украина</option>
                 <option value="BY">🇧🇾 Беларусь</option>
-                <option value="KZ">🇿 Казахстан</option>
-                <option value="ES">🇪🇸 Испания</option>
-                <option value="FR">🇷 Франция</option>
+                <option value="KZ">🇰🇿 Казахстан</option>
+                <option value="ES">🇸 Испания</option>
+                <option value="FR">🇫🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
-                <option value="CN">🇳 Китай</option>
+                <option value="CN">🇨🇳 Китай</option>
                 <option value="AE">🇦🇪 ОАЭ</option>
               </select>
-              <label>🏙 Город (опционально)</label>
+              <label> Город (опционально)</label>
               <input id="adCity" type="text" placeholder="Например: Тель-Авив, Москва, Нью-Йорк">
               <label>🌍 Языки стран показа (автоперевод)</label>
               <div class="chips" id="langChips">
@@ -250,7 +261,7 @@
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="RU" checked> RU</label>
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="ZH" checked> ZH</label>
               </div>
-              <button id="btnTranslate" class="ghost-btn" type="button">🌐 Перевести рекламу на выбранные</button>
+              <button id="btnTranslate" class="ghost-btn" type="button"> Перевести рекламу на выбранные</button>
               <button id="btnPublish" class="gold-btn" type="button">🚀 Опубликовать рекламу</button>
               <div class="chips"><span class="chip">✓ баннер</span><span class="chip">✓ пост</span><span class="chip">✓ сторис</span><span class="chip">✓ QR</span><span class="chip">✓ 7 языков</span></div>
             </div>
@@ -259,7 +270,7 @@
               <div class="preview-tabs">
                 <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
                 <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
-                <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
+                <button class="chip preview-tab-btn" data-preview="story" type="button"> Сторис</button>
               </div>
               <div class="preview-box banner" data-preview="banner"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
               <div class="preview-box post hidden" data-preview="post"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
@@ -272,31 +283,31 @@
 
       <section id="feed" class="section">
         <div class="card">
-          <h2> Лента рекламы AdAstra</h2>
+          <h2>📰 Лента рекламы AdAstra</h2>
           <p class="sub">Яркие мультиязычные креативы с QR-кодами.</p>
           <label>🔍 Поиск по категории</label>
           <select id="feedCategoryFilter">
             <option value="all">Все категории</option>
-            <option value="repair"> Ремонт и строительство</option>
-            <option value="beauty">💄 Красота и здоровье</option>
-            <option value="food"> Еда и рестораны</option>
-            <option value="auto">🚗 Авто и транспорт</option>
-            <option value="realestate"> Недвижимость</option>
-            <option value="education">📚 Образование</option>
+            <option value="repair">🔧 Ремонт и строительство</option>
+            <option value="beauty"> Красота и здоровье</option>
+            <option value="food">🍔 Еда и рестораны</option>
+            <option value="auto"> Авто и транспорт</option>
+            <option value="realestate">🏠 Недвижимость</option>
+            <option value="education"> Образование</option>
             <option value="services">🛎 Услуги</option>
-            <option value="shopping"> Магазины</option>
+            <option value="shopping">🛍 Магазины</option>
             <option value="events">🎉 Мероприятия</option>
           </select>
           <label>🌍 Фильтр по региону</label>
           <select id="feedRegionFilter">
             <option value="all">Все регионы</option>
             <option value="international">🌐 Международный</option>
-            <option value="IL">🇱 Израиль</option>
-            <option value="US">🇺🇸 США</option>
-            <option value="RU">🇺 Россия</option>
-            <option value="UA">🇺🇦 Украина</option>
-            <option value="ES">🇸 Испания</option>
-            <option value="FR">🇫🇷 Франция</option>
+            <option value="IL">🇮🇱 Израиль</option>
+            <option value="US">🇸 США</option>
+            <option value="RU">🇷🇺 Россия</option>
+            <option value="UA">🇦 Украина</option>
+            <option value="ES">🇪🇸 Испания</option>
+            <option value="FR">🇷 Франция</option>
           </select>
           <div id="feedList" class="grid"></div>
         </div>
@@ -329,17 +340,17 @@
                 <h3>Способ оплаты</h3>
                 <div class="chips">
                   <button class="chip pay-tab active" data-pay="paypal" type="button">🅿️ PayPal (принимает карты)</button>
-                  <button class="chip pay-tab" data-pay="crypto" type="button"> Криптовалюта</button>
+                  <button class="chip pay-tab" data-pay="crypto" type="button">₿ Криптовалюта</button>
                 </div>
                 <div id="payPaypal" class="pay-box">
                   <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal. <br><b>Важно:</b> PayPal автоматически принимает банковские карты Visa/Mastercard/Мир даже без регистрации.</p>
-                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">️ Оплатить через PayPal</a>
+                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">🅿️ Оплатить через PayPal</a>
                   <button id="btnPaidPaypal" class="ghost-btn" style="width:100%;" type="button">✅ Я оплатил через PayPal</button>
                 </div>
                 <div id="payCrypto" class="pay-box hidden">
                   <label>Монета</label><select id="cryptoCoin"><option>USDT (BEP20)</option><option>BTC</option><option>ETH</option></select>
                   <label>Адрес кошелька AdAstra</label><input id="cryptoWallet" type="text" readonly value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-                  <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button" style="width:100%;margin-bottom:10px;">📋 Скопировать адрес</button>
+                  <button class="ghost-btn copy-btn" data-copy-target="#cryptoWallet" type="button" style="width:100%;margin-bottom:10px;"> Скопировать адрес</button>
                   <button id="btnPaidCrypto" class="gold-btn" style="width:100%;" type="button">✅ Я перевёл криптовалюту</button>
                 </div>
               </div>
@@ -369,11 +380,13 @@
           <h2>👑 Панель создателя</h2>
           <div class="stats">
             <div class="stat"><b id="statClients">0</b>клиентов</div>
+            <div class="stat"><b id="statOnline">0</b>онлайн</div>
             <div class="stat"><b id="statPaid">0</b>оплачено</div>
             <div class="stat"><b id="statFree">0</b>бесплатных</div>
             <div class="stat"><b id="statIncome">$0</b>доход</div>
             <div class="stat"><b id="statPending">0</b>на модерации</div>
             <div class="stat"><b id="statRejected">0</b>отклонено</div>
+            <div class="stat"><b id="statBlocked">0</b>заблокировано</div>
           </div>
           
           <h3>💰 Кошельки</h3>
@@ -382,11 +395,14 @@
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
           
+          <h3> Онлайн пользователи</h3>
+          <div id="onlineUsersList" class="grid"></div>
+          
           <h3>История платежей (Ожидают проверки)</h3>
           <div style="overflow:auto;"><table class="table"><thead><tr><th>Клиент</th><th>Объявление</th><th>Сумма</th><th>Метод</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="paymentsTableBody"></tbody></table></div>
 
           <h3>Все клиенты (из БД)</h3>
-          <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Дата</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
+          <div style="overflow:auto;"><table class="table"><thead><tr><th>Имя</th><th>Статус</th><th>Последняя активность</th><th>Действие</th></tr></thead><tbody id="clientsTableBody"></tbody></table></div>
           
           <h3>Модерация (из БД)</h3><div id="moderationList"></div>
           <h3>Отклонённые рекламы</h3><div id="rejectedList"></div>
@@ -408,6 +424,15 @@
     </div>
   </div>
 
+  <div id="userModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h3> Профиль клиента</h3>
+      <div id="userModalContent"></div>
+      <div class="modal-actions" id="userModalActions"></div>
+      <button class="ghost-btn" style="margin-top:12px;width:100%;" onclick="closeUserModal()">Закрыть</button>
+    </div>
+  </div>
+
   <div id="rejectModal" class="modal-overlay hidden">
     <div class="modal">
       <h3>❌ Отклонить рекламу</h3>
@@ -420,20 +445,69 @@
       </div>
     </div>
   </div>
+
+  <div id="blockModal" class="modal-overlay hidden">
+    <div class="modal">
+      <h3> Заблокировать клиента</h3>
+      <p class="sub">Укажите причину блокировки.</p>
+      <label>Причина блокировки</label>
+      <textarea id="blockReason" placeholder="Например: Спам, неподобающий контент, бот..." style="min-height:100px;"></textarea>
+      <div class="modal-actions">
+        <button class="red-btn" onclick="confirmBlock()">🚫 Заблокировать</button>
+        <button class="ghost-btn" onclick="closeBlockModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
   
   <div id="toast" class="toast hidden"></div>
 
   <script>
     const API_URL = '/api/admin';
     const ADMIN_PASS = '584462';
-    let state = { role: null, user: '', bill: 20, income: 0, ads: [], subscribers: [], messages: [], payments: [], syncInterval: null, rejectAdId: null };
+    let state = { 
+      role: null, 
+      user: '', 
+      bill: 20, 
+      income: 0, 
+      ads: [], 
+      subscribers: [], 
+      messages: [], 
+      payments: [], 
+      onlineUsers: [],
+      syncInterval: null, 
+      heartbeatInterval: null,
+      rejectAdId: null,
+      blockUserName: null,
+      selectedImage: null,
+      selectedVideo: null
+    };
+
+    // Heartbeat каждые 30 секунд
+    function startHeartbeat() {
+      if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
+      state.heartbeatInterval = setInterval(() => {
+        if (state.role && state.user) {
+          api('heartbeat', { name: state.user, role: state.role });
+        }
+      }, 30000);
+    }
+
+    // Конвертация файла в base64
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+      });
+    }
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=10');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=11');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -474,6 +548,7 @@
           state.subscribers = data.subscribers || [];
           state.messages = data.messages || [];
           state.payments = data.payments || [];
+          state.onlineUsers = data.onlineUsers || [];
           state.income = state.ads.filter(a => a.paid).length * 89;
           renderAll();
           updateNotifBadge();
@@ -503,13 +578,17 @@
     }
     
     function getCategoryName(cat) {
-      const cats = {'general': '📌 Общее', 'repair': ' Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
+      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': ' Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
       return cats[cat] || cat;
     }
     
     function getRegionName(region) {
-      const regions = {'international': ' Международный', 'IL': '🇮 Израиль', 'US': '🇺 США', 'RU': '🇷 Россия', 'UA': '🇺 Украина', 'BY': '🇧 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇷 Франция', 'DE': '🇪 Германия', 'CN': '🇳 Китай', 'AE': '🇪 ОАЭ'};
+      const regions = {'international': '🌐 Международный', 'IL': '🇮🇱 Израиль', 'US': '🇺🇸 США', 'RU': '🇷🇺 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
       return regions[region] || region;
+    }
+
+    function isUserOnline(userName) {
+      return state.onlineUsers.some(u => u.name === userName);
     }
 
     function enterApp(){
@@ -525,14 +604,16 @@
       }
       $('#loginScreen').classList.add('hidden');
       $('#app').classList.remove('hidden');
-      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : ' '+state.user;
+      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+state.user;
       loadData();
       startSync();
+      startHeartbeat();
       toast(state.role==='creator' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, '+escapeHtml(state.user));
     }
 
     function logout(){
       if (state.syncInterval) clearInterval(state.syncInterval);
+      if (state.heartbeatInterval) clearInterval(state.heartbeatInterval);
       $('#app').classList.add('hidden');
       $('#loginScreen').classList.remove('hidden');
       $('#loginInput').value='';
@@ -551,6 +632,20 @@
       $$('.prev-text').forEach(e=>e.textContent=x);
       $$('.prev-cta').forEach(e=>e.textContent=c);
       $$('.prev-contact').forEach(e=>e.textContent=k);
+      
+      // Обновление превью медиа
+      if (state.selectedImage) {
+        $$('.preview-media').forEach(b => {
+          if (!b.querySelector('img')) {
+            b.innerHTML = `<img src="${state.selectedImage}" alt="Креатив">`;
+          }
+        });
+      }
+      if (state.selectedVideo) {
+        $$('.preview-media').forEach(b => {
+          b.innerHTML = `<video src="${state.selectedVideo}" autoplay muted loop></video>`;
+        });
+      }
     }
 
     function selectedLangsCount(){return $$('input[name="lang"]:checked').length;}
@@ -559,22 +654,54 @@
       const title=$('#adTitle').value.trim(), text=$('#adText').value.trim(), cta=$('#adCta').value.trim(), contact=$('#adContact').value.trim(), format=$('#adFormat').value, category=$('#adCategory').value, region=$('#adRegion').value, city=$('#adCity').value.trim(), langs=selectedLangsCount();
       if(!title){toast('Добавь заголовок рекламы');return;}
       toast('⏳ Отправка на сервер...');
-      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: null });
+      
+      const payload = { 
+        owner: state.user, 
+        title, 
+        text, 
+        cta, 
+        contact, 
+        format, 
+        category, 
+        region, 
+        city, 
+        langs, 
+        image: state.selectedImage,
+        video: state.selectedVideo
+      };
+      
+      const res = await api('publish', payload);
       if(res && res.success) {
         toast('🚀 Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value=''; $('#adCity').value='';
+        state.selectedImage = null;
+        state.selectedVideo = null;
+        $('#imageUpload').value = '';
+        $('#videoUpload').value = '';
         updatePreview();
         loadData();
+      } else if (res && res.error) {
+        toast('❌ ' + res.error);
       }
     }
 
     window.openAdDetails = function(id) {
       const ad = state.ads.find(a => a.id === id);
       if (!ad) return;
+      
+      let mediaHTML = '';
+      if (ad.image) {
+        mediaHTML += `<div class="media-preview"><img src="${ad.image}" alt="Картинка рекламы"></div>`;
+      }
+      if (ad.video) {
+        mediaHTML += `<div class="media-preview"><video src="${ad.video}" controls></video></div>`;
+      }
+      
       $('#modalContent').innerHTML = `
-        <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip"> ${escapeHtml(ad.city)}</span>` : ''}</div>
+        <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip">🏙 ${escapeHtml(ad.city)}</span>` : ''}</div>
         <h4 style="margin:12px 0 6px">${escapeHtml(ad.title)}</h4>
         <p class="sub">${escapeHtml(ad.text||'')}</p>
+        ${mediaHTML}
         <div><b>Владелец:</b> ${escapeHtml(ad.owner)}</div>
         <div><b>Формат:</b> ${escapeHtml(ad.format)}</div>
         <div><b>Контакт:</b> ${escapeHtml(ad.contact)}</div>
@@ -582,13 +709,13 @@
         <div><b>Статус:</b> ${getStatusBadge(ad.status)}</div>
         <div><b>Дата:</b> ${new Date(ad.created_at).toLocaleString('ru-RU')}</div>
         ${ad.rejectionReason ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>Причина отказа:</b> ${escapeHtml(ad.rejectionReason)}</div>` : ''}
-        ${ad.image ? `<div style="margin-top:12px"><img src="${ad.image}" style="max-width:100%;border-radius:12px"></div>` : ''}
       `;
+      
       if (state.role === 'creator') {
         $('#modalActions').innerHTML = `
           <button class="gold-btn" onclick="moderateAd(${ad.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
           <button class="ghost-btn" onclick="moderateAd(${ad.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
-          <button class="red-btn" onclick="openRejectModal(${ad.id})"> Отклонить</button>
+          <button class="red-btn" onclick="openRejectModal(${ad.id})">❌ Отклонить</button>
           <button class="ghost-btn" onclick="deleteAd(${ad.id})">🗑 Удалить</button>
         `;
       }
@@ -596,6 +723,75 @@
     }
     
     window.closeModal = function() { $('#adModal').classList.add('hidden'); }
+    
+    window.openUserModal = function(userName) {
+      const user = state.subscribers.find(s => s.contact === userName);
+      if (!user) return;
+      
+      const userAds = state.ads.filter(a => a.owner === userName);
+      const userMessages = state.messages.filter(m => m.from === userName);
+      const isOnline = isUserOnline(userName);
+      
+      $('#userModalContent').innerHTML = `
+        <div style="margin-bottom:16px;">
+          <h4 style="margin:0 0 8px">${escapeHtml(userName)} ${isOnline ? '<span class="sb sb-online"> Онлайн</span>' : '<span class="sb">⚫ Оффлайн</span>'}</h4>
+          <div><b>Дата регистрации:</b> ${new Date(user.date).toLocaleString('ru-RU')}</div>
+          <div><b>Всего объявлений:</b> ${userAds.length}</div>
+          <div><b>Оплаченных:</b> ${userAds.filter(a => a.paid).length}</div>
+          <div><b>Сообщений:</b> ${userMessages.length}</div>
+          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>🚫 ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}<br>Дата: ${new Date(user.blockedAt).toLocaleString('ru-RU')}</div>` : ''}
+        </div>
+        <h4>Последние объявления:</h4>
+        ${userAds.slice(0, 3).map(a => `
+          <div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;">
+            <b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}
+          </div>
+        `).join('') || '<div class="empty">Нет объявлений</div>'}
+      `;
+      
+      $('#userModalActions').innerHTML = `
+        ${user.blocked 
+          ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
+          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
+        }
+        <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
+      `;
+      
+      $('#userModal').classList.remove('hidden');
+    }
+    
+    window.closeUserModal = function() { $('#userModal').classList.add('hidden'); }
+    
+    window.openBlockModal = function(userName) {
+      state.blockUserName = userName;
+      $('#blockReason').value = '';
+      $('#blockModal').classList.remove('hidden');
+    }
+    window.closeBlockModal = function() { $('#blockModal').classList.add('hidden'); state.blockUserName = null; }
+    window.confirmBlock = async function() {
+      const reason = $('#blockReason').value.trim() || 'Нарушение правил';
+      if (state.blockUserName) {
+        toast('⏳ Блокировка...');
+        const res = await api('block_user', { name: state.blockUserName, reason });
+        if (res) { 
+          toast(' Клиент заблокирован'); 
+          closeBlockModal(); 
+          closeUserModal();
+          loadData(); 
+        }
+      }
+    }
+    window.unblockUser = async function(userName) {
+      toast('⏳ Разблокировка...');
+      const res = await api('unblock_user', { name: userName });
+      if (res) { toast('✅ Клиент разблокирован'); closeUserModal(); loadData(); }
+    }
+    window.deleteUser = async function(userName) {
+      if (!confirm(`Удалить клиента "${userName}" и все его данные навсегда?`)) return;
+      toast('⏳ Удаление...');
+      const res = await api('delete_user', { name: userName });
+      if (res) { toast(' Клиент удалён'); closeUserModal(); loadData(); }
+    }
     
     window.openRejectModal = function(id) {
       state.rejectAdId = id;
@@ -627,8 +823,17 @@
     function drawMiniQR(){$$('.qr-mini').forEach(c=>drawQR(c.dataset.qr||'AdAstra',c,3));}
 
     function adCard(a){
+      let mediaHTML = '';
+      if (a.image) {
+        mediaHTML = `<img src="${a.image}" alt="Картинка">`;
+      } else if (a.video) {
+        mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
+      } else {
+        mediaHTML = escapeHtml(a.format || '🖼 Баннер');
+      }
+      
       return `<div class="ad-card">
-        <div class="ad-visual">${escapeHtml(a.format || '🖼 Баннер')}</div>
+        <div class="ad-visual">${mediaHTML}</div>
         <div class="ad-body">
           <div style="display:flex;justify-content:space-between;align-items:start;">
             <h3 style="margin:0">${escapeHtml(a.title)}</h3>
@@ -644,7 +849,7 @@
           </div>
           <div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
           <canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas>
-          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})">📋 Подробнее</button>` : ''}
+          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})"> Подробнее</button>` : ''}
         </div>
       </div>`;
     }
@@ -681,10 +886,12 @@
           <h3 style="margin-top:0">${escapeHtml(a.title)}</h3>
           <div class="chips" style="margin:6px 0"><span class="chip">${getCategoryName(a.category)}</span><span class="chip">${getRegionName(a.region)}</span><span class="chip">От: ${escapeHtml(a.owner)}</span></div>
           <p class="sub">${escapeHtml(a.text||'')}</p>
+          ${a.image ? `<div class="media-preview"><img src="${a.image}" alt="Картинка"></div>` : ''}
+          ${a.video ? `<div class="media-preview"><video src="${a.video}" controls></video></div>` : ''}
           <div class="ad-actions">
             <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть детали</button>
             <button class="gold-btn small" onclick="moderateAd(${a.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
-            <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
+            <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')"> Одобрить (Бесплатно)</button>
             <button class="red-btn small" onclick="openRejectModal(${a.id})">❌ Отклонить</button>
           </div>
         </div>
@@ -702,7 +909,7 @@
           <div style="padding:8px;background:#f8d7da;border-radius:10px;font-size:13px;color:#721c24;margin:8px 0;"><b>Причина:</b> ${escapeHtml(a.rejectionReason||'Не указана')}</div>
           <div class="ad-actions">
             <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть</button>
-            <button class="red-btn small" onclick="deleteAd(${a.id})"> Удалить навсегда</button>
+            <button class="red-btn small" onclick="deleteAd(${a.id})">🗑 Удалить навсегда</button>
           </div>
         </div>
       `).join('');
@@ -712,6 +919,23 @@
       toast('⏳ Обновление статуса...');
       const res = await api(action, { id });
       if(res && res.success) { toast('✅ Статус обновлён'); loadData(); }
+    }
+
+    function renderOnlineUsers(){
+      const el = $('#onlineUsersList');
+      if (!state.onlineUsers.length) {
+        el.innerHTML = '<div class="empty">Нет пользователей онлайн</div>';
+        return;
+      }
+      el.innerHTML = state.onlineUsers.map(u => `
+        <div class="card" style="margin-bottom:0;padding:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <b><span class="online-indicator"></span>${escapeHtml(u.name)}</b>
+            <span style="font-size:11px;color:#8b7a4f">${u.role === 'creator' ? '👑 Админ' : '👤 Клиент'}</span>
+          </div>
+          <div style="font-size:12px;color:#8b7a4f;margin-top:4px;">Последняя активность: ${new Date(u.lastSeen).toLocaleTimeString('ru-RU')}</div>
+        </div>
+      `).join('');
     }
 
     function renderPayments(){
@@ -742,24 +966,29 @@
     function renderClients(){
       const tbody = $('#clientsTableBody');
       if(!state.subscribers.length) { tbody.innerHTML = '<tr><td colspan="4" class="empty">Нет зарегистрированных пользователей</td></tr>'; return; }
-      tbody.innerHTML = state.subscribers.map(c => `
+      tbody.innerHTML = state.subscribers.map(c => {
+        const online = isUserOnline(c.contact);
+        const statusClass = c.blocked ? 'sb-blocked' : (online ? 'sb-online' : 'sb-pending');
+        const statusText = c.blocked ? '🚫 Заблокирован' : (online ? '🟢 Онлайн' : '⚫ Оффлайн');
+        return `
         <tr>
-          <td>${escapeHtml(c.contact)}</td>
-          <td><span class="sb sb-pending">Клиент</span></td>
-          <td>${new Date(c.date).toLocaleDateString()}</td>
-          <td><button class="red-btn small" onclick="deleteSub(${c.id})">Удалить</button></td>
+          <td><b>${escapeHtml(c.contact)}</b></td>
+          <td><span class="sb ${statusClass}">${statusText}</span></td>
+          <td>${c.lastActivity ? new Date(c.lastActivity).toLocaleString('ru-RU') : new Date(c.date).toLocaleDateString()}</td>
+          <td><button class="ghost-btn small" onclick="openUserModal('${escapeHtml(c.contact)}')"> Профиль</button></td>
         </tr>
-      `).join('');
+      `}).join('');
+      
       $('#statClients').textContent = state.subscribers.length;
+      $('#statOnline').textContent = state.onlineUsers.filter(u => u.role !== 'creator').length;
       $('#statPaid').textContent = state.ads.filter(a=>a.paid).length;
       $('#statFree').textContent = state.ads.filter(a=>!a.paid && (a.status==='approved_free')).length;
       $('#statIncome').textContent = '$' + state.income;
       $('#statPending').textContent = state.ads.filter(a=>a.status==='pending').length;
       $('#statRejected').textContent = state.ads.filter(a=>a.status==='rejected').length;
+      $('#statBlocked').textContent = state.subscribers.filter(s=>s.blocked).length;
     }
 
-    window.deleteSub = async function(id) { const res = await api('delete_sub', { id }); if(res) loadData(); }
-    
     function renderSupport(){
       const el = $('#supportHistory');
       let myMessages;
@@ -804,7 +1033,15 @@
       if (!text) { toast('Введите текст сообщения'); return; }
       toast('⏳ Отправка...');
       const res = await api('support', { from: state.user, text });
-      if (res) { toast('✅ Сообщение отправлено'); $('#supportText').value = ''; loadData(); }
+      if (res) { 
+        if (res.error) {
+          toast('❌ ' + res.error);
+        } else {
+          toast('✅ Сообщение отправлено'); 
+          $('#supportText').value = ''; 
+        }
+        loadData(); 
+      }
     }
 
     function updateSubs(){ $('#optinCount').textContent = state.subscribers.length; $('#noConsentCount').textContent = 0; $('#invitedCount').textContent = 0; }
@@ -838,17 +1075,14 @@
 
     let currentPayMethod = 'paypal';
     
-    // УМНЫЙ КАЛЬКУЛЯТОР
     function calcBill(){
       const days = Math.max(1, parseInt($('#daysInput').value, 10) || 1);
       const qty = Math.min(10, Math.max(1, parseInt($('#qtyInput').value, 10) || 1));
       
-      // Группируем дни в оптимальные блоки
       let remainingDays = days;
       let baseCost = 0;
       let breakdown = [];
       
-      // Месяцы (30 дней = $89)
       const months = Math.floor(remainingDays / 30);
       if (months > 0) {
         baseCost += months * 89;
@@ -856,7 +1090,6 @@
         remainingDays -= months * 30;
       }
       
-      // Двухнедельные блоки (14 дней = $49)
       const twoWeeks = Math.floor(remainingDays / 14);
       if (twoWeeks > 0) {
         baseCost += twoWeeks * 49;
@@ -864,7 +1097,6 @@
         remainingDays -= twoWeeks * 14;
       }
       
-      // Недели (7 дней = $29)
       const weeks = Math.floor(remainingDays / 7);
       if (weeks > 0) {
         baseCost += weeks * 29;
@@ -872,19 +1104,16 @@
         remainingDays -= weeks * 7;
       }
       
-      // Остаток дней (1-6 дней = $4/день)
       if (remainingDays > 0) {
         baseCost += remainingDays * 4;
         breakdown.push(`${remainingDays} дн. × $4 = $${remainingDays * 4}`);
       }
       
-      // Надбавка за объем (2% за каждое объявление сверх 3)
       const extraAds = Math.max(0, qty - 3);
       const surchargePercent = extraAds * 2;
       const surcharge = Math.round(baseCost * surchargePercent / 100);
       const total = baseCost + surcharge;
       
-      // Расчет экономии
       const dailyCost = days * 4;
       const savings = dailyCost - total;
       
@@ -928,9 +1157,20 @@
     function copyText(t){if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(t).then(()=>toast('📋 Скопировано')).catch(()=>fallbackCopy(t));}else fallbackCopy(t);}
     
     function renderAll(){
-      updatePreview(); renderMyAds(); renderFeed(); renderModeration(); renderRejected(); renderClients(); renderSupport(); renderBilling();
+      updatePreview(); 
+      renderMyAds(); 
+      renderFeed(); 
+      renderModeration(); 
+      renderRejected(); 
+      renderClients(); 
+      renderSupport(); 
+      renderBilling();
+      renderOnlineUsers();
       if (state.role === 'creator') { renderAdminMessages(); renderPayments(); }
-      updateSubs(); calcBill(); renderSites(''); drawQR($('#qrText').value,$('#qrCanvas'),8);
+      updateSubs(); 
+      calcBill(); 
+      renderSites(''); 
+      drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
     $('#btnEnter').addEventListener('click', enterApp);
@@ -939,14 +1179,46 @@
     $('#btnNotifs').addEventListener('click', () => switchTab('support'));
     $$('.tab-btn').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
     ['adTitle','adText','adCta','adContact','adFormat'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
-    $('#imageUpload').addEventListener('change',function(){
-      const f=this.files&&this.files[0];if(!f)return;
-      const u=URL.createObjectURL(f);
-      $$('.preview-media').forEach(b=>{b.innerHTML=`<img src="${u}" alt="Креатив">`;});
-      toast('📁 Картинка загружена (локально)');
+    
+    $('#imageUpload').addEventListener('change', async function(){
+      const f=this.files&&this.files[0];
+      if(!f) return;
+      if (f.size > 5 * 1024 * 1024) {
+        toast(' Картинка слишком большая (макс 5MB)');
+        return;
+      }
+      try {
+        state.selectedImage = await fileToBase64(f);
+        state.selectedVideo = null;
+        $('#videoUpload').value = '';
+        updatePreview();
+        toast(' Картинка загружена');
+      } catch (e) {
+        toast('❌ Ошибка загрузки картинки');
+      }
     });
+    
+    $('#videoUpload').addEventListener('change', async function(){
+      const f=this.files&&this.files[0];
+      if(!f) return;
+      if (f.size > 10 * 1024 * 1024) {
+        toast('❌ Видео слишком большое (макс 10MB)');
+        return;
+      }
+      try {
+        state.selectedVideo = await fileToBase64(f);
+        state.selectedImage = null;
+        $('#imageUpload').value = '';
+        updatePreview();
+        toast('🎥 Видео загружено');
+      } catch (e) {
+        toast('❌ Ошибка загрузки видео');
+      }
+    });
+    
     $$('.preview-tab-btn').forEach(b=>b.addEventListener('click',()=>{
-      $$('.preview-tab-btn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+      $$('.preview-tab-btn').forEach(x=>x.classList.remove('active')); 
+      b.classList.add('active');
       $$('.preview-box').forEach(x=>x.classList.toggle('hidden',x.dataset.preview!==b.dataset.preview));
     }));
     $('#btnTranslate').addEventListener('click',()=>{ const c=selectedLangsCount(); if(!c){toast('Выбери хотя бы один язык');return;} toast('🌐 Переведено на '+c+' языков'); });
@@ -955,10 +1227,11 @@
     $$('.term').forEach(b=>b.addEventListener('click',()=>{ $$('.term').forEach(x=>x.classList.remove('active')); b.classList.add('active'); $('#daysInput').value=b.dataset.days; $('#qtyInput').value=b.dataset.qty||1; calcBill(); }));
     $('#daysInput').addEventListener('input',calcBill);
     $('#qtyInput').addEventListener('input',calcBill);
-    $('#btnCalc').addEventListener('click',()=>{calcBill();toast(' Счёт рассчитан: $'+state.bill);});
+    $('#btnCalc').addEventListener('click',()=>{calcBill();toast('🧾 Счёт рассчитан: $'+state.bill);});
     
     $$('.pay-tab').forEach(b=>b.addEventListener('click',()=>{
-      $$('.pay-tab').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+      $$('.pay-tab').forEach(x=>x.classList.remove('active')); 
+      b.classList.add('active');
       currentPayMethod = b.dataset.pay;
       $('#payPaypal').classList.toggle('hidden', currentPayMethod !== 'paypal');
       $('#payCrypto').classList.toggle('hidden', currentPayMethod !== 'crypto');
@@ -971,9 +1244,9 @@
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#btnInvite').addEventListener('click',()=>{toast(' Приглашения отправлены (Демо)');});
+    $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast(' QR скачивается');});
+    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
     $('#feedRegionFilter').addEventListener('change', renderFeed);
