@@ -9,10 +9,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=14"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=14"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=14"/>
-  <link rel="manifest" href="/manifest.json?v=14"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=15"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=15"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=15"/>
+  <link rel="manifest" href="/manifest.json?v=15"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -205,10 +205,10 @@
       <button class="tab-btn" data-tab="feed" type="button">📰 Лента</button>
       <button class="tab-btn" data-tab="bill" type="button">🧮 Счёт</button>
       <button class="tab-btn" data-tab="sites" type="button">🌐 Площадки</button>
-      <button class="tab-btn" data-tab="subs" type="button"> Подписчики</button>
+      <button class="tab-btn" data-tab="subs" type="button">👥 Подписчики</button>
       <button class="tab-btn" data-tab="support" type="button">💬 Поддержка</button>
-      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button"> Админ</button>
-      <button class="tab-btn" data-tab="qr" type="button">🔳 QR</button>
+      <button class="tab-btn hidden" id="adminTabBtn" data-tab="admin" type="button">👑 Админ</button>
+      <button class="tab-btn" data-tab="qr" type="button"> QR</button>
     </nav>
     <main>
       <section id="studio" class="section active">
@@ -227,15 +227,15 @@
                 <option value="food">🍔 Еда и рестораны</option>
                 <option value="auto">🚗 Авто и транспорт</option>
                 <option value="realestate">🏠 Недвижимость</option>
-                <option value="education"> Образование</option>
-                <option value="services">🛎 Услуги</option>
+                <option value="education">📚 Образование</option>
+                <option value="services"> Услуги</option>
                 <option value="shopping">🛍 Магазины</option>
                 <option value="events">🎉 Мероприятия</option>
-                <option value="other">📦 Другое</option>
+                <option value="other"> Другое</option>
               </select>
               <label>🖼 Картинка (до 5 МБ)</label>
               <input id="imageUpload" type="file" accept="image/*">
-              <label> Видео-ролик (до 10 МБ, макс 30 сек)</label>
+              <label>🎥 Видео-ролик (до 10 МБ, макс 30 сек)</label>
               <input id="videoUpload" type="file" accept="video/*">
               <label>Заголовок</label><input id="adTitle" type="text" placeholder="Например: Скидка 30% на ремонт квартир">
               <label>Текст рекламы</label><textarea id="adText" placeholder="Коротко, ярко и по делу"></textarea>
@@ -245,12 +245,12 @@
               <select id="adRegion">
                 <option value="international">🌐 Международный (все страны)</option>
                 <option value="IL">🇮🇱 Израиль</option>
-                <option value="US">🇺🇸 США</option>
-                <option value="RU">🇷 Россия</option>
-                <option value="UA">🇺🇦 Украина</option>
-                <option value="BY">🇧 Беларусь</option>
-                <option value="KZ">🇰🇿 Казахстан</option>
-                <option value="ES">🇪 Испания</option>
+                <option value="US">🇸 США</option>
+                <option value="RU">🇷🇺 Россия</option>
+                <option value="UA">🇦 Украина</option>
+                <option value="BY">🇧🇾 Беларусь</option>
+                <option value="KZ">🇿 Казахстан</option>
+                <option value="ES">🇪🇸 Испания</option>
                 <option value="FR">🇫🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
                 <option value="CN">🇨🇳 Китай</option>
@@ -275,7 +275,7 @@
             <div>
               <h3>Предпросмотр</h3>
               <div class="preview-tabs">
-                <button class="chip preview-tab-btn active" data-preview="banner" type="button"> Баннер</button>
+                <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
                 <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
                 <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
               </div>
@@ -346,7 +346,7 @@
               <div>
                 <h3>Способ оплаты</h3>
                 <div class="chips">
-                  <button class="chip pay-tab active" data-pay="paypal" type="button">🅿️ PayPal (принимает карты)</button>
+                  <button class="chip pay-tab active" data-pay="paypal" type="button">️ PayPal (принимает карты)</button>
                   <button class="chip pay-tab" data-pay="crypto" type="button">₿ Криптовалюта</button>
                 </div>
                 <div id="payPaypal" class="pay-box">
@@ -368,7 +368,7 @@
 
       <section id="sites" class="section"><div class="card"><h2>🌐 Площадки</h2><p class="sub">Автопоиск бесплатных мест по всему миру.</p><label>Что рекламируем?</label><input id="siteSearch" type="text" placeholder="Израиль, ремонт, косметика..."><button id="btnFindSites" class="gold-btn" type="button">🔍 Автопоиск</button><h3>Найденные площадки</h3><div id="sitesList" class="grid"></div></div></section>
 
-      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button"> Разослать приглашения</button></div></section>
+      <section id="subs" class="section"><div class="card"><h2>👥 Подписчики по согласию</h2><div class="stats"><div class="stat"><b id="optinCount">0</b>подписались сами</div><div class="stat"><b id="noConsentCount">0</b>без согласия</div><div class="stat"><b id="invitedCount">0</b>приглашений</div></div><p class="sub">Рассылка только тем, кто дал согласие.</p><button id="btnInvite" class="gold-btn" type="button">📣 Разослать приглашения</button></div></section>
 
       <section id="support" class="section">
         <div class="card">
@@ -380,7 +380,7 @@
           </div>
           <label>Ваше сообщение</label>
           <textarea id="supportText" placeholder="Опишите вашу проблему или предложение..." style="min-height:120px;"></textarea>
-          <button id="btnSendSupport" class="gold-btn" type="button"> Отправить сообщение</button>
+          <button id="btnSendSupport" class="gold-btn" type="button">📤 Отправить сообщение</button>
           <h3>История сообщений и уведомлений</h3>
           <div id="supportHistory"></div>
         </div>
@@ -388,7 +388,7 @@
 
       <section id="admin" class="section">
         <div class="card">
-          <h2> Панель создателя</h2>
+          <h2>👑 Панель создателя</h2>
           <div class="stats">
             <div class="stat"><b id="statClients">0</b>клиентов</div>
             <div class="stat"><b id="statOnline">0</b>онлайн</div>
@@ -400,7 +400,7 @@
             <div class="stat"><b id="statBlocked">0</b>заблокировано</div>
           </div>
           
-          <h3>🔐 Безопасность</h3>
+          <h3> Безопасность</h3>
           <label>Текущий пароль</label>
           <input id="oldPassword" type="password" placeholder="Введите текущий пароль">
           <label>Новый пароль</label>
@@ -444,7 +444,7 @@
 
   <div id="userModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3> Профиль клиента</h3>
+      <h3>👤 Профиль клиента</h3>
       <div id="userModalContent"></div>
       <div class="modal-actions" id="userModalActions"></div>
       <button class="ghost-btn" style="margin-top:12px;width:100%;" onclick="closeUserModal()">Закрыть</button>
@@ -453,7 +453,7 @@
 
   <div id="rejectModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3>❌ Отклонить рекламу</h3>
+      <h3> Отклонить рекламу</h3>
       <p class="sub">Укажите причину отказа — клиент получит уведомление.</p>
       <label>Причина отказа</label>
       <textarea id="rejectReason" placeholder="Например: Некачественное изображение, запрещённый контент..." style="min-height:100px;"></textarea>
@@ -466,7 +466,7 @@
 
   <div id="blockModal" class="modal-overlay hidden">
     <div class="modal">
-      <h3> Заблокировать клиента</h3>
+      <h3>🚫 Заблокировать клиента</h3>
       <p class="sub">Укажите причину блокировки.</p>
       <label>Причина блокировки</label>
       <textarea id="blockReason" placeholder="Например: Спам, неподобающий контент, бот..." style="min-height:100px;"></textarea>
@@ -495,10 +495,20 @@
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', UPLOAD_PRESET);
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, { method: 'POST', body: formData });
-      if (!res.ok) throw new Error('Upload failed');
-      const data = await res.json();
-      return data.secure_url;
+      
+      for (let i = 0; i < 3; i++) {
+        try {
+          const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${type}/upload`, { method: 'POST', body: formData });
+          if (res.ok) {
+            const data = await res.json();
+            return data.secure_url;
+          }
+        } catch (e) {
+          console.error('Cloudinary upload attempt failed:', i + 1, e);
+        }
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      throw new Error('Cloudinary upload failed after 3 attempts');
     }
 
     function startHeartbeat() {
@@ -521,7 +531,7 @@
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=14');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=15');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -535,12 +545,28 @@
       });
     }
 
-    async function api(action, payload = {}) {
-      try {
-        const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action, ...payload }) });
-        if (!res.ok) throw new Error('API Error');
-        return await res.json();
-      } catch (e) { console.error(e); toast('❌ Ошибка соединения с сервером'); return null; }
+    async function api(action, payload = {}, retries = 2) {
+      for (let i = 0; i <= retries; i++) {
+        try {
+          const res = await fetch(API_URL, { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify({ action, ...payload }) 
+          });
+          if (res.ok) return await res.json();
+          if (i === retries) {
+            toast('❌ Ошибка соединения с сервером');
+            return null;
+          }
+        } catch (e) { 
+          console.error(e);
+          if (i === retries) {
+            toast('❌ Ошибка соединения с сервером');
+            return null;
+          }
+        }
+        await new Promise(r => setTimeout(r, 1000));
+      }
     }
 
     async function loadData() {
@@ -548,12 +574,15 @@
         const res = await fetch(API_URL + '?t=' + Date.now());
         if (res.ok) {
           const data = await res.json();
-          state.ads = data.ads || []; state.subscribers = data.subscribers || [];
-          state.messages = data.messages || []; state.payments = data.payments || [];
+          state.ads = data.ads || []; 
+          state.subscribers = data.subscribers || [];
+          state.messages = data.messages || []; 
+          state.payments = data.payments || [];
           state.onlineUsers = data.onlineUsers || [];
           if (data.adminPassword) ADMIN_PASS = data.adminPassword;
           state.income = state.ads.filter(a => a.paid).length * 89;
-          renderAll(); updateNotifBadge();
+          renderAll(); 
+          updateNotifBadge();
         }
       } catch (e) { console.warn("Load failed", e); }
     }
@@ -586,7 +615,7 @@
     }
     
     function getRegionName(region) {
-      const regions = {'international': ' Международный', 'IL': '🇮 Израиль', 'US': '🇺🇸 США', 'RU': '🇷🇺 Россия', 'UA': '🇺🇦 Украина', 'BY': '🇧🇾 Беларусь', 'KZ': '🇿 Казахстан', 'ES': '🇸 Испания', 'FR': '🇷 Франция', 'DE': '🇪 Германия', 'CN': '🇳 Китай', 'AE': '🇪 ОАЭ'};
+      const regions = {'international': '🌐 Международный', 'IL': '🇱 Израиль', 'US': '🇸 США', 'RU': '🇺 Россия', 'UA': '🇦 Украина', 'BY': '🇾 Беларусь', 'KZ': '🇰🇿 Казахстан', 'ES': '🇪🇸 Испания', 'FR': '🇫🇷 Франция', 'DE': '🇩🇪 Германия', 'CN': '🇨🇳 Китай', 'AE': '🇦🇪 ОАЭ'};
       return regions[region] || region;
     }
 
@@ -647,29 +676,49 @@
       const title=$('#adTitle').value.trim(), text=$('#adText').value.trim(), cta=$('#adCta').value.trim(), contact=$('#adContact').value.trim(), format=$('#adFormat').value, category=$('#adCategory').value, region=$('#adRegion').value, city=$('#adCity').value.trim(), langs=selectedLangsCount();
       if(!title){toast('Добавь заголовок рекламы');return;}
       
-      toast('⏳ Загрузка медиа и отправка...');
+      toast('⏳ Загрузка медиа...');
       let imageUrl = state.selectedImage;
       let videoUrl = state.selectedVideo;
       
       const imgFile = $('#imageUpload').files[0];
       const vidFile = $('#videoUpload').files[0];
       
-      if (imgFile && !state.selectedImage) {
-        try { imageUrl = await uploadToCloudinary(imgFile, 'image'); } catch(e) { toast('❌ Ошибка загрузки картинки'); return; }
+      if (imgFile) {
+        try { 
+          imageUrl = await uploadToCloudinary(imgFile, 'image'); 
+          toast('✅ Картинка загружена, отправляем...');
+        } catch(e) { 
+          toast('❌ Ошибка загрузки картинки: ' + e.message); 
+          return; 
+        }
       }
-      if (vidFile && !state.selectedVideo) {
-        try { videoUrl = await uploadToCloudinary(vidFile, 'video'); } catch(e) { toast('❌ Ошибка загрузки видео'); return; }
+      if (vidFile) {
+        try { 
+          videoUrl = await uploadToCloudinary(vidFile, 'video'); 
+          toast('✅ Видео загружено, отправляем...');
+        } catch(e) { 
+          toast('❌ Ошибка загрузки видео: ' + e.message); 
+          return; 
+        }
       }
 
-      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: imageUrl, video: videoUrl });
+      toast('⏳ Отправка на модерацию...');
+      const res = await api('publish', { 
+        owner: state.user, title, text, cta, contact, format, category, region, city, langs, 
+        image: imageUrl, video: videoUrl 
+      }, 3);
+      
       if(res && res.success) {
         toast('🚀 Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value=''; $('#adCity').value='';
         $('#imageUpload').value = ''; $('#videoUpload').value = '';
         state.selectedImage = null; state.selectedVideo = null;
-        updatePreview(); loadData();
+        updatePreview(); 
+        setTimeout(() => loadData(), 2000);
       } else if (res && res.error) {
         toast('❌ ' + res.error);
+      } else {
+        toast('⚠️ Ошибка отправки. Попробуйте ещё раз.');
       }
     }
 
@@ -698,7 +747,7 @@
       if (state.role === 'creator') {
         $('#modalActions').innerHTML = `
           <button class="gold-btn" onclick="moderateAd(${ad.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
-          <button class="ghost-btn" onclick="moderateAd(${ad.id}, 'approve_free')"> Одобрить (Бесплатно)</button>
+          <button class="ghost-btn" onclick="moderateAd(${ad.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
           <button class="red-btn" onclick="openRejectModal(${ad.id})">❌ Отклонить</button>
           <button class="ghost-btn" onclick="deleteAd(${ad.id})">🗑 Удалить</button>
         `;
@@ -717,7 +766,7 @@
       
       $('#userModalContent').innerHTML = `
         <div style="margin-bottom:16px;">
-          <h4 style="margin:0 0 8px">${escapeHtml(userName)} ${isOnline ? '<span class="sb sb-online"> Онлайн</span>' : '<span class="sb">⚫ Оффлайн</span>'}</h4>
+          <h4 style="margin:0 0 8px">${escapeHtml(userName)} ${isOnline ? '<span class="sb sb-online">🟢 Онлайн</span>' : '<span class="sb">⚫ Оффлайн</span>'}</h4>
           <div><b>Дата регистрации:</b> ${new Date(user.date).toLocaleString('ru-RU')}</div>
           <div><b>Всего объявлений:</b> ${userAds.length}</div>
           <div><b>Оплаченных:</b> ${userAds.filter(a => a.paid).length}</div>
@@ -732,7 +781,7 @@
           ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
           : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
         }
-        <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
+        <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')"> Удалить навсегда</button>
       `;
       $('#userModal').classList.remove('hidden');
     }
@@ -765,9 +814,9 @@
     window.confirmReject = async function() {
       const reason = $('#rejectReason').value.trim() || 'Не соответствует правилам платформы';
       if (state.rejectAdId) {
-        toast('⏳ Отклонение...');
+        toast(' Отклонение...');
         const res = await api('reject', { id: state.rejectAdId, reason });
-        if (res) { toast('❌ Реклама отклонена, клиент уведомлён'); closeRejectModal(); loadData(); }
+        if (res) { toast(' Реклама отклонена, клиент уведомлён'); closeRejectModal(); loadData(); }
       }
     }
     window.deleteAd = async function(id) {
@@ -788,7 +837,7 @@
       let mediaHTML = '';
       if (a.image) mediaHTML = `<img src="${a.image}" alt="Картинка">`;
       else if (a.video) mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
-      else mediaHTML = escapeHtml(a.format || '🖼 Баннер');
+      else mediaHTML = escapeHtml(a.format || ' Баннер');
       
       return `<div class="ad-card">
         <div class="ad-visual">${mediaHTML}</div>
@@ -803,11 +852,11 @@
           <div class="ad-actions">
             <button class="gold-btn small" type="button">${escapeHtml(a.cta||'Подробнее')}</button>
             <span class="contact">${escapeHtml(a.contact||'')}</span>
-            ${a.city ? `<span class="contact">🏙 ${escapeHtml(a.city)}</span>` : ''}
+            ${a.city ? `<span class="contact"> ${escapeHtml(a.city)}</span>` : ''}
           </div>
           <div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
           <canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas>
-          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})">📋 Подробнее</button>` : ''}
+          ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})"> Подробнее</button>` : ''}
         </div>
       </div>`;
     }
@@ -846,7 +895,7 @@
         } else if (a.video) {
           thumbHTML = `<video src="${a.video}" class="media-thumb" muted></video>`;
         } else {
-          thumbHTML = `<div class="media-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">Нет фото</div>`;
+          thumbHTML = `<div class="media-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;text-align:center;">Нет фото</div>`;
         }
         return `
         <div class="card" style="margin-bottom:12px; border-left: 4px solid var(--gold);">
@@ -860,7 +909,7 @@
               </div>
               <p class="sub" style="margin:6px 0">${escapeHtml(a.text||'').substring(0, 100)}${a.text && a.text.length > 100 ? '...' : ''}</p>
               <div class="ad-actions">
-                <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть детали</button>
+                <button class="ghost-btn small" onclick="openAdDetails(${a.id})"> Просмотреть детали</button>
                 <button class="gold-btn small" onclick="moderateAd(${a.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
                 <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
                 <button class="red-btn small" onclick="openRejectModal(${a.id})">❌ Отклонить</button>
@@ -926,7 +975,7 @@
     }
 
     window.verifyPayment = async function(id) {
-      toast(' Подтверждение...');
+      toast('⏳ Подтверждение...');
       const res = await api('verify_payment', { id });
       if(res) { toast('✅ Оплата подтверждена, реклама опубликована!'); loadData(); }
     }
@@ -979,7 +1028,7 @@
       } else {
         myMessages = state.messages.filter(m => {
           const fromNorm = normalizeName(m.from);
-          const toNorm = normalizeName(m.to);
+          const toNorm = m.toNorm || normalizeName(m.to);
           return fromNorm === userNorm || toNorm === userNorm || m.type === 'notification' || m.type === 'rejection';
         });
       }
@@ -1007,7 +1056,7 @@
           <p class="sub" style="margin:8px 0">${escapeHtml(m.text)}</p>
           <div class="chips">
             ${!m.read ? `<button class="gold-btn small" onclick="markRead(${m.id})">✅ Отмечено прочитанным</button>` : '<span class="chip">✅ Прочитано</span>'}
-            <button class="red-btn small" onclick="deleteMsg(${m.id})">🗑 Удалить</button>
+            <button class="red-btn small" onclick="deleteMsg(${m.id})"> Удалить</button>
           </div>
         </div>
       `).join('');
@@ -1018,10 +1067,10 @@
     window.sendSupport = async function() {
       const text = $('#supportText').value.trim();
       if (!text) { toast('Введите текст сообщения'); return; }
-      toast('⏳ Отправка...');
+      toast(' Отправка...');
       const res = await api('support', { from: state.user, text });
       if (res) { 
-        if (res.error) toast(' ' + res.error);
+        if (res.error) toast('❌ ' + res.error);
         else { toast('✅ Сообщение отправлено'); $('#supportText').value = ''; }
         loadData(); 
       }
@@ -1033,7 +1082,7 @@
       if (state.role !== 'client') { $('#btnNotifs').classList.add('hidden'); return; }
       const userNorm = normalizeName(state.user);
       const unread = state.messages.filter(m => {
-        const toNorm = normalizeName(m.to);
+        const toNorm = m.toNorm || normalizeName(m.to);
         return (toNorm === userNorm || m.type === 'notification' || m.type === 'rejection') && !m.read;
       }).length;
       const btn = $('#btnNotifs');
@@ -1088,7 +1137,7 @@
     async function confirmPayment(method) {
       const adId = parseInt($('#payAdSelect').value, 10);
       if (!adId) { toast('Выберите объявление'); return; }
-      toast(' Отправка подтверждения...');
+      toast('⏳ Отправка подтверждения...');
       const res = await api('confirm_payment', { id: adId, amount: state.bill, method: method });
       if (res) { toast('✅ Подтверждение отправлено! Администратор проверит поступление средств.'); loadData(); }
     }
@@ -1105,7 +1154,7 @@
         $('#oldPassword').value = '';
         $('#newPassword').value = '';
       } else if (res && res.error) {
-        toast(' ' + res.error);
+        toast('❌ ' + res.error);
       }
     }
     
@@ -1126,11 +1175,10 @@
       updateSubs(); calcBill(); renderSites(''); drawQR($('#qrText').value,$('#qrCanvas'),8);
     }
 
-    // Кнопка показать/скрыть пароль
     $('#toggleLoginPass').addEventListener('click', function() {
       state.passwordVisible = !state.passwordVisible;
       $('#loginInput').type = state.passwordVisible ? 'text' : 'password';
-      this.textContent = state.passwordVisible ? '' : '👁';
+      this.textContent = state.passwordVisible ? '🙈' : '👁';
     });
 
     $('#btnEnter').addEventListener('click', enterApp);
@@ -1186,9 +1234,9 @@
     $$('.copy-btn').forEach(b=>b.addEventListener('click',()=>{const t=$(b.dataset.copyTarget);if(t)copyText(t.value);}));
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
-    $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
+    $('#btnInvite').addEventListener('click',()=>{toast(' Приглашения отправлены (Демо)');});
     $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
-    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
+    $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast(' QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
     $('#feedRegionFilter').addEventListener('change', renderFeed);
