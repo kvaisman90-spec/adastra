@@ -1,14 +1,11 @@
 {
   "name": "AdAstra Реклама",
   "short_name": "AdAstra",
-  "description": "Международное рекламное агентство. Размещение рекламы по всему миру на 7 языках.",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#0b0b0d",
   "theme_color": "#0b0b0d",
-  "categories": ["business", "advertising", "marketing"],
-  "lang": "ru",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "/icon-v2.png",
