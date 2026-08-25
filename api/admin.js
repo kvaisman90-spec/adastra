@@ -54,6 +54,45 @@ async function writeDB(db, retries = 3) {
   return false;
 }
 
+// АВТООЧИСТКА СТАРЫХ ДАННЫХ
+function cleanupOldData(db) {
+  const now = Date.now();
+  const thirtyDaysAgo = now - (30 * 24 * 60 * 60 * 1000); // 30 дней
+  const sixtyDaysAgo = now - (60 * 24 * 60 * 60 * 1000); // 60 дней
+  const twoMinutesAgo = now - (2 * 60 * 1000); // 2 минуты
+  
+  let cleaned = {
+    messages: 0,
+    ads: 0,
+    onlineUsers: 0
+  };
+  
+  // Удаляем прочитанные сообщения старше 30 дней
+  const originalMessagesCount = db.messages.length;
+  db.messages = db.messages.filter(m => {
+    const msgDate = new Date(m.created_at).getTime();
+    // Оставляем если: не прочитано ИЛИ моложе 30 дней
+    return !m.read || msgDate > thirtyDaysAgo;
+  });
+  cleaned.messages = originalMessagesCount - db.messages.length;
+  
+  // Удаляем отклонённые рекламы старше 60 дней
+  const originalAdsCount = db.ads.length;
+  db.ads = db.ads.filter(a => {
+    if (a.status !== 'rejected') return true; // Оставляем всё кроме отклонённых
+    const adDate = new Date(a.rejectedAt || a.created_at).getTime();
+    return adDate > sixtyDaysAgo; // Оставляем если моложе 60 дней
+  });
+  cleaned.ads = originalAdsCount - db.ads.length;
+  
+  // Удаляем старых онлайн-пользователей
+  const originalOnlineCount = db.onlineUsers.length;
+  db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > twoMinutesAgo);
+  cleaned.onlineUsers = originalOnlineCount - db.onlineUsers.length;
+  
+  return cleaned;
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -73,9 +112,15 @@ export default async function handler(req, res) {
     };
 
     if (req.method === 'GET') {
-      const twoMinutesAgo = Date.now() - 120000;
-      db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > twoMinutesAgo);
-      await writeDB(db);
+      // АВТООЧИСТКА СТАРЫХ ДАННЫХ
+      const cleaned = cleanupOldData(db);
+      
+      // Сохраняем только если что-то удалили
+      if (cleaned.messages > 0 || cleaned.ads > 0 || cleaned.onlineUsers > 0) {
+        console.log('Auto-cleanup:', cleaned);
+        await writeDB(db);
+      }
+      
       return res.status(200).json(db);
     }
 
