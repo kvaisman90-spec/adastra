@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://adastra.app/sitemap.xml
+Sitemap: https://adastra-lime.vercel.app/sitemap.xml
