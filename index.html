@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AdAstra — реклама, которая достаёт до звёзд</title>
+  
+  <!-- ЖЕСТКИЕ META-ТЕГИ ДЛЯ GOOGLE -->
+  <title>AdAstra — Международное рекламное агентство | Реклама, которая достаёт до звёзд</title>
+  <meta name="description" content="AdAstra: размещение рекламы по всему миру на 7 языках. Баннеры, посты, сторис. Одобрение модератора, прозрачные тарифы от $4 в день. Оплата крипто и PayPal." />
+  <meta name="keywords" content="рекламное агентство, международная реклама, размещение рекламы, AdAstra, реклама Израиль, купить рекламу" />
+  <meta name="robots" content="index, follow" />
+  
   <meta name="theme-color" content="#0b0b0d"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
@@ -631,9 +637,7 @@
     function updateAdminTabBadge() {
       const badge = $('#adminTabBadge');
       if (!badge) return;
-      
       const pendingCount = state.ads.filter(a => a.status === 'pending').length;
-      
       if (state.role === 'creator' && pendingCount > 0) {
         badge.textContent = pendingCount;
         badge.classList.remove('hidden');
@@ -680,7 +684,6 @@
       const t=$('#adTitle').value.trim()||'Ваш заголовок', x=$('#adText').value.trim()||'Яркий текст рекламы появится здесь.', c=$('#adCta').value.trim()||'Подробнее', k=$('#adContact').value.trim()||'Контакт';
       $$('.prev-title').forEach(e=>e.textContent=t); $$('.prev-text').forEach(e=>e.textContent=x);
       $$('.prev-cta').forEach(e=>e.textContent=c); $$('.prev-contact').forEach(e=>e.textContent=k);
-      
       if (state.selectedImage) {
         $$('.preview-media').forEach(b => { b.innerHTML = `<img src="${state.selectedImage}" alt="Креатив">`; });
       } else if (state.selectedVideo) {
@@ -693,46 +696,29 @@
     async function publishAd(){
       const title=$('#adTitle').value.trim(), text=$('#adText').value.trim(), cta=$('#adCta').value.trim(), contact=$('#adContact').value.trim(), format=$('#adFormat').value, category=$('#adCategory').value, region=$('#adRegion').value, city=$('#adCity').value.trim(), langs=selectedLangsCount();
       if(!title){toast('Добавь заголовок рекламы');return;}
-      
       toast('⏳ Загрузка медиа...');
       let imageUrl = state.selectedImage;
       let videoUrl = state.selectedVideo;
-      
       const imgFile = $('#imageUpload').files[0];
       const vidFile = $('#videoUpload').files[0];
       
       if (imgFile) {
-        try { 
-          imageUrl = await uploadToCloudinary(imgFile, 'image'); 
-          toast('✅ Картинка загружена, отправляем...');
-        } catch(e) { 
-          toast('❌ Ошибка загрузки картинки: ' + e.message); 
-          return; 
-        }
+        try { imageUrl = await uploadToCloudinary(imgFile, 'image'); toast('✅ Картинка загружена, отправляем...'); } 
+        catch(e) { toast('❌ Ошибка загрузки картинки: ' + e.message); return; }
       }
       if (vidFile) {
-        try { 
-          videoUrl = await uploadToCloudinary(vidFile, 'video'); 
-          toast('✅ Видео загружено, отправляем...');
-        } catch(e) { 
-          toast('❌ Ошибка загрузки видео: ' + e.message); 
-          return; 
-        }
+        try { videoUrl = await uploadToCloudinary(vidFile, 'video'); toast('✅ Видео загружено, отправляем...'); } 
+        catch(e) { toast('❌ Ошибка загрузки видео: ' + e.message); return; }
       }
 
       toast('⏳ Отправка на модерацию...');
-      const res = await api('publish', { 
-        owner: state.user, title, text, cta, contact, format, category, region, city, langs, 
-        image: imageUrl, video: videoUrl 
-      }, 3);
-      
+      const res = await api('publish', { owner: state.user, title, text, cta, contact, format, category, region, city, langs, image: imageUrl, video: videoUrl }, 3);
       if(res && res.success) {
         toast('🚀 Реклама отправлена на модерацию');
         $('#adTitle').value=''; $('#adText').value=''; $('#adCta').value=''; $('#adContact').value=''; $('#adCity').value='';
         $('#imageUpload').value = ''; $('#videoUpload').value = '';
         state.selectedImage = null; state.selectedVideo = null;
-        updatePreview(); 
-        setTimeout(() => loadData(), 2000);
+        updatePreview(); setTimeout(() => loadData(), 2000);
       } else if (res && res.error) {
         toast('❌ ' + res.error);
       } else {
@@ -743,11 +729,9 @@
     window.openAdDetails = function(id) {
       const ad = state.ads.find(a => a.id === id);
       if (!ad) return;
-      
       let mediaHTML = '';
       if (ad.image) mediaHTML += `<div class="media-preview"><img src="${ad.image}" alt="Картинка рекламы"></div>`;
       if (ad.video) mediaHTML += `<div class="media-preview"><video src="${ad.video}" controls></video></div>`;
-      
       $('#modalContent').innerHTML = `
         <div class="chips"><span class="chip">${getCategoryName(ad.category)}</span><span class="chip">${getRegionName(ad.region)}</span>${ad.city ? `<span class="chip">🏙 ${escapeHtml(ad.city)}</span>` : ''}</div>
         <h4 style="margin:12px 0 6px">${escapeHtml(ad.title)}</h4>
@@ -761,7 +745,6 @@
         <div><b>Дата:</b> ${new Date(ad.created_at).toLocaleString('ru-RU')}</div>
         ${ad.rejectionReason ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>Причина отказа:</b> ${escapeHtml(ad.rejectionReason)}</div>` : ''}
       `;
-      
       if (state.role === 'creator') {
         $('#modalActions').innerHTML = `
           <button class="gold-btn" onclick="moderateAd(${ad.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
@@ -772,16 +755,13 @@
       }
       $('#adModal').classList.remove('hidden');
     }
-    
     window.closeModal = function() { $('#adModal').classList.add('hidden'); }
     
     window.openUserModal = function(userName) {
       const user = state.subscribers.find(s => normalizeName(s.contact) === normalizeName(userName));
       if (!user) return;
-      
       const userAds = state.ads.filter(a => normalizeName(a.owner) === normalizeName(userName));
       const isOnline = isUserOnline(userName);
-      
       $('#userModalContent').innerHTML = `
         <div style="margin-bottom:16px;">
           <h4 style="margin:0 0 8px">${escapeHtml(userName)} ${isOnline ? '<span class="sb sb-online">🟢 Онлайн</span>' : '<span class="sb">⚫ Оффлайн</span>'}</h4>
@@ -793,17 +773,12 @@
         <h4>Последние объявления:</h4>
         ${userAds.slice(0, 3).map(a => `<div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;"><b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}</div>`).join('') || '<div class="empty">Нет объявлений</div>'}
       `;
-      
       $('#userModalActions').innerHTML = `
-        ${user.blocked 
-          ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
-          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
-        }
+        ${user.blocked ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`}
         <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
       `;
       $('#userModal').classList.remove('hidden');
     }
-    
     window.closeUserModal = function() { $('#userModal').classList.add('hidden'); }
     window.openBlockModal = function(userName) { state.blockUserName = userName; $('#blockReason').value = ''; $('#blockModal').classList.remove('hidden'); }
     window.closeBlockModal = function() { $('#blockModal').classList.add('hidden'); state.blockUserName = null; }
@@ -826,7 +801,6 @@
       const res = await api('delete_user', { name: userName });
       if (res) { toast('🗑 Клиент удалён'); closeUserModal(); loadData(); }
     }
-    
     window.openRejectModal = function(id) { state.rejectAdId = id; $('#rejectReason').value = ''; $('#rejectModal').classList.remove('hidden'); }
     window.closeRejectModal = function() { $('#rejectModal').classList.add('hidden'); state.rejectAdId = null; }
     window.confirmReject = async function() {
@@ -856,7 +830,6 @@
       if (a.image) mediaHTML = `<img src="${a.image}" alt="Картинка">`;
       else if (a.video) mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
       else mediaHTML = escapeHtml(a.format || '🖼 Баннер');
-      
       return `<div class="ad-card">
         <div class="ad-visual">${mediaHTML}</div>
         <div class="ad-body">
@@ -908,13 +881,9 @@
       if(!pending.length){el.innerHTML='<div class="empty">Нет заявок на модерацию.</div>';return;}
       el.innerHTML = pending.map(a => {
         let thumbHTML = '';
-        if (a.image) {
-          thumbHTML = `<img src="${a.image}" class="media-thumb" alt="Превью">`;
-        } else if (a.video) {
-          thumbHTML = `<video src="${a.video}" class="media-thumb" muted></video>`;
-        } else {
-          thumbHTML = `<div class="media-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;text-align:center;">Нет фото</div>`;
-        }
+        if (a.image) thumbHTML = `<img src="${a.image}" class="media-thumb" alt="Превью">`;
+        else if (a.video) thumbHTML = `<video src="${a.video}" class="media-thumb" muted></video>`;
+        else thumbHTML = `<div class="media-thumb" style="display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;text-align:center;">Нет фото</div>`;
         return `
         <div class="card" style="margin-bottom:12px; border-left: 4px solid var(--gold);">
           <div style="display:flex;gap:12px;align-items:start;">
@@ -935,8 +904,8 @@
             </div>
             <div style="flex:0 0 80px">${thumbHTML}</div>
           </div>
-        </div>
-      `}).join('');
+        </div>`;
+      }).join('');
     }
 
     function renderRejected(){
@@ -952,8 +921,7 @@
             <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть</button>
             <button class="red-btn small" onclick="deleteAd(${a.id})">🗑 Удалить навсегда</button>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
     window.moderateAd = async function(id, action) {
@@ -972,8 +940,7 @@
             <span style="font-size:11px;color:#8b7a4f">${u.role === 'creator' ? '👑 Админ' : '👤 Клиент'}</span>
           </div>
           <div style="font-size:12px;color:#8b7a4f;margin-top:4px;">Активность: ${new Date(u.lastSeen).toLocaleTimeString('ru-RU')}</div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
     function renderPayments(){
@@ -988,8 +955,7 @@
           <td>${p.method === 'paypal' ? '🅿️ PayPal' : '₿ Крипто'}</td>
           <td>${new Date(p.date).toLocaleString('ru-RU')}</td>
           <td><button class="gold-btn small" onclick="verifyPayment(${p.id})">✅ Подтвердить</button></td>
-        </tr>
-      `).join('');
+        </tr>`).join('');
     }
 
     window.verifyPayment = async function(id) {
@@ -1012,7 +978,6 @@
           <td><button class="ghost-btn small" onclick="openUserModal('${escapeHtml(c.contact)}')">👤 Профиль</button></td>
         </tr>`;
       }).join('');
-      
       $('#statClients').textContent = state.subscribers.length;
       $('#statOnline').textContent = state.onlineUsers.filter(u => u.role !== 'creator').length;
       $('#statPaid').textContent = state.ads.filter(a=>a.paid).length;
@@ -1026,12 +991,8 @@
     window.markAllRead = async function() {
       toast('⏳ Отметка всех как прочитанные...');
       const res = await api('mark_all_read', { userName: state.user });
-      if (res) { 
-        toast('✅ Все уведомления отмечены как прочитанные'); 
-        loadData(); 
-      }
+      if (res) { toast('✅ Все уведомления отмечены как прочитанные'); loadData(); }
     }
-    
     window.markMessageRead = async function(id) {
       await api('mark_read', { id });
       loadData();
@@ -1076,8 +1037,7 @@
             ${!m.read ? `<button class="gold-btn small" onclick="markRead(${m.id})">✅ Отмечено прочитанным</button>` : '<span class="chip">✅ Прочитано</span>'}
             <button class="red-btn small" onclick="deleteMsg(${m.id})">🗑 Удалить</button>
           </div>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
     
     window.markRead = async function(id) { await api('mark_read', { id }); loadData(); }
@@ -1095,7 +1055,6 @@
     }
 
     function updateSubs(){ $('#optinCount').textContent = state.subscribers.length; $('#noConsentCount').textContent = 0; $('#invitedCount').textContent = 0; }
-    
     function updateNotifBadge() {
       if (state.role !== 'client') { $('#btnNotifs').classList.add('hidden'); return; }
       const userNorm = normalizeName(state.user);
@@ -1118,13 +1077,10 @@
     }
 
     let currentPayMethod = 'paypal';
-    
     function calcBill(){
       const days = Math.max(1, parseInt($('#daysInput').value, 10) || 1);
       const qty = Math.min(10, Math.max(1, parseInt($('#qtyInput').value, 10) || 1));
-      
       let remainingDays = days; let baseCost = 0; let breakdown = [];
-      
       const months = Math.floor(remainingDays / 30);
       if (months > 0) { baseCost += months * 89; breakdown.push(`${months} мес. = $${months * 89}`); remainingDays -= months * 30; }
       const twoWeeks = Math.floor(remainingDays / 14);
@@ -1132,17 +1088,14 @@
       const weeks = Math.floor(remainingDays / 7);
       if (weeks > 0) { baseCost += weeks * 29; breakdown.push(`${weeks} нед. = $${weeks * 29}`); remainingDays -= weeks * 7; }
       if (remainingDays > 0) { baseCost += remainingDays * 4; breakdown.push(`${remainingDays} дн. × $4 = $${remainingDays * 4}`); }
-      
       const extraAds = Math.max(0, qty - 3);
       const surchargePercent = extraAds * 2;
       const surcharge = Math.round(baseCost * surchargePercent / 100);
       const total = baseCost + surcharge;
       const dailyCost = days * 4;
       const savings = dailyCost - total;
-      
       state.bill = total;
       $('#paypalLink').href = 'https://www.paypal.me/kvaisman90/' + total;
-      
       let resultHTML = `<b>Расчет:</b><br>${breakdown.join(' + ')}<br>`;
       resultHTML += `База: <b>$${baseCost}</b>`;
       if (surcharge > 0) resultHTML += ` · Надбавка за ${qty} объявл.: <b>+$${surcharge} (+${surchargePercent}%)</b>`;
