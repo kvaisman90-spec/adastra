@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://adastra.app/</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>daily</changefreq>
+    <loc>https://adastra-lime.vercel.app/</loc>
+    <lastmod>2024-05-20</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://adastra.app/privacy.html</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://adastra-lime.vercel.app/privacy.html</loc>
+    <lastmod>2024-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://adastra.app/terms.html</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://adastra.app/payment.html</loc>
-    <lastmod>2025-01-01</lastmod>
+    <loc>https://adastra-lime.vercel.app/terms.html</loc>
+    <lastmod>2024-05-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
