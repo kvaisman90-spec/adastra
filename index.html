@@ -26,7 +26,7 @@
     .login-card{position:relative;z-index:2;width:min(430px,94vw);background:#0b0b0d;border:2px solid var(--gold);border-radius:24px;padding:34px 26px;text-align:center;box-shadow:0 22px 60px rgba(0,0,0,.35),0 0 0 7px rgba(212,175,55,.10);}
     .login-card .mark{width:88px;height:88px;margin:0 auto 8px;display:block;}
     .login-card h1{margin:4px 0 6px;font-size:36px;letter-spacing:2px;background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;background-clip:text;color:transparent;}
-    .login-card .tag{color:#e8d9a0;font-size:13px;line-height:1.4;margin-bottom:18px;}
+    .login-card .tag{color:#e8d9a0;font-size:15px;line-height:1.4;margin-bottom:18px;font-weight:600;letter-spacing:0.5px;}
     .login-input-wrap{position:relative;width:100%;margin:12px 0;}
     .login-input-wrap input{width:100%;padding:16px 50px 16px 14px;border-radius:14px;border:1px solid rgba(212,175,55,.65);background:#141414;color:#f7efcf;outline:none;font-size:18px;text-align:center;}
     .login-input-wrap input::placeholder{color:#9d8c53;}
@@ -55,7 +55,6 @@
     .tab-btn{white-space:nowrap;padding:10px 13px;border-radius:13px;border:1px solid rgba(212,175,55,.35);background:rgba(255,255,255,.03);color:#e9d894;font-size:14px;font-weight:700;position:relative;}
     .tab-btn.active{background:linear-gradient(45deg,var(--gold-light),var(--gold),var(--gold-dark));color:#171204;border-color:transparent;}
     
-    /* Красный индикатор на вкладке Админ */
     .admin-tab-badge{position:absolute;top:-4px;right:-4px;background:#dc3545;color:#fff;font-size:9px;font-weight:800;padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;animation:pulse 1.5s infinite;}
     @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.1);}}
     
@@ -173,7 +172,7 @@
     <div class="login-card">
       <svg class="mark"><use href="#adastra-mark"></use></svg>
       <h1>AdAstra</h1>
-      <div class="tag">Весь мир · все языки · только с согласия людей 👑</div>
+      <div class="tag">Реклама, которая достаёт до звёзд</div>
       
       <div class="login-input-wrap">
         <input id="loginInput" type="password" placeholder="Введите пароль или имя" autocomplete="off">
@@ -190,7 +189,7 @@
           <div class="pricing-item"><b>$49</b><span>2 недели</span></div>
           <div class="pricing-item"><b>$89</b><span>месяц</span></div>
         </div>
-        <div class="pricing-save"> Экономия до 35% при выборе месяца!</div>
+        <div class="pricing-save">🔥 Экономия до 35% при выборе месяца!</div>
       </div>
     </div>
   </div>
@@ -222,7 +221,7 @@
           <div class="grid">
             <div>
               <label>Формат креатива</label>
-              <select id="adFormat"><option value="banner"> Баннер</option><option value="post"> Пост</option><option value="story"> Сторис</option></select>
+              <select id="adFormat"><option value="banner">🖼 Баннер</option><option value="post">📝 Пост</option><option value="story">📲 Сторис</option></select>
               <label>Категория рекламы</label>
               <select id="adCategory">
                 <option value="general">📌 Общее</option>
@@ -248,16 +247,16 @@
               <label>🌍 Регион показа рекламы</label>
               <select id="adRegion">
                 <option value="international">🌐 Международный (все страны)</option>
-                <option value="IL">🇱 Израиль</option>
+                <option value="IL">🇮🇱 Израиль</option>
                 <option value="US">🇺🇸 США</option>
-                <option value="RU">🇺 Россия</option>
+                <option value="RU">🇷🇺 Россия</option>
                 <option value="UA">🇺🇦 Украина</option>
-                <option value="BY">🇾 Беларусь</option>
+                <option value="BY">🇧🇾 Беларусь</option>
                 <option value="KZ">🇰🇿 Казахстан</option>
                 <option value="ES">🇪🇸 Испания</option>
-                <option value="FR">🇫 Франция</option>
+                <option value="FR">🇫🇷 Франция</option>
                 <option value="DE">🇩🇪 Германия</option>
-                <option value="CN">🇨 Китай</option>
+                <option value="CN">🇨🇳 Китай</option>
                 <option value="AE">🇦🇪 ОАЭ</option>
               </select>
               <label>🏙 Город (опционально)</label>
@@ -273,14 +272,14 @@
                 <label class="chip lang-chip"><input type="checkbox" name="lang" value="ZH" checked> ZH</label>
               </div>
               <button id="btnTranslate" class="ghost-btn" type="button">🌐 Перевести рекламу на выбранные</button>
-              <button id="btnPublish" class="gold-btn" type="button"> Опубликовать рекламу</button>
+              <button id="btnPublish" class="gold-btn" type="button">🚀 Опубликовать рекламу</button>
               <div class="chips"><span class="chip">✓ баннер</span><span class="chip">✓ пост</span><span class="chip">✓ сторис</span><span class="chip">✓ QR</span><span class="chip">✓ 7 языков</span></div>
             </div>
             <div>
               <h3>Предпросмотр</h3>
               <div class="preview-tabs">
                 <button class="chip preview-tab-btn active" data-preview="banner" type="button">🖥 Баннер</button>
-                <button class="chip preview-tab-btn" data-preview="post" type="button"> Пост</button>
+                <button class="chip preview-tab-btn" data-preview="post" type="button">📱 Пост</button>
                 <button class="chip preview-tab-btn" data-preview="story" type="button">📲 Сторис</button>
               </div>
               <div class="preview-box banner" data-preview="banner"><div class="preview-media"><svg class="small-mark"><use href="#adastra-mark"></use></svg></div><div class="preview-content"><div class="prev-title">Ваш заголовок</div><div class="prev-text">Яркий текст рекламы появится здесь.</div><div><button class="gold-btn small prev-cta" type="button">Подробнее</button></div><div class="prev-contact">Контакт</div></div></div>
@@ -313,7 +312,7 @@
           <select id="feedRegionFilter">
             <option value="all">Все регионы</option>
             <option value="international">🌐 Международный</option>
-            <option value="IL">🇮 Израиль</option>
+            <option value="IL">🇮🇱 Израиль</option>
             <option value="US">🇺🇸 США</option>
             <option value="RU">🇷🇺 Россия</option>
             <option value="UA">🇺🇦 Украина</option>
@@ -326,7 +325,7 @@
 
       <section id="bill" class="section">
         <div class="card">
-          <h2> Калькулятор счёта и оплата</h2>
+          <h2>🧮 Калькулятор счёта и оплата</h2>
           <div id="billLocked" class="empty">
             ⏳ <b>Дождитесь одобрения модератора.</b><br>
             Оплата доступна только после того, как администратор одобрит вашу рекламу как "Платную". Вы получите уведомление.
@@ -355,7 +354,7 @@
                 </div>
                 <div id="payPaypal" class="pay-box">
                   <p class="sub" style="margin-top:0;">Вы будете перенаправлены на защищённую страницу PayPal. <br><b>Важно:</b> PayPal автоматически принимает банковские карты Visa/Mastercard/Мир даже без регистрации.</p>
-                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">️ Оплатить через PayPal</a>
+                  <a id="paypalLink" href="https://www.paypal.me/kvaisman90/20" target="_blank" class="gold-btn" style="width:100%;margin-bottom:10px;">🅿️ Оплатить через PayPal</a>
                   <button id="btnPaidPaypal" class="ghost-btn" style="width:100%;" type="button">✅ Я оплатил через PayPal</button>
                 </div>
                 <div id="payCrypto" class="pay-box hidden">
@@ -404,7 +403,7 @@
             <div class="stat"><b id="statBlocked">0</b>заблокировано</div>
           </div>
           
-          <h3> Безопасность</h3>
+          <h3>🔐 Безопасность</h3>
           <label>Текущий пароль</label>
           <input id="oldPassword" type="password" placeholder="Введите текущий пароль">
           <label>Новый пароль</label>
@@ -415,7 +414,7 @@
           <label>USDT (BEP20 / BNB Smart Chain)</label><input id="walletUSDT" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
           <label>BTC</label><input id="walletBTC" type="text" value="bc1qs5xckqeq2s5crzderqknrwpusvq7wzmlgmgpdz">
           <label>ETH</label><input id="walletETH" type="text" value="0x6cfF7035084b83aE5dd5b9DFD66B77B61B74c488">
-          <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button"> ETH</button></div>
+          <div class="chips"><button class="ghost-btn small copy-btn" data-copy-target="#walletUSDT" type="button">📋 USDT</button><button class="ghost-btn small copy-btn" data-copy-target="#walletBTC" type="button">📋 BTC</button><button class="ghost-btn small copy-btn" data-copy-target="#walletETH" type="button">📋 ETH</button></div>
           
           <h3>🟢 Онлайн пользователи</h3>
           <div id="onlineUsersList" class="grid"></div>
@@ -432,7 +431,7 @@
         </div>
       </section>
 
-      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button"> Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
+      <section id="qr" class="section"><div class="card"><h2>🔳 QR-коды</h2><label>Ссылка/текст</label><input id="qrText" type="text" value="https://adastra.app"><button id="btnQR" class="gold-btn" type="button">Сделать QR</button><button id="btnDownloadQR" class="ghost-btn" type="button">⬇ Скачать</button><div style="margin-top:16px;"><canvas id="qrCanvas" width="250" height="250" style="border:1px solid #ddca8b;border-radius:18px;background:#fff;"></canvas></div><h3>QR одобренных реклам</h3><div id="qrAds" class="grid"></div></div></section>
     </main>
     <footer class="footer">AdAstra — реклама, которая достаёт до звёзд 👑 | <a href="/privacy.html" style="color:#d4af37;">Privacy</a> | <a href="/terms.html" style="color:#d4af37;">Terms</a> | <a href="/payment.html" style="color:#d4af37;">Payment</a></footer>
   </div>
@@ -615,7 +614,7 @@
     }
     
     function getCategoryName(cat) {
-      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': ' Недвижимость', 'education': ' Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
+      const cats = {'general': '📌 Общее', 'repair': '🔧 Ремонт', 'beauty': '💄 Красота', 'food': '🍔 Еда', 'auto': '🚗 Авто', 'realestate': '🏠 Недвижимость', 'education': '📚 Образование', 'services': '🛎 Услуги', 'shopping': '🛍 Магазины', 'events': '🎉 Мероприятия', 'other': '📦 Другое'};
       return cats[cat] || cat;
     }
     
@@ -629,7 +628,6 @@
       return state.onlineUsers.some(u => normalizeName(u.name) === norm); 
     }
 
-    // Красный индикатор на вкладке Админ когда есть заявки на модерации
     function updateAdminTabBadge() {
       const badge = $('#adminTabBadge');
       if (!badge) return;
@@ -790,7 +788,7 @@
           <div><b>Дата регистрации:</b> ${new Date(user.date).toLocaleString('ru-RU')}</div>
           <div><b>Всего объявлений:</b> ${userAds.length}</div>
           <div><b>Оплаченных:</b> ${userAds.filter(a => a.paid).length}</div>
-          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b> ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}<br>Дата: ${user.blockedAt ? new Date(user.blockedAt).toLocaleString('ru-RU') : ''}</div>` : ''}
+          ${user.blocked ? `<div style="margin-top:10px;padding:10px;background:#f8d7da;border-radius:12px;border:1px solid #dc3545;"><b>🚫 ЗАБЛОКИРОВАН</b><br>Причина: ${escapeHtml(user.blockReason || 'Не указана')}<br>Дата: ${user.blockedAt ? new Date(user.blockedAt).toLocaleString('ru-RU') : ''}</div>` : ''}
         </div>
         <h4>Последние объявления:</h4>
         ${userAds.slice(0, 3).map(a => `<div style="padding:8px;background:#fff8df;border-radius:8px;margin:6px 0;"><b>${escapeHtml(a.title)}</b> ${getStatusBadge(a.status)}</div>`).join('') || '<div class="empty">Нет объявлений</div>'}
@@ -799,7 +797,7 @@
       $('#userModalActions').innerHTML = `
         ${user.blocked 
           ? `<button class="gold-btn" onclick="unblockUser('${escapeHtml(userName)}')">✅ Разблокировать</button>` 
-          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')"> Заблокировать</button>`
+          : `<button class="red-btn" onclick="openBlockModal('${escapeHtml(userName)}')">🚫 Заблокировать</button>`
         }
         <button class="ghost-btn" onclick="deleteUser('${escapeHtml(userName)}')">🗑 Удалить навсегда</button>
       `;
@@ -826,7 +824,7 @@
       if (!confirm(`Удалить клиента "${userName}" и все его данные навсегда?`)) return;
       toast('⏳ Удаление...');
       const res = await api('delete_user', { name: userName });
-      if (res) { toast(' Клиент удалён'); closeUserModal(); loadData(); }
+      if (res) { toast('🗑 Клиент удалён'); closeUserModal(); loadData(); }
     }
     
     window.openRejectModal = function(id) { state.rejectAdId = id; $('#rejectReason').value = ''; $('#rejectModal').classList.remove('hidden'); }
@@ -874,7 +872,7 @@
             <span class="contact">${escapeHtml(a.contact||'')}</span>
             ${a.city ? `<span class="contact">🏙 ${escapeHtml(a.city)}</span>` : ''}
           </div>
-          <div class="chips"><span class="chip"> ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
+          <div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
           <canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas>
           ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})">📋 Подробнее</button>` : ''}
         </div>
@@ -929,7 +927,7 @@
               </div>
               <p class="sub" style="margin:6px 0">${escapeHtml(a.text||'').substring(0, 100)}${a.text && a.text.length > 100 ? '...' : ''}</p>
               <div class="ad-actions">
-                <button class="ghost-btn small" onclick="openAdDetails(${a.id})"> Просмотреть детали</button>
+                <button class="ghost-btn small" onclick="openAdDetails(${a.id})">📋 Просмотреть детали</button>
                 <button class="gold-btn small" onclick="moderateAd(${a.id}, 'approve_paid')">✅ Одобрить (Платно)</button>
                 <button class="ghost-btn small" onclick="moderateAd(${a.id}, 'approve_free')">🎁 Одобрить (Бесплатно)</button>
                 <button class="red-btn small" onclick="openRejectModal(${a.id})">❌ Отклонить</button>
@@ -1149,7 +1147,7 @@
       resultHTML += `База: <b>$${baseCost}</b>`;
       if (surcharge > 0) resultHTML += ` · Надбавка за ${qty} объявл.: <b>+$${surcharge} (+${surchargePercent}%)</b>`;
       resultHTML += `<br><span class="total">Итого: $${total}</span>`;
-      if (savings > 0) resultHTML += `<br><span style="color:#28a745;font-size:13px;"> Вы экономите $${savings} по сравнению с посуточной оплатой!</span>`;
+      if (savings > 0) resultHTML += `<br><span style="color:#28a745;font-size:13px;">🔥 Вы экономите $${savings} по сравнению с посуточной оплатой!</span>`;
       $('#calcResult').innerHTML = resultHTML;
       return total;
     }
@@ -1256,7 +1254,7 @@
     
     $('#btnFindSites').addEventListener('click',()=>{const q=$('#siteSearch').value.trim()||'бизнес';renderSites(q);toast('🔍 Найдено 10 площадок');});
     $('#btnInvite').addEventListener('click',()=>{toast('📣 Приглашения отправлены (Демо)');});
-    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast(' QR создан');});
+    $('#btnQR').addEventListener('click',()=>{drawQR($('#qrText').value,$('#qrCanvas'),8);toast('🔳 QR создан');});
     $('#btnDownloadQR').addEventListener('click',()=>{const c=$('#qrCanvas'),a=document.createElement('a');a.download='adastra-qr.png';a.href=c.toDataURL('image/png');a.click();toast('⬇ QR скачивается');});
     $('#btnSendSupport').addEventListener('click', sendSupport);
     $('#feedCategoryFilter').addEventListener('change', renderFeed);
