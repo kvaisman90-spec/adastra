@@ -26,10 +26,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="AdAstra"/>
   
-  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=15"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=15"/>
-  <link rel="apple-touch-icon" href="/icon-v2.png?v=15"/>
-  <link rel="manifest" href="/manifest.json?v=15"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-v2.png?v=17"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-v2.png?v=17"/>
+  <link rel="apple-touch-icon" href="/icon-v2.png?v=17"/>
+  <link rel="manifest" href="/manifest.json?v=17"/>
 
   <style>
     :root{--gold:#d4af37;--gold-dark:#b8860b;--gold-light:#f6e27a;--ink:#141210;--paper:#fffdf7;--line:rgba(212,175,55,.30);}
@@ -578,7 +578,7 @@
         try {
           const keys = await caches.keys();
           await Promise.all(keys.map(key => caches.delete(key)));
-          const reg = await navigator.serviceWorker.register('/sw.js?v=15');
+          const reg = await navigator.serviceWorker.register('/sw.js?v=17');
           if (reg.waiting) reg.waiting.postMessage({ type: 'SKIP_WAITING' });
           reg.addEventListener('updatefound', () => {
             const newWorker = reg.installing;
@@ -1146,32 +1146,30 @@
       else { btn.classList.add('hidden'); }
     }
     
-    // === ИСПРАВЛЕНИЕ: ПОЛНЫЙ ДОСТУП АДМИНА К КАЛЬКУЛЯТОРУ ===
     function renderBilling(){
-      // Если админ — показывать калькулятор ВСЕГДА, со ВСЕМИ платными объявлениями
       if (state.role === 'creator') {
-        $('#billLocked').classList.add('hidden');
-        $('#billUnlocked').classList.remove('hidden');
-        const select = $('#payAdSelect');
+        document.getElementById('billLocked').classList.add('hidden');
+        document.getElementById('billUnlocked').classList.remove('hidden');
+        const select = document.getElementById('payAdSelect');
         const allPaidAds = state.ads.filter(a => a.status === 'approved_paid' || a.status === 'paid');
-        select.innerHTML = allPaidAds.length 
-          ? allPaidAds.map(a => `<option value="${a.id}">${escapeHtml(a.title)} — ${escapeHtml(a.owner)} (${getStatusBadge(a.status)})</option>`).join('')
-          : '<option value="">Нет платных объявлений</option>';
+        if (allPaidAds.length === 0) {
+          select.innerHTML = '<option value="">Нет платных объявлений</option>';
+        } else {
+          select.innerHTML = allPaidAds.map(a => '<option value="' + a.id + '">' + escapeHtml(a.title) + ' — ' + escapeHtml(a.owner) + ' (' + getStatusBadge(a.status) + ')</option>').join('');
+        }
         calcBill();
         return;
       }
-      
-      // Для клиентов — только их одобренные платные объявления
-      const pendingPaidAds = state.ads.filter(a => normalizeName(a.owner) === normalizeName(state.user) && (a.status === 'approved_paid' || a.status === 'paid'));
-      if (pendingPaidAds.length === 0) { 
-        $('#billLocked').classList.remove('hidden'); 
-        $('#billUnlocked').classList.add('hidden'); 
-        return; 
+      const userAds = state.ads.filter(a => normalizeName(a.owner) === normalizeName(state.user) && (a.status === 'approved_paid' || a.status === 'paid'));
+      if (userAds.length === 0) {
+        document.getElementById('billLocked').classList.remove('hidden');
+        document.getElementById('billUnlocked').classList.add('hidden');
+        return;
       }
-      $('#billLocked').classList.add('hidden'); 
-      $('#billUnlocked').classList.remove('hidden');
-      const select = $('#payAdSelect');
-      select.innerHTML = pendingPaidAds.map(a => `<option value="${a.id}" ${a.status === 'approved_paid' ? 'selected' : ''}>${escapeHtml(a.title)} (${getStatusBadge(a.status)})</option>`).join('');
+      document.getElementById('billLocked').classList.add('hidden');
+      document.getElementById('billUnlocked').classList.remove('hidden');
+      const select = document.getElementById('payAdSelect');
+      select.innerHTML = userAds.map(a => '<option value="' + a.id + '">' + escapeHtml(a.title) + ' (' + getStatusBadge(a.status) + ')</option>').join('');
       calcBill();
     }
 
