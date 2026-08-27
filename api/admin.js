@@ -69,18 +69,12 @@ export default {
         const paysList = await env.PAYMENTS.list();
         const onlList = await env.ONLINE_USERS.list();
 
-        const ads = adsList.keys || [];
-        const subscribers = subsList.keys || [];
-        const messages = msgsList.keys || [];
-        const payments = paysList.keys || [];
-        const onlineUsers = onlList.keys || [];
-
         return new Response(JSON.stringify({
-          ads: ads,
-          subscribers: subscribers,
-          messages: messages,
-          payments: payments,
-          onlineUsers: onlineUsers,
+          ads: adsList.keys || [],
+          subscribers: subsList.keys || [],
+          messages: msgsList.keys || [],
+          payments: paysList.keys || [],
+          onlineUsers: onlList.keys || [],
           adminPassword: ADMIN_PASS
         }), { headers: { 'Content-Type': 'application/json', ...cors } });
       }
