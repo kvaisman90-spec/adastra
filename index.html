@@ -11,7 +11,7 @@
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <link rel="canonical" href="https://adastra-lime.vercel.app/" />
 
-  <!-- OPEN GRAPH (ДЛЯ GOOGLE И СОЦСЕТЕЙ - ЗАЩИТА ОТ ОПИСАНИЯ VERCel) -->
+  <!-- OPEN GRAPH (ДЛЯ GOOGLE И СОЦСЕТЕЙ) -->
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="AdAstra — Международное рекламное агентство" />
@@ -119,6 +119,35 @@
     .ad-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
     .contact{color:#7c6832;font-size:13px;font-weight:700;}
     .qr-mini{width:88px;height:88px;border:1px solid #ddca8b;border-radius:12px;background:#fff;}
+    
+    /* === НОВЫЕ СТИЛИ ДЛЯ КНОПОК ШЕРИНГА === */
+    .share-buttons {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+    .share-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      transition: opacity 0.2s;
+    }
+    .share-btn:hover { opacity: 0.85; }
+    .share-btn.facebook { background: #1877F2; }
+    .share-btn.telegram { background: #0088cc; }
+    .share-btn.whatsapp { background: #25D366; }
+    .share-btn.twitter { background: #1DA1F2; }
+    .share-btn.linkedin { background: #0077B5; }
+    .share-btn.reddit { background: #FF4500; }
+    .share-btn.pinterest { background: #BD081C; }
+    /* ======================================== */
     
     .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:12px 0;}
     .stat{padding:12px 10px;border-radius:18px;background:#fff8df;border:1px solid rgba(212,175,55,.28);text-align:center;}
@@ -673,7 +702,7 @@
       }
       $('#loginScreen').classList.add('hidden');
       $('#app').classList.remove('hidden');
-      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+state.user;
+      $('#roleBadge').textContent = state.role==='creator' ? '👑 Создатель' : '👤 '+escapeHtml(state.user);
       loadData(); startSync(); startHeartbeat();
       toast(state.role==='creator' ? '👑 Добро пожаловать, Босс' : '🚀 Привет, '+escapeHtml(state.user));
     }
@@ -844,6 +873,7 @@
       if (a.image) mediaHTML = `<img src="${a.image}" alt="Картинка">`;
       else if (a.video) mediaHTML = `<video src="${a.video}" autoplay muted loop></video>`;
       else mediaHTML = escapeHtml(a.format || '🖼 Баннер');
+      
       return `<div class="ad-card">
         <div class="ad-visual">${mediaHTML}</div>
         <div class="ad-body">
@@ -861,10 +891,54 @@
           </div>
           <div class="chips"><span class="chip">🌍 ${escapeHtml(a.langs||7)} языков</span><span class="chip">ID: ${a.id}</span></div>
           <canvas class="qr-mini" data-qr="${escapeHtml(a.title||'AdAstra')}"></canvas>
+          
+          <!-- НОВЫЙ БЛОК: КНОПКИ ШЕРИНГА -->
+          <div class="share-buttons">
+            <button class="share-btn facebook" onclick="shareToSocial('facebook', ${a.id})">Facebook</button>
+            <button class="share-btn telegram" onclick="shareToSocial('telegram', ${a.id})">Telegram</button>
+            <button class="share-btn whatsapp" onclick="shareToSocial('whatsapp', ${a.id})">WhatsApp</button>
+            <button class="share-btn twitter" onclick="shareToSocial('twitter', ${a.id})">Twitter</button>
+            <button class="share-btn linkedin" onclick="shareToSocial('linkedin', ${a.id})">LinkedIn</button>
+            <button class="share-btn reddit" onclick="shareToSocial('reddit', ${a.id})">Reddit</button>
+            <button class="share-btn pinterest" onclick="shareToSocial('pinterest', ${a.id})">Pinterest</button>
+          </div>
+          <!-- КОНЕЦ БЛОКА ШЕРИНГА -->
+
           ${state.role === 'creator' ? `<button class="ghost-btn small" style="margin-top:8px;width:100%" onclick="openAdDetails(${a.id})">📋 Подробнее</button>` : ''}
         </div>
       </div>`;
     }
+
+    // === НОВАЯ ФУНКЦИЯ: ШЕРИНГ В СОЦСЕТИ ===
+    async function shareToSocial(platform, adId) {
+      const ad = state.ads.find(a => a.id === adId);
+      if (!ad) { toast('❌ Объявление не найдено'); return; }
+      
+      try {
+        toast('⏳ Генерация ссылки...');
+        const response = await fetch('/api/share', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: ad.title,
+            text: ad.text || '',
+            url: window.location.origin + window.location.pathname,
+            image: ad.image || ''
+          })
+        });
+        const data = await response.json();
+        if (data.success && data.shareLinks && data.shareLinks[platform]) {
+          window.open(data.shareLinks[platform], '_blank', 'width=600,height=400');
+          toast('✅ Окно шеринга открыто');
+        } else {
+          toast('❌ Ошибка генерации ссылки');
+        }
+      } catch (e) {
+        console.error('Share error:', e);
+        toast('❌ Ошибка соединения');
+      }
+    }
+    // ========================================
 
     function renderMyAds(){
       const el=$('#myAds');
