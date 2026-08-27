@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v15';
+const CACHE_NAME = 'adastra-app-v16'; // <-- ВАЖНО: версия изменена для сброса кэша
 const ASSETS = [
   '/',
   '/index.html',
