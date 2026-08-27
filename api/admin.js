@@ -1,12 +1,9 @@
 // Cloudflare Workers Backend для AdAstra
-// Версия 5.1: Автопостинг + RSS + шеринг + Европа
-
 const API_URL = '/api/admin';
 const ADMIN_PASS = '584462';
 const RESEND_API_KEY = typeof process !== 'undefined' && process.env.RESEND_API_KEY ? process.env.RESEND_API_KEY : 're_MS8dwiXa_6u4duP62htLXWby5smibfEHf';
 const RESEND_API_URL = 'https://api.resend.com/emails';
 
-// === БАЗА ПРОВЕРЕННЫХ EMAIL-АДРЕСОВ ПО РЕГИОНАМ ===
 const VERIFIED_BOARDS = {
   IL: [
     { name: 'КупДам', email: 'admin@kupdam.ru' },
@@ -45,7 +42,6 @@ const VERIFIED_BOARDS = {
   ]
 };
 
-// === ССЫЛКИ ДЛЯ ШЕРИНГА В СОЦСЕТЯХ ===
 const SOCIAL_SHARE_URLS = {
   facebook: (title, text, url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(title + ' ' + text)}`,
   twitter: (title, text, url) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(title + ' ' + text)}&url=${encodeURIComponent(url)}`,
@@ -69,7 +65,6 @@ export default {
     try {
       const url = new URL(request.url);
       
-      // RSS-фид для агрегаторов
       if (url.pathname === '/feed.xml' && request.method === 'GET') {
         const adsList = await env.ADS.list();
         let rssItems = '';
@@ -78,30 +73,14 @@ export default {
           if (adData) {
             const ad = JSON.parse(adData);
             if (ad.status === 'approved_paid' || ad.status === 'approved_free') {
-              rssItems += `
-                <item>
-                  <title><![CDATA[${ad.title}]]></title>
-                  <description><![CDATA[${ad.text}<br>Контакт: ${ad.contact}<br>Регион: ${ad.region} ${ad.city || ''}]]></description>
-                  <link>https://adastra-lime.vercel.app</link>
-                  <pubDate>${new Date(ad.approved_at || ad.created_at).toUTCString()}</pubDate>
-                </item>
-              `;
+              rssItems += `<item><title><![CDATA[${ad.title}]]></title><description><![CDATA[${ad.text}<br>Контакт: ${ad.contact}<br>Регион: ${ad.region} ${ad.city || ''}]]></description><link>https://adastra-lime.vercel.app</link><pubDate>${new Date(ad.approved_at || ad.created_at).toUTCString()}</pubDate></item>`;
             }
           }
         }
-        const rss = `<?xml version="1.0" encoding="UTF-8"?>
-        <rss version="2.0">
-          <channel>
-            <title>AdAstra Approved Ads Feed</title>
-            <link>https://adastra-lime.vercel.app</link>
-            <description>Автоматический фид одобренных объявлений AdAstra для агрегаторов</description>
-            ${rssItems}
-          </channel>
-        </rss>`;
+        const rss = `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>AdAstra Approved Ads Feed</title><link>https://adastra-lime.vercel.app</link><description>Автоматический фид одобренных объявлений AdAstra</description>${rssItems}</channel></rss>`;
         return new Response(rss, { headers: { 'Content-Type': 'application/xml', ...cors } });
       }
 
-      // Генерация ссылок для шеринга в соцсетях
       if (url.pathname === '/api/share' && request.method === 'POST') {
         const body = await request.json();
         const { title, text, url: adUrl, image } = body;
@@ -109,9 +88,7 @@ export default {
         for (const [platform, generator] of Object.entries(SOCIAL_SHARE_URLS)) {
           shareLinks[platform] = generator(title, text, adUrl, image);
         }
-        return new Response(JSON.stringify({ success: true, shareLinks }), {
-          headers: { 'Content-Type': 'application/json', ...cors }
-        });
+        return new Response(JSON.stringify({ success: true, shareLinks }), { headers: { 'Content-Type': 'application/json', ...cors } });
       }
 
       if (request.method === 'GET') {
@@ -168,9 +145,7 @@ async function handleAction(body, env) {
 }
 
 async function publishAd(params, env) {
-  const ad = {
-    id: Date.now(), ...params, status: 'pending', paid: false, created_at: new Date().toISOString()
-  };
+  const ad = { id: Date.now(), ...params, status: 'pending', paid: false, created_at: new Date().toISOString() };
   await env.ADS.put(`ad:${ad.id}`, JSON.stringify(ad));
   return { success: true, id: ad.id };
 }
@@ -179,25 +154,18 @@ async function approveAd(params, env, isPaid) {
   const { id } = params;
   const adData = await env.ADS.get(`ad:${id}`);
   if (!adData) return { error: 'Ad not found' };
-
   const ad = JSON.parse(adData);
   ad.status = isPaid ? 'approved_paid' : 'approved_free';
   ad.approved_at = new Date().toISOString();
   await env.ADS.put(`ad:${id}`, JSON.stringify(ad));
-
-  // Фоновый автопостинг на проверенные email-адреса
   ctx.waitUntil(autoPostToVerifiedBoards(ad, env));
-
-  // Уведомление клиенту
   await sendNotification(ad.owner, `Ваша реклама "${ad.title}" одобрена и передана в систему автоматического распространения (RSS-фиды, партнерские площадки и соцсети).`, env);
-  
   return { success: true };
 }
 
 async function autoPostToVerifiedBoards(ad, env) {
   const region = ad.region || 'international';
   let boards = [];
-  
   if (region === 'international') {
     boards = Object.values(VERIFIED_BOARDS).flat();
   } else if (VERIFIED_BOARDS[region]) {
@@ -205,35 +173,14 @@ async function autoPostToVerifiedBoards(ad, env) {
   } else {
     boards = VERIFIED_BOARDS.international;
   }
-
   const emailSubject = `Новое объявление AdAstra: ${ad.title}`;
-  const emailBody = `
-    <h2>Детали объявления</h2>
-    <p><strong>Заголовок:</strong> ${ad.title}</p>
-    <p><strong>Описание:</strong> ${ad.text}</p>
-    <p><strong>Категория:</strong> ${ad.category}</p>
-    <p><strong>Регион:</strong> ${ad.region} ${ad.city ? `(${ad.city})` : ''}</p>
-    <p><strong>Контакт:</strong> ${ad.contact}</p>
-    ${ad.image ? `<p><strong>Изображение:</strong> <a href="${ad.image}">${ad.image}</a></p>` : ''}
-    <p><strong>Источник:</strong> AdAstra - https://adastra-lime.vercel.app</p>
-    <hr>
-    <p><em>Это объявление отправлено автоматически платформой AdAstra.</em></p>
-  `;
-
+  const emailBody = `<h2>Детали объявления</h2><p><strong>Заголовок:</strong> ${ad.title}</p><p><strong>Описание:</strong> ${ad.text}</p><p><strong>Категория:</strong> ${ad.category}</p><p><strong>Регион:</strong> ${ad.region} ${ad.city ? `(${ad.city})` : ''}</p><p><strong>Контакт:</strong> ${ad.contact}</p>${ad.image ? `<p><strong>Изображение:</strong> <a href="${ad.image}">${ad.image}</a></p>` : ''}<p><strong>Источник:</strong> AdAstra - https://adastra-lime.vercel.app</p><hr><p><em>Это объявление отправлено автоматически платформой AdAstra.</em></p>`;
   for (const board of boards) {
     try {
       await fetch(RESEND_API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${RESEND_API_KEY}`
-        },
-        body: JSON.stringify({
-          from: 'AdAstra Auto <onboarding@resend.dev>',
-          to: [board.email],
-          subject: emailSubject,
-          html: emailBody
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${RESEND_API_KEY}` },
+        body: JSON.stringify({ from: 'AdAstra Auto <onboarding@resend.dev>', to: [board.email], subject: emailSubject, html: emailBody })
       });
       console.log(`SUCCESS: Отправлено на ${board.name} (${board.email})`);
     } catch (e) {
@@ -242,7 +189,6 @@ async function autoPostToVerifiedBoards(ad, env) {
   }
 }
 
-// === ОСТАЛЬНЫЕ ФУНКЦИИ (БЕЗ ИЗМЕНЕНИЙ) ===
 async function rejectAd(params, env) {
   const { id, reason } = params;
   const adData = await env.ADS.get(`ad:${id}`);
@@ -264,10 +210,7 @@ async function confirmPayment(params, env) {
   const adData = await env.ADS.get(`ad:${id}`);
   if (!adData) return { error: 'Ad not found' };
   const ad = JSON.parse(adData);
-  await env.PAYMENTS.put(`payment:${Date.now()}`, JSON.stringify({
-    id: Date.now(), adId: id, owner: ad.owner, title: ad.title, amount, method,
-    status: 'pending_verification', date: new Date().toISOString()
-  }));
+  await env.PAYMENTS.put(`payment:${Date.now()}`, JSON.stringify({ id: Date.now(), adId: id, owner: ad.owner, title: ad.title, amount, method, status: 'pending_verification', date: new Date().toISOString() }));
   return { success: true };
 }
 
@@ -278,7 +221,6 @@ async function verifyPayment(params, env) {
   const payment = JSON.parse(paymentData);
   payment.status = 'verified';
   await env.PAYMENTS.put(`payment:${id}`, JSON.stringify(payment));
-  
   const adData = await env.ADS.get(`ad:${payment.adId}`);
   if (adData) {
     const ad = JSON.parse(adData);
@@ -289,9 +231,7 @@ async function verifyPayment(params, env) {
 }
 
 async function sendSupport(params, env) {
-  await env.MESSAGES.put(`message:${Date.now()}`, JSON.stringify({
-    id: Date.now(), from: params.from, text: params.text, type: 'support', read: false, created_at: new Date().toISOString()
-  }));
+  await env.MESSAGES.put(`message:${Date.now()}`, JSON.stringify({ id: Date.now(), from: params.from, text: params.text, type: 'support', read: false, created_at: new Date().toISOString() }));
   return { success: true };
 }
 
@@ -341,7 +281,5 @@ async function changePassword(params, env) {
   return { success: true };
 }
 async function sendNotification(to, text, env) {
-  await env.MESSAGES.put(`message:${Date.now()}`, JSON.stringify({
-    id: Date.now(), from: 'Администратор AdAstra', to, text, type: 'notification', read: false, created_at: new Date().toISOString()
-  }));
+  await env.MESSAGES.put(`message:${Date.now()}`, JSON.stringify({ id: Date.now(), from: 'Администратор AdAstra', to, text, type: 'notification', read: false, created_at: new Date().toISOString() }));
 }
