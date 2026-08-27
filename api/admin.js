@@ -20,12 +20,34 @@ const SOCIAL_SHARE_URLS = {
   pinterest: (t, x, u, i) => 'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(u) + '&description=' + encodeURIComponent(t + ' ' + x) + '&media=' + encodeURIComponent(i || '')
 };
 
+// Вспомогательные функции для JSON Bin
+async function getDB(env) {
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${env.JSONBIN_BIN_ID}/latest`, {
+    headers: { 'X-Master-Key': env.JSONBIN_MASTER_KEY }
+  });
+  if (!res.ok) throw new Error('JSON Bin read failed');
+  const data = await res.json();
+  return data.record;
+}
+
+async function saveDB(env, data) {
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${env.JSONBIN_BIN_ID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': env.JSONBIN_MASTER_KEY
+    },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('JSON Bin write failed');
+}
+
 export default {
   async fetch(request, env, ctx) {
     const cors = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type'
+      'Access-Control-Allow-Headers': 'Content-Type, X-Master-Key'
     };
 
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
@@ -33,84 +55,74 @@ export default {
     try {
       const url = new URL(request.url);
 
+      // 1. RSS Фид
       if (url.pathname === '/feed.xml' && request.method === 'GET') {
-        const adsList = await env.ADS.list();
+        const db = await getDB(env);
         let rssItems = '';
-        for (const key of adsList.keys) {
-          const adData = await env.ADS.get(key.name);
-          if (adData) {
-            const ad = JSON.parse(adData);
-            if (ad.status === 'approved_paid' || ad.status === 'approved_free' || ad.status === 'paid') {
-              rssItems += '<item><title><![CDATA[' + ad.title + ']]></title><description><![CDATA[' + (ad.text || '') + '<br>Контакт: ' + (ad.contact || '') + '<br>Регион: ' + (ad.region || '') + ' ' + (ad.city || '') + ']]></description><link>https://adastra-lime.vercel.app</link><pubDate>' + new Date(ad.approved_at || ad.created_at).toUTCString() + '</pubDate></item>';
-            }
+        for (const ad of (db.ads || [])) {
+          if (ad.status === 'approved_paid' || ad.status === 'approved_free' || ad.status === 'paid') {
+            rssItems += '<item><title><![CDATA[' + ad.title + ']]></title><description><![CDATA[' + (ad.text || '') + '<br>Контакт: ' + (ad.contact || '') + '<br>Регион: ' + (ad.region || '') + ' ' + (ad.city || '') + ']]></description><link>https://adastra-lime.vercel.app</link><pubDate>' + new Date(ad.approved_at || ad.created_at).toUTCString() + '</pubDate></item>';
           }
         }
         const rss = '<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>AdAstra Approved Ads Feed</title><link>https://adastra-lime.vercel.app</link><description>AdAstra RSS Feed</description>' + rssItems + '</channel></rss>';
         return new Response(rss, { headers: { 'Content-Type': 'application/xml', ...cors } });
       }
 
+      // 2. API Шеринга
       if (url.pathname === '/api/share' && request.method === 'POST') {
         const body = await request.json();
-        const title = body.title || '';
-        const text = body.text || '';
-        const adUrl = body.url || '';
-        const image = body.image || '';
         const shareLinks = {};
         for (const platform in SOCIAL_SHARE_URLS) {
-          shareLinks[platform] = SOCIAL_SHARE_URLS[platform](title, text, adUrl, image);
+          shareLinks[platform] = SOCIAL_SHARE_URLS[platform](body.title || '', body.text || '', body.url || '', body.image || '');
         }
-        return new Response(JSON.stringify({ success: true, shareLinks: shareLinks }), { headers: { 'Content-Type': 'application/json', ...cors } });
+        return new Response(JSON.stringify({ success: true, shareLinks }), { headers: { 'Content-Type': 'application/json', ...cors } });
       }
 
+      // 3. GET запрос (загрузка всех данных для фронтенда)
       if (request.method === 'GET') {
-        const adsList = await env.ADS.list();
-        const subsList = await env.SUBSCRIBERS.list();
-        const msgsList = await env.MESSAGES.list();
-        const paysList = await env.PAYMENTS.list();
-        const onlList = await env.ONLINE_USERS.list();
-
+        const db = await getDB(env);
         return new Response(JSON.stringify({
-          ads: adsList.keys || [],
-          subscribers: subsList.keys || [],
-          messages: msgsList.keys || [],
-          payments: paysList.keys || [],
-          onlineUsers: onlList.keys || [],
-          adminPassword: ADMIN_PASS
+          ads: db.ads || [],
+          subscribers: db.subscribers || [],
+          messages: db.messages || [],
+          payments: db.payments || [],
+          onlineUsers: db.onlineUsers || []
         }), { headers: { 'Content-Type': 'application/json', ...cors } });
       }
 
+      // 4. POST запросы (действия)
       if (request.method === 'POST') {
         const body = await request.json();
         const action = body.action;
+        const db = await getDB(env);
 
         if (action === 'publish') {
           const ad = { id: Date.now(), owner: body.owner, title: body.title, text: body.text, cta: body.cta, contact: body.contact, format: body.format, category: body.category, region: body.region, city: body.city, langs: body.langs, image: body.image, video: body.video, status: 'pending', paid: false, created_at: new Date().toISOString() };
-          await env.ADS.put('ad:' + ad.id, JSON.stringify(ad));
+          db.ads.push(ad);
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true, id: ad.id }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'approve_paid' || action === 'approve_free') {
-          const id = body.id;
-          const adData = await env.ADS.get('ad:' + id);
-          if (!adData) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const ad = JSON.parse(adData);
+          const adIndex = db.ads.findIndex(a => a.id === body.id);
+          if (adIndex === -1) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
+          
+          const ad = db.ads[adIndex];
           ad.status = action === 'approve_paid' ? 'approved_paid' : 'approved_free';
           ad.approved_at = new Date().toISOString();
-          await env.ADS.put('ad:' + id, JSON.stringify(ad));
-
+          
           const notif = { id: Date.now(), from: 'Администратор AdAstra', to: ad.owner, text: 'Ваша реклама "' + ad.title + '" одобрена.', type: 'notification', read: false, created_at: new Date().toISOString() };
-          await env.MESSAGES.put('message:' + notif.id, JSON.stringify(notif));
+          db.messages.push(notif);
+          
+          await saveDB(env, db);
 
+          // Автопостинг через Resend
           const region = ad.region || 'international';
           let boards = [];
           if (region === 'international') {
-            const allBoards = [];
             for (const key in VERIFIED_BOARDS) {
-              for (let i = 0; i < VERIFIED_BOARDS[key].length; i++) {
-                allBoards.push(VERIFIED_BOARDS[key][i]);
-              }
+              boards = boards.concat(VERIFIED_BOARDS[key]);
             }
-            boards = allBoards;
           } else if (VERIFIED_BOARDS[region]) {
             boards = VERIFIED_BOARDS[region].concat(VERIFIED_BOARDS.international);
           } else {
@@ -137,115 +149,143 @@ export default {
         }
 
         if (action === 'reject') {
-          const id = body.id;
-          const reason = body.reason || 'Не соответствует правилам';
-          const adData = await env.ADS.get('ad:' + id);
-          if (!adData) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const ad = JSON.parse(adData);
+          const adIndex = db.ads.findIndex(a => a.id === body.id);
+          if (adIndex === -1) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
+          
+          const ad = db.ads[adIndex];
           ad.status = 'rejected';
-          ad.rejectionReason = reason;
+          ad.rejectionReason = body.reason || 'Не соответствует правилам';
           ad.rejectedAt = new Date().toISOString();
-          await env.ADS.put('ad:' + id, JSON.stringify(ad));
-          const notif = { id: Date.now(), from: 'Администратор AdAstra', to: ad.owner, text: 'Ваша реклама отклонена: ' + reason, type: 'rejection', read: false, created_at: new Date().toISOString() };
-          await env.MESSAGES.put('message:' + notif.id, JSON.stringify(notif));
+          
+          const notif = { id: Date.now(), from: 'Администратор AdAstra', to: ad.owner, text: 'Ваша реклама отклонена: ' + ad.rejectionReason, type: 'rejection', read: false, created_at: new Date().toISOString() };
+          db.messages.push(notif);
+          
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'delete') {
-          await env.ADS.delete('ad:' + body.id);
+          db.ads = db.ads.filter(a => a.id !== body.id);
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'confirm_payment') {
-          const adData = await env.ADS.get('ad:' + body.id);
-          if (!adData) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const ad = JSON.parse(adData);
+          const ad = db.ads.find(a => a.id === body.id);
+          if (!ad) return new Response(JSON.stringify({ error: 'Ad not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
+          
           const payment = { id: Date.now(), adId: body.id, owner: ad.owner, title: ad.title, amount: body.amount, method: body.method, status: 'pending_verification', date: new Date().toISOString() };
-          await env.PAYMENTS.put('payment:' + payment.id, JSON.stringify(payment));
+          db.payments.push(payment);
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'verify_payment') {
-          const paymentData = await env.PAYMENTS.get('payment:' + body.id);
-          if (!paymentData) return new Response(JSON.stringify({ error: 'Payment not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const payment = JSON.parse(paymentData);
+          const payIndex = db.payments.findIndex(p => p.id === body.id);
+          if (payIndex === -1) return new Response(JSON.stringify({ error: 'Payment not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
+          
+          const payment = db.payments[payIndex];
           payment.status = 'verified';
-          await env.PAYMENTS.put('payment:' + body.id, JSON.stringify(payment));
-          const adData = await env.ADS.get('ad:' + payment.adId);
-          if (adData) {
-            const ad = JSON.parse(adData);
-            ad.status = 'paid';
-            ad.paid = true;
-            await env.ADS.put('ad:' + payment.adId, JSON.stringify(ad));
+          
+          const adIndex = db.ads.findIndex(a => a.id === payment.adId);
+          if (adIndex !== -1) {
+            db.ads[adIndex].status = 'paid';
+            db.ads[adIndex].paid = true;
           }
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'support') {
           const msg = { id: Date.now(), from: body.from, text: body.text, type: 'support', read: false, created_at: new Date().toISOString() };
-          await env.MESSAGES.put('message:' + msg.id, JSON.stringify(msg));
+          db.messages.push(msg);
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'mark_read') {
-          const msgData = await env.MESSAGES.get('message:' + body.id);
-          if (!msgData) return new Response(JSON.stringify({ error: 'Message not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const msg = JSON.parse(msgData);
-          msg.read = true;
-          await env.MESSAGES.put('message:' + body.id, JSON.stringify(msg));
-          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
-        }
-
-        if (action === 'mark_all_read') {
-          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
-        }
-
-        if (action === 'delete_msg') {
-          await env.MESSAGES.delete('message:' + body.id);
-          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
-        }
-
-        if (action === 'subscribe') {
-          const sub = { contact: body.contact, date: new Date().toISOString(), blocked: false };
-          await env.SUBSCRIBERS.put('sub:' + body.contact, JSON.stringify(sub));
-          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
-        }
-
-        if (action === 'heartbeat') {
-          const user = { name: body.name, role: body.role, lastSeen: new Date().toISOString() };
-          await env.ONLINE_USERS.put('user:' + body.name, JSON.stringify(user));
-          const subData = await env.SUBSCRIBERS.get('sub:' + body.name);
-          if (subData) {
-            const sub = JSON.parse(subData);
-            if (sub.blocked) return new Response(JSON.stringify({ kicked: true, reason: sub.blockReason || 'Заблокирован' }), { headers: { 'Content-Type': 'application/json', ...cors } });
+          const msg = db.messages.find(m => m.id === body.id);
+          if (msg) {
+            msg.read = true;
+            await saveDB(env, db);
           }
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
+        if (action === 'mark_all_read') {
+          db.messages.forEach(m => {
+            if (m.to === body.userName || m.type === 'notification' || m.type === 'rejection') {
+              m.read = true;
+            }
+          });
+          await saveDB(env, db);
+          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
+        }
+
+        if (action === 'delete_msg') {
+          db.messages = db.messages.filter(m => m.id !== body.id);
+          await saveDB(env, db);
+          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
+        }
+
+        if (action === 'subscribe') {
+          let sub = db.subscribers.find(s => s.contact === body.contact);
+          if (sub) {
+            sub.date = new Date().toISOString();
+          } else {
+            sub = { contact: body.contact, date: new Date().toISOString(), blocked: false };
+            db.subscribers.push(sub);
+          }
+          await saveDB(env, db);
+          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
+        }
+
+        if (action === 'heartbeat') {
+          let user = db.onlineUsers.find(u => u.name === body.name);
+          if (user) {
+            user.lastSeen = new Date().toISOString();
+          } else {
+            user = { name: body.name, role: body.role, lastSeen: new Date().toISOString() };
+            db.onlineUsers.push(user);
+          }
+          
+          // Очистка старых онлайн-пользователей (старше 5 минут)
+          const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+          db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > fiveMinAgo);
+          
+          const sub = db.subscribers.find(s => s.contact === body.name);
+          if (sub && sub.blocked) {
+            await saveDB(env, db);
+            return new Response(JSON.stringify({ kicked: true, reason: sub.blockReason || 'Заблокирован' }), { headers: { 'Content-Type': 'application/json', ...cors } });
+          }
+          
+          await saveDB(env, db);
+          return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
+        }
+
         if (action === 'block_user') {
-          const subData = await env.SUBSCRIBERS.get('sub:' + body.name);
-          if (!subData) return new Response(JSON.stringify({ error: 'User not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const sub = JSON.parse(subData);
+          const sub = db.subscribers.find(s => s.contact === body.name);
+          if (!sub) return new Response(JSON.stringify({ error: 'User not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
           sub.blocked = true;
           sub.blockReason = body.reason || 'Нарушение правил';
           sub.blockedAt = new Date().toISOString();
-          await env.SUBSCRIBERS.put('sub:' + body.name, JSON.stringify(sub));
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'unblock_user') {
-          const subData = await env.SUBSCRIBERS.get('sub:' + body.name);
-          if (!subData) return new Response(JSON.stringify({ error: 'User not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
-          const sub = JSON.parse(subData);
+          const sub = db.subscribers.find(s => s.contact === body.name);
+          if (!sub) return new Response(JSON.stringify({ error: 'User not found' }), { status: 404, headers: { 'Content-Type': 'application/json', ...cors } });
           sub.blocked = false;
           sub.blockReason = '';
           sub.blockedAt = null;
-          await env.SUBSCRIBERS.put('sub:' + body.name, JSON.stringify(sub));
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
         if (action === 'delete_user') {
-          await env.SUBSCRIBERS.delete('sub:' + body.name);
+          db.subscribers = db.subscribers.filter(s => s.contact !== body.name);
+          await saveDB(env, db);
           return new Response(JSON.stringify({ success: true }), { headers: { 'Content-Type': 'application/json', ...cors } });
         }
 
