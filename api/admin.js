@@ -1,5 +1,10 @@
 const ADMIN_PASS = '584462';
 
+// Твои данные JSON Bin
+const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
+const JSONBIN_MASTER_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
+const RESEND_API_KEY = 're_MS8dwiXa_6u4duP62htLXWby5smibfEHf';
+
 const VERIFIED_BOARDS = {
   IL: [{ name: 'КупДам', email: 'admin@kupdam.ru' }, { name: 'DoskaTV', email: 'info@doskatv.co.il' }, { name: 'Orbita.co.il', email: 'info@orbita.co.il' }],
   RU: [{ name: 'КупДам', email: 'admin@kupdam.ru' }, { name: 'SeaJobs', email: 'cv@allcrew.net' }, { name: 'Grainboard', email: 'info@grainboard.ru' }],
@@ -20,10 +25,9 @@ const SOCIAL_SHARE_URLS = {
   pinterest: (t, x, u, i) => 'https://pinterest.com/pin/create/button/?url=' + encodeURIComponent(u) + '&description=' + encodeURIComponent(t + ' ' + x) + '&media=' + encodeURIComponent(i || '')
 };
 
-// === ФУНКЦИИ ДЛЯ РАБОТЫ С JSON BIN (через process.env для Vercel) ===
 async function getDB() {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${process.env.JSONBIN_BIN_ID}/latest`, {
-    headers: { 'X-Master-Key': process.env.JSONBIN_MASTER_KEY }
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`, {
+    headers: { 'X-Master-Key': JSONBIN_MASTER_KEY }
   });
   if (!res.ok) throw new Error('JSON Bin read failed: ' + res.status);
   const data = await res.json();
@@ -31,20 +35,18 @@ async function getDB() {
 }
 
 async function saveDB(data) {
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${process.env.JSONBIN_BIN_ID}`, {
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'X-Master-Key': process.env.JSONBIN_MASTER_KEY
+      'X-Master-Key': JSONBIN_MASTER_KEY
     },
     body: JSON.stringify(data)
   });
   if (!res.ok) throw new Error('JSON Bin write failed: ' + res.status);
 }
 
-// === Vercel API Route Handler ===
 export default async function handler(req, res) {
-  // Разрешаем CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -54,7 +56,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 1. GET запрос (получение всех данных)
     if (req.method === 'GET') {
       const db = await getDB();
       return res.status(200).json({
@@ -66,7 +67,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // 2. POST запросы (действия)
     if (req.method === 'POST') {
       const body = req.body;
       const action = body.action;
@@ -102,7 +102,6 @@ export default async function handler(req, res) {
         db.messages.push(notif);
         await saveDB(db);
 
-        // Автопостинг через Resend
         const region = ad.region || 'international';
         let boards = [];
         if (region === 'international') {
@@ -113,7 +112,6 @@ export default async function handler(req, res) {
           boards = VERIFIED_BOARDS.international;
         }
 
-        const resendKey = process.env.RESEND_API_KEY || 're_MS8dwiXa_6u4duP62htLXWby5smibfEHf';
         const emailSubject = 'Новое объявление AdAstra: ' + ad.title;
         const emailBody = '<h2>Детали объявления</h2><p><strong>Заголовок:</strong> ' + ad.title + '</p><p><strong>Описание:</strong> ' + (ad.text || '') + '</p><p><strong>Категория:</strong> ' + (ad.category || '') + '</p><p><strong>Регион:</strong> ' + (ad.region || '') + ' ' + (ad.city || '') + '</p><p><strong>Контакт:</strong> ' + (ad.contact || '') + '</p><p><strong>Источник:</strong> AdAstra - https://adastra-lime.vercel.app</p>';
 
@@ -121,7 +119,7 @@ export default async function handler(req, res) {
           try {
             await fetch('https://api.resend.com/emails', {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + resendKey },
+              headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + RESEND_API_KEY },
               body: JSON.stringify({ from: 'AdAstra <onboarding@resend.dev>', to: [boards[i].email], subject: emailSubject, html: emailBody })
             });
           } catch (e) {
