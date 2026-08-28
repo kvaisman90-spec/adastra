@@ -1,6 +1,5 @@
 const ADMIN_PASS = '584462';
 
-// Твои данные JSON Bin
 const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
 const JSONBIN_MASTER_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
 const RESEND_API_KEY = 're_MS8dwiXa_6u4duP62htLXWby5smibfEHf';
@@ -235,16 +234,32 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true });
       }
 
+      // ✅ ИСПРАВЛЕНО: heartbeat только для клиентов с рекламой
       if (action === 'heartbeat') {
         if (!db.onlineUsers) db.onlineUsers = [];
-        let user = db.onlineUsers.find(u => u.name === body.name);
-        if (user) {
-          user.lastSeen = new Date().toISOString();
-        } else {
-          user = { name: body.name, role: body.role, lastSeen: new Date().toISOString() };
-          db.onlineUsers.push(user);
+        
+        // Проверяем, есть ли у пользователя объявления
+        const userAds = (db.ads || []).filter(a => a.owner === body.name);
+        const hasAds = userAds.length > 0;
+        
+        // Добавляем в онлайн только если есть реклама или это админ
+        if (hasAds || body.role === 'creator') {
+          let user = db.onlineUsers.find(u => u.name === body.name);
+          if (user) {
+            user.lastSeen = new Date().toISOString();
+            user.hasAds = hasAds;
+          } else {
+            user = { 
+              name: body.name, 
+              role: body.role, 
+              lastSeen: new Date().toISOString(),
+              hasAds: hasAds
+            };
+            db.onlineUsers.push(user);
+          }
         }
         
+        // Очистка старых онлайн-пользователей (старше 5 минут)
         const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
         db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > fiveMinAgo);
         
@@ -255,6 +270,21 @@ export default async function handler(req, res) {
             return res.status(200).json({ kicked: true, reason: sub.blockReason || 'Заблокирован' });
           }
         }
+        await saveDB(db);
+        return res.status(200).json({ success: true });
+      }
+
+      // ✅ НОВОЕ: Удаление пользователя из онлайн-списка
+      if (action === 'delete_online_user') {
+        if (!db.onlineUsers) db.onlineUsers = [];
+        db.onlineUsers = db.onlineUsers.filter(u => u.name !== body.name);
+        await saveDB(db);
+        return res.status(200).json({ success: true });
+      }
+
+      // ✅ НОВОЕ: Очистка всего онлайн-списка
+      if (action === 'clear_online_users') {
+        db.onlineUsers = [];
         await saveDB(db);
         return res.status(200).json({ success: true });
       }
