@@ -25,9 +25,26 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  if (event.request.url.includes('/api/')) return;
+  const url = event.request.url;
+  
+  // НЕ кэшируем API запросы
+  if (url.includes('/api/')) return;
+  
+  // НЕ кэшируем Cloudinary (загрузка файлов с iOS)
+  if (url.includes('cloudinary.com')) return;
+  
+  // НЕ кэшируем Resend
+  if (url.includes('resend.com')) return;
+  
+  // Кэшируем только статику
   event.respondWith(
-    caches.match(event.request).then(response => response || fetch(event.request))
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request).catch(() => {
+        if (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) {
+          return caches.match('/index.html');
+        }
+      });
+    })
   );
 });
 
