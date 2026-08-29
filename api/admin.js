@@ -1,4 +1,4 @@
-const ADMIN_PASS = '584462';
+const ADMIN_PASS_DEFAULT = '584462';
 
 const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
 const JSONBIN_MASTER_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
@@ -71,6 +71,16 @@ export default async function handler(req, res) {
       const action = body.action;
       const db = await getDB();
 
+      // Получаем актуальный пароль админа из базы (если он был изменен) или используем дефолтный
+      const currentAdminPass = (db.config && db.config.adminPassword) ? db.config.adminPassword : ADMIN_PASS_DEFAULT;
+
+      // Функция проверки прав администратора
+      const requireAdmin = () => {
+        if (body.adminPass !== currentAdminPass) {
+          return res.status(401).json({ error: 'Ошибка безопасности: неверный пароль администратора' });
+        }
+      };
+
       if (action === 'publish') {
         const ad = { 
           id: Date.now(), owner: body.owner, title: body.title, text: body.text, 
@@ -85,6 +95,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'approve_paid' || action === 'approve_free') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         const adIndex = db.ads.findIndex(a => a.id === body.id);
         if (adIndex === -1) return res.status(404).json({ error: 'Ad not found' });
         
@@ -129,6 +140,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'reject') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         const adIndex = db.ads.findIndex(a => a.id === body.id);
         if (adIndex === -1) return res.status(404).json({ error: 'Ad not found' });
         
@@ -149,6 +161,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         db.ads = db.ads.filter(a => a.id !== body.id);
         await saveDB(db);
         return res.status(200).json({ success: true });
@@ -170,6 +183,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'verify_payment') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         const payIndex = db.payments.findIndex(p => p.id === body.id);
         if (payIndex === -1) return res.status(404).json({ error: 'Payment not found' });
         
@@ -216,6 +230,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete_msg') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         db.messages = db.messages.filter(m => m.id !== body.id);
         await saveDB(db);
         return res.status(200).json({ success: true });
@@ -234,15 +249,12 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true });
       }
 
-      // ✅ ИСПРАВЛЕНО: heartbeat только для клиентов с рекламой
       if (action === 'heartbeat') {
         if (!db.onlineUsers) db.onlineUsers = [];
         
-        // Проверяем, есть ли у пользователя объявления
         const userAds = (db.ads || []).filter(a => a.owner === body.name);
         const hasAds = userAds.length > 0;
         
-        // Добавляем в онлайн только если есть реклама или это админ
         if (hasAds || body.role === 'creator') {
           let user = db.onlineUsers.find(u => u.name === body.name);
           if (user) {
@@ -259,7 +271,6 @@ export default async function handler(req, res) {
           }
         }
         
-        // Очистка старых онлайн-пользователей (старше 5 минут)
         const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
         db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > fiveMinAgo);
         
@@ -274,22 +285,23 @@ export default async function handler(req, res) {
         return res.status(200).json({ success: true });
       }
 
-      // ✅ НОВОЕ: Удаление пользователя из онлайн-списка
       if (action === 'delete_online_user') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         if (!db.onlineUsers) db.onlineUsers = [];
         db.onlineUsers = db.onlineUsers.filter(u => u.name !== body.name);
         await saveDB(db);
         return res.status(200).json({ success: true });
       }
 
-      // ✅ НОВОЕ: Очистка всего онлайн-списка
       if (action === 'clear_online_users') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         db.onlineUsers = [];
         await saveDB(db);
         return res.status(200).json({ success: true });
       }
 
       if (action === 'block_user') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         if (!db.subscribers) return res.status(404).json({ error: 'User not found' });
         const sub = db.subscribers.find(s => s.contact === body.name);
         if (!sub) return res.status(404).json({ error: 'User not found' });
@@ -301,6 +313,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'unblock_user') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         if (!db.subscribers) return res.status(404).json({ error: 'User not found' });
         const sub = db.subscribers.find(s => s.contact === body.name);
         if (!sub) return res.status(404).json({ error: 'User not found' });
@@ -312,6 +325,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete_user') {
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
         if (db.subscribers) {
           db.subscribers = db.subscribers.filter(s => s.contact !== body.name);
           await saveDB(db);
@@ -320,7 +334,16 @@ export default async function handler(req, res) {
       }
 
       if (action === 'change_password') {
-        if (body.oldPassword !== ADMIN_PASS) return res.status(401).json({ error: 'Wrong password' });
+        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ (проверяем старый пароль)
+        if (!body.newPassword || body.newPassword.length < 4) {
+          return res.status(400).json({ error: 'Новый пароль должен быть минимум 4 символа' });
+        }
+        
+        // ✅ РЕАЛЬНОЕ СОХРАНЕНИЕ НОВОГО ПАРОЛЯ В БАЗУ
+        if (!db.config) db.config = {};
+        db.config.adminPassword = body.newPassword;
+        await saveDB(db);
+        
         return res.status(200).json({ success: true });
       }
 
