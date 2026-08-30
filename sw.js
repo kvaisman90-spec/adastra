@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v20';
+const CACHE_NAME = 'adastra-app-v21';
 const ASSETS = [
   '/',
   '/index.html',
@@ -9,6 +9,9 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', event => {
+  // Принудительно активируем новый SW сразу
+  self.skipWaiting();
+  
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return Promise.all(
@@ -22,13 +25,13 @@ self.addEventListener('install', event => {
       );
     }).catch(() => {})
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', event => {
+  // Удаляем ВСЕ старые кэши
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+      Promise.all(keys.map(key => caches.delete(key)))
     ).then(() => self.clients.claim())
   );
 });
