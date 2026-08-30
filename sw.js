@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v21';
+const CACHE_NAME = 'adastra-app-v22';
 const ASSETS = [
   '/',
   '/index.html',
