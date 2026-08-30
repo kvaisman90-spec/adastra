@@ -2,7 +2,7 @@ const ADMIN_PASS_DEFAULT = '584462';
 
 const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
 const JSONBIN_MASTER_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
-const RESEND_API_KEY = 're_MS8dwiXa_6u4duP62htLXWby5smibfEHf';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 const VERIFIED_BOARDS = {
   IL: [{ name: 'КупДам', email: 'admin@kupdam.ru' }, { name: 'DoskaTV', email: 'info@doskatv.co.il' }, { name: 'Orbita.co.il', email: 'info@orbita.co.il' }],
