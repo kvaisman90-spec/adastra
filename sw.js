@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v17';
+const CACHE_NAME = 'adastra-app-v18';
 const ASSETS = [
   '/',
   '/index.html',
@@ -11,7 +11,21 @@ const ASSETS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then(cache => {
+      return Promise.all(
+        ASSETS.map(url => {
+          return fetch(url).then(response => {
+            if (response.ok) {
+              return cache.put(url, response);
+            }
+          }).catch(() => {
+            // Игнорируем ошибки кэширования
+          });
+        })
+      );
+    }).catch(() => {
+      // Игнорируем ошибки открытия кэша
+    })
   );
   self.skipWaiting();
 });
@@ -25,26 +39,45 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  const url = event.request.url;
+  const url = new URL(event.request.url);
   
   // НЕ кэшируем API запросы
-  if (url.includes('/api/')) return;
+  if (url.pathname.startsWith('/api/')) return;
   
-  // НЕ кэшируем Cloudinary (загрузка файлов с iOS)
-  if (url.includes('cloudinary.com')) return;
+  // НЕ кэшируем Cloudinary
+  if (url.hostname.includes('cloudinary.com')) return;
   
   // НЕ кэшируем Resend
-  if (url.includes('resend.com')) return;
+  if (url.hostname.includes('resend.com')) return;
+  
+  // НЕ кэшируем Vercel SSO и превью домены
+  if (url.hostname.includes('vercel.app') && url.pathname.includes('manifest.json')) {
+    return;
+  }
   
   // Кэшируем только статику
   event.respondWith(
     caches.match(event.request).then(response => {
-      return response || fetch(event.request).catch(() => {
+      if (response) {
+        return response;
+      }
+      return fetch(event.request).then(response => {
+        if (!response.ok || response.status !== 200) {
+          return response;
+        }
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache).catch(() => {
+            // Игнорируем ошибки
+          });
+        });
+        return response;
+      }).catch(() => {
         if (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html')) {
-          return caches.match('/index.html');
+          return caches.match('/index.html').catch(() => {});
         }
       });
-    })
+    }).catch(() => {})
   );
 });
 
