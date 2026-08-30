@@ -1,38 +1,21 @@
 {
   "name": "AdAstra Реклама",
   "short_name": "AdAstra",
-  "description": "Международное рекламное агентство. Размещение рекламы по всему миру на 7 языках.",
+  "description": "Реклама, которая достаёт до звёзд!",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#0b0b0d",
-  "theme_color": "#0b0b0d",
-  "categories": ["business", "advertising", "marketing"],
-  "lang": "ru",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
-      "src": "/icon-v2.png",
+      "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
+      "type": "image/png"
     },
     {
-      "src": "/icon-v2.png",
+      "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/icon-v2.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "/icon-v2.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/png"
     }
   ]
 }
