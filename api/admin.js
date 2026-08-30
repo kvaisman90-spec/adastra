@@ -1,7 +1,7 @@
-const ADMIN_PASS_DEFAULT = '584462';
+const ADMIN_PASS_DEFAULT = process.env.ADMIN_PASS || '584462';
 
 const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
-const JSONBIN_MASTER_KEY = '$2a$10$9.ps8GyXkLA1CtMuEvsxcOCxe9W8SIdgoQQfWhhXFJQznNnn8LkO2';
+const JSONBIN_MASTER_KEY = process.env.JSONBIN_MASTER_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 const VERIFIED_BOARDS = {
