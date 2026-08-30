@@ -13,19 +13,15 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
       return Promise.all(
-        ASSETS.map(url => {
-          return fetch(url).then(response => {
+        ASSETS.map(url => 
+          fetch(url).then(response => {
             if (response.ok) {
               return cache.put(url, response);
             }
-          }).catch(() => {
-            // Игнорируем ошибки кэширования
-          });
-        })
+          }).catch(() => {})
+        )
       );
-    }).catch(() => {
-      // Игнорируем ошибки открытия кэша
-    })
+    }).catch(() => {})
   );
   self.skipWaiting();
 });
@@ -41,21 +37,15 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   
-  // 1. ПОЛНОСТЬЮ ИГНОРИРУЕМ превью-домены Vercel, чтобы избежать ошибок CORS и редиректов
-  if (url.hostname !== 'adastra-lime.vercel.app' && url.hostname.includes('vercel.app')) {
-    return;
-  }
-
-  // 2. НЕ кэшируем API запросы
+  // НЕ кэшируем API
   if (url.pathname.startsWith('/api/')) return;
   
-  // 3. НЕ кэшируем Cloudinary
+  // НЕ кэшируем Cloudinary
   if (url.hostname.includes('cloudinary.com')) return;
   
-  // 4. НЕ кэшируем Resend
+  // НЕ кэшируем Resend
   if (url.hostname.includes('resend.com')) return;
-
-  // 5. Обрабатываем остальные запросы
+  
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       if (cachedResponse) {
@@ -63,22 +53,24 @@ self.addEventListener('fetch', event => {
       }
       
       return fetch(event.request).then(networkResponse => {
-        // Если ответ успешный и не является CORS-запросом, сохраняем в кэш
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache).catch(() => {});
-          });
+        // Проверяем что ответ валиден
+        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+          return networkResponse;
         }
+        
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, responseToCache).catch(() => {});
+        });
+        
         return networkResponse;
-      }).catch(() => {
-        // Если сеть недоступна, для HTML-страниц возвращаем офлайн-страницу
-        if (event.request.mode === 'navigate' || (event.request.headers.get('accept') || '').includes('text/html')) {
+      }).catch(error => {
+        // Для HTML возвращаем index.html
+        if (event.request.mode === 'navigate') {
           return caches.match('/index.html');
         }
-        // Для остальных ресурсов (manifest, картинки) возвращаем корректный пустой ответ, 
-        // чтобы НЕ было ошибки "Failed to convert value to 'Response'"
-        return new Response(null, { status: 404, statusText: 'Not Found' });
+        // Для остальных ресурсов возвращаем пустой ответ вместо undefined
+        return new Response('', { status: 404 });
       });
     })
   );
