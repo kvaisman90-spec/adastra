@@ -1,8 +1,7 @@
-const CACHE_NAME = 'adastra-app-v19';
+const CACHE_NAME = 'adastra-app-v20';
 const ASSETS = [
   '/',
   '/index.html',
-  '/manifest.json',
   '/icon-v2.png',
   '/privacy.html',
   '/terms.html',
@@ -37,6 +36,9 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   
+  // НЕ кэшируем manifest.json
+  if (url.pathname.includes('manifest.json')) return;
+  
   // НЕ кэшируем API
   if (url.pathname.startsWith('/api/')) return;
   
@@ -53,8 +55,7 @@ self.addEventListener('fetch', event => {
       }
       
       return fetch(event.request).then(networkResponse => {
-        // Проверяем что ответ валиден
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+        if (!networkResponse || networkResponse.status !== 200) {
           return networkResponse;
         }
         
@@ -64,12 +65,7 @@ self.addEventListener('fetch', event => {
         });
         
         return networkResponse;
-      }).catch(error => {
-        // Для HTML возвращаем index.html
-        if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
-        }
-        // Для остальных ресурсов возвращаем пустой ответ вместо undefined
+      }).catch(() => {
         return new Response('', { status: 404 });
       });
     })
