@@ -1,17 +1,57 @@
 const ADMIN_PASS_DEFAULT = process.env.ADMIN_PASS || '584462';
-
 const JSONBIN_BIN_ID = '6a87c78ff5f4af5e292f9a29';
 const JSONBIN_MASTER_KEY = process.env.JSONBIN_MASTER_KEY;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
+// ✅ ОБНОВЛЁННЫЙ СПИСОК БЕСПЛАТНЫХ ПЛОЩАДОК
 const VERIFIED_BOARDS = {
-  IL: [{ name: 'КупДам', email: 'admin@kupdam.ru' }, { name: 'DoskaTV', email: 'info@doskatv.co.il' }, { name: 'Orbita.co.il', email: 'info@orbita.co.il' }],
-  RU: [{ name: 'КупДам', email: 'admin@kupdam.ru' }, { name: 'SeaJobs', email: 'cv@allcrew.net' }, { name: 'Grainboard', email: 'info@grainboard.ru' }],
-  UA: [{ name: 'IZI.ua', email: 'support@izi.ua' }, { name: 'Гард.City', email: 'thegard.city@gmail.com' }, { name: 'FastivNews', email: 'hello.fastiv@gmail.com' }, { name: 'Nikopol.net', email: 'nikopol.net@ukr.net' }],
-  BY: [{ name: 'Kupika.by', email: 'support@kupika.by' }, { name: 'Vishka.by', email: 'admin@infostroy.by' }],
-  US: [{ name: 'Whidbey Weekly', email: 'editor@whidbeyweekly.com' }, { name: 'Access Press', email: 'ads@accesspress.org' }, { name: 'Charlotte News', email: 'ads@thecharlottenews.org' }, { name: 'Oklahoma Choice', email: 'classifieds@oklahomaschoiceweekly.com' }, { name: 'Addison Independent', email: 'classifieds@addisonindependent.com' }],
-  EU: [{ name: 'Advertigo', email: 'info@advertigo.net' }, { name: 'Global Free Classifieds', email: 'support@global-free-classified-ads.com' }],
-  international: [{ name: 'Advertigo', email: 'info@advertigo.net' }, { name: 'Global Free Classifieds', email: 'support@global-free-classified-ads.com' }]
+  IL: [
+    { name: 'КупДам Израиль', email: 'admin@kupdam.ru' },
+    { name: 'DoskaTV', email: 'info@doskatv.co.il' },
+    { name: 'Orbita.co.il', email: 'info@orbita.co.il' }
+  ],
+  RU: [
+    { name: 'КупДам', email: 'admin@kupdam.ru' },
+    { name: 'SeaJobs', email: 'cv@allcrew.net' },
+    { name: 'Grainboard', email: 'info@grainboard.ru' },
+    { name: 'FreeAdsRussia', email: 'support@freeadsrussia.com' },
+    { name: 'Объявления.ру', email: 'info@obyavleniya.ru' }
+  ],
+  UA: [
+    { name: 'IZI.ua', email: 'support@izi.ua' },
+    { name: 'Гард.City', email: 'thegard.city@gmail.com' },
+    { name: 'FastivNews', email: 'hello.fastiv@gmail.com' },
+    { name: 'Nikopol.net', email: 'nikopol.net@ukr.net' },
+    { name: 'Бесплатка.ua', email: 'admin@besplatka.ua' }
+  ],
+  BY: [
+    { name: 'Kupika.by', email: 'support@kupika.by' },
+    { name: 'Vishka.by', email: 'admin@infostroy.by' },
+    { name: 'Куфар', email: 'support@kufar.by' }
+  ],
+  US: [
+    { name: 'Whidbey Weekly', email: 'editor@whidbeyweekly.com' },
+    { name: 'Access Press', email: 'ads@accesspress.org' },
+    { name: 'Charlotte News', email: 'ads@thecharlottenews.org' },
+    { name: 'Oklahoma Choice', email: 'classifieds@oklahomaschoiceweekly.com' },
+    { name: 'Addison Independent', email: 'classifieds@addisonindependent.com' },
+    { name: 'Classifieds4Free', email: 'info@classifieds4free.com' },
+    { name: 'FreeAdsTime', email: 'support@freeadstime.org' },
+    { name: 'AmericanListed', email: 'support@americanlisted.com' }
+  ],
+  EU: [
+    { name: 'Advertigo', email: 'info@advertigo.net' },
+    { name: 'Global Free Classifieds', email: 'support@global-free-classified-ads.com' },
+    { name: 'Expat.com', email: 'ads@expat.com' },
+    { name: 'Locanto', email: 'support@locanto.net' }
+  ],
+  international: [
+    { name: 'Advertigo', email: 'info@advertigo.net' },
+    { name: 'Global Free Classifieds', email: 'support@global-free-classified-ads.com' },
+    { name: 'Classifieds4Free', email: 'info@classifieds4free.com' },
+    { name: 'FreeAdsTime', email: 'support@freeadstime.org' },
+    { name: 'Expat.com', email: 'ads@expat.com' }
+  ]
 };
 
 const SOCIAL_SHARE_URLS = {
@@ -71,22 +111,89 @@ export default async function handler(req, res) {
       const action = body.action;
       const db = await getDB();
 
-      // Получаем актуальный пароль админа из базы (если он был изменен) или используем дефолтный
       const currentAdminPass = (db.config && db.config.adminPassword) ? db.config.adminPassword : ADMIN_PASS_DEFAULT;
 
-      // Функция проверки прав администратора
       const requireAdmin = () => {
         if (body.adminPass !== currentAdminPass) {
           return res.status(401).json({ error: 'Ошибка безопасности: неверный пароль администратора' });
         }
       };
 
+      // ✅ НОВАЯ ФУНКЦИЯ: ОДНОРАЗОВАЯ РАССЫЛКА РЕКЛАМЫ САЙТА
+      if (action === 'promote_site') {
+        requireAdmin();
+
+        const siteName = "AdAstra Реклама";
+        const siteDesc = "Реклама, которая достаёт до звёзд! Международное рекламное агентство. Размещение рекламы по всему миру на 7 языках. Баннеры, посты, сторис. Тарифы от $4 в день.";
+        const siteUrl = "https://adastra-lime.vercel.app/";
+
+        const emailSubject = `🚀 ${siteName} — международная реклама от $4/день`;
+        const emailBody = `
+          <h2>${siteName}</h2>
+          <p><strong>${siteDesc}</strong></p>
+          <hr/>
+          <p>✅ Автоперевод на 7 языков (EN, HE, AR, ES, FR, RU, ZH)</p>
+          <p>✅ Баннеры, посты, сторис с QR-кодами</p>
+          <p>✅ Таргетинг по странам и городам</p>
+          <p>✅ Одобрение модератора за 24ч</p>
+          <p>💰 <strong>От $4/день · Неделя $29 · Месяц $89</strong></p>
+          <br/>
+          <a href="${siteUrl}" style="display:inline-block;padding:12px 24px;background:#d4af37;color:#171204;text-decoration:none;border-radius:8px;font-weight:bold;">Разместить рекламу сейчас</a>
+          <br/><br/>
+          <p style="color:#666;font-size:12px;">Это письмо отправлено владельцем площадки AdAstra в рамках партнёрского размещения.</p>
+        `;
+
+        let allBoards = [];
+        for (const key in VERIFIED_BOARDS) {
+          allBoards = allBoards.concat(VERIFIED_BOARDS[key]);
+        }
+        const uniqueBoards = [...new Map(allBoards.map(b => [b.email, b])).values()];
+
+        let sentCount = 0;
+        let errors = [];
+
+        for (let i = 0; i < uniqueBoards.length; i++) {
+          try {
+            const response = await fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + RESEND_API_KEY
+              },
+              body: JSON.stringify({
+                from: 'AdAstra <onboarding@resend.dev>',
+                to: [uniqueBoards[i].email],
+                subject: emailSubject,
+                html: emailBody
+              })
+            });
+            if (response.ok) {
+              sentCount++;
+            } else {
+              const errData = await response.json().catch(() => ({}));
+              errors.push(`${uniqueBoards[i].name}: ${errData.message || response.status}`);
+            }
+          } catch (e) {
+            errors.push(`${uniqueBoards[i].name}: ${e.message}`);
+          }
+          // Пауза чтобы не упереться в rate-limit
+          await new Promise(r => setTimeout(r, 300));
+        }
+
+        return res.status(200).json({
+          success: true,
+          sent: sentCount,
+          total: uniqueBoards.length,
+          errors: errors.length > 0 ? errors : undefined
+        });
+      }
+
       if (action === 'publish') {
-        const ad = { 
-          id: Date.now(), owner: body.owner, title: body.title, text: body.text, 
-          cta: body.cta, contact: body.contact, format: body.format, category: body.category, 
-          region: body.region, city: body.city, langs: body.langs, image: body.image, 
-          video: body.video, status: 'pending', paid: false, created_at: new Date().toISOString() 
+        const ad = {
+          id: Date.now(), owner: body.owner, title: body.title, text: body.text,
+          cta: body.cta, contact: body.contact, format: body.format, category: body.category,
+          region: body.region, city: body.city, langs: body.langs, image: body.image,
+          video: body.video, status: 'pending', paid: false, created_at: new Date().toISOString()
         };
         if (!db.ads) db.ads = [];
         db.ads.push(ad);
@@ -95,18 +202,16 @@ export default async function handler(req, res) {
       }
 
       if (action === 'approve_paid' || action === 'approve_free') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         const adIndex = db.ads.findIndex(a => a.id === body.id);
         if (adIndex === -1) return res.status(404).json({ error: 'Ad not found' });
-        
         const ad = db.ads[adIndex];
         ad.status = action === 'approve_paid' ? 'approved_paid' : 'approved_free';
         ad.approved_at = new Date().toISOString();
-        
-        const notif = { 
-          id: Date.now(), from: 'Администратор AdAstra', to: ad.owner, 
-          text: 'Ваша реклама "' + ad.title + '" одобрена.', type: 'notification', 
-          read: false, created_at: new Date().toISOString() 
+        const notif = {
+          id: Date.now(), from: 'Администратор AdAstra', to: ad.owner,
+          text: 'Ваша реклама "' + ad.title + '" одобрена.', type: 'notification',
+          read: false, created_at: new Date().toISOString()
         };
         if (!db.messages) db.messages = [];
         db.messages.push(notif);
@@ -140,19 +245,17 @@ export default async function handler(req, res) {
       }
 
       if (action === 'reject') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         const adIndex = db.ads.findIndex(a => a.id === body.id);
         if (adIndex === -1) return res.status(404).json({ error: 'Ad not found' });
-        
         const ad = db.ads[adIndex];
         ad.status = 'rejected';
         ad.rejectionReason = body.reason || 'Не соответствует правилам';
         ad.rejectedAt = new Date().toISOString();
-        
-        const notif = { 
-          id: Date.now(), from: 'Администратор AdAstra', to: ad.owner, 
-          text: 'Ваша реклама отклонена: ' + ad.rejectionReason, type: 'rejection', 
-          read: false, created_at: new Date().toISOString() 
+        const notif = {
+          id: Date.now(), from: 'Администратор AdAstra', to: ad.owner,
+          text: 'Ваша реклама отклонена: ' + ad.rejectionReason, type: 'rejection',
+          read: false, created_at: new Date().toISOString()
         };
         if (!db.messages) db.messages = [];
         db.messages.push(notif);
@@ -161,7 +264,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         db.ads = db.ads.filter(a => a.id !== body.id);
         await saveDB(db);
         return res.status(200).json({ success: true });
@@ -170,11 +273,10 @@ export default async function handler(req, res) {
       if (action === 'confirm_payment') {
         const ad = db.ads.find(a => a.id === body.id);
         if (!ad) return res.status(404).json({ error: 'Ad not found' });
-        
-        const payment = { 
-          id: Date.now(), adId: body.id, owner: ad.owner, title: ad.title, 
-          amount: body.amount, method: body.method, status: 'pending_verification', 
-          date: new Date().toISOString() 
+        const payment = {
+          id: Date.now(), adId: body.id, owner: ad.owner, title: ad.title,
+          amount: body.amount, method: body.method, status: 'pending_verification',
+          date: new Date().toISOString()
         };
         if (!db.payments) db.payments = [];
         db.payments.push(payment);
@@ -183,13 +285,11 @@ export default async function handler(req, res) {
       }
 
       if (action === 'verify_payment') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         const payIndex = db.payments.findIndex(p => p.id === body.id);
         if (payIndex === -1) return res.status(404).json({ error: 'Payment not found' });
-        
         const payment = db.payments[payIndex];
         payment.status = 'verified';
-        
         const adIndex = db.ads.findIndex(a => a.id === payment.adId);
         if (adIndex !== -1) {
           db.ads[adIndex].status = 'paid';
@@ -200,9 +300,9 @@ export default async function handler(req, res) {
       }
 
       if (action === 'support') {
-        const msg = { 
-          id: Date.now(), from: body.from, text: body.text, type: 'support', 
-          read: false, created_at: new Date().toISOString() 
+        const msg = {
+          id: Date.now(), from: body.from, text: body.text, type: 'support',
+          read: false, created_at: new Date().toISOString()
         };
         if (!db.messages) db.messages = [];
         db.messages.push(msg);
@@ -230,7 +330,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete_msg') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         db.messages = db.messages.filter(m => m.id !== body.id);
         await saveDB(db);
         return res.status(200).json({ success: true });
@@ -251,29 +351,25 @@ export default async function handler(req, res) {
 
       if (action === 'heartbeat') {
         if (!db.onlineUsers) db.onlineUsers = [];
-        
         const userAds = (db.ads || []).filter(a => a.owner === body.name);
         const hasAds = userAds.length > 0;
-        
         if (hasAds || body.role === 'creator') {
           let user = db.onlineUsers.find(u => u.name === body.name);
           if (user) {
             user.lastSeen = new Date().toISOString();
             user.hasAds = hasAds;
           } else {
-            user = { 
-              name: body.name, 
-              role: body.role, 
+            user = {
+              name: body.name,
+              role: body.role,
               lastSeen: new Date().toISOString(),
               hasAds: hasAds
             };
             db.onlineUsers.push(user);
           }
         }
-        
         const fiveMinAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString();
         db.onlineUsers = db.onlineUsers.filter(u => u.lastSeen > fiveMinAgo);
-        
         if (db.subscribers) {
           const sub = db.subscribers.find(s => s.contact === body.name);
           if (sub && sub.blocked) {
@@ -286,7 +382,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete_online_user') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         if (!db.onlineUsers) db.onlineUsers = [];
         db.onlineUsers = db.onlineUsers.filter(u => u.name !== body.name);
         await saveDB(db);
@@ -294,14 +390,14 @@ export default async function handler(req, res) {
       }
 
       if (action === 'clear_online_users') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         db.onlineUsers = [];
         await saveDB(db);
         return res.status(200).json({ success: true });
       }
 
       if (action === 'block_user') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         if (!db.subscribers) return res.status(404).json({ error: 'User not found' });
         const sub = db.subscribers.find(s => s.contact === body.name);
         if (!sub) return res.status(404).json({ error: 'User not found' });
@@ -313,7 +409,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'unblock_user') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         if (!db.subscribers) return res.status(404).json({ error: 'User not found' });
         const sub = db.subscribers.find(s => s.contact === body.name);
         if (!sub) return res.status(404).json({ error: 'User not found' });
@@ -325,7 +421,7 @@ export default async function handler(req, res) {
       }
 
       if (action === 'delete_user') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ
+        requireAdmin();
         if (db.subscribers) {
           db.subscribers = db.subscribers.filter(s => s.contact !== body.name);
           await saveDB(db);
@@ -334,16 +430,13 @@ export default async function handler(req, res) {
       }
 
       if (action === 'change_password') {
-        requireAdmin(); // ✅ ПРОВЕРКА БЕЗОПАСНОСТИ (проверяем старый пароль)
+        requireAdmin();
         if (!body.newPassword || body.newPassword.length < 4) {
           return res.status(400).json({ error: 'Новый пароль должен быть минимум 4 символа' });
         }
-        
-        // ✅ РЕАЛЬНОЕ СОХРАНЕНИЕ НОВОГО ПАРОЛЯ В БАЗУ
         if (!db.config) db.config = {};
         db.config.adminPassword = body.newPassword;
         await saveDB(db);
-        
         return res.status(200).json({ success: true });
       }
 
