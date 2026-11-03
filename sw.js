@@ -1,8 +1,10 @@
-const CACHE_NAME = 'adastra-app-v24';
+const CACHE_NAME = 'adastra-app-v25';
 const ASSETS = [
   '/',
   '/index.html',
   '/icon-v2.png',
+  '/icon-192.png',
+  '/icon-512.png',
   '/privacy.html',
   '/terms.html',
   '/payment.html'
