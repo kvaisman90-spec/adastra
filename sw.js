@@ -1,4 +1,4 @@
-const CACHE_NAME = 'adastra-app-v25';
+const CACHE_NAME = 'adastra-app-v26';
 const ASSETS = [
   '/',
   '/index.html',
@@ -53,6 +53,13 @@ self.addEventListener('fetch', event => {
   // НЕ кэшируем Resend
   if (url.hostname.includes('resend.com')) return;
   
+  // Страницы и иконки: сначала сеть (чтобы обновления доходили сразу), кэш только как запасной вариант
+  const isFresh = event.request.mode === 'navigate' || /\.(png|ico|svg)$/.test(url.pathname) || url.pathname === '/' || url.pathname.endsWith('.html');
+  if (isFresh) {
+    event.respondWith(fetch(event.request).then(r => { if (r && r.status === 200) { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c).catch(() => {})); } return r; }).catch(() => caches.match(event.request).then(m => m || new Response('', { status: 404 }))));
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
       if (cachedResponse) {
